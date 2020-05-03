@@ -1,96 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Spring Cloud 你需要知道的</title>
-    <url>/myblog/spring-cloud/Spring-Cloud-%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/</url>
-    <content><![CDATA[<h2 id="Spring-Cloud是什么"><a href="#Spring-Cloud是什么" class="headerlink" title="Spring Cloud是什么"></a>Spring Cloud是什么</h2><p>Spring Cloud 是一系列框架的有序集合。它利用 Spring Boot 的开发便利性，巧妙地简化了分布式系统基础设施的开发，如服务注册、服务发现、配置中心、消息总线、负载均衡、断路器、数据监控等，这些都可以用 Spring Boot 的开发风格做到一键启动和部署。</p>
-<a id="more"></a>
-<p>通俗地讲，Spring Cloud 就是用于构建微服务开发和治理的框架集合（并不是具体的一个框架），主要贡献来自 Netflix OSS。</p>
-<p>Spring Cloud 模块的相关也就是需要掌握的介绍如下：</p>
-<pre><code>Eureka：服务注册中心，用于服务管理。
-Ribbon：基于客户端的负载均衡组件。
-Hystrix：容错框架，能够防止服务的雪崩效应。
-Feign：Web 服务客户端，能够简化 HTTP 接口的调用。
-Zuul：API 网关，提供路由转发、请求过滤等功能。
-Config：分布式配置管理。
-Sleuth：服务跟踪。
-Stream：构建消息驱动的微服务应用程序的框架。
-Bus：消息代理的集群消息总线。</code></pre><p>除了上述模块，还有 Cli、Task、Gateway等等。在此只介绍一些常用的模块。</p>
-<p>Spring Cloud 是一个非常好的框架集合，它包含的功能模块非常多，不可能一一讲解到，凡是在课程中出现的模块都是真实开发中用得到的，一句话我们先学常用的，其它技术点用到时再学习。</p>
-<h2 id="Spring-Cloud-版本介绍"><a href="#Spring-Cloud-版本介绍" class="headerlink" title="Spring Cloud 版本介绍"></a>Spring Cloud 版本介绍</h2><p>相信大家跟我一样，在第一次访问 <a href="https://projects.spring.io/spring-cloud/#learn" target="_blank" rel="noopener">Spring Cloud 官网</a><br>时一定会有一个疑惑那就是版本也太多了撒，到底哪个是稳定版本？哪个才是自己需要的版本？这些都不是大问题。</p>
-<p>访问官网 <a href="https://projects.spring.io/spring-cloud/#learn" target="_blank" rel="noopener">https://projects.spring.io/spring-cloud/#learn</a><br> 可以看到网页右侧的版本列表，如图 1 所示。<br> <img src="https://img-blog.csdnimg.cn/20200428212432294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">从图 1 中可以看到 Spring Cloud 不是像别的项目那样，版本号采用 1.1、1.2、1.3 这种的格式。因为 Spring Cloud 是一个拥有诸多子项目的大型综合项目，可以说是对微服务架构解决方案的综合套件组件，其中包含的各个子项目都独立进行着内容的迭代与更新，各自维护着自己的发布版本号。</p>
-<p>Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个”service releases”版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。</p>
-<p>至于怎么选择适合自己的版本，大家可以在接触的时候直接选最新的稳定版本。新版本中的 Bug 肯定要少，并且更稳定。</p>
-<p>本课程的案例都是基于 Hoxton  进行讲解的。不同的版本有不同的功能，对应的每个子模块的版本也不一样，那么如何知道每个大版本下面具体的子模块是什么版本呢？</p>
-<p>答案就在官网的首页上面，在页面的最下方有一个表格（见表 1 ），通过这个表格我们可以清楚地知道 Hoxton 对应的 Spring Boot 版本是 2.2.X，Spring-Cloud-Bus 是 2.2.1。<br><img src="https://img-blog.csdnimg.cn/2020042821335543.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>PS：Hoxton版本是基于SpringBoot 2.2.x版本构建的，不适用于1.5.x版本。随着2019年8月SpringBoot 1.5.x版本停止维护，Edgware版本也将停止维护。</p>
-<h2 id="Spring-Cloud和Dubbo的区别及各自的优缺点"><a href="#Spring-Cloud和Dubbo的区别及各自的优缺点" class="headerlink" title="Spring Cloud和Dubbo的区别及各自的优缺点"></a>Spring Cloud和Dubbo的区别及各自的优缺点</h2><p>我们先从 Nginx 说起，了解为什么需要微服务。最初的服务化解决方案是给相同服务提供一个统一的域名，然后服务调用者向这个域发送 HTTP 请求，由 Nginx 负责请求的分发和跳转。</p>
-<p>这种架构存在很多问题：Nginx 作为中间层，在配置文件中耦合了服务调用的逻辑，这削弱了微服务的完整性，也使得 Nginx 在一定程度上变成了一个重量级的 ESB。图 1 标识出了 Nginx 的转发信息流走向。<br>Nginx转发的信息流<br>图 1  Nginx 转发的信息流<br><img src="https://img-blog.csdnimg.cn/20200428214507329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>服务的信息分散在各个系统，无法统一管理和维护。每一次的服务调用都是一次尝试，服务消费方并不知道有哪些实例在给他们提供服务。这带来了一些问题：</p>
-<pre><code>无法直观地看到服务提供方和服务消费方当前的运行状况与通信频率；
-消费方的失败重发、负载均衡等都没有统一策略，这加大了开发每个服务的难度，不利于快速演化。</code></pre><p>为了解决上面的问题，我们需要一个现成的中心组件对服务进行整合，将每个服务的信息汇总，包括服务的组件名称、地址、数量等。</p>
-<p>服务的调用方在请求某项服务时首先通过中心组件获取提供服务的实例信息（IP、端口等），再通过默认或自定义的策略选择该服务的某一提供方直接进行访问，所以考虑引入 Dubbo。</p>
-<p>Dubbo 是阿里开源的一个 SOA 服务治理解决方案，文档丰富，在国内的使用度非常高。图 2 为 Dubbo 的基本架构图，使用 Dubbo 构建的微服务已经可以较好地解决上面提到的问题。<br>Dubbo的基本架构图<br>图 2  Dubbo 的基本架构图</p>
-<p>从图 2 中，可以看出以下几点：<br><img src="https://img-blog.csdnimg.cn/20200428214550507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<pre><code>调用中间层变成了可选组件，消费方可以直接访问服务提供方；
-服务信息被集中到 Registry 中，形成了服务治理的中心组件；
-通过 Monitor 监控系统，可以直观地展示服务调用的统计信息；
-服务消费者可以进行负载均衡、服务降级的选择。</code></pre><p>但是对于微服务架构而言，Dubbo 并不是十全十美的，也有一些缺陷，比如：</p>
-<pre><code>Registry 严重依赖第三方组件（ZooKeeper 或者 Redis），当这些组件出现问题时，服务调用很快就会中断。
-Dubbo 只支持 RPC 调用。这使得服务提供方与调用方在代码上产生了强依赖，服务提供方需要不断将包含公共代码的 Jar 包打包出来供消费方使用。一旦打包出现问题，就会导致服务调用出错。</code></pre><p>个人认为，Dubbo 和 Spring Cloud 并不是完全的竞争关系，两者所解决的问题域并不一样。</p>
-<p>Dubbo 的定位始终是一款 RPC 框架，而 Spring Cloud 的目标是微服务架构下的一站式解决方案。如果非要比较的话，Dubbo 可以类比到 Netflix OSS 技术栈，而 Spring Cloud 集成了 Netflix OSS 作为分布式服务治理解决方案，但除此之外 Spring Cloud 还提供了配置、消息、安全、调用链跟踪等分布式问题解决方案。</p>
-<p>当前由于 RPC 协议、注册中心元数据不匹配等问题，在面临微服务基础框架选型时 Dubbo 与 Spring Cloud 只能二选一，这也是大家总是拿 Dubbo 和 Spring Cloud 做对比的原因之一。</p>
-<p>Dubbo 已经适配到 Spring Cloud 生态，比如作为 Spring Cloud 的二进制通信方案来发挥 Dubbo 的性能优势，Dubbo 通过模块化以及对 HTTP 的支持适配到 Spring Cloud。</p>
-<h2 id="Spring-Cloud-好在哪里"><a href="#Spring-Cloud-好在哪里" class="headerlink" title="Spring Cloud 好在哪里"></a>Spring Cloud 好在哪里</h2><p>作为新一代的服务框架，Spring Cloud 提出的口号是开发“面向云的应用程序”，它为微服务架构提供了更加全面的技术支持。结合我们一开始提到的微服务的诉求，参见表 1，把Spring Cloud 与 Dubbo 进行一番对比。</p>
-<p>表 1 Spring Cloud与Dubbo功能对比 功能名称<br><img src="https://img-blog.csdnimg.cn/20200428214951436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Spring Cloud 抛弃了 Dubbo 的 RPC 通信，采用的是基于 HTTP 的 REST 方式。严格来说，这两种方式各有优劣。虽然从一定程度上来说，后者牺牲了服务调用的性能，但也避免了上面提到的原生 RPC 带来的问题。而且 REST 相比 RPC 更为灵活，服务提供方和调用方，不存在代码级别的强依赖，这在强调快速演化的微服务环境下显得更加合适。</p>
-<p>很明显，Spring Cloud 的功能比 Dubbo 更加强大，涵盖面更广，而且作为 Spring 的拳头项目，它也能够与 Spring Framework、Spring Boot、Spring Data、Spring Batch 等其他 Spring 项目完美融合，这些对于微服务而言是至关重要的。</p>
-<p>前面提到，微服务背后一个重要的理念就是持续集成、快速交付，而在服务内部使用一个统一的技术框架，显然比将分散的技术组合到一起更有效率。</p>
-<p>更重要的是，相比于 Dubbo，它是一个正在持续维护的、社区更加火热的开源项目，这就可以保证使用它构建的系统持续地得到开源力量的支持。</p>
-<p>下面列举 Spring Cloud 的几个优势。</p>
-<pre><code>Spring Cloud 来源于 Spring，质量、稳定性、持续性都可以得到保证。
-Spirng Cloud 天然支持 Spring Boot，更加便于业务落地。
-Spring Cloud 发展得非常快，从开始接触时的相关组件版本为 1.x，到现在将要发布 2.x 系列。
-Spring Cloud 是 Java 领域最适合做微服务的框架。</code></pre><p>相比于其他框架，Spring Cloud 对微服务周边环境的支持力度最大。对于中小企业来讲，使用门槛较低。</p>
-<p>缺点：</p>
-<pre><code>微服务过多，治理成本高，不利于维护系统
-分布式系统开发的成本高（容错，分布式事务等）对团队挑战大</code></pre><p>总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。</p>
-<h2 id="Spring-Cloud发展前景"><a href="#Spring-Cloud发展前景" class="headerlink" title="Spring Cloud发展前景"></a>Spring Cloud发展前景</h2><p>Spring Cloud对于中小型互联网公司来说是一种福音，因为这类公司往往没有实力或者没有足够的资金投入去开发自己的分布式系统基础设施，使用Spring Cloud一站式解决方案能在从容应对业务发展的同时大大减少开发成本。同时，随着近几年微服务架构和Docker容器概念的火爆，也会让Spring Cloud在未来越来越“云”化的软件开发风格中立有一席之地，尤其是在五花八门的分布式解决方案中提供了标准化的、全站式的技术方案，意义可能会堪比当年Servlet规范的诞生，有效推进服务端软件系统技术水平的进步。<br><img src="https://img-blog.csdnimg.cn/20200428220218252.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="主要项目"><a href="#主要项目" class="headerlink" title="主要项目"></a>主要项目</h2><p>Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框架”Spring Boot化”的封装和抽象，也是数量最多的项目；第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream扮演的就是kafka, ActiveMQ这样的角色。<br>Spring Cloud Config</p>
-<p>集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。<br>Spring Cloud Netflix</p>
-<p>Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。</p>
-<pre><code>Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
-Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
-Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
-Feign：基于Ribbon和Hystrix的声明式服务调用组件；
-Zuul：API网关组件，对请求提供路由及过滤功能。</code></pre><p>Spring Cloud Bus</p>
-<p>用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。<br>Spring Cloud Consul</p>
-<p>基于Hashicorp Consul的服务治理组件。<br>Spring Cloud Security</p>
-<p>安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。<br>Spring Cloud Sleuth</p>
-<p>Spring Cloud应用程序的分布式请求链路跟踪，支持使用Zipkin、HTrace和基于日志（例如ELK）的跟踪。<br>Spring Cloud Stream</p>
-<p>轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。<br>Spring Cloud Task</p>
-<p>用于快速构建短暂、有限数据处理任务的微服务框架，用于向应用中添加功能性和非功能性的特性。<br>Spring Cloud Zookeeper</p>
-<p>基于Apache Zookeeper的服务治理组件。<br>Spring Cloud Gateway</p>
-<p>API网关组件，对请求提供路由及过滤功能。<br>Spring Cloud OpenFeign</p>
-<p>基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。</p>
-<h2 id="和Spring-Boot的关系"><a href="#和Spring-Boot的关系" class="headerlink" title="和Spring Boot的关系"></a>和Spring Boot的关系</h2><ol>
-<li><p>Spring Boot 是 Spring 的一套快速配置脚手架，可以基于Spring Boot 快速开发单个微服务，Spring<br>Cloud是一个基于Spring Boot实现的云应用开发工具。Spring -&gt; Spring Boot &gt; Spring Cloud<br>这样的关系。</p>
-</li>
-<li><p>Spring Boot可以离开Spring Cloud独立使用开发项目，但是Spring Cloud离不开Spring<br>Boot，属于依赖的关系</p>
-</li>
-<li><p>Spring Boot专注于快速、方便集成的单个个体微服务，Spring Cloud是关注全局的服务治理框架</p>
-</li>
-<li><p>Spring Boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring<br>Cloud很大的一部分是基于Spring Boot来实现，可以不基于Spring Boot吗？不可以</p>
-</li>
-</ol>
-<p>总之：Spring Cloud是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。</p>
-]]></content>
-      <categories>
-        <category>spring cloud</category>
-      </categories>
-      <tags>
-        <tag>cloud</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Spring Boot 中 Redis的使用 及Spring Session共享实现</title>
     <url>/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2> <a id="more"></a>                                     
@@ -441,10 +351,9 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
   </entry>
   <entry>
     <title>Spring Cloud之Eureka服务注册与发现</title>
-    <url>/myblog/spring-cloud/Spring-Cloud%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/</url>
+    <url>/myblog/uncategorized/Spring-Cloud%EF%BC%8802%EF%BC%89%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/</url>
     <content><![CDATA[<h2 id="Eureka简介"><a href="#Eureka简介" class="headerlink" title="Eureka简介"></a>Eureka简介</h2><p>在微服务架构中往往会有一个注册中心，每个微服务都会向注册中心去注册自己的地址及端口信息，注册中心维护着服务名称与服务实例的对应关系。每个微服务都会定时从注册中心获取服务列表，同时汇报自己的运行情况，这样当有的服务需要调用其他服务时，就可以从自己获取到的服务列表中获取实例地址进行调用，Eureka实现了这套服务注册与发现机制。</p>
 <a id="more"></a>
-
 <p>下面将展示基于eclipse使用STS搭建Eureka服务的正确手法<br>(别问我什么是STS，我只会给你个眼神自己体会……)</p>
 <h2 id="一、搭建Eureka注册中心"><a href="#一、搭建Eureka注册中心" class="headerlink" title="一、搭建Eureka注册中心"></a>一、搭建Eureka注册中心</h2><p><img src="https://img-blog.csdnimg.cn/2020042823074869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200428231056675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>项目结构：<br><img src="https://img-blog.csdnimg.cn/20200428231838752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">pom文件：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">	xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">	&lt;parent&gt;</span><br><span class="line">		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;2.2.6.RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">	&lt;/parent&gt;</span><br><span class="line">	&lt;groupId&gt;cn.chfsun&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;eureka-server&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">	&lt;name&gt;eureka-server&lt;/name&gt;</span><br><span class="line">	&lt;description&gt;eureka-server&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">		&lt;spring-cloud.version&gt;Hoxton.SR3&lt;/spring-cloud.version&gt;</span><br><span class="line">	&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">	&lt;dependencies&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">			&lt;scope&gt;<span class="built_in">test</span>&lt;/scope&gt;</span><br><span class="line">			&lt;exclusions&gt;</span><br><span class="line">				&lt;exclusion&gt;</span><br><span class="line">					&lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;</span><br><span class="line">					&lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;</span><br><span class="line">				&lt;/exclusion&gt;</span><br><span class="line">			&lt;/exclusions&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">	&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">	&lt;dependencyManagement&gt;</span><br><span class="line">		&lt;dependencies&gt;</span><br><span class="line">			&lt;dependency&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">				&lt;version&gt;<span class="variable">$&#123;spring-cloud.version&#125;</span>&lt;/version&gt;</span><br><span class="line">				&lt;<span class="built_in">type</span>&gt;pom&lt;/<span class="built_in">type</span>&gt;</span><br><span class="line">				&lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">			&lt;/dependency&gt;</span><br><span class="line">		&lt;/dependencies&gt;</span><br><span class="line">	&lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">	&lt;build&gt;</span><br><span class="line">		&lt;plugins&gt;</span><br><span class="line">			&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;/plugin&gt;</span><br><span class="line">		&lt;/plugins&gt;</span><br><span class="line">	&lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
@@ -504,7 +413,93 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
 
 <p>以application-security.yml配置运行eureka-client，可以在注册中心界面看到eureka-client已经成功注册</p>
 <p><img src="https://img-blog.csdnimg.cn/20200429100615475.png#pic_center" alt="在这里插入图片描述"><br>Eureka用到的配置：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client: <span class="comment">#eureka客户端配置</span></span><br><span class="line">    register-with-eureka: <span class="literal">true</span> <span class="comment">#是否将自己注册到eureka服务端上去</span></span><br><span class="line">    fetch-registry: <span class="literal">true</span> <span class="comment">#是否获取eureka服务端上注册的服务列表</span></span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:8001/eureka/ <span class="comment"># 指定注册中心地址</span></span><br><span class="line">    enabled: <span class="literal">true</span> <span class="comment"># 启用eureka客户端</span></span><br><span class="line">    registry-fetch-interval-seconds: 30 <span class="comment">#定义去eureka服务端获取服务列表的时间间隔</span></span><br><span class="line">  instance: <span class="comment">#eureka客户端实例配置</span></span><br><span class="line">    lease-renewal-interval-in-seconds: 30 <span class="comment">#定义服务多久去注册中心续约</span></span><br><span class="line">    lease-expiration-duration-in-seconds: 90 <span class="comment">#定义服务多久不去续约认为服务失效</span></span><br><span class="line">    metadata-map:</span><br><span class="line">      zone: guangdong <span class="comment">#所在区域</span></span><br><span class="line">    hostname: localhost <span class="comment">#服务主机名称</span></span><br><span class="line">    prefer-ip-address: <span class="literal">false</span> <span class="comment">#是否优先使用ip来作为主机名</span></span><br><span class="line">  server: <span class="comment">#eureka服务端配置</span></span><br><span class="line">    <span class="built_in">enable</span>-self-preservation: <span class="literal">false</span> <span class="comment">#关闭eureka服务端的保护机制</span></span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client: <span class="comment">#eureka客户端配置</span></span><br><span class="line">    register-with-eureka: <span class="literal">true</span> <span class="comment">#是否将自己注册到eureka服务端上去</span></span><br><span class="line">    fetch-registry: <span class="literal">true</span> <span class="comment">#是否获取eureka服务端上注册的服务列表</span></span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:8001/eureka/ <span class="comment"># 指定注册中心地址</span></span><br><span class="line">    enabled: <span class="literal">true</span> <span class="comment"># 启用eureka客户端</span></span><br><span class="line">    registry-fetch-interval-seconds: 30 <span class="comment">#定义去eureka服务端获取服务列表的时间间隔</span></span><br><span class="line">  instance: <span class="comment">#eureka客户端实例配置</span></span><br><span class="line">    lease-renewal-interval-in-seconds: 30 <span class="comment">#定义服务多久去注册中心续约</span></span><br><span class="line">    lease-expiration-duration-in-seconds: 90 <span class="comment">#定义服务多久不去续约认为服务失效</span></span><br><span class="line">    metadata-map:</span><br><span class="line">      zone: guangdong <span class="comment">#所在区域</span></span><br><span class="line">    hostname: localhost <span class="comment">#服务主机名称</span></span><br><span class="line">    prefer-ip-address: <span class="literal">false</span> <span class="comment">#是否优先使用ip来作为主机名</span></span><br><span class="line">  server: <span class="comment">#eureka服务端配置</span></span><br><span class="line">    <span class="built_in">enable</span>-self-preservation: <span class="literal">false</span> <span class="comment">#关闭eureka服务端的保护机制</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>Spring Cloud 你需要知道的</title>
+    <url>/myblog/spring-cloud/Spring-Cloud%EF%BC%8801%EF%BC%89%E4%B9%8B%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/</url>
+    <content><![CDATA[<h2 id="Spring-Cloud是什么"><a href="#Spring-Cloud是什么" class="headerlink" title="Spring Cloud是什么"></a>Spring Cloud是什么</h2><p>Spring Cloud 是一系列框架的有序集合。它利用 Spring Boot 的开发便利性，巧妙地简化了分布式系统基础设施的开发，如服务注册、服务发现、配置中心、消息总线、负载均衡、断路器、数据监控等，这些都可以用 Spring Boot 的开发风格做到一键启动和部署。</p>
+<a id="more"></a>
+<p>通俗地讲，Spring Cloud 就是用于构建微服务开发和治理的框架集合（并不是具体的一个框架），主要贡献来自 Netflix OSS。</p>
+<p>Spring Cloud 模块的相关也就是需要掌握的介绍如下：</p>
+<pre><code>Eureka：服务注册中心，用于服务管理。
+Ribbon：基于客户端的负载均衡组件。
+Hystrix：容错框架，能够防止服务的雪崩效应。
+Feign：Web 服务客户端，能够简化 HTTP 接口的调用。
+Zuul：API 网关，提供路由转发、请求过滤等功能。
+Config：分布式配置管理。
+Sleuth：服务跟踪。
+Stream：构建消息驱动的微服务应用程序的框架。
+Bus：消息代理的集群消息总线。</code></pre><p>除了上述模块，还有 Cli、Task、Gateway等等。在此只介绍一些常用的模块。</p>
+<p>Spring Cloud 是一个非常好的框架集合，它包含的功能模块非常多，不可能一一讲解到，凡是在课程中出现的模块都是真实开发中用得到的，一句话我们先学常用的，其它技术点用到时再学习。</p>
+<h2 id="Spring-Cloud-版本介绍"><a href="#Spring-Cloud-版本介绍" class="headerlink" title="Spring Cloud 版本介绍"></a>Spring Cloud 版本介绍</h2><p>相信大家跟我一样，在第一次访问 <a href="https://projects.spring.io/spring-cloud/#learn" target="_blank" rel="noopener">Spring Cloud 官网</a><br>时一定会有一个疑惑那就是版本也太多了撒，到底哪个是稳定版本？哪个才是自己需要的版本？这些都不是大问题。</p>
+<p>访问官网 <a href="https://projects.spring.io/spring-cloud/#learn" target="_blank" rel="noopener">https://projects.spring.io/spring-cloud/#learn</a><br> 可以看到网页右侧的版本列表，如图 1 所示。<br> <img src="https://img-blog.csdnimg.cn/20200428212432294.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">从图 1 中可以看到 Spring Cloud 不是像别的项目那样，版本号采用 1.1、1.2、1.3 这种的格式。因为 Spring Cloud 是一个拥有诸多子项目的大型综合项目，可以说是对微服务架构解决方案的综合套件组件，其中包含的各个子项目都独立进行着内容的迭代与更新，各自维护着自己的发布版本号。</p>
+<p>Spring Cloud是一个由许多子项目组成的综合项目，各子项目有不同的发布节奏。 为了管理Spring Cloud与各子项目的版本依赖关系，发布了一个清单，其中包括了某个Spring Cloud版本对应的子项目版本。 为了避免Spring Cloud版本号与子项目版本号混淆，Spring Cloud版本采用了名称而非版本号的命名，这些版本的名字采用了伦敦地铁站的名字，根据字母表的顺序来对应版本时间顺序，例如Angel是第一个版本，Brixton是第二个版本。 当Spring Cloud的发布内容积累到临界点或者一个重大BUG被解决后，会发布一个”service releases”版本，简称SRX版本，比如Greenwich.SR2就是Spring Cloud发布的Greenwich版本的第2个SRX版本。目前Spring Cloud的最新版本是Hoxton。</p>
+<p>至于怎么选择适合自己的版本，大家可以在接触的时候直接选最新的稳定版本。新版本中的 Bug 肯定要少，并且更稳定。</p>
+<p>本课程的案例都是基于 Hoxton  进行讲解的。不同的版本有不同的功能，对应的每个子模块的版本也不一样，那么如何知道每个大版本下面具体的子模块是什么版本呢？</p>
+<p>答案就在官网的首页上面，在页面的最下方有一个表格（见表 1 ），通过这个表格我们可以清楚地知道 Hoxton 对应的 Spring Boot 版本是 2.2.X，Spring-Cloud-Bus 是 2.2.1。<br><img src="https://img-blog.csdnimg.cn/2020042821335543.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>PS：Hoxton版本是基于SpringBoot 2.2.x版本构建的，不适用于1.5.x版本。随着2019年8月SpringBoot 1.5.x版本停止维护，Edgware版本也将停止维护。</p>
+<h2 id="Spring-Cloud和Dubbo的区别及各自的优缺点"><a href="#Spring-Cloud和Dubbo的区别及各自的优缺点" class="headerlink" title="Spring Cloud和Dubbo的区别及各自的优缺点"></a>Spring Cloud和Dubbo的区别及各自的优缺点</h2><p>我们先从 Nginx 说起，了解为什么需要微服务。最初的服务化解决方案是给相同服务提供一个统一的域名，然后服务调用者向这个域发送 HTTP 请求，由 Nginx 负责请求的分发和跳转。</p>
+<p>这种架构存在很多问题：Nginx 作为中间层，在配置文件中耦合了服务调用的逻辑，这削弱了微服务的完整性，也使得 Nginx 在一定程度上变成了一个重量级的 ESB。图 1 标识出了 Nginx 的转发信息流走向。<br>Nginx转发的信息流<br>图 1  Nginx 转发的信息流<br><img src="https://img-blog.csdnimg.cn/20200428214507329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>服务的信息分散在各个系统，无法统一管理和维护。每一次的服务调用都是一次尝试，服务消费方并不知道有哪些实例在给他们提供服务。这带来了一些问题：</p>
+<pre><code>无法直观地看到服务提供方和服务消费方当前的运行状况与通信频率；
+消费方的失败重发、负载均衡等都没有统一策略，这加大了开发每个服务的难度，不利于快速演化。</code></pre><p>为了解决上面的问题，我们需要一个现成的中心组件对服务进行整合，将每个服务的信息汇总，包括服务的组件名称、地址、数量等。</p>
+<p>服务的调用方在请求某项服务时首先通过中心组件获取提供服务的实例信息（IP、端口等），再通过默认或自定义的策略选择该服务的某一提供方直接进行访问，所以考虑引入 Dubbo。</p>
+<p>Dubbo 是阿里开源的一个 SOA 服务治理解决方案，文档丰富，在国内的使用度非常高。图 2 为 Dubbo 的基本架构图，使用 Dubbo 构建的微服务已经可以较好地解决上面提到的问题。<br>Dubbo的基本架构图<br>图 2  Dubbo 的基本架构图</p>
+<p>从图 2 中，可以看出以下几点：<br><img src="https://img-blog.csdnimg.cn/20200428214550507.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<pre><code>调用中间层变成了可选组件，消费方可以直接访问服务提供方；
+服务信息被集中到 Registry 中，形成了服务治理的中心组件；
+通过 Monitor 监控系统，可以直观地展示服务调用的统计信息；
+服务消费者可以进行负载均衡、服务降级的选择。</code></pre><p>但是对于微服务架构而言，Dubbo 并不是十全十美的，也有一些缺陷，比如：</p>
+<pre><code>Registry 严重依赖第三方组件（ZooKeeper 或者 Redis），当这些组件出现问题时，服务调用很快就会中断。
+Dubbo 只支持 RPC 调用。这使得服务提供方与调用方在代码上产生了强依赖，服务提供方需要不断将包含公共代码的 Jar 包打包出来供消费方使用。一旦打包出现问题，就会导致服务调用出错。</code></pre><p>个人认为，Dubbo 和 Spring Cloud 并不是完全的竞争关系，两者所解决的问题域并不一样。</p>
+<p>Dubbo 的定位始终是一款 RPC 框架，而 Spring Cloud 的目标是微服务架构下的一站式解决方案。如果非要比较的话，Dubbo 可以类比到 Netflix OSS 技术栈，而 Spring Cloud 集成了 Netflix OSS 作为分布式服务治理解决方案，但除此之外 Spring Cloud 还提供了配置、消息、安全、调用链跟踪等分布式问题解决方案。</p>
+<p>当前由于 RPC 协议、注册中心元数据不匹配等问题，在面临微服务基础框架选型时 Dubbo 与 Spring Cloud 只能二选一，这也是大家总是拿 Dubbo 和 Spring Cloud 做对比的原因之一。</p>
+<p>Dubbo 已经适配到 Spring Cloud 生态，比如作为 Spring Cloud 的二进制通信方案来发挥 Dubbo 的性能优势，Dubbo 通过模块化以及对 HTTP 的支持适配到 Spring Cloud。</p>
+<h2 id="Spring-Cloud-好在哪里"><a href="#Spring-Cloud-好在哪里" class="headerlink" title="Spring Cloud 好在哪里"></a>Spring Cloud 好在哪里</h2><p>作为新一代的服务框架，Spring Cloud 提出的口号是开发“面向云的应用程序”，它为微服务架构提供了更加全面的技术支持。结合我们一开始提到的微服务的诉求，参见表 1，把Spring Cloud 与 Dubbo 进行一番对比。</p>
+<p>表 1 Spring Cloud与Dubbo功能对比 功能名称<br><img src="https://img-blog.csdnimg.cn/20200428214951436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Spring Cloud 抛弃了 Dubbo 的 RPC 通信，采用的是基于 HTTP 的 REST 方式。严格来说，这两种方式各有优劣。虽然从一定程度上来说，后者牺牲了服务调用的性能，但也避免了上面提到的原生 RPC 带来的问题。而且 REST 相比 RPC 更为灵活，服务提供方和调用方，不存在代码级别的强依赖，这在强调快速演化的微服务环境下显得更加合适。</p>
+<p>很明显，Spring Cloud 的功能比 Dubbo 更加强大，涵盖面更广，而且作为 Spring 的拳头项目，它也能够与 Spring Framework、Spring Boot、Spring Data、Spring Batch 等其他 Spring 项目完美融合，这些对于微服务而言是至关重要的。</p>
+<p>前面提到，微服务背后一个重要的理念就是持续集成、快速交付，而在服务内部使用一个统一的技术框架，显然比将分散的技术组合到一起更有效率。</p>
+<p>更重要的是，相比于 Dubbo，它是一个正在持续维护的、社区更加火热的开源项目，这就可以保证使用它构建的系统持续地得到开源力量的支持。</p>
+<p>下面列举 Spring Cloud 的几个优势。</p>
+<pre><code>Spring Cloud 来源于 Spring，质量、稳定性、持续性都可以得到保证。
+Spirng Cloud 天然支持 Spring Boot，更加便于业务落地。
+Spring Cloud 发展得非常快，从开始接触时的相关组件版本为 1.x，到现在将要发布 2.x 系列。
+Spring Cloud 是 Java 领域最适合做微服务的框架。</code></pre><p>相比于其他框架，Spring Cloud 对微服务周边环境的支持力度最大。对于中小企业来讲，使用门槛较低。</p>
+<p>缺点：</p>
+<pre><code>微服务过多，治理成本高，不利于维护系统
+分布式系统开发的成本高（容错，分布式事务等）对团队挑战大</code></pre><p>总的来说优点大过于缺点，目前看来Spring Cloud是一套非常完善的分布式框架，目前很多企业开始用微服务、Spring Cloud的优势是显而易见的。因此对于想研究微服务架构的同学来说，学习Spring Cloud是一个不错的选择。</p>
+<h2 id="Spring-Cloud发展前景"><a href="#Spring-Cloud发展前景" class="headerlink" title="Spring Cloud发展前景"></a>Spring Cloud发展前景</h2><p>Spring Cloud对于中小型互联网公司来说是一种福音，因为这类公司往往没有实力或者没有足够的资金投入去开发自己的分布式系统基础设施，使用Spring Cloud一站式解决方案能在从容应对业务发展的同时大大减少开发成本。同时，随着近几年微服务架构和Docker容器概念的火爆，也会让Spring Cloud在未来越来越“云”化的软件开发风格中立有一席之地，尤其是在五花八门的分布式解决方案中提供了标准化的、全站式的技术方案，意义可能会堪比当年Servlet规范的诞生，有效推进服务端软件系统技术水平的进步。<br><img src="https://img-blog.csdnimg.cn/20200428220218252.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="主要项目"><a href="#主要项目" class="headerlink" title="主要项目"></a>主要项目</h2><p>Spring Cloud的子项目，大致可分成两类，一类是对现有成熟框架”Spring Boot化”的封装和抽象，也是数量最多的项目；第二类是开发了一部分分布式系统的基础设施的实现，如Spring Cloud Stream扮演的就是kafka, ActiveMQ这样的角色。<br>Spring Cloud Config</p>
+<p>集中配置管理工具，分布式系统中统一的外部配置管理，默认使用Git来存储配置，可以支持客户端配置的刷新及加密、解密操作。<br>Spring Cloud Netflix</p>
+<p>Netflix OSS 开源组件集成，包括Eureka、Hystrix、Ribbon、Feign、Zuul等核心组件。</p>
+<pre><code>Eureka：服务治理组件，包括服务端的注册中心和客户端的服务发现机制；
+Ribbon：负载均衡的服务调用组件，具有多种负载均衡调用策略；
+Hystrix：服务容错组件，实现了断路器模式，为依赖服务的出错和延迟提供了容错能力；
+Feign：基于Ribbon和Hystrix的声明式服务调用组件；
+Zuul：API网关组件，对请求提供路由及过滤功能。</code></pre><p>Spring Cloud Bus</p>
+<p>用于传播集群状态变化的消息总线，使用轻量级消息代理链接分布式系统中的节点，可以用来动态刷新集群中的服务配置。<br>Spring Cloud Consul</p>
+<p>基于Hashicorp Consul的服务治理组件。<br>Spring Cloud Security</p>
+<p>安全工具包，对Zuul代理中的负载均衡OAuth2客户端及登录认证进行支持。<br>Spring Cloud Sleuth</p>
+<p>Spring Cloud应用程序的分布式请求链路跟踪，支持使用Zipkin、HTrace和基于日志（例如ELK）的跟踪。<br>Spring Cloud Stream</p>
+<p>轻量级事件驱动微服务框架，可以使用简单的声明式模型来发送及接收消息，主要实现为Apache Kafka及RabbitMQ。<br>Spring Cloud Task</p>
+<p>用于快速构建短暂、有限数据处理任务的微服务框架，用于向应用中添加功能性和非功能性的特性。<br>Spring Cloud Zookeeper</p>
+<p>基于Apache Zookeeper的服务治理组件。<br>Spring Cloud Gateway</p>
+<p>API网关组件，对请求提供路由及过滤功能。<br>Spring Cloud OpenFeign</p>
+<p>基于Ribbon和Hystrix的声明式服务调用组件，可以动态创建基于Spring MVC注解的接口实现用于服务调用，在Spring Cloud 2.0中已经取代Feign成为了一等公民。</p>
+<h2 id="和Spring-Boot的关系"><a href="#和Spring-Boot的关系" class="headerlink" title="和Spring Boot的关系"></a>和Spring Boot的关系</h2><ol>
+<li><p>Spring Boot 是 Spring 的一套快速配置脚手架，可以基于Spring Boot 快速开发单个微服务，Spring<br>Cloud是一个基于Spring Boot实现的云应用开发工具。Spring -&gt; Spring Boot &gt; Spring Cloud<br>这样的关系。</p>
+</li>
+<li><p>Spring Boot可以离开Spring Cloud独立使用开发项目，但是Spring Cloud离不开Spring<br>Boot，属于依赖的关系</p>
+</li>
+<li><p>Spring Boot专注于快速、方便集成的单个个体微服务，Spring Cloud是关注全局的服务治理框架</p>
+</li>
+<li><p>Spring Boot使用了默认大于配置的理念，很多集成方案已经帮你选择好了，能不配置就不配置，Spring<br>Cloud很大的一部分是基于Spring Boot来实现，可以不基于Spring Boot吗？不可以</p>
+</li>
+</ol>
+<p>总之：Spring Cloud是一系列框架的有序集合。它利用Spring Boot的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、智能路由、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。Spring Cloud并没有重复制造轮子，它只是将各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，通过Spring Boot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。</p>
+]]></content>
       <categories>
         <category>spring cloud</category>
       </categories>
@@ -513,15 +508,9 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
       </tags>
   </entry>
   <entry>
-    <title>Spring Cloud之Ribbon服务消费者</title>
-    <url>/myblog/spring-cloud/Spring-Cloud%E4%B9%8BRibbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</url>
+    <title>Spring Cloud（03）之 Ribbon服务消费者</title>
+    <url>/myblog/uncategorized/Spring-Cloud%EF%BC%8803%EF%BC%89%E4%B9%8B-Ribbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</url>
     <content><![CDATA[]]></content>
-      <categories>
-        <category>spring cloud</category>
-      </categories>
-      <tags>
-        <tag>cloud Ribbon</tag>
-      </tags>
   </entry>
   <entry>
     <title>SpringBoot 应用跨域访问解决方案</title>
@@ -891,9 +880,10 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
       </tags>
   </entry>
   <entry>
-    <title>SpringCloud</title>
-    <url>/myblog/uncategorized/SpringCloud/</url>
-    <content><![CDATA[]]></content>
+    <title>Welcome</title>
+    <url>/myblog/uncategorized/Welcome/</url>
+    <content><![CDATA[<img src="http://chfsun.gitee.io/cdn/bg_music.jpg"  />
+<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>kafka入门及spring boot下简单整合</title>
@@ -1035,12 +1025,6 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
       <tags>
         <tag>boot kafka</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>myblog</title>
-    <url>/myblog/uncategorized/myblog/</url>
-    <content><![CDATA[<img src="http://chfsun.gitee.io/cdn/bg_music.jpg"  />
-<a id="more"></a>]]></content>
   </entry>
   <entry>
     <title>spring boot 使用Nginx及其基本概念、安装、配置</title>
