@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/myblog/lib/pace/pace-theme-minimal.min.css">
+  <script src="/myblog/lib/pace/pace.min.js"></script>
+  <script>
+      (function(){
+          if(''){
+              if (prompt('请输入文章密码') !== ''){
+                  alert('密码错误');
+                  history.back();
+              }
+          }
+      })();
+  </script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"b2t":true,"onmobile":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="title: spring boot 使用Nginx及其基本概念、安装、配置date: 2020-05-01 11:53:42tags: spring boot分类: spring boot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot 使用Nginx及其基本概念、安装、配置">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/uncategorized/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="守望者">
+<meta property="og:description" content="title: spring boot 使用Nginx及其基本概念、安装、配置date: 2020-05-01 11:53:42tags: spring boot分类: spring boot">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419222449270.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419222749783.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419222833373.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419222855313.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419223318916.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419223248211.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200419223117100.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/295300/201812/295300-20181226113240184-1092615718.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/295300/201812/295300-20181226115341930-1676037661.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620085649844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620085706779.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620085747161.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019062008584711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620090248902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620090336569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620090336569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620090456727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620090537123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019062009062588.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190620091802976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-04-28T03:21:58.000Z">
+<meta property="article:modified_time" content="2020-05-03T10:20:51.604Z">
+<meta property="article:author" content="chfsun">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200419222449270.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/uncategorized/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>spring boot 使用Nginx及其基本概念、安装、配置 | 守望者</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">守望者</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录学习的技能和遇到的问题</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/uncategorized/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="守望者">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring boot 使用Nginx及其基本概念、安装、配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-28 11:21:58" itemprop="dateCreated datePublished" datetime="2020-04-28T11:21:58+08:00">2020-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-03 18:20:51" itemprop="dateModified" datetime="2020-05-03T18:20:51+08:00">2020-05-03</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<p>title: spring boot 使用Nginx及其基本概念、安装、配置<br>date: 2020-05-01 11:53:42<br>tags: spring boot<br>分类: spring boot</p>
+<hr>
+<a id="more"></a>
+
+<div class="item-wrap"><div class="article is-firefox" id="article" data-islow-browser="0"><div class="article-content"><p><span class="bjh-p">想必大家一定听说过 Nginx，若没听说过它，那么一定听过它的"同行"Apache 吧！</span></p><p><span class="bjh-p">
+
+<h2 id="Nginx-的产生"><a href="#Nginx-的产生" class="headerlink" title="Nginx 的产生"></a>Nginx 的产生</h2><p></span></p><p><span class="bjh-p">Nginx 同 Apache 一样都是一种 Web 服务器。基于 REST 架构风格，以统一资源描述符（Uniform Resources Identifier）URI 或者统一资源定位符（Uniform Resources Locator）URL 作为沟通依据，通过 HTTP 协议提供各种网络服务。</span></p><p><span class="bjh-p">然而，这些服务器在设计之初受到当时环境的局限，例如当时的用户规模，网络带宽，产品特点等局限并且各自的定位和发展都不尽相同。这也使得各个 Web 服务器有着各自鲜明的特点。</span></p><p><span class="bjh-p">Apache 的发展时期很长，而且是毫无争议的世界第一大服务器。它有着很多优点：稳定、开源、跨平台等等。</span></p><p><span class="bjh-p">它出现的时间太长了，它兴起的年代，互联网产业远远比不上现在。所以它被设计为一个重量级的。</span></p><p><span class="bjh-p">它不支持高并发的服务器。在 Apache 上运行数以万计的并发访问，会导致服务器消耗大量内存。</span></p><p><span class="bjh-p">操作系统对其进行进程或线程间的切换也消耗了大量的 CPU 资源，导致 HTTP 请求的平均响应速度降低。</span></p><p><span class="bjh-p">这些都决定了 Apache 不可能成为高性能 Web 服务器，轻量级高并发服务器 Nginx 就应运而生了。</span></p><p><span class="bjh-p">俄罗斯的工程师 Igor Sysoev，他在为 Rambler Media 工作期间，使用 C 语言开发了 Nginx。</span></p><p><span class="bjh-p">Nginx 作为 Web 服务器一直为 Rambler Media 提供出色而又稳定的服务。然后呢，Igor Sysoev 将 Nginx 代码开源，并且赋予自由软件许可证。</span></p><p><span class="bjh-h3">由于以下这几点，所以，Nginx 火了：</span></p><p><span class="bjh-p">Nginx 使用基于事件驱动架构，使得其可以支持数以百万级别的 TCP 连接。高度的模块化和自由软件许可证使得第三方模块层出不穷（这是个开源的时代啊）。Nginx 是一个跨平台服务器，可以运行在 Linux、Windows、FreeBSD、Solaris、AIX、Mac OS 等操作系统上。这些优秀的设计带来的极大的稳定性。</span></p><p><span class="bjh-p">Nginx 的用武之地</span></p><p><span class="bjh-p">Nginx 是一款自由的、开源的、高性能的 HTTP 服务器和反向代理服务器；同时也是一个 IMAP、POP3、SMTP 代理服务器。</span></p><p><span class="bjh-p">Nginx 可以作为一个 HTTP 服务器进行网站的发布处理，另外 Nginx 可以作为反向代理进行负载均衡的实现。</span></p><p><span class="bjh-h3"></p>
+<h2 id="关于代理"><a href="#关于代理" class="headerlink" title="关于代理"></a>关于代理</h2><p></span></p><p><span class="bjh-p">说到代理，首先我们要明确一个概念，所谓代理就是一个代表、一个渠道；此时就涉及到两个角色，一个是被代理角色，一个是目标角色。</span></p><p><span class="bjh-p">被代理角色通过这个代理访问目标角色完成一些任务的过程称为代理操作过程；如同生活中的专卖店，客人到 adidas 专卖店买了一双鞋，这个专卖店就是代理，被代理角色就是 adidas 厂家，目标角色就是用户。</span></p><p><span class="bjh-h3"></p>
+<h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><p></span></p><p><span class="bjh-p">说反向代理之前，我们先看看正向代理，正向代理也是大家最常接触到的代理模式，我们会从两个方面来说关于正向代理的处理模式，分别从软件方面和生活方面来解释一下什么叫正向代理。</span></p><p><span class="bjh-p">在如今的网络环境下，我们如果由于技术需要要去访问国外的某些网站，此时你会发现位于国外的某网站我们通过浏览器是没有办法访问的。</span></p><p><span class="bjh-p">此时大家可能都会用一个操作 FQ 进行访问，FQ 的方式主要是找到一个可以访问国外网站的代理服务器，我们将请求发送给代理服务器，代理服务器去访问国外的网站，然后将访问到的数据传递给我们！</span></p><p><span class="bjh-p">上述这样的代理模式称为正向代理，正向代理最大的特点是客户端非常明确要访问的服务器地址；服务器只清楚请求来自哪个代理服务器，而不清楚来自哪个具体的客户端；正向代理模式屏蔽或者隐藏了真实客户端信息。</span></p><p><span class="bjh-p">来看个示意图（我把客户端和正向代理框在一块，同属于一个环境，后面我有介绍）：<br><img src="https://img-blog.csdnimg.cn/20200419222449270.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>客户端必须设置正向代理服务器，当然前提是要知道正向代理服务器的 IP 地址，还有代理程序的端口。</span></p><p><span class="bjh-p">如下图：<br><img src="https://img-blog.csdnimg.cn/20200419222749783.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>总结来说：正向代理，”它代理的是客户端”，是一个位于客户端和原始服务器（Origin Server）之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标（原始服务器）。</span></p><p><span class="bjh-p">然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。</span></p><p><span class="bjh-p">正向代理的用途：</span></p><p><span class="bjh-p">访问原来无法访问的资源，如 Google。可以做缓存，加速访问资源。对客户端访问授权，上网进行认证。代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息。</span></p><p><span class="bjh-h3">反向代理</span></p><p><span class="bjh-p">明白了什么是正向代理，我们继续看关于反向代理的处理方式，举例如我国的某宝网站，每天同时连接到网站的访问人数已经爆表，单个服务器远远不能满足人民日益增长的购买欲望了。</span></p><p><span class="bjh-p">此时就出现了一个大家耳熟能详的名词：分布式部署；也就是通过部署多台服务器来解决访问人数限制的问题。</span></p><p><span class="bjh-p">某宝网站中大部分功能也是直接使用 Nginx 进行反向代理实现的，并且通过封装 Nginx 和其他的组件之后起了个高大上的名字：Tengine。</span></p><p><span class="bjh-p">有兴趣的童鞋可以访问 Tengine 的官网查看具体的信息：<a href="http://tengine.taobao.org/" target="_blank" rel="noopener">http://tengine.taobao.org/</a></span></p><p><span class="bjh-p">那么反向代理具体是通过什么样的方式实现的分布式的集群操作呢，我们先看一个示意图（我把服务器和反向代理框在一块，同属于一个环境，后面我有介绍）：<br><img src="https://img-blog.csdnimg.cn/20200419222833373.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>通过上述的图解大家就可以看清楚了，多个客户端给服务器发送的请求，Nginx 服务器接收到之后，按照一定的规则分发给了后端的业务处理服务器进行处理了。<span class="bjh-br"></span></span></p><p><span class="bjh-p">此时请求的来源也就是客户端是明确的，但是请求具体由哪台服务器处理的并不明确了，Nginx 扮演的就是一个反向代理角色。<span class="bjh-br"></span></span></p><p><span class="bjh-p">客户端是无感知代理的存在的，反向代理对外都是透明的，访问者并不知道自己访问的是一个代理。因为客户端不需要任何配置就可以访问。<span class="bjh-br"></span></span></p><p><span class="bjh-p">反向代理，”它代理的是服务端”，主要用于服务器集群分布式部署的情况下，反向代理隐藏了服务器的信息<span class="bjh-br"></span></span></p><p><span class="bjh-p">反向代理的作用：</span></p><p><span class="bjh-p">保证内网的安全，通常将反向代理作为公网访问地址，Web 服务器是内网。负载均衡，通过反向代理服务器来优化网站的负载。</span></p><p><span class="bjh-h3">项目场景</span></p><p><span class="bjh-p">通常情况下，我们在实际项目操作时，正向代理和反向代理很有可能会存在同一个应用场景中，正向代理代理客户端的请求去访问目标服务器，目标服务器是一个反向单利服务器，反向代理了多台真实的业务处理服务器。</span></p><p><span class="bjh-p">具体的拓扑图如下：<br><img src="https://img-blog.csdnimg.cn/20200419222855313.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>截了一张图来说明正向代理和反向代理二者之间的区别，如下图：<br><img src="https://img-blog.csdnimg.cn/20200419223318916.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>图解：</span></p><p><span class="bjh-p">在正向代理中，Proxy 和 Client 同属于一个 LAN（图中方框内），隐藏了客户端信息。在反向代理中，Proxy 和 Server 同属于一个 LAN（图中方框内），隐藏了服务端信息。</span></p><p><span class="bjh-p">实际上，Proxy 在两种代理中做的事情都是替服务器代为收发请求和响应，不过从结构上看正好左右互换了一下，所以把后出现的那种代理方式称为反向代理了。</span></p><p><span class="bjh-h3">负载均衡</span></p><p><span class="bjh-p">我们已经明确了所谓代理服务器的概念，那么接下来，Nginx 扮演了反向代理服务器的角色，它是依据什么样的规则进行请求分发的呢？不用的项目应用场景，分发的规则是否可以控制呢？</span></p><p><span class="bjh-p">这里提到的客户端发送的、Nginx 反向代理服务器接收到的请求数量，就是我们说的负载量。请求数量按照一定的规则进行分发，到不同的服务器处理的规则，就是一种均衡规则。</span></p><p><span class="bjh-p">所以将服务器接收到的请求按照规则分发的过程，称为负载均衡。</span></p><p><span class="bjh-p">负载均衡在实际项目操作过程中，有硬件负载均衡和软件负载均衡两种，硬件负载均衡也称为硬负载，如 F5 负载均衡，相对造价昂贵成本较高。</span></p><p><span class="bjh-p">但是数据的稳定性安全性等等有非常好的保障，如中国移动中国联通这样的公司才会选择硬负载进行操作。</span></p><p><span class="bjh-p">更多的公司考虑到成本原因，会选择使用软件负载均衡，软件负载均衡是利用现有的技术结合主机硬件实现的一种消息队列分发机制.<br><img src="https://img-blog.csdnimg.cn/20200419223248211.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Nginx 支持的负载均衡调度算法方式如下：</span></p><p><span class="bjh-p">①weight 轮询（默认）：接收到的请求按照顺序逐一分配到不同的后端服务器，即使在使用过程中，某一台后端服务器宕机，Nginx 会自动将该服务器剔除出队列，请求受理情况不会受到任何影响。</span></p><p><span class="bjh-p">这种方式下，可以给不同的后端服务器设置一个权重值（weight），用于调整不同的服务器上请求的分配率。</span></p><p><span class="bjh-p">权重数据越大，被分配到请求的几率越大；该权重值，主要是针对实际工作环境中不同的后端服务器硬件配置进行调整的。</span></p><p><span class="bjh-p">②ip_hash：每个请求按照发起客户端的 ip 的 hash 结果进行匹配，这样的算法下一个固定 ip 地址的客户端总会访问到同一个后端服务器，这也在一定程度上解决了集群部署环境下 Session 共享的问题。</span></p><p><span class="bjh-p">③fair：智能调整调度算法，动态的根据后端服务器的请求处理到响应的时间进行均衡分配。</span></p><p><span class="bjh-p">响应时间短处理效率高的服务器分配到请求的概率高，响应时间长处理效率低的服务器分配到的请求少，它是结合了前两者的优点的一种调度算法。</span></p><p><span class="bjh-p">但是需要注意的是 Nginx 默认不支持 fair 算法，如果要使用这种调度算法，请安装 upstream_fair 模块。</span></p><p><span class="bjh-p">④url_hash：按照访问的 URL 的 hash 结果分配请求，每个请求的 URL 会指向后端固定的某个服务器，可以在 Nginx 作为静态服务器的情况下提高缓存效率。</span></p><p><span class="bjh-p">同样要注意 Nginx 默认不支持这种调度算法，要使用的话需要安装 Nginx 的 hash 软件包。</span></p><p><span class="bjh-p">Web 服务器对比</span></p><p><span class="bjh-p">几种常用 Web 服务器对比如下图：<br><img src="https://img-blog.csdnimg.cn/20200419223117100.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<div>
+<h3 style="background: #A8A8A8 !important; color: #ffffff;">&nbsp; 直接部署服务器的风险</h3>
+
+
+
+</div>
+<p><span style="font-size: 13px;">　　假设，我开发了一个网站，然后买了一台Web服务器和一台数据库服务器，直接部署到公共网络上。如下图，网站用户通过手机、平板、台式机等终端设备，连上网络，输入 118.178.109.187 这个地址，我的系统就读取数据库，然后直接返回一个网页。</span></p>
+<p><span style="font-size: 13px;"><img style="display: block; margin-left: auto; margin-right: auto;" src="https://img2018.cnblogs.com/blog/295300/201812/295300-20181226113240184-1092615718.png" alt=""></span></p>
+<p><span style="font-size: 13px;">　　像这种网站部署的方式在今天的网络部署上特别常见。这种部署方式虽然简单、方便，高效，但是也存在着巨大的安全隐患。为什么呢？那是因为我将所有服务器资源都直接暴露在了公共网络上。直接将服务器暴露在网上的风险特别高。据阿里统计，他们每天在全球范围内，会被黑客攻击大概16亿次。是不是很震惊？我的两台服务器在网上裸奔，没有防火墙，没有安全策略，也不知道其他黑客还掌握了哪些漏洞。因此一旦被各种黑客扫描到了，我的服务器就很容易沦为别人的肉鸡，任人宰割。</span></p>
+<p><span style="font-size: 13px;">　　所以啊，一旦要直接暴露在网上的服务器都应该是具有强大的安全策略来方式被攻击。比如，防火墙策略要做好，漏洞要修补好，端口不要乱开放等等。而且即便是这样，地球上也没有任何人敢保证他的服务器不被入侵。因此，不被入侵是不可能的了！那么我们应该怎么办呢？我觉得应该增加黑客入侵的门槛，以及减少入侵成功之后的收益。这样费力又不讨好的事情，我相信很多黑客是不愿意做的。</span></p>
+<p><span style="font-size: 13px;">　　</span><span style="font-size: 13px;">那说了那么多，怎么操作呢？我觉得要暴露在公网上的服务器，必须都应该是不存储任何数据的服务器，即便是服务器挂了。用户虽然不能访问了，但是至少数据不会丢失。 所以常用的策略就是，重要的东西尽量放内网。</span></p>
+<p><span style="font-size: 13px;">　　如下图，手机、平板、台式机等终端设备通过公网访问反向代理服务器。反向代理服务器上有两张网卡，一张网卡是公共网卡，另一张网卡是局域网网卡。反向代理服务器通过将请求反向代理到192.168.1.1这台Web服务器，Web服务器连接局域网的数据库进行SQL查询操作，然后将数据返回给反向代理服务器，反向代理服务器再将数据通过公网传给终端设备。</span></p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="https://img2018.cnblogs.com/blog/295300/201812/295300-20181226115341930-1676037661.png" alt=""></p>
+<p>&nbsp;</p>
+<p><span style="font-size: 13px;">　　这种技术就相对安全一点了，因为只有反向代理服务器直接暴露在公网上了，即便是反向代理服务器被攻击了，只要局域网内的其他服务器不被攻击，也损失不了什么。</span></p>
+<div>
+<h3 style="background: #A8A8A8 !important; color: #ffffff;">&nbsp; 反向代理</h3>
+
+</div>
+<p><span style="font-size: 13px;">　　如何理解反向代理呢？就像刚刚那个图，</span><span style="font-size: 13px;">反向代理（Reverse Proxy）方式是指以代理服务器来接受 internet 上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给 internet 上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</span></p>
+<p><span style="font-size: 13px;">　　我们从客户端的视野来看，实际上客户端并不知道真实的服务提供者是哪台服务器，它只知道它请求了反向代理服务器。因此反向代理这种方式又对外隐藏了真实服务器的地址，从一定程度上降低了安全隐患。</span></p>
+<div>
+
+<h4><a id="_windows10Nginx__6"></a><em>windows10系统下安装Nginx</em></h4>
+<p><em><strong>打开nginx的官网：<a href="http://nginx.org/" target="_blank" rel="nofollow noopener">http://nginx.org/</a> ，下载最新的稳定版本。</strong></em><br>
+<img src="https://img-blog.csdnimg.cn/20190620085649844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620085706779.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><em><strong>按照版本需要点击进行下载即可,这里博主选择nginx-1.12.2下载windows版本</strong></em><br>
+<img src="https://img-blog.csdnimg.cn/20190620085747161.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><em><strong>或者在首页点击download下载历史稳定版本</strong></em><br>
+<img src="https://img-blog.csdnimg.cn/2019062008584711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><em><strong>下载完成后，解压到你想要解压的文件路径中，我解压到了D盘中，并把文件名改为nginx；进入文件内，打开nginx.exe文件，会出现一个一闪而过的页面，然后打开任意一个浏览器，输入 localhost，出现下面的页面，则安装成功。</strong></em></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620090248902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620090336569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><em><strong>如果没有出现，则说明没有安装成功；通过cmd.exe来看nginx是否安装成功和错误所在。打开cmd后，输入D:（你的安装目录在哪输入哪个），再输入cd nginx，继续输入nginx，如果安装不成功就会反馈错误，我出现的错误是：[emery] blind() to 0.0.0.0:80 failed (10013: An attempt was made to access a socket in a way forbidden by its access permissions)</strong></em></p>
+<p><em><strong>也就是80端口被其他程序占用。</strong></em></p>
+<p><em><strong>解决方法是：以管理员身份运行regedit打开键值:HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\HTTP在右边找到Start这一项,将其改为0重启系统,System进程不会占用80端口。</strong></em></p>
+<p><em><strong>重启后打开浏览器输入localhost，出现了下面页面：</strong></em></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620090336569.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<em><strong>也可以在cmd命令窗口输入命令 
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tasklist /<span class="keyword">fi</span> “imagename eq nginx.exe”</span><br></pre></td></tr></table></figure>
+
+<p>，出现如下结果说明启动成功</strong></em></p></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620090456727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<em><strong>nginx的配置文件是conf目录下的nginx.conf，默认配置的nginx监听的端口为80，如果80端口被占用可以修改为未被占用的端口即可</strong></em></p>
+<p><img src="https://img-blog.csdnimg.cn/20190620090537123.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/2019062009062588.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<em><strong>检查80端口是否被占用的命令是： netstat -ano | findstr 0.0.0.0:80 或 netstat -ano | findstr "80"</strong></em></p>
+<p><em><strong>当我们修改了nginx的配置文件nginx.conf 时，不需要关闭nginx后重新启动nginx，只需要执行命令 nginx -s reload 即可让改动生效</strong></em></p>
+<hr>
+
+<h2 id="Nginx常用命令"><a href="#Nginx常用命令" class="headerlink" title="Nginx常用命令"></a>Nginx常用命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start nginx</td>
+<td>启动</td>
+</tr>
+<tr>
+<td>nginx -s stop</td>
+<td>迅速退出</td>
+</tr>
+<tr>
+<td>nginx -s quit</td>
+<td>优雅的退出</td>
+</tr>
+<tr>
+<td>nginx -s reload</td>
+<td>修改配置文件后重载</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4><a id="_nginx__49"></a><em>关闭nginx</em></h4>
+<p><strong>如果使用cmd命令窗口启动nginx，关闭cmd窗口是不能结束nginx进程的，可使用两种方法关闭nginx</strong></p>
+<p>(1)输入nginx命令  nginx -s stop(快速停止nginx)  或  nginx -s quit(完整有序的停止nginx)</p>
+(2)使用taskkill   
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">taskkill /f /t /im nginx.exe</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4><a id="_nginx__59"></a><em>使用nginx代理服务器做负载均衡</em></h4>
+
+<p>我们可以修改nginx的配置文件nginx.conf 达到访问nginx代理服务器时跳转到指定服务器的目的，即通过proxy_pass 配置请求转发地址，即当我们依然输入http://localhost:80 时，请求会跳转到我们配置的服务器</p>
+
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   <span class="selector-tag">upstream</span> <span class="selector-tag">mytomcats</span> &#123;  </span><br><span class="line">      server localhost:8081;  </span><br><span class="line">&#125;  </span><br><span class="line">   <span class="selector-tag">server</span> &#123;</span><br><span class="line">       listen       80;</span><br><span class="line">       <span class="selector-tag">server_name</span>  <span class="selector-tag">localhost</span>;</span><br><span class="line">       <span class="selector-id">#charset</span> <span class="selector-tag">koi8-r</span>;</span><br><span class="line">       #access_log  logs/host.access.log  main;</span><br><span class="line">       # 以下为解决跨域的设置</span><br><span class="line">       <span class="selector-tag">add_header</span> <span class="selector-tag">Access-Control-Allow-Origin</span> *;</span><br><span class="line">	add_header Access-Control-Allow-Methods 'GET,POST';</span><br><span class="line">	add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';</span><br><span class="line">	</span><br><span class="line">       location / &#123;</span><br><span class="line">		proxy_pass http://mytomcats;  </span><br><span class="line">       &#125;</span><br><span class="line">  ......</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p><em><strong>同理，我们可以配置多个目标服务器，当一台服务器出现故障时，nginx能将请求自动转向另一台服务器，例如配置如下：</strong></em><br>
+
+<p><img src="https://img-blog.csdnimg.cn/20190620091802976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L01yc19jaGVucw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p></p>
+<p><em><strong>当服务器 localhost:8080 挂掉时，nginxnginx能将请求自动转向服务器 192.168.101.9:8080 。上面还加了一个weight属性，此属性表示各服务器被访问到的权重，weight越高被访问到的几率越高。</strong></em></p>
+<hr>
+<h4><a id="_Nginx__73"></a><em>Nginx配置静态资源</em></h4>
+<p><em><strong>将静态资源（如jpg|png|css|js等）放在如下配置的f:/nginx-1.12.2/static目录下，然后在nginx配置文件中做如下配置(注意：静态资源配置只能放在 location / 中)，浏览器中访问 http://localhost/1.jpg 即可看到图片
+
+<pre><code>location ~ \.(gif|jpg|png|js|css)$ {
+    root F:/nginx-1.12.2/static;
+    index index.html index.htm;
+}</code></pre><hr>
+
+
+<p>原文参考1：<a href="https://blog.csdn.net/Mrs_chens/article/details/92961608" target="_blank" rel="nofollow noopener">https://blog.csdn.net/Mrs_chens/article/details/92961608</a></p>
+<p>原文参考2：<a href="https://baijiahao.baidu.com/s?id=1652608869911988442&wfr=spider&for=pc" target="_blank" rel="nofollow noopener">https://baijiahao.baidu.com/s?id=1652608869911988442&wfr=spider&for=pc</a></p>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/" rel="prev" title="Spring Boot 中 Redis的使用 及Spring Session共享实现">
+      <i class="fa fa-chevron-left"></i> Spring Boot 中 Redis的使用 及Spring Session共享实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/SpringBoot-%E5%BA%94%E7%94%A8%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="SpringBoot 应用跨域访问解决方案">
+      SpringBoot 应用跨域访问解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+	<div>
+	    
+	    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">------ ���Ľ���------</div>
+    
+</div>
+	    
+	</div>
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx-的产生"><span class="nav-number">1.</span> <span class="nav-text">Nginx 的产生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于代理"><span class="nav-number">2.</span> <span class="nav-text">关于代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正向代理"><span class="nav-number">3.</span> <span class="nav-text">正向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#article"><span class="nav-number">3.1.</span> <span class="nav-text">&amp;nbsp; 直接部署服务器的风险</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#article"><span class="nav-number">3.2.</span> <span class="nav-text">&amp;nbsp; 反向代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#article"><span class="nav-number">3.2.1.</span> <span class="nav-text">windows10系统下安装Nginx</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx常用命令"><span class="nav-number">4.</span> <span class="nav-text">Nginx常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#article"><span class="nav-number">4.0.1.</span> <span class="nav-text">关闭nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#article"><span class="nav-number">4.0.2.</span> <span class="nav-text">使用nginx代理服务器做负载均衡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#article"><span class="nav-number">4.0.3.</span> <span class="nav-text">Nginx配置静态资源</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div> -->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : 'dc7fedc3102e69272e3bee9f576f4958',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
