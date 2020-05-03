@@ -32,12 +32,12 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"b2t":true,"onmobile":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="title: kafka入门及spring boot下简单整合date: 2020-05-01 10:52:12tags: spring boot分类: spring boot">
+  <meta name="description" content="win10下安装kafka注：kafka依赖于zookeeper，官网下载的kafka内置了zookeeper依赖。 1. 下载Kafka 网址：http:&#x2F;&#x2F;kafka.apache.org&#x2F;  解压缩：   2. 修改配置文件 进入到config目录，修改service.properties：  broker.id设置：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka入门及spring boot下简单整合">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/uncategorized/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/index.html">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/index.html">
 <meta property="og:site_name" content="守望者">
-<meta property="og:description" content="title: kafka入门及spring boot下简单整合date: 2020-05-01 10:52:12tags: spring boot分类: spring boot">
+<meta property="og:description" content="win10下安装kafka注：kafka依赖于zookeeper，官网下载的kafka内置了zookeeper依赖。 1. 下载Kafka 网址：http:&#x2F;&#x2F;kafka.apache.org&#x2F;  解压缩：   2. 修改配置文件 进入到config目录，修改service.properties：  broker.id设置：https:&#x2F;&#x2F;cloud.tencent.com&#x2F;developer">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zYzQ3M2MwNDc1MmFmZWZkLnBuZw?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1jMWQ1Mzk2ZWNhMGM1N2RjLnBuZw?x-oss-process=image/format,png">
@@ -54,12 +54,13 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200425094817918.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200425094916450.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2020-04-28T03:24:20.000Z">
-<meta property="article:modified_time" content="2020-05-03T10:19:31.125Z">
+<meta property="article:modified_time" content="2020-05-03T11:26:11.995Z">
 <meta property="article:author" content="chfsun">
+<meta property="article:tag" content="boot kafka">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zYzQ3M2MwNDc1MmFmZWZkLnBuZw?x-oss-process=image/format,png">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/uncategorized/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/">
 
 
 <script id="page-configurations">
@@ -212,7 +213,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/uncategorized/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -242,8 +243,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 18:19:31" itemprop="dateModified" datetime="2020-05-03T18:19:31+08:00">2020-05-03</time>
+                <time title="修改时间：2020-05-03 19:26:11" itemprop="dateModified" datetime="2020-05-03T19:26:11+08:00">2020-05-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
+                </span>
+            </span>
 
           
 
@@ -256,10 +266,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <hr>
-<p>title: kafka入门及spring boot下简单整合<br>date: 2020-05-01 10:52:12<br>tags: spring boot<br>分类: spring boot</p>
-<hr>
-<a id="more"></a>
+        <a id="more"></a>
 
 <h2 id="win10下安装kafka"><a href="#win10下安装kafka" class="headerlink" title="win10下安装kafka"></a>win10下安装kafka</h2><p>注：kafka依赖于zookeeper，官网下载的kafka内置了zookeeper依赖。</p>
 <h3>1. 下载Kafka</h3>
@@ -398,6 +405,9 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/myblog/tags/boot-kafka/" rel="tag"># boot kafka</a>
+          </div>
 
         
 
@@ -405,11 +415,11 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/myblog/uncategorized/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/" rel="prev" title="spring boot下整合dubbo和zookeeper">
+    <a href="/myblog/spring-boot/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/" rel="prev" title="spring boot下整合dubbo和zookeeper">
       <i class="fa fa-chevron-left"></i> spring boot下整合dubbo和zookeeper
     </a></div>
       <div class="post-nav-item">
-    <a href="/myblog/uncategorized/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/" rel="next" title="SpringBoot项目整合ELK、kafka">
+    <a href="/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/" rel="next" title="SpringBoot项目整合ELK、kafka">
       SpringBoot项目整合ELK、kafka <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -499,6 +509,18 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
           <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -610,7 +632,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : '7f08fcbc3b649e71a791db81e5ac46a9',
+      id          : '3bf765c40d235d4ea735e6b36aaa38bb',
         language: '',
       distractionFreeMode: true
     });

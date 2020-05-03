@@ -32,12 +32,12 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"b2t":true,"onmobile":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="title: spring boot Redis的使用 及Spring Session共享实现date: 2020-05-01 11:54:12tags: spring boot分类: spring boot">
+  <meta name="description" content="一、关于Redis 最近阅读了《Redis开发与运维》，非常不错。这里对书中的知识整理一下，方便自己回顾Redis的整个体系，来对相关知识点查漏补缺。 按照五点把书中的内容进行一下整理： 1、为什么要选择Redis：介绍Redis的使用场景与使用Redis的原因； 2、Redis常用命令总结：包括时间复杂度总结与具体数据类型在Redis内部使用的数据结构； 3、Redis的高级功能：包括持久化">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot 中 Redis的使用 及Spring Session共享实现">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/uncategorized/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="守望者">
-<meta property="og:description" content="title: spring boot Redis的使用 及Spring Session共享实现date: 2020-05-01 11:54:12tags: spring boot分类: spring boot">
+<meta property="og:description" content="一、关于Redis 最近阅读了《Redis开发与运维》，非常不错。这里对书中的知识整理一下，方便自己回顾Redis的整个体系，来对相关知识点查漏补缺。 按照五点把书中的内容进行一下整理： 1、为什么要选择Redis：介绍Redis的使用场景与使用Redis的原因； 2、Redis常用命令总结：包括时间复杂度总结与具体数据类型在Redis内部使用的数据结构； 3、Redis的高级功能：包括持久化">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20181119213020882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70">
@@ -57,12 +57,13 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200416000611251.png#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200416000622929.png#pic_center">
 <meta property="article:published_time" content="2020-04-28T03:19:38.000Z">
-<meta property="article:modified_time" content="2020-05-03T10:21:25.037Z">
+<meta property="article:modified_time" content="2020-05-03T11:24:26.235Z">
 <meta property="article:author" content="chfsun">
+<meta property="article:tag" content="boot">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/uncategorized/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/">
 
 
 <script id="page-configurations">
@@ -215,7 +216,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/uncategorized/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -245,8 +246,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 18:21:25" itemprop="dateModified" datetime="2020-05-03T18:21:25+08:00">2020-05-03</time>
+                <time title="修改时间：2020-05-03 19:24:26" itemprop="dateModified" datetime="2020-05-03T19:24:26+08:00">2020-05-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
+                </span>
+            </span>
 
           
 
@@ -259,10 +269,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <hr>
-<p>title: spring boot Redis的使用 及Spring Session共享实现<br>date: 2020-05-01 11:54:12<br>tags: spring boot<br>分类: spring boot</p>
-<hr>
-<a id="more"></a>
+        <a id="more"></a>
 
 <h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2><p><img src="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p><strong>最近阅读了《Redis开发与运维》，非常不错。这里对书中的知识整理一下，方便自己回顾Redis的整个体系，来对相关知识点查漏补缺。</strong></p>
@@ -609,6 +616,9 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/myblog/tags/boot/" rel="tag"># boot</a>
+          </div>
 
         
 
@@ -616,11 +626,11 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/myblog/uncategorized/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="SpringBoot2.0集成Shir（二）">
-      <i class="fa fa-chevron-left"></i> SpringBoot2.0集成Shir（二）
+    <a href="/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/" rel="prev" title="SpringBoot2.0集成Shiro（二）">
+      <i class="fa fa-chevron-left"></i> SpringBoot2.0集成Shiro（二）
     </a></div>
       <div class="post-nav-item">
-    <a href="/myblog/uncategorized/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/" rel="next" title="spring boot 使用Nginx及其基本概念、安装、配置">
+    <a href="/myblog/spring-boot/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/" rel="next" title="spring boot 使用Nginx及其基本概念、安装、配置">
       spring boot 使用Nginx及其基本概念、安装、配置 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -710,6 +720,18 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
           <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -821,7 +843,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : '5a25a46e3bf956424e61df59b05374aa',
+      id          : 'f128bac1729a40c03b65cb557202928b',
         language: '',
       distractionFreeMode: true
     });
