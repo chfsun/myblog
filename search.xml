@@ -3,10 +3,8 @@
   <entry>
     <title>Spring Cloud 你需要知道的</title>
     <url>/myblog/spring-cloud/Spring-Cloud-%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/</url>
-    <content><![CDATA[<a id="more"></a>
-
-
-<h2 id="Spring-Cloud是什么"><a href="#Spring-Cloud是什么" class="headerlink" title="Spring Cloud是什么"></a>Spring Cloud是什么</h2><p>Spring Cloud 是一系列框架的有序集合。它利用 Spring Boot 的开发便利性，巧妙地简化了分布式系统基础设施的开发，如服务注册、服务发现、配置中心、消息总线、负载均衡、断路器、数据监控等，这些都可以用 Spring Boot 的开发风格做到一键启动和部署。</p>
+    <content><![CDATA[<h2 id="Spring-Cloud是什么"><a href="#Spring-Cloud是什么" class="headerlink" title="Spring Cloud是什么"></a>Spring Cloud是什么</h2><p>Spring Cloud 是一系列框架的有序集合。它利用 Spring Boot 的开发便利性，巧妙地简化了分布式系统基础设施的开发，如服务注册、服务发现、配置中心、消息总线、负载均衡、断路器、数据监控等，这些都可以用 Spring Boot 的开发风格做到一键启动和部署。</p>
+<a id="more"></a>
 <p>通俗地讲，Spring Cloud 就是用于构建微服务开发和治理的框架集合（并不是具体的一个框架），主要贡献来自 Netflix OSS。</p>
 <p>Spring Cloud 模块的相关也就是需要掌握的介绍如下：</p>
 <pre><code>Eureka：服务注册中心，用于服务管理。
@@ -95,9 +93,8 @@ Zuul：API网关组件，对请求提供路由及过滤功能。</code></pre><p>
   <entry>
     <title>Spring Boot 中 Redis的使用 及Spring Session共享实现</title>
     <url>/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2><p><img src="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+    <content><![CDATA[<h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2> <a id="more"></a>                                     
+<p><img src="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p><strong>最近阅读了《Redis开发与运维》，非常不错。这里对书中的知识整理一下，方便自己回顾Redis的整个体系，来对相关知识点查漏补缺。</strong></p>
 <p><strong>按照五点把书中的内容进行一下整理：</strong></p>
 <p>1、为什么要选择Redis：介绍Redis的使用场景与使用Redis的原因；</p>
@@ -445,8 +442,9 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
   <entry>
     <title>Spring Cloud之Eureka服务注册与发现</title>
     <url>/myblog/spring-cloud/Spring-Cloud%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/</url>
-    <content><![CDATA[<a id="more"></a>
-<h2 id="Eureka简介"><a href="#Eureka简介" class="headerlink" title="Eureka简介"></a>Eureka简介</h2><p>在微服务架构中往往会有一个注册中心，每个微服务都会向注册中心去注册自己的地址及端口信息，注册中心维护着服务名称与服务实例的对应关系。每个微服务都会定时从注册中心获取服务列表，同时汇报自己的运行情况，这样当有的服务需要调用其他服务时，就可以从自己获取到的服务列表中获取实例地址进行调用，Eureka实现了这套服务注册与发现机制。</p>
+    <content><![CDATA[<h2 id="Eureka简介"><a href="#Eureka简介" class="headerlink" title="Eureka简介"></a>Eureka简介</h2><p>在微服务架构中往往会有一个注册中心，每个微服务都会向注册中心去注册自己的地址及端口信息，注册中心维护着服务名称与服务实例的对应关系。每个微服务都会定时从注册中心获取服务列表，同时汇报自己的运行情况，这样当有的服务需要调用其他服务时，就可以从自己获取到的服务列表中获取实例地址进行调用，Eureka实现了这套服务注册与发现机制。</p>
+<a id="more"></a>
+
 <p>下面将展示基于eclipse使用STS搭建Eureka服务的正确手法<br>(别问我什么是STS，我只会给你个眼神自己体会……)</p>
 <h2 id="一、搭建Eureka注册中心"><a href="#一、搭建Eureka注册中心" class="headerlink" title="一、搭建Eureka注册中心"></a>一、搭建Eureka注册中心</h2><p><img src="https://img-blog.csdnimg.cn/2020042823074869.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200428231056675.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>项目结构：<br><img src="https://img-blog.csdnimg.cn/20200428231838752.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">pom文件：</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">	xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">	&lt;parent&gt;</span><br><span class="line">		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">		&lt;version&gt;2.2.6.RELEASE&lt;/version&gt;</span><br><span class="line">		&lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;</span><br><span class="line">	&lt;/parent&gt;</span><br><span class="line">	&lt;groupId&gt;cn.chfsun&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;eureka-server&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">	&lt;name&gt;eureka-server&lt;/name&gt;</span><br><span class="line">	&lt;description&gt;eureka-server&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">	&lt;properties&gt;</span><br><span class="line">		&lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">		&lt;spring-cloud.version&gt;Hoxton.SR3&lt;/spring-cloud.version&gt;</span><br><span class="line">	&lt;/properties&gt;</span><br><span class="line"></span><br><span class="line">	&lt;dependencies&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-cloud-config-server&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">		&lt;dependency&gt;</span><br><span class="line">			&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">			&lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">			&lt;scope&gt;<span class="built_in">test</span>&lt;/scope&gt;</span><br><span class="line">			&lt;exclusions&gt;</span><br><span class="line">				&lt;exclusion&gt;</span><br><span class="line">					&lt;groupId&gt;org.junit.vintage&lt;/groupId&gt;</span><br><span class="line">					&lt;artifactId&gt;junit-vintage-engine&lt;/artifactId&gt;</span><br><span class="line">				&lt;/exclusion&gt;</span><br><span class="line">			&lt;/exclusions&gt;</span><br><span class="line">		&lt;/dependency&gt;</span><br><span class="line">	&lt;/dependencies&gt;</span><br><span class="line"></span><br><span class="line">	&lt;dependencyManagement&gt;</span><br><span class="line">		&lt;dependencies&gt;</span><br><span class="line">			&lt;dependency&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;</span><br><span class="line">				&lt;version&gt;<span class="variable">$&#123;spring-cloud.version&#125;</span>&lt;/version&gt;</span><br><span class="line">				&lt;<span class="built_in">type</span>&gt;pom&lt;/<span class="built_in">type</span>&gt;</span><br><span class="line">				&lt;scope&gt;import&lt;/scope&gt;</span><br><span class="line">			&lt;/dependency&gt;</span><br><span class="line">		&lt;/dependencies&gt;</span><br><span class="line">	&lt;/dependencyManagement&gt;</span><br><span class="line"></span><br><span class="line">	&lt;build&gt;</span><br><span class="line">		&lt;plugins&gt;</span><br><span class="line">			&lt;plugin&gt;</span><br><span class="line">				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;</span><br><span class="line">			&lt;/plugin&gt;</span><br><span class="line">		&lt;/plugins&gt;</span><br><span class="line">	&lt;/build&gt;</span><br><span class="line"></span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
@@ -516,16 +514,21 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
   </entry>
   <entry>
     <title>Spring Cloud之Ribbon服务消费者</title>
-    <url>/myblog/uncategorized/Spring-Cloud%E4%B9%8BRibbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</url>
+    <url>/myblog/spring-cloud/Spring-Cloud%E4%B9%8BRibbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/</url>
     <content><![CDATA[]]></content>
+      <categories>
+        <category>spring cloud</category>
+      </categories>
+      <tags>
+        <tag>cloud Ribbon</tag>
+      </tags>
   </entry>
   <entry>
     <title>SpringBoot 应用跨域访问解决方案</title>
     <url>/myblog/spring-boot/SpringBoot-%E5%BA%94%E7%94%A8%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<div id="cnblogs_post_body" class="blogpost-body ">
+    <content><![CDATA[<div id="cnblogs_post_body" class="blogpost-body ">
     <h2 id="一什么是跨域访问">一、什么是跨域访问</h2>
+    <a id="more"></a>
 <p>说到跨域访问，必须先解释一个名词：同源策略。所谓同源策略就是在浏览器端出于安全考量，向服务端发起请求必须满足：协议相同、Host(ip)相同、端口相同的条件，否则访问将被禁止，该访问也就被称为跨域访问。<br>虽然跨域访问被禁止之后，可以在一定程度上提高了应用的安全性，但也为开发带来了一定的麻烦。比如：我们开发一个前后端分离的易用，页面及js部署在一个主机的nginx服务中，后端接口部署在一个tomcat应用容器中，当前端向后端发起请求的时候一定是不符合同源策略的，也就无法访问。那么我们如何解决这个问题？就是本文需要向大家说明的内容。</p>
 <h2 id="二跨域访问的解决方案有哪些">二、跨域访问的解决方案有哪些？</h2>
 <h3 id="第一类方案前端解决方案">2.1.第一类方案：前端解决方案</h3>
@@ -604,9 +607,8 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
   <entry>
     <title>SpringBoot2.0集成Shiro（二）</title>
     <url>/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<p>Shiro这个Java安全框架我一直都想学会怎么去使用，但每次依照着别人的博客尝试把它配置到自己的项目中，总是出现各种问题，导致一直没有成功。经过不懈努力，这一次终于成功了！从零搭建整个项目，并通过一个简单的用户登录功能来进行说明！</p>
+    <content><![CDATA[<p>Shiro这个Java安全框架我一直都想学会怎么去使用，但每次依照着别人的博客尝试把它配置到自己的项目中，总是出现各种问题，导致一直没有成功。经过不懈努力，这一次终于成功了！从零搭建整个项目，并通过一个简单的用户登录功能来进行说明！</p>
+<a id="more"></a>
 <p><strong>源码github地址</strong>：<a href="https://github.com/Rhine404/shirodemo" target="_blank" rel="noopener">https://github.com/Rhine404/shirodemo</a></p>
 <h2><a name="t2"></a><a name="t2"></a><a id="1__7"></a>1 简介</h2>
 <p>推荐阅读<a href="https://www.infoq.com/articles/apache-shiro" target="_blank" rel="nofollow noopener">官方文档</a>去认识Shiro，虽然不是中文的，但绝对是比看各种博客里重复度高、零零散散的资料好。</p>
@@ -901,6 +903,7 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
 <h2 id="win10下安装kafka"><a href="#win10下安装kafka" class="headerlink" title="win10下安装kafka"></a>win10下安装kafka</h2><p>注：kafka依赖于zookeeper，官网下载的kafka内置了zookeeper依赖。</p>
 <h3>1. 下载Kafka</h3>
 网址：http://kafka.apache.org/
+<!--more-->
 <br/>
 <p>解压缩：<br>
 <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zYzQ3M2MwNDc1MmFmZWZkLnBuZw?x-oss-process=image/format,png" alt=""><br>
@@ -1044,11 +1047,10 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
   <entry>
     <title>spring boot 使用Nginx及其基本概念、安装、配置</title>
     <url>/myblog/spring-boot/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<a id="more"></a>
-
-<div class="item-wrap"><div class="article is-firefox" id="article" data-islow-browser="0"><div class="article-content"><p><span class="bjh-p">想必大家一定听说过 Nginx，若没听说过它，那么一定听过它的"同行"Apache 吧！</span></p><p><span class="bjh-p">
+    <content><![CDATA[<div class="item-wrap"><div class="article is-firefox" id="article" data-islow-browser="0"><div class="article-content"><p><span class="bjh-p">想必大家一定听说过 Nginx，若没听说过它，那么一定听过它的"同行"Apache 吧！</span></p><p><span class="bjh-p">
 
 <h2 id="Nginx-的产生"><a href="#Nginx-的产生" class="headerlink" title="Nginx 的产生"></a>Nginx 的产生</h2><p></span></p><p><span class="bjh-p">Nginx 同 Apache 一样都是一种 Web 服务器。基于 REST 架构风格，以统一资源描述符（Uniform Resources Identifier）URI 或者统一资源定位符（Uniform Resources Locator）URL 作为沟通依据，通过 HTTP 协议提供各种网络服务。</span></p><p><span class="bjh-p">然而，这些服务器在设计之初受到当时环境的局限，例如当时的用户规模，网络带宽，产品特点等局限并且各自的定位和发展都不尽相同。这也使得各个 Web 服务器有着各自鲜明的特点。</span></p><p><span class="bjh-p">Apache 的发展时期很长，而且是毫无争议的世界第一大服务器。它有着很多优点：稳定、开源、跨平台等等。</span></p><p><span class="bjh-p">它出现的时间太长了，它兴起的年代，互联网产业远远比不上现在。所以它被设计为一个重量级的。</span></p><p><span class="bjh-p">它不支持高并发的服务器。在 Apache 上运行数以万计的并发访问，会导致服务器消耗大量内存。</span></p><p><span class="bjh-p">操作系统对其进行进程或线程间的切换也消耗了大量的 CPU 资源，导致 HTTP 请求的平均响应速度降低。</span></p><p><span class="bjh-p">这些都决定了 Apache 不可能成为高性能 Web 服务器，轻量级高并发服务器 Nginx 就应运而生了。</span></p><p><span class="bjh-p">俄罗斯的工程师 Igor Sysoev，他在为 Rambler Media 工作期间，使用 C 语言开发了 Nginx。</span></p><p><span class="bjh-p">Nginx 作为 Web 服务器一直为 Rambler Media 提供出色而又稳定的服务。然后呢，Igor Sysoev 将 Nginx 代码开源，并且赋予自由软件许可证。</span></p><p><span class="bjh-h3">由于以下这几点，所以，Nginx 火了：</span></p><p><span class="bjh-p">Nginx 使用基于事件驱动架构，使得其可以支持数以百万级别的 TCP 连接。高度的模块化和自由软件许可证使得第三方模块层出不穷（这是个开源的时代啊）。Nginx 是一个跨平台服务器，可以运行在 Linux、Windows、FreeBSD、Solaris、AIX、Mac OS 等操作系统上。这些优秀的设计带来的极大的稳定性。</span></p><p><span class="bjh-p">Nginx 的用武之地</span></p><p><span class="bjh-p">Nginx 是一款自由的、开源的、高性能的 HTTP 服务器和反向代理服务器；同时也是一个 IMAP、POP3、SMTP 代理服务器。</span></p><p><span class="bjh-p">Nginx 可以作为一个 HTTP 服务器进行网站的发布处理，另外 Nginx 可以作为反向代理进行负载均衡的实现。</span></p><p><span class="bjh-h3"></p>
+<a id="more"></a>
 <h2 id="关于代理"><a href="#关于代理" class="headerlink" title="关于代理"></a>关于代理</h2><p></span></p><p><span class="bjh-p">说到代理，首先我们要明确一个概念，所谓代理就是一个代表、一个渠道；此时就涉及到两个角色，一个是被代理角色，一个是目标角色。</span></p><p><span class="bjh-p">被代理角色通过这个代理访问目标角色完成一些任务的过程称为代理操作过程；如同生活中的专卖店，客人到 adidas 专卖店买了一双鞋，这个专卖店就是代理，被代理角色就是 adidas 厂家，目标角色就是用户。</span></p><p><span class="bjh-h3"></p>
 <h2 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h2><p></span></p><p><span class="bjh-p">说反向代理之前，我们先看看正向代理，正向代理也是大家最常接触到的代理模式，我们会从两个方面来说关于正向代理的处理模式，分别从软件方面和生活方面来解释一下什么叫正向代理。</span></p><p><span class="bjh-p">在如今的网络环境下，我们如果由于技术需要要去访问国外的某些网站，此时你会发现位于国外的某网站我们通过浏览器是没有办法访问的。</span></p><p><span class="bjh-p">此时大家可能都会用一个操作 FQ 进行访问，FQ 的方式主要是找到一个可以访问国外网站的代理服务器，我们将请求发送给代理服务器，代理服务器去访问国外的网站，然后将访问到的数据传递给我们！</span></p><p><span class="bjh-p">上述这样的代理模式称为正向代理，正向代理最大的特点是客户端非常明确要访问的服务器地址；服务器只清楚请求来自哪个代理服务器，而不清楚来自哪个具体的客户端；正向代理模式屏蔽或者隐藏了真实客户端信息。</span></p><p><span class="bjh-p">来看个示意图（我把客户端和正向代理框在一块，同属于一个环境，后面我有介绍）：<br><img src="https://img-blog.csdnimg.cn/20200419222449270.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>客户端必须设置正向代理服务器，当然前提是要知道正向代理服务器的 IP 地址，还有代理程序的端口。</span></p><p><span class="bjh-p">如下图：<br><img src="https://img-blog.csdnimg.cn/20200419222749783.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>总结来说：正向代理，”它代理的是客户端”，是一个位于客户端和原始服务器（Origin Server）之间的服务器，为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标（原始服务器）。</span></p><p><span class="bjh-p">然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端必须要进行一些特别的设置才能使用正向代理。</span></p><p><span class="bjh-p">正向代理的用途：</span></p><p><span class="bjh-p">访问原来无法访问的资源，如 Google。可以做缓存，加速访问资源。对客户端访问授权，上网进行认证。代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息。</span></p><p><span class="bjh-h3">反向代理</span></p><p><span class="bjh-p">明白了什么是正向代理，我们继续看关于反向代理的处理方式，举例如我国的某宝网站，每天同时连接到网站的访问人数已经爆表，单个服务器远远不能满足人民日益增长的购买欲望了。</span></p><p><span class="bjh-p">此时就出现了一个大家耳熟能详的名词：分布式部署；也就是通过部署多台服务器来解决访问人数限制的问题。</span></p><p><span class="bjh-p">某宝网站中大部分功能也是直接使用 Nginx 进行反向代理实现的，并且通过封装 Nginx 和其他的组件之后起了个高大上的名字：Tengine。</span></p><p><span class="bjh-p">有兴趣的童鞋可以访问 Tengine 的官网查看具体的信息：<a href="http://tengine.taobao.org/" target="_blank" rel="noopener">http://tengine.taobao.org/</a></span></p><p><span class="bjh-p">那么反向代理具体是通过什么样的方式实现的分布式的集群操作呢，我们先看一个示意图（我把服务器和反向代理框在一块，同属于一个环境，后面我有介绍）：<br><img src="https://img-blog.csdnimg.cn/20200419222833373.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>通过上述的图解大家就可以看清楚了，多个客户端给服务器发送的请求，Nginx 服务器接收到之后，按照一定的规则分发给了后端的业务处理服务器进行处理了。<span class="bjh-br"></span></span></p><p><span class="bjh-p">此时请求的来源也就是客户端是明确的，但是请求具体由哪台服务器处理的并不明确了，Nginx 扮演的就是一个反向代理角色。<span class="bjh-br"></span></span></p><p><span class="bjh-p">客户端是无感知代理的存在的，反向代理对外都是透明的，访问者并不知道自己访问的是一个代理。因为客户端不需要任何配置就可以访问。<span class="bjh-br"></span></span></p><p><span class="bjh-p">反向代理，”它代理的是服务端”，主要用于服务器集群分布式部署的情况下，反向代理隐藏了服务器的信息<span class="bjh-br"></span></span></p><p><span class="bjh-p">反向代理的作用：</span></p><p><span class="bjh-p">保证内网的安全，通常将反向代理作为公网访问地址，Web 服务器是内网。负载均衡，通过反向代理服务器来优化网站的负载。</span></p><p><span class="bjh-h3">项目场景</span></p><p><span class="bjh-p">通常情况下，我们在实际项目操作时，正向代理和反向代理很有可能会存在同一个应用场景中，正向代理代理客户端的请求去访问目标服务器，目标服务器是一个反向单利服务器，反向代理了多台真实的业务处理服务器。</span></p><p><span class="bjh-p">具体的拓扑图如下：<br><img src="https://img-blog.csdnimg.cn/20200419222855313.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>截了一张图来说明正向代理和反向代理二者之间的区别，如下图：<br><img src="https://img-blog.csdnimg.cn/20200419223318916.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>图解：</span></p><p><span class="bjh-p">在正向代理中，Proxy 和 Client 同属于一个 LAN（图中方框内），隐藏了客户端信息。在反向代理中，Proxy 和 Server 同属于一个 LAN（图中方框内），隐藏了服务端信息。</span></p><p><span class="bjh-p">实际上，Proxy 在两种代理中做的事情都是替服务器代为收发请求和响应，不过从结构上看正好左右互换了一下，所以把后出现的那种代理方式称为反向代理了。</span></p><p><span class="bjh-h3">负载均衡</span></p><p><span class="bjh-p">我们已经明确了所谓代理服务器的概念，那么接下来，Nginx 扮演了反向代理服务器的角色，它是依据什么样的规则进行请求分发的呢？不用的项目应用场景，分发的规则是否可以控制呢？</span></p><p><span class="bjh-p">这里提到的客户端发送的、Nginx 反向代理服务器接收到的请求数量，就是我们说的负载量。请求数量按照一定的规则进行分发，到不同的服务器处理的规则，就是一种均衡规则。</span></p><p><span class="bjh-p">所以将服务器接收到的请求按照规则分发的过程，称为负载均衡。</span></p><p><span class="bjh-p">负载均衡在实际项目操作过程中，有硬件负载均衡和软件负载均衡两种，硬件负载均衡也称为硬负载，如 F5 负载均衡，相对造价昂贵成本较高。</span></p><p><span class="bjh-p">但是数据的稳定性安全性等等有非常好的保障，如中国移动中国联通这样的公司才会选择硬负载进行操作。</span></p><p><span class="bjh-p">更多的公司考虑到成本原因，会选择使用软件负载均衡，软件负载均衡是利用现有的技术结合主机硬件实现的一种消息队列分发机制.<br><img src="https://img-blog.csdnimg.cn/20200419223248211.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>Nginx 支持的负载均衡调度算法方式如下：</span></p><p><span class="bjh-p">①weight 轮询（默认）：接收到的请求按照顺序逐一分配到不同的后端服务器，即使在使用过程中，某一台后端服务器宕机，Nginx 会自动将该服务器剔除出队列，请求受理情况不会受到任何影响。</span></p><p><span class="bjh-p">这种方式下，可以给不同的后端服务器设置一个权重值（weight），用于调整不同的服务器上请求的分配率。</span></p><p><span class="bjh-p">权重数据越大，被分配到请求的几率越大；该权重值，主要是针对实际工作环境中不同的后端服务器硬件配置进行调整的。</span></p><p><span class="bjh-p">②ip_hash：每个请求按照发起客户端的 ip 的 hash 结果进行匹配，这样的算法下一个固定 ip 地址的客户端总会访问到同一个后端服务器，这也在一定程度上解决了集群部署环境下 Session 共享的问题。</span></p><p><span class="bjh-p">③fair：智能调整调度算法，动态的根据后端服务器的请求处理到响应的时间进行均衡分配。</span></p><p><span class="bjh-p">响应时间短处理效率高的服务器分配到请求的概率高，响应时间长处理效率低的服务器分配到的请求少，它是结合了前两者的优点的一种调度算法。</span></p><p><span class="bjh-p">但是需要注意的是 Nginx 默认不支持 fair 算法，如果要使用这种调度算法，请安装 upstream_fair 模块。</span></p><p><span class="bjh-p">④url_hash：按照访问的 URL 的 hash 结果分配请求，每个请求的 URL 会指向后端固定的某个服务器，可以在 Nginx 作为静态服务器的情况下提高缓存效率。</span></p><p><span class="bjh-p">同样要注意 Nginx 默认不支持这种调度算法，要使用的话需要安装 Nginx 的 hash 软件包。</span></p><p><span class="bjh-p">Web 服务器对比</span></p><p><span class="bjh-p">几种常用 Web 服务器对比如下图：<br><img src="https://img-blog.csdnimg.cn/20200419223117100.jpeg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <div>
@@ -1171,10 +1173,8 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
   <entry>
     <title>spring boot下整合dubbo和zookeeper</title>
     <url>/myblog/spring-boot/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/</url>
-    <content><![CDATA[<a id="more"></a>
-
-
-<p>本章主要说下dubbo和zookeeper的概念，以及在基于springboot框架搭建dubbo+zookeeper分布式服务架构。</p>
+    <content><![CDATA[<p>本章主要说下dubbo和zookeeper的概念，以及在基于springboot框架搭建dubbo+zookeeper分布式服务架构。</p>
+<a id="more"></a>
 <p>什么是dubbo：</p>
 <blockquote>
 <p>dubbo框架：dubbo是阿里巴巴soa服务化治理方案的核心框架，是一个分布式服务的框架，致力于提高性能和透明化rpc远程服务调用方案，以及soa服务治理方案。</p>
@@ -1456,12 +1456,9 @@ shiro提供了SimpleHash类帮助我们快速加密：</p>
   <entry>
     <title>SpringBoot项目整合ELK、kafka</title>
     <url>/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/</url>
-    <content><![CDATA[<a id="more"></a>
-
-
-<div class="htmledit_views" id="content_views">
+    <content><![CDATA[<div class="htmledit_views" id="content_views">
                                             <p>本篇文章主要介绍使用Spring Boot整合log4j，配合ELK（Elasticsearch , Logstash, Kibana）整合Kafka完成日志收集，应用场景比较多的是分布式项目，这样可以直接收集各个节点的日志到一起，便于错误日志查看和分析业务。</p>
-
+<a id="more"></a>
 <p><span style="color:#f33b45;">整个流程如下：</span></p>
 
 <p><span style="color:#f33b45;">使用log4j的appender发送数据到kafka到topic，topic再发送到logstash，然后经过elasticsearch分析处理后到kibana页面做查询展示。</span></p>
