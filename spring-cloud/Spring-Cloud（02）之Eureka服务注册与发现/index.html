@@ -54,7 +54,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200429100208836.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200429100615475.png#pic_center">
 <meta property="article:published_time" content="2020-04-28T16:51:45.000Z">
-<meta property="article:modified_time" content="2020-05-04T10:17:53.245Z">
+<meta property="article:modified_time" content="2020-05-04T10:56:27.644Z">
 <meta property="article:author" content="chfsun">
 <meta property="article:tag" content="cloud Eureka">
 <meta name="twitter:card" content="summary">
@@ -248,7 +248,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-04 18:17:53" itemprop="dateModified" datetime="2020-05-04T18:17:53+08:00">2020-05-04</time>
+                <time title="修改时间：2020-05-04 18:56:27" itemprop="dateModified" datetime="2020-05-04T18:56:27+08:00">2020-05-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -334,7 +334,8 @@
 <p><img src="https://img-blog.csdnimg.cn/20200429100615475.png#pic_center" alt="在这里插入图片描述"><br>Eureka用到的配置：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">eureka:</span><br><span class="line">  client: <span class="comment">#eureka客户端配置</span></span><br><span class="line">    register-with-eureka: <span class="literal">true</span> <span class="comment">#是否将自己注册到eureka服务端上去</span></span><br><span class="line">    fetch-registry: <span class="literal">true</span> <span class="comment">#是否获取eureka服务端上注册的服务列表</span></span><br><span class="line">    service-url:</span><br><span class="line">      defaultZone: http://localhost:8001/eureka/ <span class="comment"># 指定注册中心地址</span></span><br><span class="line">    enabled: <span class="literal">true</span> <span class="comment"># 启用eureka客户端</span></span><br><span class="line">    registry-fetch-interval-seconds: 30 <span class="comment">#定义去eureka服务端获取服务列表的时间间隔</span></span><br><span class="line">  instance: <span class="comment">#eureka客户端实例配置</span></span><br><span class="line">    lease-renewal-interval-in-seconds: 30 <span class="comment">#定义服务多久去注册中心续约</span></span><br><span class="line">    lease-expiration-duration-in-seconds: 90 <span class="comment">#定义服务多久不去续约认为服务失效</span></span><br><span class="line">    metadata-map:</span><br><span class="line">      zone: guangdong <span class="comment">#所在区域</span></span><br><span class="line">    hostname: localhost <span class="comment">#服务主机名称</span></span><br><span class="line">    prefer-ip-address: <span class="literal">false</span> <span class="comment">#是否优先使用ip来作为主机名</span></span><br><span class="line">  server: <span class="comment">#eureka服务端配置</span></span><br><span class="line">    <span class="built_in">enable</span>-self-preservation: <span class="literal">false</span> <span class="comment">#关闭eureka服务端的保护机制</span></span><br></pre></td></tr></table></figure>
 
-
+<h2><a name="t25"></a><a name="t25"></a><a id="_542"></a>项目源码地址</h2>
+<p><a href="https://github.com/chfsun/springcloud-learning" target="_blank" rel="noopener">GitHub项目源码地址</a></p>
     </div>
 
     
@@ -434,7 +435,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka简介"><span class="nav-number">1.</span> <span class="nav-text">Eureka简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、搭建Eureka注册中心"><span class="nav-number">2.</span> <span class="nav-text">一、搭建Eureka注册中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、搭建Eureka客户端"><span class="nav-number">3.</span> <span class="nav-text">二、搭建Eureka客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-搭建Eureka注册中心集群"><span class="nav-number">4.</span> <span class="nav-text">三、 搭建Eureka注册中心集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、为Eureka注册中心添加安全访问认证"><span class="nav-number">5.</span> <span class="nav-text">四、为Eureka注册中心添加安全访问认证</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Eureka简介"><span class="nav-number">1.</span> <span class="nav-text">Eureka简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、搭建Eureka注册中心"><span class="nav-number">2.</span> <span class="nav-text">一、搭建Eureka注册中心</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、搭建Eureka客户端"><span class="nav-number">3.</span> <span class="nav-text">二、搭建Eureka客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-搭建Eureka注册中心集群"><span class="nav-number">4.</span> <span class="nav-text">三、 搭建Eureka注册中心集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、为Eureka注册中心添加安全访问认证"><span class="nav-number">5.</span> <span class="nav-text">四、为Eureka注册中心添加安全访问认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">6.</span> <span class="nav-text">项目源码地址</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
