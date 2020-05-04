@@ -9,34 +9,24 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
 
 <link rel="stylesheet" href="/myblog/css/main.css">
 
 
 <link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
-  <link rel="stylesheet" href="/myblog/lib/pace/pace-theme-minimal.min.css">
-  <script src="/myblog/lib/pace/pace.min.js"></script>
-  <script>
-      (function(){
-          if(''){
-              if (prompt('请输入文章密码') !== ''){
-                  alert('密码错误');
-                  history.back();
-              }
-          }
-      })();
-  </script>
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"b2t":true,"onmobile":false,"scrollpercent":true},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="本篇文章主要介绍使用Spring Boot整合log4j，配合ELK（Elasticsearch , Logstash, Kibana）整合Kafka完成日志收集，应用场景比较多的是分布式项目，这样可以直接收集各个节点的日志到一起，便于错误日志查看和分析业务。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot项目整合ELK、kafka">
 <meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/index.html">
-<meta property="og:site_name" content="守望者">
+<meta property="og:site_name" content="梦.星河">
 <meta property="og:description" content="本篇文章主要介绍使用Spring Boot整合log4j，配合ELK（Elasticsearch , Logstash, Kibana）整合Kafka完成日志收集，应用场景比较多的是分布式项目，这样可以直接收集各个节点的日志到一起，便于错误日志查看和分析业务。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190302173422381.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pqaF83NDYxNDAxMjk=,size_16,color_FFFFFF,t_70">
@@ -72,7 +62,7 @@
   };
 </script>
 
-  <title>SpringBoot项目整合ELK、kafka | 守望者</title>
+  <title>SpringBoot项目整合ELK、kafka | 梦.星河</title>
   
 
 
@@ -123,10 +113,10 @@
 
     <a href="/myblog/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">守望者</h1>
+      <h1 class="site-title">梦.星河</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">记录学习的技能和遇到的问题</p>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
   </div>
 
   <div class="site-nav-right">
@@ -146,19 +136,24 @@
     <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">8</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -226,7 +221,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="守望者">
+      <meta itemprop="name" content="梦.星河">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -260,6 +255,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -437,8 +439,9 @@
 
 
       <footer class="post-footer">
+          
           <div class="post-tags">
-              <a href="/myblog/tags/boot/" rel="tag"># boot</a>
+              <a href="/myblog/tags/boot/" rel="tag"><i class="fa fa-tag"></i> boot</a>
           </div>
 
         
@@ -594,11 +597,29 @@
   本站访客数:<span id="busuanzi_value_site_uv"></span>
 </span>
 </div>
-<!--
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
-  </div> -->
+<!-- -->
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -612,6 +633,7 @@
   </div>
 
   
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
   <script src="/myblog/lib/anime.min.js"></script>
   <script src="/myblog/lib/velocity/velocity.min.js"></script>
   <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
@@ -630,6 +652,15 @@
 
 
   
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
 
 
 
@@ -653,6 +684,18 @@
 
   
 
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/',]
+      });
+      });
+  </script>
+
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
 <script>
@@ -665,7 +708,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       owner       : 'chfsun',
       admin       : ['chfsun'],
       id          : 'bf29e3a40a608175c2a2525c4b951d56',
-        language: '',
+        language: 'zh-CN',
       distractionFreeMode: true
     });
     gitalk.render('gitalk-container');
