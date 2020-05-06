@@ -157,7 +157,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">14</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -314,7 +314,7 @@
 <div id="content_views" class="markdown_views prism-atom-one-dark">
                     <!-- flowchart 箭头图标 勿删 -->
                     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"/>
                     </svg>
                                             <div id="article_content" class="article_content clearfix csdn-tracking-statistics">
 
@@ -368,7 +368,7 @@
 </blockquote>
 <p>&nbsp;</p>
 <p><strong>（一）性能</strong><br>
-如下图所示，我们在碰到需要执行耗时特别久，且结果不频繁变动的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够<strong>迅速响应</strong>。<br><img alt="" class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC9ibHNxGcIict6GSmQbA8Rn3RNvHsRkIgW8D97zhnfzNEiamA5C607FnWjg/640?wx_fmt=png"><br><strong>题外话：</strong>忽然想聊一下这个<strong>迅速响应</strong>的标准。其实根据交互效果的不同，这个响应时间没有固定标准。不过曾经有人这么告诉我:"在理想状态下，我们的页面跳转需要在<strong>瞬间</strong>解决，对于页内操作则需要在<strong>刹那</strong>间解决。另外，超过<strong>一弹指</strong>的耗时操作要有进度提示，并且可以随时中止或取消，这样才能给用户最好的体验。"</p>
+如下图所示，我们在碰到需要执行耗时特别久，且结果不频繁变动的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够<strong>迅速响应</strong>。<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC9ibHNxGcIict6GSmQbA8Rn3RNvHsRkIgW8D97zhnfzNEiamA5C607FnWjg/640?wx_fmt=png"><br><strong>题外话：</strong>忽然想聊一下这个<strong>迅速响应</strong>的标准。其实根据交互效果的不同，这个响应时间没有固定标准。不过曾经有人这么告诉我:"在理想状态下，我们的页面跳转需要在<strong>瞬间</strong>解决，对于页内操作则需要在<strong>刹那</strong>间解决。另外，超过<strong>一弹指</strong>的耗时操作要有进度提示，并且可以随时中止或取消，这样才能给用户最好的体验。"</p>
 <p><br>
 那么<strong>瞬间、刹那、一弹指</strong>具体是多少时间呢？</p>
 <p><br>
@@ -378,7 +378,7 @@
 <p>那么，经过周密的计算，一<strong>瞬间</strong>为0.36 秒,一<strong>刹那</strong>有 0.018 秒.一<strong>弹指</strong>长达 7.2 秒。</p>
 <p><br><strong>（二）并发</strong></p>
 <p><br>
-如下图所示，在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问数据库。<br><img alt="" class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC95NCicgQR2aYVARNYzjB1ZlgrL1HIxyicrlnBibQXFB537v6APjAKCoSfA/640?wx_fmt=png"></p>
+如下图所示，在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问数据库。<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC95NCicgQR2aYVARNYzjB1ZlgrL1HIxyicrlnBibQXFB537v6APjAKCoSfA/640?wx_fmt=png"></p>
 <h3><a name="t0"></a><a name="t0"></a>&nbsp;</h3>
 <p>2、使用redis有什么缺点</p>
 <p><strong>&nbsp;</strong></p>
@@ -439,7 +439,7 @@
 <p>于是我们有如下结论<br>
 1、经营方式一就是传统的并发模型，每个I/O流(快递)都有一个新的线程(快递员)管理。<br>
 2、经营方式二就是I/O多路复用。只有单个线程(一个快递员)，通过跟踪每个I/O流的状态(每个快递的送达地点)，来管理多个I/O流。</p>
-<p>下面类比到真实的redis线程模型，如图所示<br><img alt="" class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC93yQahTTjSKTSVBicx4XcyOpD9l00KSyXeDjltA4gmnVpeTYGPuM3e5Q/640?wx_fmt=png"><br>
+<p>下面类比到真实的redis线程模型，如图所示<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC93yQahTTjSKTSVBicx4XcyOpD9l00KSyXeDjltA4gmnVpeTYGPuM3e5Q/640?wx_fmt=png"><br>
 参照上图，简单来说，就是。我们的redis-client在操作的时候，会产生具有不同事件类型的socket。在服务端，有一段I/0多路复用程序，将其置入队列之中。然后，文件事件分派器，依次去队列中取，转发到不同的事件处理器中。</p>
 <p><br>
 需要说明的是，这个I/O多路复用机制，redis还提供了select、epoll、evport、kqueue等多路复用函数库，大家可以自行去了解。</p>
@@ -731,7 +731,7 @@ ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

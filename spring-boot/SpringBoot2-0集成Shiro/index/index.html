@@ -143,7 +143,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">14</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -262,7 +262,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Shiro 整合到 SpringBoot<br>中，并且避开一些小坑，由浅入深，从最基本的配置开始，一步一步加入新的功能。这样理解起来也稍微简单点</p></p>
+        <p>Shiro 整合到 SpringBoot<br>中，并且避开一些小坑，由浅入深，从最基本的配置开始，一步一步加入新的功能。这样理解起来也稍微简单点</p><p></p>
 <a id="more"></a>
 <h1><a name="t0"></a><a name="t0"></a><a id="_2"></a>项目版本：</h1>
 
@@ -290,7 +290,7 @@ Maven配置：
 
 
 
-<div class="hljs-button {2}" data-title="复制"></div></code>
+<div class="hljs-button {2}" data-title="复制"></div>
 <p>shiroConfig 也不复杂，基本就三个方法。再说这三个方法之前，我想给大家说一下shiro的三个核心概念：</p>
 
 <blockquote>
@@ -306,7 +306,7 @@ Maven配置：
 <blockquote>
 <p>shiro的过滤器，可以设置登录页面（<code>setLoginUrl</code>）、权限不足跳转页面（<code>setUnauthorizedUrl</code>）、具体某些页面的权限控制或者身份认证。<br><br><strong>注意：这里是需要设置SecurityManager（<code>setSecurityManager</code>）。</strong><br></p>
 </blockquote>
-<p>默认的过滤器还有：</p>
+</p><p>默认的过滤器还有：</p>
 <blockquote>
 <p>anno、authc、authcBasic、logout、noSessionCreation、perms、port、rest、roles、ssl、user过滤器。</p>
 </blockquote>
@@ -317,7 +317,7 @@ Maven配置：
 <img src="https://img-blog.csdnimg.cn/20190128141511109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JpY2hlbmc0NzY5,size_16,color_FFFFFF,t_70" alt="实现类"><br>
 具体怎么实现的，感兴趣的同学可以看下。由于项目是一个web项目，所以我们使用的是<code>DefaultWebSecurityManager</code> ，然后设置自己的Realm。<br>
 <strong>CustomRealm 方法：</strong><br>
-将 customRealm的实例化交给spring去管理，当然这里也可以利用注解的方式去注入。</p>
+将 customRealm的实例化交给spring去管理，当然这里也可以利用注解的方式去注入。<p></p>
 <h2><a name="t7"></a><a name="t7"></a><a id="customRealm_112"></a>customRealm配置：</h2>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.cj.shirodemo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.*;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authz.SimpleAuthorizationInfo;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.util.ByteSource;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 描述：</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caojing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@create</span> 2019-01-27-13:57</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</span><br><span class="line">        String username = (String) SecurityUtils.getSubject().getPrincipal();</span><br><span class="line">        SimpleAuthorizationInfo info = <span class="keyword">new</span> SimpleAuthorizationInfo();</span><br><span class="line">        Set&amp;lt;String&amp;gt; stringSet = <span class="keyword">new</span> HashSet&amp;lt;&amp;gt;();</span><br><span class="line">        stringSet.add(<span class="string">"user:show"</span>);</span><br><span class="line">        stringSet.add(<span class="string">"user:admin"</span>);</span><br><span class="line">        info.setStringPermissions(stringSet);</span><br><span class="line">        <span class="keyword">return</span> info;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 这里可以注入userService,为了方便演示，我就写死了帐号了密码</span></span><br><span class="line"><span class="comment">     * private UserService userService;</span></span><br><span class="line"><span class="comment">     * &amp;lt;p&amp;gt;</span></span><br><span class="line"><span class="comment">     * 获取即将需要认证的信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken authenticationToken)</span> <span class="keyword">throws</span> AuthenticationException </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"-------身份认证方法--------"</span>);</span><br><span class="line">        String userName = (String) authenticationToken.getPrincipal();</span><br><span class="line">        String userPwd = <span class="keyword">new</span> String((<span class="keyword">char</span>[]) authenticationToken.getCredentials());</span><br><span class="line">        <span class="comment">//根据用户名从数据库获取密码</span></span><br><span class="line">        String password = <span class="string">"123"</span>;</span><br><span class="line">        <span class="keyword">if</span> (userName == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AccountException(<span class="string">"用户名不正确"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!userPwd.equals(password )) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> AccountException(<span class="string">"密码不正确"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(userName, password,getName());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -372,8 +372,8 @@ shiro提供了SimpleHash类帮助我们快速加密：</p>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(<span class="string">"-------身份认证方法--------"</span>);</span><br><span class="line">String userName = (String) authenticationToken.getPrincipal();</span><br><span class="line">String userPwd = <span class="keyword">new</span> String((<span class="keyword">char</span>[]) authenticationToken.getCredentials());</span><br><span class="line"><span class="comment">//根据用户名从数据库获取密码</span></span><br><span class="line">String password = <span class="string">"2415b95d3203ac901e287b76fcef640b"</span>;</span><br><span class="line"><span class="keyword">if</span> (userName == <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> AccountException(<span class="string">"用户名不正确"</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!userPwd.equals(userPwd)) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> AccountException(<span class="string">"密码不正确"</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> SimpleAuthenticationInfo(userName, password,</span><br><span class="line">        ByteSource.Util.bytes(userName + <span class="string">"salt"</span>), getName());</span><br></pre></td></tr></table></figure>
 
-<h2 id="这里唯一需要注意的是："><a href="#这里唯一需要注意的是：" class="headerlink" title="这里唯一需要注意的是："></a><strong><p>这里唯一需要注意的是：</strong></h2><blockquote>
-<p>你注册的加密方式和设置的加密方式还有Realm中身份认证的方式都是要一模一样的。<br> 本文中的加密<br>：MD5两次、salt=username+salt加密。</p></p>
+<h2 id="这里唯一需要注意的是："><a href="#这里唯一需要注意的是：" class="headerlink" title="这里唯一需要注意的是："></a><strong><p>这里唯一需要注意的是：</p></strong></h2><blockquote>
+<p>你注册的加密方式和设置的加密方式还有Realm中身份认证的方式都是要一模一样的。<br> 本文中的加密<br>：MD5两次、salt=username+salt加密。</p><p></p>
 </blockquote>
 <h1><a name="t12"></a><a name="t12"></a><a id="_337"></a>总结：</h1>
 
@@ -383,7 +383,7 @@ shiro提供了SimpleHash类帮助我们快速加密：</p>
 
 
 
-</div>
+
     </div>
 
     
@@ -499,7 +499,7 @@ Maven配置：
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

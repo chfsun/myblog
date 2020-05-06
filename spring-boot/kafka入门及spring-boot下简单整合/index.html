@@ -154,7 +154,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">14</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -277,18 +277,18 @@
 <h3>1. 下载Kafka</h3>
 网址：http://kafka.apache.org/
 <a id="more"></a>
-<br/>
+<br>
 <p>解压缩：<br>
-<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zYzQ3M2MwNDc1MmFmZWZkLnBuZw?x-oss-process=image/format,png" alt=""><br>
-<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1jMWQ1Mzk2ZWNhMGM1N2RjLnBuZw?x-oss-process=image/format,png" alt=""></p>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zYzQ3M2MwNDc1MmFmZWZkLnBuZw?x-oss-process=image/format,png" alt><br>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1jMWQ1Mzk2ZWNhMGM1N2RjLnBuZw?x-oss-process=image/format,png" alt></p>
 <h3><a name="t1"></a><a name="t1"></a><a id="2__8"></a>2. 修改配置文件</h3>
 <p>进入到config目录，修改service.properties：</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zNWZhZjQ5YWVmNjUzODQyLnBuZw?x-oss-process=image/format,png" alt="">
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC0zNWZhZjQ5YWVmNjUzODQyLnBuZw?x-oss-process=image/format,png" alt>
 broker.id设置：https://cloud.tencent.com/developer/news/378568
 
 <br>
 更改为自行创建的文件夹
-<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1hNGY2ZTNiMmU1ZGYyNzk2LnBuZw?x-oss-process=image/format,png" alt=""></p>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1hNGY2ZTNiMmU1ZGYyNzk2LnBuZw?x-oss-process=image/format,png" alt></p>
 <h3><a name="t2"></a><a name="t2"></a><a id="3__15"></a>3. 进行单机实例测试简单使用</h3>
 <h5><a name="t3"></a><a name="t3"></a><a id="1_kafkazookeeper_17"></a>(1) 启动kafka内置的zookeeper</h5>
 <p>运行cmd命令：<br>
@@ -318,7 +318,7 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
 <h5><a name="t8"></a><a name="t8"></a><a id="6__62"></a>(6) 测试消息发送和接收</h5>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly91cGxvYWQtaW1hZ2VzLmppYW5zaHUuaW8vdXBsb2FkX2ltYWdlcy8xNTEwODI5OC1kNmZkMjUyOTBiNzFkMmZlLnBuZw?x-oss-process=image/format,png" alt="测试"></p>
 <p>测试成功。</p>
-<br/>
+<br>
 ## 常用命令：
 
 <h3>删除topic：</h3>
@@ -345,7 +345,7 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
 
 <p>彻底删除topic：</p>
 <p> 1、删除kafka存储目录（server.properties文件log.dirs配置，默认为”/tmp/kafka-logs”）相关topic目录</p>
-<p> 2、如果配置了delete.topic.enable=true直接通过命令删除，如果命令删除不掉，直接通过zookeeper-client 删除掉broker下的topic即可。<br><br/></p>
+<p> 2、如果配置了delete.topic.enable=true直接通过命令删除，如果命令删除不掉，直接通过zookeeper-client 删除掉broker下的topic即可。<br><br></p>
 <h2 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h2><ul>
 <li>kafka是伪集群，因为虚拟机有限，zookeeper也是集群</li>
 </ul>
@@ -362,10 +362,10 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
 <blockquote>
 <p>1.Producer API允许了应用可以向Kafka中的topics发布消息；<br>2.Consumer API允许了应用可以订阅Kafka中的topics,并消费消息；<br>3.Streams API允许应用可以作为消息流的处理者，比如可以从topicA中消费消息，处理的结果发布到topicB中；<br>4.Connector API提供Kafka与现有的应用或系统适配功能，比如与数据库连接器可以捕获表结构的变化；</p>
 </blockquote>
-<br/>
+<br>
 
 <blockquote>
-<p>Topic —&gt; 每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic. Producer —&gt; 负责发布消息到Kafka<br>broker. Consumer —&gt; 消息消费者，向Kafka broker读取消息的客户端.<br><br/></p>
+<p>Topic —&gt; 每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic. Producer —&gt; 负责发布消息到Kafka<br>broker. Consumer —&gt; 消息消费者，向Kafka broker读取消息的客户端.<br><br></p>
 </blockquote>
 <p>更多请查看官网：<a href="http://kafka.apachecn.org/" target="_blank" rel="noopener">http://kafka.apachecn.org/</a></p>
 <h2 id="spring-boot整合kafka"><a href="#spring-boot整合kafka" class="headerlink" title="spring boot整合kafka"></a>spring boot整合kafka</h2><p><em>PS:当前demo是基于注解实现</em></p>
@@ -520,7 +520,7 @@ broker.id设置：https://cloud.tencent.com/developer/news/378568
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
