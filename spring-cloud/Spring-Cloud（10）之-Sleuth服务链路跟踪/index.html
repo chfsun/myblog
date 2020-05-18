@@ -22,20 +22,28 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="代码提交1、初始化 1git init  2、添加 1git add .">
+  <meta name="description" content="一、Spring Cloud Sleuth 简介随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git常用命令">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/github/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:title" content="Spring Cloud（10）之 Sleuth服务链路跟踪">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/index.html">
 <meta property="og:site_name" content="梦.星河">
-<meta property="og:description" content="代码提交1、初始化 1git init  2、添加 1git add .">
+<meta property="og:description" content="一、Spring Cloud Sleuth 简介随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-04-14T06:18:39.000Z">
-<meta property="article:modified_time" content="2020-05-14T06:27:50.215Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020051711233250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112737606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112828927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020051711503599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517115121447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-05-03T14:37:25.000Z">
+<meta property="article:modified_time" content="2020-05-17T04:01:09.787Z">
 <meta property="article:author" content="chfsun">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="cloud">
+<meta property="article:tag" content="sleuth">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/github/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/">
 
 
 <script id="page-configurations">
@@ -48,7 +56,7 @@
   };
 </script>
 
-  <title>git常用命令 | 梦.星河</title>
+  <title>Spring Cloud（10）之 Sleuth服务链路跟踪 | 梦.星河</title>
   
 
 
@@ -129,7 +137,7 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">19</span></a>
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
@@ -139,7 +147,7 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">23</span></a>
 
   </li>
         <li class="menu-item menu-item-talkabout">
@@ -203,7 +211,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/github/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -216,7 +224,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          git常用命令
+          Spring Cloud（10）之 Sleuth服务链路跟踪
         </h1>
 
         <div class="post-meta">
@@ -226,14 +234,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-14 14:18:39" itemprop="dateCreated datePublished" datetime="2020-04-14T14:18:39+08:00">2020-04-14</time>
+              <time title="创建时间：2020-05-03 22:37:25" itemprop="dateCreated datePublished" datetime="2020-05-03T22:37:25+08:00">2020-05-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-14 14:27:50" itemprop="dateModified" datetime="2020-05-14T14:27:50+08:00">2020-05-14</time>
+                <time title="修改时间：2020-05-17 12:01:09" itemprop="dateModified" datetime="2020-05-17T12:01:09+08:00">2020-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,7 +249,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/github/" itemprop="url" rel="index"><span itemprop="name">github</span></a>
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
                 </span>
             </span>
 
@@ -263,31 +271,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="代码提交"><a href="#代码提交" class="headerlink" title="代码提交"></a>代码提交</h2><p>1、初始化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-
-<p>2、添加</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+        <h2 id="一、Spring-Cloud-Sleuth-简介"><a href="#一、Spring-Cloud-Sleuth-简介" class="headerlink" title="一、Spring Cloud Sleuth 简介"></a>一、Spring Cloud Sleuth 简介</h2><p>随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。</p>
 <a id="more"></a>
-<p>3、备注</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">'add'</span></span><br></pre></td></tr></table></figure>
-<p>4、推送到仓库,</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p>Sleuth 是分布式系统中跟踪服务间调用的工具，它可以直观地展示出一次请求的调用过程。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h2 id="二、整合Zipkin获取及分析日志"><a href="#二、整合Zipkin获取及分析日志" class="headerlink" title="二、整合Zipkin获取及分析日志"></a>二、整合Zipkin获取及分析日志</h2><p>1、为服务添加请求链路跟踪</p>
 <blockquote>
-<p>PS:此处是推送到master分支下</p>
+<p>在原有项目模块基础上，通过ribbon-orcl-server-service 和 ribbon-orcl-client-service 之间的服务调用来演示该功能，这里我们调用 ribbon-orcl-client-service 的接口时，ribbon-orcl-client-service 会通过RestTemplate来调用ribbon-orcl-server-service 提供的接口。</p>
 </blockquote>
-<h2 id="创建分支并切换"><a href="#创建分支并切换" class="headerlink" title="创建分支并切换"></a>创建分支并切换</h2><p>1）新建分支</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">git branch <span class="title">xxx</span> <span class="params">(xxx填写你的分支名称)</span></span></span><br></pre></td></tr></table></figure>
-<p>2）查看所有分支</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
-<p>3）切换到某一分支</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">git checkout <span class="title">xxx</span> <span class="params">(xxx填写要切换的分支名称）</span></span></span><br></pre></td></tr></table></figure>
-<p>4）添加修改代码到缓存（注意最后的”.”前面有个空格</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
-<p>5）添加提交代码的备注</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">"xxx"</span> （xxx为本次提交代码的备注）</span><br></pre></td></tr></table></figure>
-<p>6）提交代码到指定分支</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin xxx （xxx为要提交代码的分支名称）</span><br></pre></td></tr></table></figure>
+<p>为ribbon-orcl-server-service和ribbon-orcl-server-service 添加相关依赖：</p>
+<p>pom文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件配置收集日志的zipkin-server访问地址：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 8201</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">application</span>:</span><br><span class="line">    <span class="selector-tag">name</span>: <span class="selector-tag">ribbon-orcl-server-service</span></span><br><span class="line"><span class="selector-tag">zipkin</span>:</span><br><span class="line">  base-url: http://localhost:9411</span><br><span class="line">   #设置<span class="selector-tag">Sleuth</span>的抽样收集概率</span><br><span class="line">  <span class="selector-tag">sleuth</span>:</span><br><span class="line">    <span class="selector-tag">sampler</span>:</span><br><span class="line">      <span class="selector-tag">probability</span>: 0<span class="selector-class">.1</span></span><br></pre></td></tr></table></figure>
+
+<p>2、整合Zipkin获取及分析日志</p>
+<blockquote>
+<p>Zipkin是Twitter的一个开源项目，可以用来获取和分析Spring Cloud Sleuth 中产生的请求链路跟踪日志，它提供了Web界面来帮助我们直观地查看请求链路跟踪信息</p>
+</blockquote>
+<p>SpringBoot 2.0以上版本已经不需要自行搭建zipkin-server，我们可以从该地址下载zipkin-server：<a href="https://repo1.maven.org/maven2/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9-exec.jar" target="_blank" rel="nofollow noopener">repo1.maven.org/maven2/io/z…</a></p>
+<p>下载完成后使用以下命令运行zipkin-server：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-<span class="number">2.12</span><span class="number">.9</span>-exec.jar</span><br></pre></td></tr></table></figure>
+
+<p>Zipkin页面访问地址：<a href="http://localhost:9411" target="_blank" rel="noopener">http://localhost:9411</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">3、依次启动模块 启动eureka-sever，ribbon-orcl-server-service，ribbon-orcl-client-service</p>
+<p><img src="https://img-blog.csdnimg.cn/2020051711233250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>4、多次调用（Sleuth为抽样收集）ribbon-orcl-client-service<br>的接口 <a href="http://localhost:8301/ribbon/1，调用完后查看Zipkin首页发现已经有请求链路跟踪信息了：" target="_blank" rel="noopener">http://localhost:8301/ribbon/1，调用完后查看Zipkin首页发现已经有请求链路跟踪信息了：</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200517112737606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>点击查看详情可以直观地看到请求调用链路和通过每个服务的耗时：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200517112828927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="三、使用Elasticsearch存储跟踪信息"><a href="#三、使用Elasticsearch存储跟踪信息" class="headerlink" title="三、使用Elasticsearch存储跟踪信息"></a>三、使用Elasticsearch存储跟踪信息</h2><blockquote>
+<p>如果我们把zipkin-server重启一下就会发现刚刚的存储的跟踪信息全部丢失了，可见其是存储在内存中的，有时候我们需要将所有信息存储下来，这里以存储到Elasticsearch为例，来演示下该功能:</p>
+</blockquote>
+<p>1、配置好es、bibana并启动，如果不知道怎么使用可看 <a href="https://chfsun.gitee.io/myblog/spring-cloud/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">es、kibana使用</a></p>
+<p>2、修改Zipkin启动参数将信息存储到Elasticsearch：</p>
+<blockquote>
+<p>STORAGE_TYPE：表示存储类型 ES_HOSTS：表示ES的访问地址</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-<span class="number">2.12</span><span class="number">.9</span>-exec.jar --STORAGE_TYPE=elasticsearch --ES_HOSTS=localhost:<span class="number">9200</span></span><br></pre></td></tr></table></figure>
+<p>3、重新启动ribbon-orcl-server-service和ribbon-orcl-server-service才能生效，重启后多次调用ribbon-service的接口 <a href="http://localhost:8301/ribbon/1：" target="_blank" rel="noopener">http://localhost:8301/ribbon/1：</a></p>
+<p>4、打开 <a href="http://localhost:5601/，可查看到界面信息：" target="_blank" rel="noopener">http://localhost:5601/，可查看到界面信息：</a></p>
+<p><img src="https://img-blog.csdnimg.cn/2020051711503599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200517115121447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>5、此时即使关闭zipkin，再重新启动，发现数据依然存在</p>
+<h2 id="四、本章使用到的模块"><a href="#四、本章使用到的模块" class="headerlink" title="四、本章使用到的模块"></a>四、本章使用到的模块</h2><p>springcloud-learning<br>├── eureka-server – eureka注册中心<br>├── ribbon-orcl-server-service – 服务提供者<br>└── ribbon-orcl-client-service– 服务调用者</p>
+<p><strong><a href="https://github.com/chfsun/springcloud-learning" target="_blank" rel="noopener">GitHub项目源码地址</a></strong></p>
 
     </div>
 
@@ -313,7 +337,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/myblog/tags/git/" rel="tag"><i class="fa fa-tag"></i> git</a>
+              <a href="/myblog/tags/cloud/" rel="tag"><i class="fa fa-tag"></i> cloud</a>
+              <a href="/myblog/tags/sleuth/" rel="tag"><i class="fa fa-tag"></i> sleuth</a>
           </div>
 
         
@@ -321,10 +346,13 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/myblog/spring-cloud/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="next" title="elasticsearch-6.2.2 + kibana-6.2.2-windows-x86_64安装配置">
-      elasticsearch-6.2.2 + kibana-6.2.2-windows-x86_64安装配置 <i class="fa fa-chevron-right"></i>
+    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8809%EF%BC%89%E4%B9%8B-Bus%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF/" rel="prev" title="Spring Cloud（09）之 Bus消息总线">
+      <i class="fa fa-chevron-left"></i> Spring Cloud（09）之 Bus消息总线
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -386,7 +414,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码提交"><span class="nav-number">1.</span> <span class="nav-text">代码提交</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建分支并切换"><span class="nav-number">2.</span> <span class="nav-text">创建分支并切换</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Spring-Cloud-Sleuth-简介"><span class="nav-number">1.</span> <span class="nav-text">一、Spring Cloud Sleuth 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、整合Zipkin获取及分析日志"><span class="nav-number">3.</span> <span class="nav-text">二、整合Zipkin获取及分析日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、使用Elasticsearch存储跟踪信息"><span class="nav-number">4.</span> <span class="nav-text">三、使用Elasticsearch存储跟踪信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、本章使用到的模块"><span class="nav-number">5.</span> <span class="nav-text">四、本章使用到的模块</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -402,7 +430,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -415,7 +443,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/myblog/tags">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -560,7 +588,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/github/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/',]
       });
       });
   </script>
@@ -576,7 +604,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : '4a3953114d379b9fd5b669d635997c96',
+      id          : '12c1f79be6d7e7b43fba04185edabab0',
         language: 'zh-CN',
       distractionFreeMode: true
     });
