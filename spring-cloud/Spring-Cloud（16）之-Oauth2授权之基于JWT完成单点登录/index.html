@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="单点登录简介单点登录(SingleSign-On，SSO)，就是通过用户的一次性鉴别登录。当用户在身份认证服务器上登录一次以后，即可获得访问单点登录系统中其他关联系统和应用软件的权限，同时这种实现是不需要管理员对用户的登录状态或其他信息进行修改的，这意味着在多个应用系统中，用户只需一次登录就可以访问所有相互信任的应用系统。这种方式减少了由登录产生的时间消耗，辅助了用户管理，是目前比较流行的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud（16）之 Oauth2授权之基于JWT完成单点登录">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8816%EF%BC%89%E4%B9%8B-Oauth2%E6%8E%88%E6%9D%83%E4%B9%8B%E5%9F%BA%E4%BA%8EJWT%E5%AE%8C%E6%88%90%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/index.html">
+<meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="单点登录简介单点登录(SingleSign-On，SSO)，就是通过用户的一次性鉴别登录。当用户在身份认证服务器上登录一次以后，即可获得访问单点登录系统中其他关联系统和应用软件的权限，同时这种实现是不需要管理员对用户的登录状态或其他信息进行修改的，这意味着在多个应用系统中，用户只需一次登录就可以访问所有相互信任的应用系统。这种方式减少了由登录产生的时间消耗，辅助了用户管理，是目前比较流行的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524220551769.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524220636614.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524221423434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524221922173.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524221824740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524222107617.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524223943156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020052423080655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524234331122.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524234352603.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524234414526.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200524234431613.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-05-03T14:39:18.000Z">
+<meta property="article:modified_time" content="2020-05-24T15:46:56.586Z">
+<meta property="article:author" content="chfsun">
+<meta property="article:tag" content="cloud">
+<meta property="article:tag" content="SSO">
+<meta property="article:tag" content="oauth2">
+<meta property="article:tag" content="CAS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200524220551769.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8816%EF%BC%89%E4%B9%8B-Oauth2%E6%8E%88%E6%9D%83%E4%B9%8B%E5%9F%BA%E4%BA%8EJWT%E5%AE%8C%E6%88%90%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring Cloud（16）之 Oauth2授权之基于JWT完成单点登录 | 梦.星河</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">梦.星河</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">28</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">27</span></a>
+
+  </li>
+        <li class="menu-item menu-item-talkabout">
+
+    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8816%EF%BC%89%E4%B9%8B-Oauth2%E6%8E%88%E6%9D%83%E4%B9%8B%E5%9F%BA%E4%BA%8EJWT%E5%AE%8C%E6%88%90%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring Cloud（16）之 Oauth2授权之基于JWT完成单点登录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-03 22:39:18" itemprop="dateCreated datePublished" datetime="2020-05-03T22:39:18+08:00">2020-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-24 23:46:56" itemprop="dateModified" datetime="2020-05-24T23:46:56+08:00">2020-05-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="单点登录简介"><a href="#单点登录简介" class="headerlink" title="单点登录简介"></a>单点登录简介</h2><p>单点登录(SingleSign-On，SSO)，就是通过用户的一次性鉴别登录。当用户在身份认证服务器上登录一次以后，即可获得访问单点登录系统中其他关联系统和应用软件的权限，同时这种实现是不需要管理员对用户的登录状态或其他信息进行修改的，这意味着在多个应用系统中，用户只需一次登录就可以访问所有相互信任的应用系统。这种方式减少了由登录产生的时间消耗，辅助了用户管理，是目前比较流行的</p>
+<a id="more"></a>
+<p>在日常生活中，很多人由于忘记某些网站的登录密码而烦恼，因为大多数用户都要记忆不少于10个用户名和相应密码。</p>
+<p>为了便于记忆，很多人都在不同的站点使用相同的用户名和密码，虽然这样可以减少负担，但是同时也降低了安全性，而且使用不同的站点同样要进行多次登录。</p>
+<p>同时，随着信息化飞速发展，大型企业和政府部门等都开始使用电子系统进行办公，而且整个办公系统由多个不同的子系统构成，如办公自动化(OA)系统，财务管理系统，档案管理系统，信息查询系统等。如果每个系统都使用独立的登录和验证机制，那么每天工作人员都要登录不同的系统进行办公。用户登录的频繁操作，降低了员工的工作效率，造成工作成本的浪费。</p>
+<p>而大量的密码和用户名的记忆时间长了也会出现问题，忘记密码或者混淆密码都会造成很大的麻烦。基于以上原因，为用户提供一个畅通的登录通道变得十分重要。</p>
+<p>单点登录(SingleSign-On，SSO)是一种帮助用户快捷访问网络中多个站点的安全通信技术。单点登录系统基于一种安全的通信协议，该协议通过多个系统之间的用户身份信息的交换来实现单点登录。使用单点登录系统时，用户只需要登录一次，就可以访问多个系统，不需要记忆多个口令密码。单点登录使用户可以快速访问网络，从而提高工作效率，同时也能帮助提高系统的安全性。</p>
+<p>当然，我们这里主要讨论的是Web系统，确切地讲，应该叫Web SSO。</p>
+<h2 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h2><p>我们可以看下阿里生态：</p>
+<p>阿里目前给用户提供的服务很庞大，种类也很繁多，我们看几个典型系统应用：淘宝应用、 天猫应用、阿里旅游。这些应用，当用户访问时，都需要登录。</p>
+<p>显然，对用户来说，他不希望每个子应用分别登录，因为这都是阿里服务，在用户看来，就相当于一个大系统。</p>
+<p>当我在一个应用如淘宝上登录后，再访问阿里旅游、天猫等其它系统，我们发现，系统都显示已登录状态。</p>
+<p>当在任意一系统退出登录后，再刷新访问其它系统，均已显示登出状态。</p>
+<p>可以看出，阿里实现了SSO。实际上，几乎所有提供复杂服务的互联网公司，都实现了SSO，如阿里、百度、新浪、网易、腾讯、58…</p>
+<p><strong>SSO问题，是大中型Web应用经常碰到的问题，</strong><strong>是Java架构师需要掌握的必备技能之一</strong>。中高级以上Web工程师都应对它有个了解。</p>
+<p><strong>应用缺点</strong><br>1）不利于重构</p>
+<blockquote>
+<p>因为涉及到的系统很多，要重构必须要兼容所有的系统，可能很耗时</p>
+</blockquote>
+<p>2） 无人看守桌面</p>
+<blockquote>
+<p>因为只需要登录一次，所有的授权的应用系统都可以访问，可能导致一些很重要的信息泄露。</p>
+</blockquote>
+<h2 id="Demo-示例"><a href="#Demo-示例" class="headerlink" title="Demo 示例"></a>Demo 示例</h2><p>这里我们创建一个oauth2-client服务作为需要登录的客户端服务，使用上一节中的oauth2-jwt-server服务作为授权服务，当我们在oauth2-jwt-server服务上登录以后，就可以直接访问oauth2-client需要登录的接口，来演示下SSO功能</p>
+<p>1、创建模块 oauth2-client </p>
+<p>2、pom.xml中添加相关依赖：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-oauth2&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-security&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency</span><br></pre></td></tr></table></figure>
+<p>3、application.yml中配置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 9501</span><br><span class="line">  <span class="selector-tag">servlet</span>:</span><br><span class="line">    <span class="selector-tag">session</span>:</span><br><span class="line">      <span class="selector-tag">cookie</span>:</span><br><span class="line">        # 防止<span class="selector-tag">cookie</span>冲突，冲突会导致登录验证不通过</span><br><span class="line">        <span class="selector-tag">name</span>: <span class="selector-tag">OAUTH2-CLIENT-SESSIONID</span></span><br><span class="line"></span><br><span class="line">oauth2-jwt-server-url: http://localhost:9401</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">application</span>:</span><br><span class="line">    <span class="selector-tag">name</span>: <span class="selector-tag">oauth2-client</span></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">security</span>:</span><br><span class="line">  # 与<span class="selector-tag">oauth2-server</span>对应的配置</span><br><span class="line">  <span class="selector-tag">oauth2</span>:</span><br><span class="line">    <span class="selector-tag">client</span>:</span><br><span class="line">      <span class="selector-tag">client-id</span>: <span class="selector-tag">admin</span></span><br><span class="line">      <span class="selector-tag">client-secret</span>: <span class="selector-tag">admin123456</span></span><br><span class="line">      user-authorization-uri: $&#123;oauth2-jwt-server-url&#125;/oauth/authorize</span><br><span class="line">      access-token-uri: $&#123;oauth2-jwt-server-url&#125;/oauth/token</span><br><span class="line">    <span class="selector-tag">resource</span>:</span><br><span class="line">      <span class="selector-tag">jwt</span>:</span><br><span class="line">        key-uri: $&#123;oauth2-jwt-server-url&#125;/oauth/token_key</span><br></pre></td></tr></table></figure>
+
+<p>4、新建接口用于获取当前登录用户信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/getCurrentUser"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">getCurrentUser</span><span class="params">(Authentication authentication)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> authentication;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、修改授权服务器配置：</p>
+<blockquote>
+<p>修改oauth2-jwt-server模块中的AuthorizationServerConfig类，将绑定的跳转路径为<a href="http://localhost:9501/login，并添加获取秘钥时的身份认证" target="_blank" rel="noopener">http://localhost:9501/login，并添加获取秘钥时的身份认证</a></p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableAuthorizationServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorizationServerConfig</span> <span class="keyword">extends</span> <span class="title">AuthorizationServerConfigurerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="comment">//以上省略一堆代码...</span></span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(ClientDetailsServiceConfigurer clients)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        clients.inMemory()</span><br><span class="line">                <span class="comment">// 配置client_id</span></span><br><span class="line">                .withClient(<span class="string">"admin"</span>)</span><br><span class="line">                <span class="comment">// 配置client_secret</span></span><br><span class="line">                .secret(passwordEncoder.encode(<span class="string">"admin123456"</span>))</span><br><span class="line">                <span class="comment">// 配置访问token的有效期</span></span><br><span class="line">                .accessTokenValiditySeconds(<span class="number">3600</span>)</span><br><span class="line">                <span class="comment">// 配置刷新token的有效期</span></span><br><span class="line">                .refreshTokenValiditySeconds(<span class="number">864000</span>)</span><br><span class="line">                <span class="comment">// 配置redirect_uri,用于授权成功后的跳转</span></span><br><span class="line">                <span class="comment">// .redirectUris("http://www.baidu.com")</span></span><br><span class="line">                <span class="comment">// 单点登录时配置</span></span><br><span class="line">                .redirectUris(<span class="string">"http://localhost:9501/login"</span>)</span><br><span class="line">                <span class="comment">// 配置申请的权限范围</span></span><br><span class="line">                .scopes(<span class="string">"all"</span>)</span><br><span class="line">                <span class="comment">// 配置grant_type,表示授权类型</span></span><br><span class="line">                .authorizedGrantTypes(<span class="string">"authorization_code"</span>, <span class="string">"password"</span>, <span class="string">"refresh_token"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(AuthorizationServerSecurityConfigurer security)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 获取密钥需要身份认证，使用单点登录时必须配置</span></span><br><span class="line">        security.tokenKeyAccess(<span class="string">"isAuthenticated()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6、在启动类上添加@EnableOAuth2Sso注解来启用单点登录功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableOAuth</span>2Sso</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Oauth2ClientApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Oauth2ClientApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7、网页单点登录测试：</p>
+<p>启动oauth2-jwt-server服务和oauth2-client服务：</p>
+<p>访问客户端需要授权的接口  <a href="http://localhost:9501/user/getCurrentUser" target="_blank" rel="noopener">http://localhost:9501/user/getCurrentUser</a> 会跳转到授权服务的登录界面</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524220551769.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200524220636614.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)PS:如果需要跳过授权操作进行自动授权可以添加autoApprove(true)配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configure</span><span class="params">(ClientDetailsServiceConfigurer clients)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	clients.inMemory()</span><br><span class="line">			<span class="comment">// 配置client_id</span></span><br><span class="line">			.withClient(<span class="string">"admin"</span>)</span><br><span class="line">			<span class="comment">// 配置client_secret</span></span><br><span class="line">			.secret(passwordEncoder.encode(<span class="string">"admin123456"</span>))</span><br><span class="line">			<span class="comment">// 配置访问token的有效期</span></span><br><span class="line">			.accessTokenValiditySeconds(<span class="number">3600</span>)</span><br><span class="line">			<span class="comment">// 配置刷新token的有效期</span></span><br><span class="line">			.refreshTokenValiditySeconds(<span class="number">864000</span>)</span><br><span class="line">			<span class="comment">// 配置redirect_uri,用于授权成功后的跳转</span></span><br><span class="line">			<span class="comment">// .redirectUris("http://www.baidu.com")</span></span><br><span class="line">			.redirectUris(<span class="string">"http://localhost:9501/login"</span>)</span><br><span class="line">			<span class="comment">// 自动授权配置</span></span><br><span class="line">			.autoApprove(<span class="keyword">true</span>)</span><br><span class="line">			<span class="comment">// 配置申请的权限范围</span></span><br><span class="line">			.scopes(<span class="string">"all"</span>)</span><br><span class="line">			<span class="comment">// 配置grant_type,表示授权类型</span></span><br><span class="line">			.authorizedGrantTypes(<span class="string">"authorization_code"</span>, <span class="string">"password"</span>, <span class="string">"refresh_token"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="调用接口单点登录演示"><a href="#调用接口单点登录演示" class="headerlink" title="调用接口单点登录演示"></a>调用接口单点登录演示</h5><p>访问客户端需要登录的接口：<a href="http://localhost:9501/user/getCurrentUser" target="_blank" rel="noopener">http://localhost:9501/user/getCurrentUser</a></p>
+<blockquote>
+<p>这里我们使用postman，当然也可以使用postwoman</p>
+</blockquote>
+<p>使用Oauth2认证方式获取访问令牌：<br>1、<br><img src="https://img-blog.csdnimg.cn/20200524221423434.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">2、<br><img src="https://img-blog.csdnimg.cn/20200524221922173.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>3、<br><img src="https://img-blog.csdnimg.cn/20200524221824740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">4、登录并且成功后：<br><img src="https://img-blog.csdnimg.cn/20200524222107617.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>5、最后请求接口可以获取到如下信息：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "authorities": [</span><br><span class="line">        &#123;</span><br><span class="line">            "authority": "admin"</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    "<span class="selector-tag">details</span>": &#123;</span><br><span class="line">        "remoteAddress": "0:0:0:0:0:0:0:1",</span><br><span class="line">        "<span class="selector-tag">sessionId</span>": "5<span class="selector-tag">E09C9C71104B13454AAF495B797DF98</span>",</span><br><span class="line">        "<span class="selector-tag">tokenValue</span>": "<span class="selector-tag">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="selector-class">.eyJ1c2VyX25hbWUiOiJjaGZzdW4iLCJzY29wZSI6WyJhbGwiXSwiZXhwIjoxNTkwMzMzNzk0LCJhcHBfaWQiOiIxMjM0NTYiLCJhdXRob3JpdGllcyI6WyJhZG1pbiJdLCJqdGkiOiI3MTdjYzgzMC0wMThkLTRhOGItYmE2ZC00MGQ3YmExYzVmYTgiLCJjbGllbnRfaWQiOiJhZG1pbiJ9</span><span class="selector-class">.w-HuqHioMrB-ynKzggDw7g9rNZ5FYdZfAG5JwcG71B0</span>",</span><br><span class="line">        "<span class="selector-tag">tokenType</span>": "<span class="selector-tag">bearer</span>",</span><br><span class="line">        "<span class="selector-tag">decodedDetails</span>": <span class="selector-tag">null</span></span><br><span class="line">    &#125;,</span><br><span class="line">    "<span class="selector-tag">authenticated</span>": <span class="selector-tag">true</span>,</span><br><span class="line">    "<span class="selector-tag">userAuthentication</span>": &#123;</span><br><span class="line">        "authorities": [</span><br><span class="line">            &#123;</span><br><span class="line">                "authority": "admin"</span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        "<span class="selector-tag">details</span>": <span class="selector-tag">null</span>,</span><br><span class="line">        "<span class="selector-tag">authenticated</span>": <span class="selector-tag">true</span>,</span><br><span class="line">        "<span class="selector-tag">principal</span>": "<span class="selector-tag">chfsun</span>",</span><br><span class="line">        "credentials": "N/A",</span><br><span class="line">        "<span class="selector-tag">name</span>": "<span class="selector-tag">chfsun</span>"</span><br><span class="line">    &#125;,</span><br><span class="line">    "<span class="selector-tag">principal</span>": "<span class="selector-tag">chfsun</span>",</span><br><span class="line">    "<span class="selector-tag">credentials</span>": "",</span><br><span class="line">    "<span class="selector-tag">clientOnly</span>": <span class="selector-tag">false</span>,</span><br><span class="line">    "<span class="selector-tag">oauth2Request</span>": &#123;</span><br><span class="line">        "clientId": "admin",</span><br><span class="line">        "scope": [</span><br><span class="line">            "<span class="selector-tag">all</span>"</span><br><span class="line">        ],</span><br><span class="line">        "<span class="selector-tag">requestParameters</span>": &#123;</span><br><span class="line">            "client_id": "admin"</span><br><span class="line">        &#125;,</span><br><span class="line">        "<span class="selector-tag">resourceIds</span>": <span class="selector-attr">[]</span>,</span><br><span class="line">        "<span class="selector-tag">authorities</span>": <span class="selector-attr">[]</span>,</span><br><span class="line">        "<span class="selector-tag">approved</span>": <span class="selector-tag">true</span>,</span><br><span class="line">        "<span class="selector-tag">refresh</span>": <span class="selector-tag">false</span>,</span><br><span class="line">        "<span class="selector-tag">redirectUri</span>": <span class="selector-tag">null</span>,</span><br><span class="line">        "<span class="selector-tag">responseTypes</span>": <span class="selector-attr">[]</span>,</span><br><span class="line">        "<span class="selector-tag">extensions</span>": &#123;&#125;,</span><br><span class="line">        "<span class="selector-tag">grantType</span>": <span class="selector-tag">null</span>,</span><br><span class="line">        "<span class="selector-tag">refreshTokenRequest</span>": <span class="selector-tag">null</span></span><br><span class="line">    &#125;,</span><br><span class="line">    "<span class="selector-tag">name</span>": "<span class="selector-tag">chfsun</span>"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="oauth2-client添加权限校验"><a href="#oauth2-client添加权限校验" class="headerlink" title="oauth2-client添加权限校验"></a>oauth2-client添加权限校验</h5><p>1、添加配置开启基于方法的权限校验：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="keyword">true</span>)</span><br><span class="line"><span class="meta">@Order</span>(<span class="number">101</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SecurityConfig</span> <span class="keyword">extends</span> <span class="title">WebSecurityConfigurerAdapter</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2、在UserController中添加需要admin权限的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/getCurrentUser"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">getCurrentUser</span><span class="params">(Authentication authentication)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> authentication;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PreAuthorize</span>(<span class="string">"hasAuthority('admin')"</span>)</span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/auth/admin"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">adminAuth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"Has admin auth!"</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、测试：<br>3.1 访问具有 admin 权限的接口：<a href="http://localhost:9501/user/auth/admin" target="_blank" rel="noopener">http://localhost:9501/user/auth/admin</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200524223943156.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">3.2、使用没有admin权限的帐号，比如andy:123456获取令牌后访问该接口，会发现没有权限访问：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020052423080655.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="补充-CAS原理"><a href="#补充-CAS原理" class="headerlink" title="补充 CAS原理"></a>补充 CAS原理</h2><p>说到单点登录，就肯定会见到这个名词：CAS （Central Authentication Service），下面说说CAS是怎么搞的。</p>
+<p>如果已经将登录单独抽取成系统出来，我们还能这样做。现在我们有两个系统，分别是<a href="http://www.1.com和www.2.com，一个SSO" target="_blank" rel="noopener">www.1.com和www.2.com，一个SSO</a> <a href="http://www.sso.com" target="_blank" rel="noopener">www.sso.com</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200524234331122.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>首先，用户想要访问系统A  <a href="http://www.1.com受限的资源(比如说购物车功能，购物车功能需要登录后才能访问)，系统A" target="_blank" rel="noopener">www.1.com受限的资源(比如说购物车功能，购物车功能需要登录后才能访问)，系统A</a> <a href="http://www.1.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：">www.1.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：</a></p>
+<pre><code>www.sso.com?service=www.1.com</code></pre><p>sso认证中心发现用户未登录，将用户引导至登录页面，用户进行输入用户名和密码进行登录，用户与认证中心建立全局会话（生成一份Token，写到Cookie中，保存在浏览器上）</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524234352603.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>随后，认证中心重定向回系统A，并把Token携带过去给系统A，重定向的地址如下：</p>
+<pre><code>www.1.com?token=xxxxxxx</code></pre><p>接着，系统A去sso认证中心验证这个Token是否正确，如果正确，则系统A和用户建立局部会话（创建Session）。到此，系统A和用户已经是登录状态了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524234414526.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>此时，用户想要访问系统B <a href="http://www.2.com受限的资源(比如说订单功能，订单功能需要登录后才能访问)，系统B" target="_blank" rel="noopener">www.2.com受限的资源(比如说订单功能，订单功能需要登录后才能访问)，系统B</a> <a href="http://www.2.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：">www.2.com发现用户并没有登录，于是重定向到sso认证中心，并将自己的地址作为参数。请求的地址如下：</a></p>
+<pre><code>www.sso.com?service=www.java4y.com</code></pre><p>注意，因为之前用户与认证中心<a href="http://www.sso.com已经建立了全局会话（当时已经把Cookie保存到浏览器上了），所以这次系统B重定向到认证中心www.sso.com是可以带上Cookie的。" target="_blank" rel="noopener">www.sso.com已经建立了全局会话（当时已经把Cookie保存到浏览器上了），所以这次系统B重定向到认证中心www.sso.com是可以带上Cookie的。</a></p>
+<p>认证中心根据带过来的Cookie发现已经与用户建立了全局会话了，认证中心重定向回系统B，并把Token携带过去给系统B，重定向的地址如下：</p>
+<pre><code>www.2.com?token=xxxxxxx</code></pre><p>接着，系统B去sso认证中心验证这个Token是否正确，如果正确，则系统B和用户建立局部会话（创建Session）。到此，系统B和用户已经是登录状态了。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200524234431613.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>看到这里，其实SSO认证中心就类似一个中转站。</p>
+<h2 id="使用到的模块"><a href="#使用到的模块" class="headerlink" title="使用到的模块"></a>使用到的模块</h2><p>springcloud-learning<br>├── oauth2-jwt-server – 使用jwt的oauth2认证测试服务<br>└── oauth2-client – SSO的oauth2客户端服务</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/myblog/images/wechatpay.png" alt="chfsun 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/myblog/tags/cloud/" rel="tag"><i class="fa fa-tag"></i> cloud</a>
+              <a href="/myblog/tags/SSO/" rel="tag"><i class="fa fa-tag"></i> SSO</a>
+              <a href="/myblog/tags/oauth2/" rel="tag"><i class="fa fa-tag"></i> oauth2</a>
+              <a href="/myblog/tags/CAS/" rel="tag"><i class="fa fa-tag"></i> CAS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8815%EF%BC%89%E4%B9%8B-Oauth2%E6%8E%88%E6%9D%83%E4%B9%8BJWT%E9%9B%86%E6%88%90/" rel="prev" title="Spring Cloud（15）之 Oauth2授权之JWT集成">
+      <i class="fa fa-chevron-left"></i> Spring Cloud（15）之 Oauth2授权之JWT集成
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+	
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单点登录简介"><span class="nav-number">1.</span> <span class="nav-text">单点登录简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实际案例"><span class="nav-number">2.</span> <span class="nav-text">实际案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-示例"><span class="nav-number">3.</span> <span class="nav-text">Demo 示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调用接口单点登录演示"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">调用接口单点登录演示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#oauth2-client添加权限校验"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">oauth2-client添加权限校验</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充-CAS原理"><span class="nav-number">4.</span> <span class="nav-text">补充 CAS原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用到的模块"><span class="nav-number">5.</span> <span class="nav-text">使用到的模块</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	 
+	   <div>
+		  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=5001682527&auto=0&height=90"></iframe>
+	   </div>
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8816%EF%BC%89%E4%B9%8B-Oauth2%E6%8E%88%E6%9D%83%E4%B9%8B%E5%9F%BA%E4%BA%8EJWT%E5%AE%8C%E6%88%90%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : '6156633c93fefb4193199095d0e03aba',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/myblog/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
