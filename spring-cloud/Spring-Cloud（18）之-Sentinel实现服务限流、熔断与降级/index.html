@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Sentinel是什么Sentinel的官方标题是：分布式系统的流量防卫兵。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Cloud（18）之 Sentinel实现服务限流、熔断与降级">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8818%EF%BC%89%E4%B9%8B-Sentinel%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E3%80%81%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%8D%E7%BA%A7/index.html">
+<meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="Sentinel是什么Sentinel的官方标题是：分布式系统的流量防卫兵。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526171113223.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526180354685.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526180557947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526181039435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526181113951.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526185501154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526222044993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526223848210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526224535896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526225356433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200526225620512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-05-03T14:39:54.000Z">
+<meta property="article:modified_time" content="2020-05-26T15:16:09.534Z">
+<meta property="article:author" content="chfsun">
+<meta property="article:tag" content="cloud">
+<meta property="article:tag" content="Sentinel">
+<meta property="article:tag" content="限流">
+<meta property="article:tag" content="熔断">
+<meta property="article:tag" content="降级">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200526171113223.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8818%EF%BC%89%E4%B9%8B-Sentinel%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E3%80%81%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%8D%E7%BA%A7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Spring Cloud（18）之 Sentinel实现服务限流、熔断与降级 | 梦.星河</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">梦.星河</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">35</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">29</span></a>
+
+  </li>
+        <li class="menu-item menu-item-talkabout">
+
+    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8818%EF%BC%89%E4%B9%8B-Sentinel%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E3%80%81%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%8D%E7%BA%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring Cloud（18）之 Sentinel实现服务限流、熔断与降级
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-03 22:39:54" itemprop="dateCreated datePublished" datetime="2020-05-03T22:39:54+08:00">2020-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-26 23:16:09" itemprop="dateModified" datetime="2020-05-26T23:16:09+08:00">2020-05-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Sentinel是什么"><a href="#Sentinel是什么" class="headerlink" title="Sentinel是什么"></a>Sentinel是什么</h2><p>Sentinel的官方标题是：分布式系统的流量防卫兵。</p>
+<a id="more"></a>
+<p>从名字上来看，很容易就能猜到它是用来作服务稳定性保障的。对于服务稳定性保障组件，如果熟悉Spring Cloud的用户，第一反应应该就是Hystrix。但是比较可惜的是Netflix已经宣布对Hystrix停止更新。那么，在未来我们还有什么更好的选择呢？除了Spring Cloud官方推荐的resilience4j之外，目前Spring Cloud Alibaba下整合的Sentinel也是用户可以重点考察和选型的目标。</p>
+<p>Spring Cloud Alibaba 致力于提供微服务开发的一站式解决方案，Sentinel 作为其核心组件之一，以流量为切入点，从流量控制、熔断降级、系统负载保护等多个维度保护服务的稳定性。</p>
+<p>Sentinel具有如下特性:</p>
+<ul>
+<li><p>丰富的应用场景：承接了阿里巴巴近 10 年的双十一大促流量的核心场景，例如秒杀，可以实时熔断下游不可用应用；</p>
+</li>
+<li><p>完备的实时监控：同时提供实时的监控功能。可以在控制台中看到接入应用的单台机器秒级数据，甚至 500 台以下规模的集群的汇总运行情况；</p>
+</li>
+<li><p>广泛的开源生态：提供开箱即用的与其它开源框架/库的整合模块，例如与 Spring Cloud、Dubbo、gRPC 的整合；</p>
+</li>
+<li><p>完善的 SPI 扩展点：提供简单易用、完善的 SPI 扩展点。您可以通过实现扩展点，快速的定制逻辑。</p>
+</li>
+</ul>
+<h3 id="安装Sentinel控制台"><a href="#安装Sentinel控制台" class="headerlink" title="安装Sentinel控制台"></a>安装Sentinel控制台</h3><blockquote>
+<p>Sentinel控制台是一个轻量级的控制台应用，它可用于实时查看单机资源监控及集群资源汇总，并提供了一系列的规则管理功能，如流控规则、降级规则、热点规则等。</p>
+</blockquote>
+<p>官网下载Sentinel，本示例下载的是sentinel-dashboard-1.7.1.jar文件，下载地址：<a href="https://github.com/alibaba/Sentinel/releases" target="_blank" rel="noopener">https://github.com/alibaba/Sentinel/releases</a></p>
+<p>下载完成后在命令行输入如下命令运行Sentinel控制台：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar sentinel-dashboard-<span class="number">1.7</span><span class="number">.1</span>.jar</span><br></pre></td></tr></table></figure>
+
+<p>Sentinel控制台默认运行在8080端口上，登录账号密码均为sentinel，通过如下地址可以进行访问：<a href="http://localhost:8080" target="_blank" rel="noopener">http://localhost:8080</a></p>
+<p><img src="https://img-blog.csdnimg.cn/20200526171113223.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="示例Demo"><a href="#示例Demo" class="headerlink" title="示例Demo"></a>示例Demo</h3><p>1、创建sentinel-service模块</p>
+<blockquote>
+<p>创建一个sentinel-service模块，用于演示Sentinel的熔断与限流功能</p>
+</blockquote>
+<p>2、pom文件依赖：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-alibaba-sentinel&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-netflix-ribbon&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、application.yml中相关配置，主要是配置了Nacos和Sentinel控制台的地址：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 8401</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">application</span>:</span><br><span class="line">    <span class="selector-tag">name</span>: <span class="selector-tag">sentinel-service</span></span><br><span class="line">  <span class="selector-tag">cloud</span>:</span><br><span class="line">    <span class="selector-tag">nacos</span>:</span><br><span class="line">      # 配置<span class="selector-tag">Nacos</span>地址</span><br><span class="line">      server-addr: http://localhost:8848</span><br><span class="line">    <span class="selector-tag">sentinel</span>:</span><br><span class="line">      <span class="selector-tag">transport</span>:</span><br><span class="line">        # 配置<span class="selector-tag">Sentinel</span> <span class="selector-tag">dashborad</span>地址</span><br><span class="line">        dashboard: http://localhost:8080</span><br><span class="line">        <span class="selector-tag">port</span>: 8719</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">service-url</span>:</span><br><span class="line">  dept-service: http://nacos-orcl-service</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">management</span>:</span><br><span class="line">  <span class="selector-tag">endpoints</span>:</span><br><span class="line">    <span class="selector-tag">web</span>:</span><br><span class="line">      <span class="selector-tag">exposure</span>:</span><br><span class="line">        include: '*'</span><br></pre></td></tr></table></figure>
+
+<h4 id="限流功能"><a href="#限流功能" class="headerlink" title="限流功能"></a>限流功能</h4><blockquote>
+<p>Sentinel Starter 默认为所有的 HTTP 服务提供了限流埋点，我们也可以通过使用@SentinelResource来自定义一些限流行为</p>
+</blockquote>
+<p>@SentinelResource注解的属性：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">属性</th>
+<th style="text-align:left">作用</th>
+<th style="text-align:left">是否必须</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">value</td>
+<td style="text-align:left">资源名称</td>
+<td style="text-align:left">是</td>
+</tr>
+<tr>
+<td style="text-align:left">entryType</td>
+<td style="text-align:left">entry类型，标记流量的方向，取值IN/OUT，默认是OUT</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">blockHandler</td>
+<td style="text-align:left">处理BlockException的函数名称</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">blockHandlerClass</td>
+<td style="text-align:left">存放blockHandler的类。对应的处理函数必须static修饰，否则无法解析，其他要求：同blockHandler</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">fallback</td>
+<td style="text-align:left">用于在抛出异常的时候提供fallback处理逻辑。fallback函数可以针对所有类型的异常（除了<code>exceptionsToIgnore</code> 里面排除掉的异常类型）进行处理</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">fallbackClass【1.6支持】</td>
+<td style="text-align:left">存放fallback的类。对应的处理函数必须static修饰，否则无法解析，其他要求：同fallback</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">defaultFallback【1.6支持】</td>
+<td style="text-align:left">用于通用的 fallback 逻辑。默认fallback函数可以针对所有类型的异常（除了<code>exceptionsToIgnore</code> 里面排除掉的异常类型）进行处理。若同时配置了 fallback 和 defaultFallback，以fallback为准</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">exceptionsToIgnore【1.6支持】</td>
+<td style="text-align:left">指定排除掉哪些异常。排除的异常不会计入异常统计，也不会进入fallback逻辑，而是原样抛出</td>
+<td style="text-align:left">否</td>
+</tr>
+<tr>
+<td style="text-align:left">exceptionsToTrace</td>
+<td style="text-align:left">需要trace的异常</td>
+<td style="text-align:left"><code>Throwable</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>blockHandler，处理BlockException函数的要求：</p>
+<pre><code>必须是public
+返回类型与原方法一致
+参数类型需要和原方法相匹配，并在最后加BlockException类型的参数
+默认需和原方法在同一个类中。若希望使用其他类的函数，可配置 blockHandlerClass ，并指定blockHandlerClass里面的方法</code></pre><p>fallback函数要求：</p>
+<pre><code>返回类型与原方法一致
+参数类型需要和原方法相匹配，Sentinel 1.6开始，也可在方法最后加Throwable类型的参数
+默认需和原方法在同一个类中。若希望使用其他类的函数，可配置 fallbackClass ，并指定fallbackClass里面的方法</code></pre><p>defaultFallback函数要求：</p>
+<pre><code>返回类型与原方法一致
+方法参数列表为空，或者有一个Throwable类型的参数
+默认需要和原方法在同一个类中。若希望使用其他类的函数，可配置 fallbackClass ，并指定 fallbackClass 里面的方法</code></pre><p>参考链接：<a href="https://github.com/alibaba/Sentinel/blob/1.6.2/sentinel-extension/sentinel-annotation-aspectj/src/test/java/com/alibaba/csp/sentinel/annotation/aspectj/integration/service/FooService.java" target="_blank" rel="noopener">https://github.com/alibaba/Sentinel/blob/1.6.2/sentinel-extension/sentinel-annotation-aspectj/src/test/java/com/alibaba/csp/sentinel/annotation/aspectj/integration/service/FooService.java</a></p>
+<p>3、创建RateLimitController类，用于测试熔断和限流功能</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/rateLimit"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RateLimitController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 按资源名称限流，需要指定限流处理逻辑</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/byResource"</span>)</span><br><span class="line">    <span class="meta">@SentinelResource</span>(value = <span class="string">"byResource"</span>, blockHandler = <span class="string">"handleException"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">byResource</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"按资源名称限流"</span>, <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 按url限流，有默认的限流处理逻辑</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"byUrl"</span>)</span><br><span class="line">    <span class="meta">@SentinelResource</span>(value = <span class="string">"byUrl"</span>, blockHandler = <span class="string">"handleException"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">byUrl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"按url限流"</span>, <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">handleException</span><span class="params">(BlockException exception)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Result(exception.getClass().getCanonicalName(), <span class="number">200</span>);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="根据资源名称限流"><a href="#根据资源名称限流" class="headerlink" title="根据资源名称限流"></a>根据资源名称限流</h4><blockquote>
+<p>我们可以根据@SentinelResource注解中定义的value（资源名称）来进行限流操作，但是需要指定限流处理逻辑</p>
+</blockquote>
+<p>流控规则可以在Sentinel控制台进行配置，由于我们使用了Nacos注册中心，我们先启动Nacos和sentinel-service</p>
+<p>由于Sentinel采用的懒加载规则，需要我们先访问下接口，Sentinel控制台中才会有对应服务信息，我们先访问下该接口：<a href="http://localhost:8401/rateLimit/byResource" target="_blank" rel="noopener">http://localhost:8401/rateLimit/byResource</a></p>
+<p>在Sentinel控制台配置流控规则，根据@SentinelResource注解的value值：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526180354685.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h6 id="限流测试"><a href="#限流测试" class="headerlink" title="限流测试"></a>限流测试</h6><p>快速访问上面的接口，可以发现返回了自己定义的限流处理信息：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526180557947.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="根据URL限流"><a href="#根据URL限流" class="headerlink" title="根据URL限流"></a>根据URL限流</h4><blockquote>
+<p>我们还可以通过访问的URL来限流，会返回默认的限流处理信息</p>
+</blockquote>
+<p>1、在Sentinel控制台配置流控规则，使用访问的URL：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526181039435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">2、测试，多次访问该接口，会返回默认的限流处理结果：<a href="http://localhost:8401/rateLimit/byUrl" target="_blank" rel="noopener">http://localhost:8401/rateLimit/byUrl</a> </p>
+<p><img src="https://img-blog.csdnimg.cn/20200526181113951.png#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="自定义限流处理逻辑"><a href="#自定义限流处理逻辑" class="headerlink" title="自定义限流处理逻辑"></a>自定义限流处理逻辑</h4><blockquote>
+<p>我们可以自定义通用的限流处理逻辑，然后在@SentinelResource中指定</p>
+</blockquote>
+<p>1、新建CustomBlockHandler类用于自定义限流处理逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomBlockHandler</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Result <span class="title">handleException</span><span class="params">(BlockException exception)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"自定义限流信息"</span>, <span class="number">200</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、在RateLimitController中使用自定义限流处理逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略代码</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">/**</span></span><br><span class="line"><span class="comment">  * 自定义通用的限流处理逻辑</span></span><br><span class="line"><span class="comment">  */</span></span><br><span class="line"><span class="meta">@GetMapping</span>(<span class="string">"/customBlockHandler"</span>)</span><br><span class="line">	<span class="meta">@SentinelResource</span>(value = <span class="string">"customBlockHandler"</span>, blockHandler = <span class="string">"handleException"</span>, blockHandlerClass = CustomBlockHandler<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">	<span class="title">public</span> <span class="title">Result</span> <span class="title">customBlockHandler</span>() </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"限流成功"</span>, <span class="number">200</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 省略代码</span></span><br></pre></td></tr></table></figure>
+<p>3、在Sentinel控制台配置流控规则，测试结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526185501154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="熔断功能"><a href="#熔断功能" class="headerlink" title="熔断功能"></a>熔断功能</h4><blockquote>
+<p>Sentinel 支持对服务间调用进行保护，对故障应用进行熔断操作，这里我们使用RestTemplate来调用nacos-user-service服务所提供的接口来演示下该功能</p>
+</blockquote>
+<blockquote>
+<p>可参考 模块 ribbon-orcl-client-service</p>
+</blockquote>
+<p>1、使用@SentinelRestTemplate来包装下RestTemplate实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonConfig</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="meta">@LoadBalanced</span></span><br><span class="line">	<span class="meta">@SentinelRestTemplate</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、新建控制层DeptController ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/breaker"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeptController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(DeptController<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Value</span>(<span class="string">"$&#123;service-url.dept-service&#125;"</span>)</span><br><span class="line">	<span class="keyword">private</span> String deptServiceUrl;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/fallback/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="meta">@SentinelResource</span>(value = <span class="string">"fallback"</span>, fallback = <span class="string">"handleFallback"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">getDept</span><span class="params">(@PathVariable Integer deptNo)</span> </span>&#123;</span><br><span class="line">		Result forObject = restTemplate.getForObject(deptServiceUrl + <span class="string">"/dept/&#123;1&#125;"</span>, Result<span class="class">.<span class="keyword">class</span>, <span class="title">deptNo</span>)</span>;</span><br><span class="line">		System.out.println(forObject);</span><br><span class="line">		<span class="keyword">return</span> forObject;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/fallbackException/&#123;id&#125;"</span>)</span><br><span class="line">	<span class="meta">@SentinelResource</span>(value = <span class="string">"fallbackException"</span>, fallback = <span class="string">"handleFallback2"</span>, exceptionsToIgnore = &#123;</span><br><span class="line">			NullPointerException<span class="class">.<span class="keyword">class</span> &#125;)</span></span><br><span class="line"><span class="class">	<span class="title">public</span> <span class="title">Result</span> <span class="title">fallbackException</span>(@<span class="title">PathVariable</span> <span class="title">Integer</span> <span class="title">deptNo</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (deptNo == <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (deptNo == <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> restTemplate.getForObject(deptServiceUrl + <span class="string">"/dept/&#123;1&#125;"</span>, Result<span class="class">.<span class="keyword">class</span>, <span class="title">deptNo</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">handleFallback</span><span class="params">(Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"服务降级返回"</span>, <span class="number">200</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">handleFallback2</span><span class="params">(Integer deptNo, Throwable e)</span> </span>&#123;</span><br><span class="line">		LOGGER.error(<span class="string">"handleFallback2 id:&#123;&#125;,throwable class:&#123;&#125;"</span>, deptNo, e.getClass());</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"服务降级返回"</span>, <span class="number">200</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3、依次启动 nacos-orcl-service、sentinel-service 模块，测试如下：</p>
+<p>3.1、浏览器访问 <a href="http://localhost:8401/breaker/fallback/1：" target="_blank" rel="noopener">http://localhost:8401/breaker/fallback/1：</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;Result&gt;</span><br><span class="line">&lt;data&gt;</span><br><span class="line">&lt;deptNo&gt;1&lt;/deptNo&gt;</span><br><span class="line">&lt;deptName&gt;开发部&lt;/deptName&gt;</span><br><span class="line">&lt;localtion&gt;西区&lt;/localtion&gt;</span><br><span class="line">&lt;/data&gt;</span><br><span class="line">&lt;message&gt;操作成功&lt;/message&gt;</span><br><span class="line">&lt;code&gt;200&lt;/code&gt;</span><br><span class="line">&lt;/Result&gt;</span><br></pre></td></tr></table></figure>
+<p>3.2、浏览器访问 <a href="http://localhost:8401/breaker/fallback/2" target="_blank" rel="noopener">http://localhost:8401/breaker/fallback/2</a>  ：<br>因为数据库并没有2这个编号的数据，因此：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Result&gt;</span><br><span class="line">&lt;data/&gt;</span><br><span class="line">&lt;message&gt;服务降级返回&lt;/message&gt;</span><br><span class="line">&lt;code&gt;200&lt;/code&gt;</span><br><span class="line">&lt;/Result&gt;</span><br></pre></td></tr></table></figure>
+<p>3.3、浏览器访问 <a href="http://localhost:8401/breaker/fallbackException/2" target="_blank" rel="noopener">http://localhost:8401/breaker/fallbackException/2</a><br>由于我们使用了exceptionsToIgnore参数忽略了NullPointerException，所以我们访问接口报空指针时不会发生服务降级，会直接显示：<br><img src="https://img-blog.csdnimg.cn/20200526222044993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="与Feign结合使用"><a href="#与Feign结合使用" class="headerlink" title="与Feign结合使用"></a>与Feign结合使用</h4><blockquote>
+<p>Sentinel也适配了Feign组件，我们使用Feign来进行服务间调用时，也可以使用它来进行熔断</p>
+</blockquote>
+<blockquote>
+<p>可参考 feign-service 模块</p>
+</blockquote>
+<p>1、pom.xml中添加Feign相关依赖：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>2、application.yml中添加Sentinel对Feign的支持：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 打开sentinel对feign的支持</span><br><span class="line">feign:</span><br><span class="line">  sentinel:</span><br><span class="line">    enabled: <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+
+<p>3、创建一个DeptService接口，用于定义对nacos-orcl-service服务提供者的调用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"nacos-orcl-service"</span>, fallback = DeptFallbackService<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">interface</span> <span class="title">DeptService</span> </span>&#123;</span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/dept/insert"</span>)</span><br><span class="line">	<span class="function">Result <span class="title">insert</span><span class="params">(@RequestBody Dept dept)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/dept/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="function">Result&lt;Dept&gt; <span class="title">getDept</span><span class="params">(@PathVariable Integer deptNo)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/dept/getByName"</span>)</span><br><span class="line">	<span class="function">Result&lt;Dept&gt; <span class="title">getByName</span><span class="params">(@RequestParam String deptName)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/dept/listDept"</span>)</span><br><span class="line">	Result&lt;List&lt;Dept&gt;&gt; listDept();</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/dept/queryListByDeptNos"</span>)</span><br><span class="line">	Result&lt;List&lt;Dept&gt;&gt; queryListByDeptNos(<span class="meta">@RequestParam</span> List&lt;Integer&gt; deptNos);</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/dept/update"</span>)</span><br><span class="line">	<span class="function">Result <span class="title">update</span><span class="params">(@RequestBody Dept dept)</span></span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/dept/delete/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="function">Result <span class="title">delete</span><span class="params">(@PathVariable Integer deptNo)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、创建DeptFallbackService类实现UserService接口，用于处理服务降级逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeptFallbackService</span> <span class="keyword">implements</span> <span class="title">DeptService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">insert</span><span class="params">(Dept dept)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;Dept&gt; <span class="title">getDept</span><span class="params">(Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> Result&lt;List&lt;Dept&gt;&gt; listDept() &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> Result&lt;List&lt;Dept&gt;&gt; queryListByDeptNos(List&lt;Integer&gt; deptNos) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">update</span><span class="params">(Dept dept)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">delete</span><span class="params">(Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;Dept&gt; <span class="title">getByName</span><span class="params">(String deptName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"调用失败，服务被降级"</span>, <span class="number">500</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>5、新建DeptFeignController类，使用DeptService通过Feign调用nacos-orcl-service服务中的接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/feign"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeptFeignController</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> DeptService deptService;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/insert"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">insert</span><span class="params">(@RequestBody Dept dept)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.insert(dept);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result&lt;Dept&gt; <span class="title">getDept</span><span class="params">(@PathVariable Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.getDept(deptNo);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/getByName"</span>)</span><br><span class="line">	<span class="function">Result&lt;Dept&gt; <span class="title">getByName</span><span class="params">(@RequestParam String deptName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.getByName(deptName);</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/listDept"</span>)</span><br><span class="line">	<span class="keyword">public</span> Result&lt;List&lt;Dept&gt;&gt; listDept() &#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.listDept();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@GetMapping</span>(<span class="string">"/queryListByDeptNos"</span>)</span><br><span class="line">	<span class="keyword">public</span> Result&lt;List&lt;Dept&gt;&gt; queryListByDeptNos(<span class="meta">@RequestParam</span> List&lt;Integer&gt; deptNos) &#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.queryListByDeptNos(deptNos);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/update"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">update</span><span class="params">(@RequestBody Dept dept)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.update(dept);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/delete/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">delete</span><span class="params">(@PathVariable Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptService.delete(deptNo);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>6、在启动类SentinelServiceApplication添加@EnableFeignClients注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SentinelServiceApplication</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(SentinelServiceApplication<span class="class">.<span class="keyword">class</span>, <span class="title">args</span>)</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>7、测试<br>调用如下接口会发生服务降级，返回服务降级处理信息：<a href="http://localhost:8401/feign/2" target="_blank" rel="noopener">http://localhost:8401/feign/2</a></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;Result&gt;</span><br><span class="line">&lt;data/&gt;</span><br><span class="line">&lt;message&gt;调用失败，服务被降级&lt;/message&gt;</span><br><span class="line">&lt;code&gt;500&lt;/code&gt;</span><br><span class="line">&lt;/Result&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="使用Nacos存储规则"><a href="#使用Nacos存储规则" class="headerlink" title="使用Nacos存储规则"></a>使用Nacos存储规则</h4><blockquote>
+<p>默认情况下，当我们在Sentinel控制台中配置规则时，控制台推送规则方式是通过API将规则推送至客户端并直接更新到内存中。一旦我们重启应用，规则将消失。下面我们介绍下如何将配置规则进行持久化，以存储到Nacos为例</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200526223848210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>首先我们直接在配置中心创建规则，配置中心将规则推送到客户端；</p>
+<p>Sentinel控制台也从配置中心去获取配置信息。</p>
+<h6 id="功能演示"><a href="#功能演示" class="headerlink" title="功能演示"></a>功能演示</h6><p>1、pom文件添加依赖：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.alibaba.csp&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;sentinel-datasource-nacos&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、application.yml配置文件，添加Nacos数据源配置：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 8401</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">application</span>:</span><br><span class="line">    <span class="selector-tag">name</span>: <span class="selector-tag">sentinel-service</span></span><br><span class="line">  <span class="selector-tag">cloud</span>:</span><br><span class="line">    <span class="selector-tag">nacos</span>:</span><br><span class="line">      # 配置<span class="selector-tag">Nacos</span>地址</span><br><span class="line">      server-addr: http://localhost:8848</span><br><span class="line">    <span class="selector-tag">sentinel</span>:</span><br><span class="line">      <span class="selector-tag">transport</span>:</span><br><span class="line">        # 配置<span class="selector-tag">Sentinel</span> <span class="selector-tag">dashborad</span>地址</span><br><span class="line">        dashboard: http://localhost:8080</span><br><span class="line">        <span class="selector-tag">port</span>: 8719</span><br><span class="line">      # 添加<span class="selector-tag">Nacos</span>数据源配置</span><br><span class="line">      <span class="selector-tag">datasource</span>:</span><br><span class="line">        <span class="selector-tag">ds1</span>:</span><br><span class="line">          <span class="selector-tag">nacos</span>:</span><br><span class="line">            <span class="selector-tag">server-addr</span>: <span class="selector-tag">localhost</span><span class="selector-pseudo">:8848</span></span><br><span class="line">            dataId: $&#123;spring.application.name&#125;-sentinel</span><br><span class="line">            <span class="selector-tag">groupId</span>: <span class="selector-tag">DEFAULT_GROUP</span></span><br><span class="line">            <span class="selector-tag">data-type</span>: <span class="selector-tag">json</span></span><br><span class="line">            <span class="selector-tag">rule-type</span>: <span class="selector-tag">flow</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">service-url</span>:</span><br><span class="line">  dept-service: http://nacos-orcl-service</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 打开<span class="selector-tag">sentinel</span>对<span class="selector-tag">feign</span>的支持</span><br><span class="line"><span class="selector-tag">feign</span>:</span><br><span class="line">  <span class="selector-tag">sentinel</span>:</span><br><span class="line">    <span class="selector-tag">enabled</span>: <span class="selector-tag">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="selector-tag">management</span>:</span><br><span class="line">  <span class="selector-tag">endpoints</span>:</span><br><span class="line">    <span class="selector-tag">web</span>:</span><br><span class="line">      <span class="selector-tag">exposure</span>:</span><br><span class="line">        include: '*'</span><br></pre></td></tr></table></figure>
+
+<p>3、在Nacos中添加配置：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526224535896.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>3.1、信息如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "resource": "/rateLimit/byUrl",</span><br><span class="line">        "<span class="selector-tag">limitApp</span>": "<span class="selector-tag">default</span>",</span><br><span class="line">        "<span class="selector-tag">grade</span>": 1,</span><br><span class="line">        "<span class="selector-tag">count</span>": 1,</span><br><span class="line">        "<span class="selector-tag">strategy</span>": 0,</span><br><span class="line">        "<span class="selector-tag">controlBehavior</span>": 0,</span><br><span class="line">        "<span class="selector-tag">clusterMode</span>": <span class="selector-tag">false</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>相关参数解释：</em></strong></p>
+<ul>
+<li><p>resource：资源名称；</p>
+</li>
+<li><p>limitApp：来源应用；</p>
+</li>
+<li><p>grade：阈值类型，0表示线程数，1表示QPS；</p>
+</li>
+<li><p>count：单机阈值；</p>
+</li>
+<li><p>strategy：流控模式，0表示直接，1表示关联，2表示链路；</p>
+</li>
+<li><p>controlBehavior：流控效果，0表示快速失败，1表示Warm Up，2表示排队等待；</p>
+</li>
+<li><p>clusterMode：是否集群。</p>
+</li>
+</ul>
+<p>发现Sentinel控制台已经有了如下限流规则：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200526225356433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h6 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h6><p>浏览器快速访问 <a href="http://localhost:8401/rateLimit/byUrl" target="_blank" rel="noopener">http://localhost:8401/rateLimit/byUrl</a><br><img src="https://img-blog.csdnimg.cn/20200526225620512.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)参考资料链接：<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki" target="_blank" rel="noopener">https://github.com/alibaba/spring-cloud-alibaba/wiki</a></p>
+<h4 id="本章示例使用到的模块"><a href="#本章示例使用到的模块" class="headerlink" title="本章示例使用到的模块"></a>本章示例使用到的模块</h4><p>springcloud-learning<br>├── nacos-orcl-service – 注册到nacos的服务提供者<br>└── sentinel-service – 注册到nacos的sentinel功能测试服务消费者</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/myblog/images/wechatpay.png" alt="chfsun 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/myblog/tags/cloud/" rel="tag"><i class="fa fa-tag"></i> cloud</a>
+              <a href="/myblog/tags/Sentinel/" rel="tag"><i class="fa fa-tag"></i> Sentinel</a>
+              <a href="/myblog/tags/%E9%99%90%E6%B5%81/" rel="tag"><i class="fa fa-tag"></i> 限流</a>
+              <a href="/myblog/tags/%E7%86%94%E6%96%AD/" rel="tag"><i class="fa fa-tag"></i> 熔断</a>
+              <a href="/myblog/tags/%E9%99%8D%E7%BA%A7/" rel="tag"><i class="fa fa-tag"></i> 降级</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8817%EF%BC%89%E4%B9%8B-Nacos%E5%AE%9E%E7%8E%B0%E6%B3%A8%E5%86%8C%E5%92%8C%E9%85%8D%E7%BD%AE%E4%B8%AD%E5%BF%83/" rel="prev" title="Spring Cloud入门（17）之 Nacos实现注册和配置中心">
+      <i class="fa fa-chevron-left"></i> Spring Cloud入门（17）之 Nacos实现注册和配置中心
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+	
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sentinel是什么"><span class="nav-number">1.</span> <span class="nav-text">Sentinel是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Sentinel控制台"><span class="nav-number">1.1.</span> <span class="nav-text">安装Sentinel控制台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例Demo"><span class="nav-number">1.2.</span> <span class="nav-text">示例Demo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#限流功能"><span class="nav-number">1.2.1.</span> <span class="nav-text">限流功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据资源名称限流"><span class="nav-number">1.2.2.</span> <span class="nav-text">根据资源名称限流</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#限流测试"><span class="nav-number">1.2.2.0.1.</span> <span class="nav-text">限流测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据URL限流"><span class="nav-number">1.2.3.</span> <span class="nav-text">根据URL限流</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义限流处理逻辑"><span class="nav-number">1.2.4.</span> <span class="nav-text">自定义限流处理逻辑</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#熔断功能"><span class="nav-number">1.2.5.</span> <span class="nav-text">熔断功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与Feign结合使用"><span class="nav-number">1.2.6.</span> <span class="nav-text">与Feign结合使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Nacos存储规则"><span class="nav-number">1.2.7.</span> <span class="nav-text">使用Nacos存储规则</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#功能演示"><span class="nav-number">1.2.7.0.1.</span> <span class="nav-text">功能演示</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#测试"><span class="nav-number">1.2.7.0.2.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本章示例使用到的模块"><span class="nav-number">1.2.8.</span> <span class="nav-text">本章示例使用到的模块</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	 
+	   <div>
+		  <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=110 src="//music.163.com/outchain/player?type=0&id=5001682527&auto=0&height=90"></iframe>
+	   </div>
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8818%EF%BC%89%E4%B9%8B-Sentinel%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E9%99%90%E6%B5%81%E3%80%81%E7%86%94%E6%96%AD%E4%B8%8E%E9%99%8D%E7%BA%A7/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : '1a56101d38e597dba1efb25f7a857e20',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/myblog/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
