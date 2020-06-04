@@ -22,19 +22,20 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="Welcome">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/uncategorized/Welcome/index.html">
+  <meta name="description" content="什么是裂脑？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脑裂">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-cloud/%E8%84%91%E8%A3%82/index.html">
 <meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="什么是裂脑？">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://chfsun.gitee.io/cdn/bg_music.jpg">
-<meta property="article:published_time" content="2020-05-28T14:54:08.000Z">
-<meta property="article:modified_time" content="2020-05-29T00:03:36.355Z">
+<meta property="article:published_time" content="2020-05-03T15:27:11.000Z">
+<meta property="article:modified_time" content="2020-06-03T15:32:54.511Z">
 <meta property="article:author" content="chfsun">
+<meta property="article:tag" content="脑裂">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://chfsun.gitee.io/cdn/bg_music.jpg">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/uncategorized/Welcome/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-cloud/%E8%84%91%E8%A3%82/">
 
 
 <script id="page-configurations">
@@ -47,7 +48,7 @@
   };
 </script>
 
-  <title>Welcome | 梦.星河</title>
+  <title>脑裂 | 梦.星河</title>
   
 
 
@@ -202,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/uncategorized/Welcome/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/%E8%84%91%E8%A3%82/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -215,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Welcome
+          脑裂
         </h1>
 
         <div class="post-meta">
@@ -225,15 +226,24 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-28 22:54:08" itemprop="dateCreated datePublished" datetime="2020-05-28T22:54:08+08:00">2020-05-28</time>
+              <time title="创建时间：2020-05-03 23:27:11" itemprop="dateCreated datePublished" datetime="2020-05-03T23:27:11+08:00">2020-05-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-29 08:03:36" itemprop="dateModified" datetime="2020-05-29T08:03:36+08:00">2020-05-29</time>
+                <time title="修改时间：2020-06-03 23:32:54" itemprop="dateModified" datetime="2020-06-03T23:32:54+08:00">2020-06-03</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -253,8 +263,73 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <img src="http://chfsun.gitee.io/cdn/bg_music.jpg">
-<a id="more"></a>
+        <h3 id="什么是裂脑？"><a href="#什么是裂脑？" class="headerlink" title="什么是裂脑？"></a>什么是裂脑？</h3><a id="more"></a>
+<p>当两台高可用服务器在指定的时间内，无法互相检测到对方心跳而各自启动故障转移功能，取得了资源以及服务的所有权，而此时的两台高可用服务器对都还活着并作正常运行，这样就会导致同一个服务在两端同时启动而发生冲突的严重问题，最严重的就是两台主机同时占用一个VIP的地址（类似双端导入概念），当用户写入数据的时候可能会分别写入到两端，这样可能会导致服务器两端的数据不一致或造成数据的丢失，这种情况就称为裂脑，也有的人称之为分区集群或者大脑垂直分隔</p>
+<h3 id="脑裂导致的问题"><a href="#脑裂导致的问题" class="headerlink" title="脑裂导致的问题"></a>脑裂导致的问题</h3><ol>
+<li><p>引起数据的不完整性：集群中节点（在脑裂期间）同时访问同一共享资源，而且没有机制去协调控制的话，那么就存在数据的不完整性的可能。</p>
+</li>
+<li><p>服务异常：对外提供的服务出现异常。</p>
+</li>
+<li><p>发生脑裂，导致互相竞争同一个IP资源，就如同我们局域网内常见的IP地址冲突一样，两个机器就会有一个或者两个不正常，影响用户正常访问服务器。如果是应用在数据库或者是存储服务这种极重要的高可用上，那就导致用户发布的数据间断的写在两台服务器上的恶果，最终数据恢复及困难或者是难已恢复</p>
+</li>
+</ol>
+<h3 id="导致裂脑发生的原因："><a href="#导致裂脑发生的原因：" class="headerlink" title="导致裂脑发生的原因："></a>导致裂脑发生的原因：</h3><p>优先考虑心跳线路上的问题，在可能是心跳服务，软件层面的问题</p>
+<p>1）高可用服务器对之间心跳线路故障，导致无法正常的通信。原因比如：</p>
+<ol>
+<li><p>——心跳线本身就坏了（包括断了，老化）；</p>
+</li>
+<li><p>-——网卡以及相关驱动坏了,IP配置及冲突问题；</p>
+</li>
+<li><p>——心跳线间连接的设备故障（交换机的故障或者是网卡的故障）；</p>
+</li>
+<li><p>——仲裁的服务器出现问题。</p>
+</li>
+</ol>
+<p>2）高可用服务器对上开启了防火墙阻挡了心跳消息的传输；</p>
+<p>3）高可用服务器对上的心跳网卡地址等信息配置的不正确，导致发送心跳失败；</p>
+<p>4）其他服务配置不当等原因，如心跳的方式不同，心跳广播冲突，软件出现了BUG等。</p>
+<h3 id="防止脑裂发生的方法："><a href="#防止脑裂发生的方法：" class="headerlink" title="防止脑裂发生的方法："></a>防止脑裂发生的方法：</h3><p>实际的生产环境中，我们可以从以下几个方面来防止裂脑的发生：</p>
+<p>1）同时使用串行电缆和以太网电缆连接，同时用两条心跳线路，这样一条线路坏了，另一个线路还是好的，依然能传送消息（推荐的）</p>
+<p>2）检测到裂脑的时候强行的关闭一个心跳节点（需要特殊的节点支持，如stonith，fence），相当于程序上备节点发现心跳线故障，发送关机命令到主节点。</p>
+<p>3）多节点集群中，可以通过增加仲裁的机制，确定谁该获得资源，这里面有几个参考的思路：</p>
+<ol>
+<li><p>——增加一个仲裁机制。例如设置参考的IP，当心跳完全断开的时候，2个节点各自都ping一下参考的IP，不同则表明断点就出现在本段，这样就主动放弃竞争，让能够ping通参考IP的一端去接管服务。</p>
+</li>
+<li><p>——通过第三方软件仲裁谁该获得资源，这个在阿里有类似的软件应用</p>
+</li>
+</ol>
+<p>4）做好对裂脑的监控报警（如邮件以及手机短信等），在问题发生的时候能够人为的介入到仲裁，降低损失。当然，在实施高可用方案的时候，要根据业务的实际需求确定是否能够容忍这样的损失。对于一般的网站业务，这个损失是可控的（公司使用）</p>
+<p>5）启用磁盘锁。正在服务一方锁住共享磁盘，脑裂发生的时候，让对方完全抢不走共享的磁盘资源。但使用锁磁盘也会有一个不小的问题，如果占用共享盘的乙方不主动解锁，另一方就永远得不到共享磁盘。现实中介入服务节点突然死机或者崩溃，另一方就永远不可能执行解锁命令。后备节点也就截关不了共享的资源和应用服务。于是有人在HA中涉及了“智能”锁，正在服务的一方只在发现心跳线全部断开时才启用磁盘锁，平时就不上锁了</p>
+<p>6）报警报在服务器接管之前，给人员处理留足够的时间就是1分钟内报警了，但是服务器不接管，而是5分钟之后接管，接管的时间较长。数据不会丢失，但就是会导致用户无法写数据。报警后，不直接自动服务器接管，而是由人员接管。</p>
+<h4 id="redis脑裂"><a href="#redis脑裂" class="headerlink" title="redis脑裂"></a>redis脑裂</h4><p>redis的集群脑裂是指因为网络原因，导致redis master节点和redis slave节点和sentinel集群处于不用的网络分区，此时因为sentinel集群无法感知到master的存在所以将slave节点提升为master节点 此时存在两个不同的master节点就像一个大脑分裂成了两个。</p>
+<p>集群脑裂问题中，如果客户端还在基于原来的master节点继续写入数据那么新的master节点将无法同步这些数据当网络问题解决后sentinel集群将原先的master节点降为slave节点，此时再从新的master中同步数据将造成大量的数据丢失。</p>
+<h4 id="处理方案"><a href="#处理方案" class="headerlink" title="处理方案"></a>处理方案</h4><p>redis的配置文件中存在两个参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">min-slaves-to-write 3</span><br><span class="line">min-slaves-max-lag 10</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>第一个参数表示连接到master的最少slave数量<br>第二个参数表示slave连接到master的最大延迟时间</p>
+</blockquote>
+<p>如果连接到master的slave数量小于第一个参数且ping的延迟时间小于等于第二个参数那么master就会拒绝写请求配置了这两个参数后, 如果发生了集群脑裂原先的master节点接收到客户端的写入请求会拒绝就可以减少数据同步之后的数据丢失。</p>
+<blockquote>
+<p>redis中的异步复制情况下的数据丢失问题也能使用这两个参数</p>
+</blockquote>
+<h2 id="ZooKeeper脑裂"><a href="#ZooKeeper脑裂" class="headerlink" title="ZooKeeper脑裂"></a>ZooKeeper脑裂</h2><p>在搭建hadoop的HA集群环境后，由于两个namenode的状态不一，当active的namenode由于网络等原因出现假死状态，standby接收不到active的心跳，因此判断active的namenode宕机，但实际上active并没有死亡。</p>
+<p>此时standby的namenode就会切换成active的状态，保证服务能够正常使用。若原来的namenode复活，此时在整个集群中就出现2个active状态的namenode，该状态成为脑裂。脑裂现象可能导致这2个namenode争抢资源，从节点不知道该连接哪一台namenode，导致节点的数据不统一，这在企业生产中是不可以容忍的。</p>
+<h5 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h5><ol>
+<li><p>添加心跳线。</p>
+<p>原来两个namenode之间只有一条心跳线路，此时若断开，则接收不到心跳报告，判断对方已经死亡。此时若有2条心跳线路，一条断开，另一条仍然能够接收心跳报告，能保证集群服务正常运行。2条心跳线路同时断开的可能性比1条心跳线路断开的小得多。再有，心跳线路之间也可以HA（高可用），这两条心跳线路之间也可以互相检测，若一条断开，则另一条马上起作用。正常情况下，则不起作用，节约资源。</p>
+</li>
+<li><p>启用磁盘锁。</p>
+<p>由于两个active会争抢资源，导致从节点不知道该连接哪一台namenode，可以使用磁盘锁的形式，保证集群中只能有一台namenode获取磁盘锁，对外提供服务，避免数据错乱的情况发生。但是，也会存在一个问题，若该namenode节点宕机，则不能主动释放锁，那么其他的namenode就永远获取不了共享资源。因此，在HA上使用”智能锁”就成为了必要措施。”智能锁”是指active的namenode检测到了心跳线全部断开时才启动磁盘锁，正常情况下不上锁。保证了假死状态下，仍然只有一台namenode的节点提供服务。</p>
+</li>
+<li><p>设置仲裁机制</p>
+<p>脑裂导致的后果最主要的原因就是从节点不知道该连接哪一台namenode，此时如果有一方来决定谁留下，谁放弃就最好了。因此出现了仲裁机制，比如提供一个参考的IP地址，当出现脑裂现象时，双方接收不到对方的心跳机制，但是能同时ping参考IP，如果有一方ping不通，那么表示该节点网络已经出现问题，则该节点需要自行退出争抢资源的行列，或者更好的方法是直接强制重启，这样能更好的释放曾经占有的共享资源，将服务的提供功能让给功能更全面的namenode节点。</p>
+</li>
+</ol>
+<p>以上的3种方式可以同时使用，这样更能减少集群中脑裂情况的发生。但是还是不能保证完全不出现，如果仲裁机制中2台机器同时宕机，那么此时集群中没有namenode可以使用。此时需要运维人员人工的抢修，或者提供一台新的机器作为namenode，这个时间是不可避免的。</p>
+<h4 id="数据库脑裂"><a href="#数据库脑裂" class="headerlink" title="数据库脑裂"></a>数据库脑裂</h4><p>….算了，感觉自己要脑裂了……</p>
+<p>希望未来能有更好的解决办法，能彻底杜绝这类情况的发生吧~</p>
+
     </div>
 
     
@@ -277,6 +352,10 @@
 
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/myblog/tags/%E8%84%91%E8%A3%82/" rel="tag"><i class="fa fa-tag"></i> 脑裂</a>
+          </div>
 
         
 
@@ -284,10 +363,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/myblog/tool/%E5%85%B3%E4%BA%8E%E9%99%90%E6%B5%81%E7%9A%846%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" rel="prev" title="关于限流的6种实现方案">
-      <i class="fa fa-chevron-left"></i> 关于限流的6种实现方案
+    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8819%EF%BC%89%E4%B9%8B-Seata%E5%A4%84%E7%90%86%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E9%97%AE%E9%A2%98/" rel="prev" title="Spring Cloud（19）之 Seata处理分布式事务问题">
+      <i class="fa fa-chevron-left"></i> Spring Cloud（19）之 Seata处理分布式事务问题
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/myblog/tool/%E5%85%B3%E4%BA%8E%E9%99%90%E6%B5%81%E7%9A%846%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/" rel="next" title="关于限流的6种实现方案">
+      关于限流的6种实现方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -348,6 +430,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是裂脑？"><span class="nav-number">1.</span> <span class="nav-text">什么是裂脑？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脑裂导致的问题"><span class="nav-number">2.</span> <span class="nav-text">脑裂导致的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导致裂脑发生的原因："><span class="nav-number">3.</span> <span class="nav-text">导致裂脑发生的原因：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止脑裂发生的方法："><span class="nav-number">4.</span> <span class="nav-text">防止脑裂发生的方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#redis脑裂"><span class="nav-number">4.1.</span> <span class="nav-text">redis脑裂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理方案"><span class="nav-number">4.2.</span> <span class="nav-text">处理方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ZooKeeper脑裂"><span class="nav-number"></span> <span class="nav-text">ZooKeeper脑裂</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#解决方案："><span class="nav-number">0.0.1.</span> <span class="nav-text">解决方案：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库脑裂"><span class="nav-number">0.1.</span> <span class="nav-text">数据库脑裂</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -521,7 +604,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/uncategorized/Welcome/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-cloud/%E8%84%91%E8%A3%82/',]
       });
       });
   </script>
@@ -537,7 +620,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : '3d9071ec3fa5a09e249adbf430ad217d',
+      id          : 'aa1168e59a35505c630e50090e2f6e80',
         language: 'zh-CN',
       distractionFreeMode: true
     });
