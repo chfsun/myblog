@@ -22,28 +22,20 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="一、Spring Cloud Sleuth 简介随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。">
+  <meta name="description" content="程序员　　程序员，英文名coder&#x2F;programmer，大家常自嘲叫码农的阶段。这个角色职责是把需求或产品实现为用户可用的软件产品。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Cloud（10）之 Sleuth服务链路跟踪">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/index.html">
+<meta property="og:title" content="程序员、架构师、技术经理、技术总监和CTO各自职责">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/index.html">
 <meta property="og:site_name" content="梦.星河">
-<meta property="og:description" content="一、Spring Cloud Sleuth 简介随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。">
+<meta property="og:description" content="程序员　　程序员，英文名coder&#x2F;programmer，大家常自嘲叫码农的阶段。这个角色职责是把需求或产品实现为用户可用的软件产品。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2020051711233250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112737606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517112828927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/2020051711503599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/20200517115121447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="article:published_time" content="2020-05-03T14:37:25.000Z">
-<meta property="article:modified_time" content="2020-05-17T04:01:09.787Z">
+<meta property="article:published_time" content="2020-05-21T12:54:08.000Z">
+<meta property="article:modified_time" content="2020-06-11T02:34:17.836Z">
 <meta property="article:author" content="chfsun">
-<meta property="article:tag" content="cloud">
-<meta property="article:tag" content="sleuth">
+<meta property="article:tag" content="talkabout">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/">
 
 
 <script id="page-configurations">
@@ -56,7 +48,7 @@
   };
 </script>
 
-  <title>Spring Cloud（10）之 Sleuth服务链路跟踪 | 梦.星河</title>
+  <title>程序员、架构师、技术经理、技术总监和CTO各自职责 | 梦.星河</title>
   
 
 
@@ -211,7 +203,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -224,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Spring Cloud（10）之 Sleuth服务链路跟踪
+          程序员、架构师、技术经理、技术总监和CTO各自职责
         </h1>
 
         <div class="post-meta">
@@ -234,14 +226,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-03 22:37:25" itemprop="dateCreated datePublished" datetime="2020-05-03T22:37:25+08:00">2020-05-03</time>
+              <time title="创建时间：2020-05-21 20:54:08" itemprop="dateCreated datePublished" datetime="2020-05-21T20:54:08+08:00">2020-05-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-17 12:01:09" itemprop="dateModified" datetime="2020-05-17T12:01:09+08:00">2020-05-17</time>
+                <time title="修改时间：2020-06-11 10:34:17" itemprop="dateModified" datetime="2020-06-11T10:34:17+08:00">2020-06-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,7 +241,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                  <a href="/myblog/categories/talkabout/" itemprop="url" rel="index"><span itemprop="name">talkabout</span></a>
                 </span>
             </span>
 
@@ -271,47 +263,56 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="一、Spring-Cloud-Sleuth-简介"><a href="#一、Spring-Cloud-Sleuth-简介" class="headerlink" title="一、Spring Cloud Sleuth 简介"></a>一、Spring Cloud Sleuth 简介</h2><p>随着我们的系统越来越庞大，各个服务间的调用关系也变得越来越复杂。当客户端发起一个请求时，这个请求经过多个服务后，最终返回了结果，经过的每一个服务都有可能发生延迟或错误，从而导致请求失败。这时候我们就需要请求链路跟踪工具来帮助我们，理清请求调用的服务链路，解决问题。</p>
+        <h3 id="程序员"><a href="#程序员" class="headerlink" title="程序员"></a>程序员</h3><p>　　程序员，英文名coder/programmer，大家常自嘲叫码农的阶段。这个角色职责是把需求或产品实现为用户可用的软件产品。</p>
 <a id="more"></a>
-<p>Sleuth 是分布式系统中跟踪服务间调用的工具，它可以直观地展示出一次请求的调用过程。</p>
-<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><h2 id="二、整合Zipkin获取及分析日志"><a href="#二、整合Zipkin获取及分析日志" class="headerlink" title="二、整合Zipkin获取及分析日志"></a>二、整合Zipkin获取及分析日志</h2><p>1、为服务添加请求链路跟踪</p>
-<blockquote>
-<p>在原有项目模块基础上，通过ribbon-orcl-server-service 和 ribbon-orcl-client-service 之间的服务调用来演示该功能，这里我们调用 ribbon-orcl-client-service 的接口时，ribbon-orcl-client-service 会通过RestTemplate来调用ribbon-orcl-server-service 提供的接口。</p>
-</blockquote>
-<p>为ribbon-orcl-server-service和ribbon-orcl-server-service 添加相关依赖：</p>
-<p>pom文件：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-cloud-starter-zipkin&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
-
-<p>配置文件配置收集日志的zipkin-server访问地址：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">server</span>:</span><br><span class="line">  <span class="selector-tag">port</span>: 8201</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">spring</span>:</span><br><span class="line">  <span class="selector-tag">application</span>:</span><br><span class="line">    <span class="selector-tag">name</span>: <span class="selector-tag">ribbon-orcl-server-service</span></span><br><span class="line"><span class="selector-tag">zipkin</span>:</span><br><span class="line">  base-url: http://localhost:9411</span><br><span class="line">   #设置<span class="selector-tag">Sleuth</span>的抽样收集概率</span><br><span class="line">  <span class="selector-tag">sleuth</span>:</span><br><span class="line">    <span class="selector-tag">sampler</span>:</span><br><span class="line">      <span class="selector-tag">probability</span>: 0<span class="selector-class">.1</span></span><br></pre></td></tr></table></figure>
-
-<p>2、整合Zipkin获取及分析日志</p>
-<blockquote>
-<p>Zipkin是Twitter的一个开源项目，可以用来获取和分析Spring Cloud Sleuth 中产生的请求链路跟踪日志，它提供了Web界面来帮助我们直观地查看请求链路跟踪信息</p>
-</blockquote>
-<p>SpringBoot 2.0以上版本已经不需要自行搭建zipkin-server，我们可以从该地址下载zipkin-server：<a href="https://repo1.maven.org/maven2/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9-exec.jar" target="_blank" rel="nofollow noopener">repo1.maven.org/maven2/io/z…</a></p>
-<p>下载完成后使用以下命令运行zipkin-server：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-<span class="number">2.12</span><span class="number">.9</span>-exec.jar</span><br></pre></td></tr></table></figure>
-
-<p>Zipkin页面访问地址：<a href="http://localhost:9411" target="_blank" rel="noopener">http://localhost:9411</a></p>
-<p><img src="https://img-blog.csdnimg.cn/20200517112059843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">3、依次启动模块 启动eureka-sever，ribbon-orcl-server-service，ribbon-orcl-client-service</p>
-<p><img src="https://img-blog.csdnimg.cn/2020051711233250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>4、多次调用（Sleuth为抽样收集）ribbon-orcl-client-service<br>的接口 <a href="http://localhost:8301/ribbon/1，调用完后查看Zipkin首页发现已经有请求链路跟踪信息了：" target="_blank" rel="noopener">http://localhost:8301/ribbon/1，调用完后查看Zipkin首页发现已经有请求链路跟踪信息了：</a></p>
-<p><img src="https://img-blog.csdnimg.cn/20200517112737606.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>点击查看详情可以直观地看到请求调用链路和通过每个服务的耗时：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200517112828927.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h2 id="三、使用Elasticsearch存储跟踪信息"><a href="#三、使用Elasticsearch存储跟踪信息" class="headerlink" title="三、使用Elasticsearch存储跟踪信息"></a>三、使用Elasticsearch存储跟踪信息</h2><blockquote>
-<p>如果我们把zipkin-server重启一下就会发现刚刚的存储的跟踪信息全部丢失了，可见其是存储在内存中的，有时候我们需要将所有信息存储下来，这里以存储到Elasticsearch为例，来演示下该功能:</p>
-</blockquote>
-<p>1、配置好es、bibana并启动，如果不知道怎么使用可看 <a href="https://chfsun.gitee.io/myblog/spring-cloud/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">es、kibana使用</a></p>
-<p>2、修改Zipkin启动参数将信息存储到Elasticsearch：</p>
-<blockquote>
-<p>STORAGE_TYPE：表示存储类型 ES_HOSTS：表示ES的访问地址</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar zipkin-server-<span class="number">2.12</span><span class="number">.9</span>-exec.jar --STORAGE_TYPE=elasticsearch --ES_HOSTS=localhost:<span class="number">9200</span></span><br></pre></td></tr></table></figure>
-<p>3、重新启动ribbon-orcl-server-service和ribbon-orcl-server-service才能生效，重启后多次调用ribbon-service的接口 <a href="http://localhost:8301/ribbon/1：" target="_blank" rel="noopener">http://localhost:8301/ribbon/1：</a></p>
-<p>4、打开 <a href="http://localhost:5601/，可查看到界面信息：" target="_blank" rel="noopener">http://localhost:5601/，可查看到界面信息：</a></p>
-<p><img src="https://img-blog.csdnimg.cn/2020051711503599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200517115121447.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>5、此时即使关闭zipkin，再重新启动，发现数据依然存在</p>
-<h2 id="四、本章使用到的模块"><a href="#四、本章使用到的模块" class="headerlink" title="四、本章使用到的模块"></a>四、本章使用到的模块</h2><p>springcloud-learning<br>├── eureka-server – eureka注册中心<br>├── ribbon-orcl-server-service – 服务提供者<br>└── ribbon-orcl-client-service– 服务调用者</p>
-<p><strong><a href="https://github.com/chfsun/springcloud-learning" target="_blank" rel="noopener">GitHub项目源码地址</a></strong></p>
+<p>　　此职位为执行级别。另外因为经验较少，一般需要求助别人，或与别人一起完（ban）成（zhuan）一个任务。</p>
+<p>　　此阶段大概要经历3年，程序员的职责如下：</p>
+<p>　　1、负责公司运营系统的设计与开发工作</p>
+<p>　　2、运营数据处理和分析</p>
+<h3 id="高级程序员"><a href="#高级程序员" class="headerlink" title="高级程序员"></a>高级程序员</h3><p>　　高级程序员学名工程师。到了这个level，英文名可改叫做engineer或developer。此时你的功力开始增强，这与你平时的积累努力是分不开的，祝贺你～</p>
+<p>　　此时的你不仅可以完成任务，开始注重代码的质量，能够写出工业级的代码。</p>
+<p>　　你的经验可胜任模块级的系统设计，承担完成较为复杂的技术，能有效的自我管理，有帮助别人快速解决问题（trouble shooting）的能力。</p>
+<p>　　此阶段你需要经历到7、8年左右的体验，中间要经历一段深刻自我历练的过程。</p>
+<p>　　有时给人致命一击其实是心里的小蟊贼。一般人在5年前后遇到一个门槛，碰到天花板+彷徨期，或者你打心眼里不在喜欢编程，可尝试转为其它角色，如产品经理，售前售后支持等岗位，也不失为好选择。</p>
+<p>　　当我们熬过这段儿，就会“山随平野尽，江入大荒流“，渐入佳境矣。</p>
+<p>　　高级程序员定义软件功能、做开发计划推进和管理。可以带几个个帮手把产品规划的功能实现，你是团队中的”大手“，遇到难题也是你亲自攻艰克难。</p>
+<p>　　所以，一个高级程序员，他的职责很清晰：</p>
+<p>　　1、负责产品核心复杂功能的方案设计、编码实现</p>
+<p>　　2、负责疑难BUG分析诊断、攻关解决</p>
+<h3 id="架构师"><a href="#架构师" class="headerlink" title="架构师"></a>架构师</h3><p>　　到了架构师级别，想必你已经学会降龙十八掌，可登堂入世，成为一位准（lao）专（you）家（tiao）。</p>
+<p>　　我们大喊声：“单打独斗，老衲谁也不惧！“，遂开始领导一众技术高手，指点武功，来设计和完成一个系统，大多是分布式，高并发的系统架构平台。</p>
+<p>　　架构师的任务是为公司产品的业务问题提供高质量技术解决方案。可能每条产品线都设置了架构师，也可能多条生产品线的的后端是由一个架构师设计的平台提供。</p>
+<p>　　通过上面架构师的部分成果，总结其职责如下：</p>
+<p>　　1、需求分析：“知彼”有时比“知已”还重要。管理市场，产品等的需求，确立关键需求。坚持技术上的优秀与需求的愿景统一，提升技术负债意识，提供技术选项，风险预判，工期等解决方案。</p>
+<p>　　2、架构设计：在产品功能中抽取中非功能的需求，由关键需求变成概念型架构。列出功能树，分层治之，如用户界面层、系统交互层，数据管理层。达成高扩展，高可用，高性能，高安全，易运维，易部署，易接入等能力。</p>
+<p>　　3、功能设计与实现：对架构设计的底层代码级别实现。如公共核心类，接口实现，应用发现规则、接口变更等。</p>
+<h3 id="技术经理"><a href="#技术经理" class="headerlink" title="技术经理"></a>技术经理</h3><p>　　人生就是不断上升的过程，你已经到达经理的层次了。如今的你，需要不断提高领导力，需要定期召开团队会议讨论问题。</p>
+<p>　　首先我们要更加自信，在工作中显示自己的功力，给讲话增添力量。如：“本次项目虽然有很大的困难，我们也需苦战到底。当然示先垂范，身先士卒，方能成功！”</p>
+<p>　　技术经理有时候也可能叫系统分析员，一些小公司可能会整个公司或者部门有一个技术经理。技术经理承担的角色主要是系统分析、架构搭建、系统构建、代 码走查等工作，如果说项目经理是总统，那么技术经理就是总理。当然不是所有公司都是这样的，有些公司项目经理是不管技术团队的，只做需求、进度和同客户沟 通，那么这个时候的项目经理就好像工厂里的跟单人员了，这种情况在外包公司比较多。对于技术经理来说，着重于技术方面，你需要知道某种功能用哪些技术合 适，需要知道某项功能需要多长的开发时间等。同时，技术经理也应该承担提高团队整体技术水平的工作。</p>
+<p>　　你需要和大家站在一起，因为人们也都有解决问题的能力，更需要有以下的能力与责任：</p>
+<p>　　1、任务管理：开发工作量评估、定立开发流程、分配和追踪开发任务</p>
+<p>　　2、质量管理：代码review、开发风险判断/报告/协调解决</p>
+<p>　　3、效率提升：代码底层研发和培训、最佳代码实践规范总结与推广、自动化生产工具、自动化部署工具</p>
+<p>　　4、技术能力提升：招聘面试、试题主拟、新人指导、项目复盘与改进</p>
+<h3 id="技术总监"><a href="#技术总监" class="headerlink" title="技术总监"></a>技术总监</h3><p>　　如果一个研发团队超过20人，有多条产品线或业务量很大，这时已经有多个技术经理在负责每个业务，这时需要一位技术总监。</p>
+<p>　　技术总监的职责：</p>
+<p>　　1、组建平台研发部，与架构师共建软件公共平台，方便各条产品业务线研发。</p>
+<p>　　2、通过技术平台、通过高一层的职权，管理和协调公司各个部门与本部门各条线。现在每个产品线都应该有合格的技术经理和高级程序员。</p>
+<h3 id="CTO"><a href="#CTO" class="headerlink" title="CTO"></a>CTO</h3><p>　　首席技术官，英文名Chief Technology Officer。是与CEO、COO、CFO同级的领导者，是技术和业务融合的领袖。</p>
+<p>　　国内与国外对CTO的定义有些许不同。</p>
+<p>　　美国对CTO的职责是设计公司三年内的产品和服务的技术发展方向，较少参与技术团队的日常管理和项目管理事务。基本是前瞻性的策略思维，比如Google的谢尔盖.布林一直保持对技术方向的敏锐，比如无人驾驶汽车，人工智能等走向。</p>
+<p>　　在国内，CTO大部分则偏重于研发管理，相当于技术总监的Plus版。它相当于美国互联网公司常设的工程师副总裁+CTO的工作并集。但总体事情比美国的CTO层次低，大部分CTO的是领导技术团队开发各类产品，解决技术问题，管理不同的项目，排期交付。还有一部分的职能类似于架构师或总工程师，作为技术侧的权威，为下一步的发展方向 做研究探讨，为CEO提供建设型决定参考。</p>
+<p>　　CTO的职责如下列表：</p>
+<p>　　1、技术愿景：识别新技术、利用新技术、整合新技术、驱动新技术。驱动商业战略、驱动产品战略</p>
+<p>　　2、技术架构：建立主营业务中的技术架构与实施模式，建立技术体系标准</p>
+<p>　　3、流程制度：建立高质量，高效率的技术团队。健全的项目管理体系；完善的员工能力发展体系</p>
+<p>　　4、知识培训：建立以研发内容为主的知识库管理体系、技术分享与技术文化的体系</p>
+<p>　　5、业务支撑：与其它部门的沟通协作，如HR、市场、BD、财务、客服等提供技术管理接口；在产品技术层面能够领先于业内同行</p>
+<p>　　6、影响力：在公司内部与行业中具备一定影响力与口碑</p>
+<p>　　7、视野&amp;格局&amp;执行力：看待问题全面，具有强大的学习力，具备技术前瞻力，敏锐的市场嗅觉，战略落地的能力</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>　　CTO做的事情，是商业、产品、技术、管理、团队相平衡的综合统管，公司的技术研发方向与重点商业化的结果负责，激励员工，营造工程师文化。</p>
+<p>　　而技术总监主要是协调团队内部各个资源，引入工具，和方法提升工作效率。</p>
+<p>　　技术经理角色相对具体，绩效考核，产品落地，执行优胜劣汰的规则。</p>
 
     </div>
 
@@ -337,8 +338,7 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/myblog/tags/cloud/" rel="tag"><i class="fa fa-tag"></i> cloud</a>
-              <a href="/myblog/tags/sleuth/" rel="tag"><i class="fa fa-tag"></i> sleuth</a>
+              <a href="/myblog/tags/talkabout/" rel="tag"><i class="fa fa-tag"></i> talkabout</a>
           </div>
 
         
@@ -347,12 +347,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8809%EF%BC%89%E4%B9%8B-Bus%E6%B6%88%E6%81%AF%E6%80%BB%E7%BA%BF/" rel="prev" title="Spring Cloud（09）之 Bus消息总线">
-      <i class="fa fa-chevron-left"></i> Spring Cloud（09）之 Bus消息总线
+    <a href="/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/" rel="prev" title="大型网站一般架构技术">
+      <i class="fa fa-chevron-left"></i> 大型网站一般架构技术
     </a></div>
       <div class="post-nav-item">
-    <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8812%EF%BC%89%E4%B9%8B-Gateway%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3/" rel="next" title="Spring Cloud（12）之 Gateway服务网关">
-      Spring Cloud（12）之 Gateway服务网关 <i class="fa fa-chevron-right"></i>
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -414,7 +414,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Spring-Cloud-Sleuth-简介"><span class="nav-number">1.</span> <span class="nav-text">一、Spring Cloud Sleuth 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、整合Zipkin获取及分析日志"><span class="nav-number">3.</span> <span class="nav-text">二、整合Zipkin获取及分析日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、使用Elasticsearch存储跟踪信息"><span class="nav-number">4.</span> <span class="nav-text">三、使用Elasticsearch存储跟踪信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、本章使用到的模块"><span class="nav-number">5.</span> <span class="nav-text">四、本章使用到的模块</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#程序员"><span class="nav-number">1.</span> <span class="nav-text">程序员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高级程序员"><span class="nav-number">2.</span> <span class="nav-text">高级程序员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#架构师"><span class="nav-number">3.</span> <span class="nav-text">架构师</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术经理"><span class="nav-number">4.</span> <span class="nav-text">技术经理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术总监"><span class="nav-number">5.</span> <span class="nav-text">技术总监</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CTO"><span class="nav-number">6.</span> <span class="nav-text">CTO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -588,7 +588,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8810%EF%BC%89%E4%B9%8B-Sleuth%E6%9C%8D%E5%8A%A1%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/',]
       });
       });
   </script>
@@ -604,7 +604,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : '12c1f79be6d7e7b43fba04185edabab0',
+      id          : '331293d711c998d3a0486f8bdf6f15c4',
         language: 'zh-CN',
       distractionFreeMode: true
     });
