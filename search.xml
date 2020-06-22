@@ -4873,8 +4873,9 @@ shiro提供了SimpleHash类帮助我们快速加密：</p>
   </entry>
   <entry>
     <title>如何设计一个高并发系统</title>
-    <url>/myblog/uncategorized/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</url>
+    <url>/myblog/spring-cloud/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h4 id="1、面试题"><a href="#1、面试题" class="headerlink" title="1、面试题"></a>1、面试题</h4><p>如何设计一个高并发系统？</p>
+<a id="more"></a>
 <h4 id="2、面试官心里分析"><a href="#2、面试官心里分析" class="headerlink" title="2、面试官心里分析"></a>2、面试官心里分析</h4><p>说实话，如果面试官问你这个题目，那么你必须要使出全身吃奶劲了。为啥？因为你没看到现在很多公司招聘的jd里都是说啥，有高并发就经验者优先。</p>
 <p>所以如果你确实有真才实学，在互联网公司里干过高并发系统，那你确实拿offer基本如探囊取物，没啥问题。但是如果你要是真是干过高并发系统，面试官绝对绝对不会问这个问题，否则他就不太明智了。</p>
 <p>假设你在某知名电商公司干过高并发系统，用户上亿，一天流量几十亿，高峰期并发量上万，甚至是十万。那么人家一定会仔细盘问你的系统架构，你们系统啥架构？怎么部署的？部署了多少台机器？缓存咋用的？MQ咋用的？数据库咋用的？就是深挖你到底是如何抗下高并发的。</p>
@@ -4899,5 +4900,12 @@ shiro提供了SimpleHash类帮助我们快速加密：</p>
 <p>其实大部分公司，真正看重的，不是说你掌握高并发相关的一些基本的架构知识，架构中的一些技术，RocketMQ、Kafka、Redis、Elasticsearch，高并发这一块，次一等的人才。对一个有几十万行代码的复杂的分布式系统，一步一步架构、设计以及实践过高并发架构的人，这个经验是难能可贵的。</p>
 <p>参考链接：<a href="https://blog.csdn.net/A_BlacksMoon/article/details/86386705" target="_blank" rel="noopener">https://blog.csdn.net/A_BlacksMoon/article/details/86386705</a></p>
 ]]></content>
+      <categories>
+        <category>spring cloud</category>
+      </categories>
+      <tags>
+        <tag>cloud</tag>
+        <tag>高并发</tag>
+      </tags>
   </entry>
 </search>
