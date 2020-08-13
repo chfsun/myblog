@@ -124,22 +124,27 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a>
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">42</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a>
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">45</span></a>
 
   </li>
         <li class="menu-item menu-item-talkabout">
 
     <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/myblog/categories/interview" rel="section"><i class="fa fa-sitemap fa-fw"></i>历年面试题</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -197,7 +202,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8803%EF%BC%89%E4%B9%8B-Ribbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -211,7 +216,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/" class="post-title-link" itemprop="url">SpringBoot2.0集成Shiro（二）</a>
+            <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8803%EF%BC%89%E4%B9%8B-Ribbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/" class="post-title-link" itemprop="url">Spring Cloud（03）之 Ribbon服务消费者</a>
         </h2>
 
         <div class="post-meta">
@@ -221,14 +226,362 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-28 11:04:42" itemprop="dateCreated datePublished" datetime="2020-04-28T11:04:42+08:00">2020-04-28</time>
+              <time title="创建时间：2020-05-03 22:34:36" itemprop="dateCreated datePublished" datetime="2020-05-03T22:34:36+08:00">2020-05-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 19:34:58" itemprop="dateModified" datetime="2020-05-03T19:34:58+08:00">2020-05-03</time>
+                <time title="修改时间：2020-05-03 22:34:36" itemprop="dateModified" datetime="2020-05-03T22:34:36+08:00">2020-05-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Ribbon简介"><a href="#Ribbon简介" class="headerlink" title="Ribbon简介"></a>Ribbon简介</h2><p>目前主流的负载方案分为以下两种：</p>
+<blockquote>
+<p>   1、集中式负载均衡，在消费者和服务提供方中间使用独立的代理方式进行负载，有硬件的（比如 F5），也有软件的（比如 Nginx）。<br>2、客户端自己做负载均衡，根据自己的请求情况做负载，Ribbon 就属于客户端自己做负载。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8803%EF%BC%89%E4%B9%8B-Ribbon%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+		<div>
+		    
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+	
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/talkabout/%E6%9D%82%E8%B0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/talkabout/%E6%9D%82%E8%B0%88/" class="post-title-link" itemprop="url">我的外包经验：印度、中国和菲律宾（译文）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-02 20:54:08" itemprop="dateCreated datePublished" datetime="2020-05-02T20:54:08+08:00">2020-05-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-02 20:54:08" itemprop="dateModified" datetime="2020-05-02T20:54:08+08:00">2020-05-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/talkabout/" itemprop="url" rel="index"><span itemprop="name">talkabout</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="page-title" class="asset-name entry-title">我的外包经验：印度、中国和菲律宾（译文）</h1>
+作者： 阮一峰
+
+<p>日期：2020年2月27日</p>
+<p>外包在软件业很常见，各种规模的公司都在用，每年要吸纳大量就业。</p><p></p>
+<p>但是，外包的曝光量很少，大家似乎都不太关心，很少有人谈论。这导致许多人不了解外包到底是怎么回事。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/myblog/talkabout/%E6%9D%82%E8%B0%88/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+		<div>
+		    
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+	
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8802%EF%BC%89%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8802%EF%BC%89%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/" class="post-title-link" itemprop="url">Spring Cloud之Eureka服务注册与发现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-29 00:51:45" itemprop="dateCreated datePublished" datetime="2020-04-29T00:51:45+08:00">2020-04-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-29 00:51:45" itemprop="dateModified" datetime="2020-04-29T00:51:45+08:00">2020-04-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Eureka简介"><a href="#Eureka简介" class="headerlink" title="Eureka简介"></a>Eureka简介</h2><p>在微服务架构中往往会有一个注册中心，每个微服务都会向注册中心去注册自己的地址及端口信息，注册中心维护着服务名称与服务实例的对应关系。每个微服务都会定时从注册中心获取服务列表，同时汇报自己的运行情况，这样当有的服务需要调用其他服务时，就可以从自己获取到的服务列表中获取实例地址进行调用，Eureka实现了这套服务注册与发现机制。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8802%EF%BC%89%E4%B9%8BEureka%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+		<div>
+		    
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+	
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-cloud/Spring-Cloud%EF%BC%8801%EF%BC%89%E4%B9%8B%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8801%EF%BC%89%E4%B9%8B%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/" class="post-title-link" itemprop="url">Spring Cloud 你需要知道的</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-28 22:11:23" itemprop="dateCreated datePublished" datetime="2020-04-28T22:11:23+08:00">2020-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-28 22:11:23" itemprop="dateModified" datetime="2020-04-28T22:11:23+08:00">2020-04-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-cloud/" itemprop="url" rel="index"><span itemprop="name">spring cloud</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Spring-Cloud是什么"><a href="#Spring-Cloud是什么" class="headerlink" title="Spring Cloud是什么"></a>Spring Cloud是什么</h2><p>Spring Cloud 是一系列框架的有序集合。它利用 Spring Boot 的开发便利性，巧妙地简化了分布式系统基础设施的开发，如服务注册、服务发现、配置中心、消息总线、负载均衡、断路器、数据监控等，这些都可以用 Spring Boot 的开发风格做到一键启动和部署。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/myblog/spring-cloud/Spring-Cloud%EF%BC%8801%EF%BC%89%E4%B9%8B%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+		<div>
+		    
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+	
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/" class="post-title-link" itemprop="url">SpringBoot项目整合ELK、kafka</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-28 11:26:00" itemprop="dateCreated datePublished" datetime="2020-04-28T11:26:00+08:00">2020-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-28 11:26:00" itemprop="dateModified" datetime="2020-04-28T11:26:00+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -251,10 +604,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Shiro这个Java安全框架我一直都想学会怎么去使用，但每次依照着别人的博客尝试把它配置到自己的项目中，总是出现各种问题，导致一直没有成功。经过不懈努力，这一次终于成功了！从零搭建整个项目，并通过一个简单的用户登录功能来进行说明！</p>
+          <div class="htmledit_views" id="content_views">
+                                            <p>本篇文章主要介绍使用Spring Boot整合log4j，配合ELK（Elasticsearch , Logstash, Kibana）整合Kafka完成日志收集，应用场景比较多的是分布式项目，这样可以直接收集各个节点的日志到一起，便于错误日志查看和分析业务。</p></div>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shir%EF%BC%88%E4%BA%8C%EF%BC%89/#more" rel="contents">
+              <a class="btn" href="/myblog/spring-boot/SpringBoot%E9%A1%B9%E7%9B%AE%E6%95%B4%E5%90%88ELK%E3%80%81kafka/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -282,7 +636,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shiro/index/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -296,7 +650,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shiro/index/" class="post-title-link" itemprop="url">SpringBoot2.0集成Shiro</a>
+            <a href="/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/" class="post-title-link" itemprop="url">kafka入门及spring boot下简单整合</a>
         </h2>
 
         <div class="post-meta">
@@ -306,14 +660,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-28 10:51:52" itemprop="dateCreated datePublished" datetime="2020-04-28T10:51:52+08:00">2020-04-28</time>
+              <time title="创建时间：2020-04-28 11:24:20" itemprop="dateCreated datePublished" datetime="2020-04-28T11:24:20+08:00">2020-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-03 19:40:20" itemprop="dateModified" datetime="2020-05-03T19:40:20+08:00">2020-05-03</time>
+                <time title="修改时间：2020-04-28 11:24:20" itemprop="dateModified" datetime="2020-04-28T11:24:20+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -336,10 +690,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Shiro 整合到 SpringBoot<br>中，并且避开一些小坑，由浅入深，从最基本的配置开始，一步一步加入新的功能。这样理解起来也稍微简单点</p><p></p>
+          <h2 id="win10下安装kafka"><a href="#win10下安装kafka" class="headerlink" title="win10下安装kafka"></a>win10下安装kafka</h2><p>注：kafka依赖于zookeeper，官网下载的kafka内置了zookeeper依赖。</p>
+<h3>1. 下载Kafka</h3>
+网址：http://kafka.apache.org/
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/myblog/spring-boot/SpringBoot2-0%E9%9B%86%E6%88%90Shiro/index/#more" rel="contents">
+              <a class="btn" href="/myblog/spring-boot/kafka%E5%85%A5%E9%97%A8%E5%8F%8Aspring-boot%E4%B8%8B%E7%AE%80%E5%8D%95%E6%95%B4%E5%90%88/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -367,7 +723,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/tool/%E4%BB%B6%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94windows%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85curl%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8http%E6%8E%A5%E5%8F%A3/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -381,7 +737,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/myblog/tool/%E4%BB%B6%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94windows%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85curl%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8http%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">软件工具——windows下载安装curl工具调用http接口</a>
+            <a href="/myblog/spring-boot/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/" class="post-title-link" itemprop="url">spring boot下整合dubbo和zookeeper</a>
         </h2>
 
         <div class="post-meta">
@@ -391,14 +747,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-17 23:52:17" itemprop="dateCreated datePublished" datetime="2020-04-17T23:52:17+08:00">2020-04-17</time>
+              <time title="创建时间：2020-04-28 11:23:38" itemprop="dateCreated datePublished" datetime="2020-04-28T11:23:38+08:00">2020-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-17 23:53:40" itemprop="dateModified" datetime="2020-05-17T23:53:40+08:00">2020-05-17</time>
+                <time title="修改时间：2020-04-28 11:23:38" itemprop="dateModified" datetime="2020-04-28T11:23:38+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -406,7 +762,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
                 </span>
             </span>
 
@@ -421,10 +777,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>curl是利用URL语法在命令行方式下工作的开源文件传输工具，支持的通信协议有FTP、FTPS、HTTP、HTTPS、TFTP、SFTP、Gopher、SCP、Telnet、DICT、FILE、LDAP、LDAPS、IMAP、POP3、SMTP和RTSP，功能强大，用于文件下载和上传，项目需要，学习一下。</p>
+          <p>本章主要说下dubbo和zookeeper的概念，以及在基于springboot框架搭建dubbo+zookeeper分布式服务架构。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/myblog/tool/%E4%BB%B6%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94windows%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85curl%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8http%E6%8E%A5%E5%8F%A3/#more" rel="contents">
+              <a class="btn" href="/myblog/spring-boot/spring-boot%E4%B8%8B%E6%95%B4%E5%90%88dubbo%E5%92%8Czookeeper/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -452,7 +808,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/tool/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/SpringBoot-%E5%BA%94%E7%94%A8%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -466,7 +822,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/myblog/tool/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">elasticsearch-6.2.2 + kibana-6.2.2-windows-x86_64安装配置</a>
+            <a href="/myblog/spring-boot/SpringBoot-%E5%BA%94%E7%94%A8%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">SpringBoot 应用跨域访问解决方案</a>
         </h2>
 
         <div class="post-meta">
@@ -476,14 +832,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-16 17:30:04" itemprop="dateCreated datePublished" datetime="2020-04-16T17:30:04+08:00">2020-04-16</time>
+              <time title="创建时间：2020-04-28 11:22:59" itemprop="dateCreated datePublished" datetime="2020-04-28T11:22:59+08:00">2020-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-17 23:56:21" itemprop="dateModified" datetime="2020-05-17T23:56:21+08:00">2020-05-17</time>
+                <time title="修改时间：2020-04-28 11:22:59" itemprop="dateModified" datetime="2020-04-28T11:22:59+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -491,7 +847,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
                 </span>
             </span>
 
@@ -506,11 +862,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="一、使用版本"><a href="#一、使用版本" class="headerlink" title="一、使用版本"></a>一、使用版本</h2><p>es和kibana的版本都是6.2.2</p>
-<pre><code>elasticsearch-6.2.2 + kibana-6.2.2-windows-x86_64</code></pre>
+          <div id="cnblogs_post_body" class="blogpost-body ">
+    <h2 id="一什么是跨域访问">一、什么是跨域访问</h2></div>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/myblog/tool/lasticsearch-6-2-2-kibana-6-2-2-windows-x86-64%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/#more" rel="contents">
+              <a class="btn" href="/myblog/spring-boot/SpringBoot-%E5%BA%94%E7%94%A8%E8%B7%A8%E5%9F%9F%E8%AE%BF%E9%97%AE%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -538,7 +894,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/tool/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -552,7 +908,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/myblog/tool/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">git常用命令</a>
+            <a href="/myblog/spring-boot/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">spring boot 使用Nginx及其基本概念、安装、配置</a>
         </h2>
 
         <div class="post-meta">
@@ -562,14 +918,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-04-14 14:18:39" itemprop="dateCreated datePublished" datetime="2020-04-14T14:18:39+08:00">2020-04-14</time>
+              <time title="创建时间：2020-04-28 11:21:58" itemprop="dateCreated datePublished" datetime="2020-04-28T11:21:58+08:00">2020-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-17 23:55:32" itemprop="dateModified" datetime="2020-05-17T23:55:32+08:00">2020-05-17</time>
+                <time title="修改时间：2020-04-28 11:21:58" itemprop="dateModified" datetime="2020-04-28T11:21:58+08:00">2020-04-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -577,7 +933,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/tool/" itemprop="url" rel="index"><span itemprop="name">tool</span></a>
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
                 </span>
             </span>
 
@@ -592,14 +948,97 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="代码提交"><a href="#代码提交" class="headerlink" title="代码提交"></a>代码提交</h2><p>1、初始化</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+          <div class="item-wrap"><div class="article is-firefox" id="article" data-islow-browser="0"><div class="article-content"><p><span class="bjh-p">想必大家一定听说过 Nginx，若没听说过它，那么一定听过它的"同行"Apache 吧！</span></p><p><span class="bjh-p">
 
-<p>2、添加</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<h2 id="Nginx-的产生"><a href="#Nginx-的产生" class="headerlink" title="Nginx 的产生"></a>Nginx 的产生</h2></span></p></div></div></div>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/myblog/tool/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
+              <a class="btn" href="/myblog/spring-boot/spring-boot-%E4%BD%BF%E7%94%A8Nginx%E5%8F%8A%E5%85%B6%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5%E3%80%81%E5%AE%89%E8%A3%85%E3%80%81%E9%85%8D%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+		<div>
+		    
+		</div>
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+	
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">Spring Boot 中 Redis的使用 及Spring Session共享实现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-28 11:19:38" itemprop="dateCreated datePublished" datetime="2020-04-28T11:19:38+08:00">2020-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-28 11:19:38" itemprop="dateModified" datetime="2020-04-28T11:19:38+08:00">2020-04-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/spring-boot/" itemprop="url" rel="index"><span itemprop="name">spring boot</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -626,7 +1065,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/myblog/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/myblog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/myblog/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/myblog/page/3/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/myblog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/myblog/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/myblog/page/5/">5</a><a class="extend next" rel="next" href="/myblog/page/5/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -635,6 +1074,16 @@
           
 
 <script>
+	(function(){
+		if(''){
+			if (prompt('请输入文章密码') !== ''){
+				alert('密码错误');
+				history.back();
+			}
+		}
+	})();
+  
+
   window.addEventListener('tabs:register', () => {
     let { activeClass } = CONFIG.comments;
     if (CONFIG.comments.storage) {
@@ -694,20 +1143,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/myblog/categories">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/myblog/tags">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -742,7 +1191,7 @@
         
 
         
-
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <div class="copyright">
   
   &copy; 
@@ -752,7 +1201,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">chfsun</span>
 </div>
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 <div class="powered-by">
 <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
   本站访客数:<span id="busuanzi_value_site_uv"></span>
