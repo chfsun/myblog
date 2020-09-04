@@ -30,7 +30,7 @@
 <meta property="og:description" content="综合面试题02">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-05-20T01:50:35.000Z">
-<meta property="article:modified_time" content="2020-09-04T01:42:06.673Z">
+<meta property="article:modified_time" content="2020-09-04T01:56:02.385Z">
 <meta property="article:author" content="chfsun">
 <meta property="article:tag" content="面试题">
 <meta property="article:tag" content="interview">
@@ -271,14 +271,14 @@
       
         <p>综合面试题02</p>
 <a id="more"></a>
-<h4 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h4><p>1、 Java语言有哪些特点</p>
+<h4 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h4><p>1、 Java语言有哪些特点，JDK与JRE的区别</p>
 <p>2、面向对象和面向过程的区别</p>
 <p>3 、八种基本数据类型的大小，以及他们的封装类</p>
 <p>4、标识符的命名规则。</p>
 <p>5、instanceof 关键字的作用</p>
 <p>6、Java自动装箱与拆箱</p>
 <p>7、 重载和重写的区别</p>
-<p>8、 equals与==的区别</p>
+<p>8、 equals与==的区别，==与===的区别</p>
 <p>9、 Hashcode的作用</p>
 <p>10、String、String StringBuffer 和 StringBuilder 的区别是什么?</p>
 <p>11、ArrayList和linkedList的区别</p>
@@ -302,7 +302,8 @@
 <p>29、Java 中 IO 流</p>
 <p>30、 Java IO与 NIO的区别</p>
 <p>31、java反射的作用于原理</p>
-<p>32、说说List,Set,Map三者的区别？<br>2020最新版Java面试宝典详尽讲解</p>
+<p>32、说说List,Set,Map三者的区别</p>
+<p>33、java类与类之间的关系有哪些</p>
 <h4 id="JVM篇"><a href="#JVM篇" class="headerlink" title="JVM篇"></a>JVM篇</h4><p>1、知识点汇总</p>
 <p>2、知识点详解：</p>
 <p>3、类加载与卸载</p>
@@ -322,7 +323,7 @@
 <p>17、调优命令有哪些？</p>
 <p>18、调优工具</p>
 <p>19、Minor GC与Full GC分别在什么时候发生？</p>
-<p>20、你知道哪些JVM性能调优<br>2020最新版Java面试宝典详尽讲解</p>
+<p>20、你知道哪些JVM性能调优</p>
 <h4 id="多线程-amp-并发篇"><a href="#多线程-amp-并发篇" class="headerlink" title="多线程&amp;并发篇"></a>多线程&amp;并发篇</h4><p>1、Java中实现多线程有几种方法</p>
 <p>2、如何停止一个正在运行的线程</p>
 <p>3、notify()和notifyAll()有什么区别？</p>
@@ -344,7 +345,67 @@
 <p>19、 volatile关键字的作用？</p>
 <p>20、常用的线程池有哪些？</p>
 <p>21、简述一下你对线程池的理解</p>
-<p>22、Java程序是如何执行的<br>2020最新版Java面试宝典详尽讲解</p>
+<p>22、Java程序是如何执行的</p>
+<h6 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h6><p>1）现在有三个线程：T1、T2和T3。如何确保T2在T1完成后执行，T3在T2完成后执行？</p>
+<blockquote>
+<p>这个线程问题通常在第一阶段或电话面试阶段询问，以确定您是否熟悉“连接”方法。此多线程问题比较简单，可以在联接方法中实现。</p>
+</blockquote>
+<p>2）在java锁接口优势比同步块是什么？您需要实现一个高效的高速缓存，允许多个用户读取，但只允许一个用户写入，以保持其完整性。你是如何实现的？</p>
+<blockquote>
+<p>在多线程和并发编程锁接口最大的优势是，他们对阅读和写作分别提供锁，可以满足高性能的数据结构和条件阻止你写像ConcurrentHashMap。java线程的面试问题越来越基于面试官的答案变得。我强烈建议您在进行多线程访问之前仔细阅读锁，因为现在它被广泛用于为电子事务构建客户端缓存和事务连接空间。</p>
+</blockquote>
+<p>3）在java的等待和睡眠的方法之间的区别吗？</p>
+<blockquote>
+<p>java线程的面试往往是在电话采访中问。最大的区别是，当等待等待时，锁被释放，睡眠锁住了锁。等待通常用于线程间交互，而休眠通常用于暂停执行。</p>
+</blockquote>
+<p>4）阻塞队列是用java实现的。</p>
+<blockquote>
+<p>这是一个比较困难的多线程面试问题，它可以达到很多的目标。首先，它可以检测应试者是否可以与java线程编写程序。其次，它可以检测考生对并发场景的理解，并在此基础上提出许多问题。如果他用等待（）和通知（）方法来实现阻塞队列，你可以请他写了最新的java 5并发。</p>
+</blockquote>
+<p>5）编写的代码在java解决生产者消费者问题。</p>
+<blockquote>
+<p>这与上面的问题很相似，但这是一个比较经典的问题，有时面试会问以下问题。有，当然，很多的解决方案如何解决java生产者消费者问题，我已经分享了一个阻塞队列的方法。有时他们甚至问如何做哲学家的饭。</p>
+</blockquote>
+<p>6）编程程序，用java可能导致死锁，你将如何解决呢？</p>
+<blockquote>
+<p>这是我最喜欢的java线程面试问题，因为即使是很常见的死锁问题的时候写的多线程的并发程序，很多考生不能写无死锁的代码（无死锁的代码）。他们在挣扎。只要告诉他们你有N个资源和N个线程，你需要所有的资源来做一个操作。为了简单地将n替换为2，数据越大会使问题看起来更复杂。关于死锁的更多信息是通过避免在java死锁了。</p>
+</blockquote>
+<p>7）原子操作是什么，什么是java的原子操作？</p>
+<blockquote>
+<p>一个很简单的java线程面试问题，接下来的问题是，你需要同步一个原子操作。</p>
+</blockquote>
+<p>8）在java中挥发性的关键的作用是什么？怎么用它？从同步方法在java的区别是什么？</p>
+<blockquote>
+<p>由于java 5和java内存模式发生了改变，基于关键字volatile的线程问题越来越受关注。你应该准备回答如何能确保volatile变量的可见性，sequentility，在并行环境的一致性。</p>
+</blockquote>
+<p>9）竞争的条件是什么？你如何找到并解决竞争？</p>
+<blockquote>
+<p>这是在多线程面试的高级阶段出现的问题。大多数面试官都在问你最近遇到的竞争环境，以及你如何解决这些问题。有时候他们会编写简单的代码，然后让你发现代码的竞争条件。你可以参考我之前的文章对java的竞争条件。在我看来，这是一个最好的java线程面试问题。它可以检测该候选人的经验来解决竞争条件完全相同，或写作，这是免费的数据种族或种族代码，”“这是最好的书“java”并行的实践。</p>
+</blockquote>
+<p>10）如何使用线程转储？你将如何分析线程转储？</p>
+<blockquote>
+<p>在UNIX中，您可以使用杀- 3，线程转储将打印日志，您可以在Windows中使用“Ctrl +中断”。这是一个非常简单和专业的线程面试问题，但如果他问你如何分析它，这将是棘手的。</p>
+</blockquote>
+<p>11）为什么我们在调用开始（）方法时执行run（）方法，为什么我们不能直接调用run（）方法呢？</p>
+<blockquote>
+<p>这是一个非常经典的java多线程面试问题。这也是我刚开始编写线程程序时的一个难题。现在这个问题通常是在电话面试或在第一中级java面试第一轮问。这个问题的答案应该是，当你调用开始（）方法时，你将创建一个新的线程并在run（）方法中执行代码。但是，如果直接调用run（）方法，它不会创建一个新线程，也不会执行调用线程的代码。阅读我之前写过的关于启动和运行方法之间的差异的文章，以便获得更多信息。</p>
+</blockquote>
+<p>12）你如何唤醒阻塞的线程在java？</p>
+<blockquote>
+<p>这是线程和阻塞的一个棘手问题，它有很多解决方案。如果线程被IO阻塞了，我认为没有办法停止线程。如果线程通过调用等待阻塞（），睡眠（），或加入（），您可以中断线程和投掷它唤醒InterruptedException。如何处理阻塞方法在java，我早些时候写的，有很多关于处理阻塞的线程信息。</p>
+</blockquote>
+<p>13）在java CycliBarriar和countdownlatch之间的区别是什么？</p>
+<blockquote>
+<p>这个线程的问题主要是用来检测你是否熟悉JDK5并发包。两者的区别是，cyclicbarrier可以重用已经过去，countdownlatch不能重用的障碍。</p>
+</blockquote>
+<p>14）什么是不可变对象，它对编写并发应用程序有什么帮助？</p>
+<blockquote>
+<p>另一个多线程的经典面试问题与线程无关，但它有很大帮助。这个java面试问题是非常棘手的，如果他要求你写一个不可变的对象，或者问你为什么字符串是不可变的。</p>
+</blockquote>
+<p>15）在多线程环境中遇到的常见问题是什么？你是怎么解决的？</p>
+<blockquote>
+<p>经常遇到的多线程和内存接口，工艺复杂的竞争条件，死锁，活锁和饥饿。这个问题没有尽头。如果你犯了一个错误，很难找到和调试。这是最基础的面试，不是java线程的问题，根据实际应用。</p>
+</blockquote>
 <h4 id="Spring篇"><a href="#Spring篇" class="headerlink" title="Spring篇"></a>Spring篇</h4><p>1、 Spring的IOC和AOP机制？</p>
 <p>2、 Spring中Autowired和Resource关键字的区别？</p>
 <p>3、依赖注入的方式有几种，各是什么?</p>
@@ -358,7 +419,8 @@
 <p>11、 解释Spring支持的几种bean的作用域。</p>
 <p>12、 Spring基于xml注入bean的几种方式：</p>
 <p>13、Spring框架中都用到了哪些设计模式？</p>
-<h4 id="Spring事务"><a href="#Spring事务" class="headerlink" title="Spring事务"></a>Spring事务</h4><h4 id="MyBatis篇"><a href="#MyBatis篇" class="headerlink" title="MyBatis篇"></a>MyBatis篇</h4><p>1、什么是MyBatis</p>
+<p>14、简述下pring事务</p>
+<h4 id="MyBatis篇"><a href="#MyBatis篇" class="headerlink" title="MyBatis篇"></a>MyBatis篇</h4><p>1、什么是MyBatis</p>
 <p>2、MyBatis的优点和缺点</p>
 <p>3、#{}和${}的区别是什么？</p>
 <p>4、当实体类中的属性名和表中的字段名不一样 ，怎么办 ？</p>
@@ -380,13 +442,14 @@
 <p>9、 你如何理解 Spring Boot 中的 Starters？</p>
 <p>10、 springboot常用的starter有哪些</p>
 <p>11、 SpringBoot 实现热部署有哪几种方式？</p>
-<p>12、 如何理解 Spring Boot 配置加载顺序？</p>
+<p>12、 Spring Boot如何实现初始化，如何理解 Spring Boot 配置加载顺序？</p>
 <p>13、 Spring Boot 的核心配置文件有哪几个？它们的区别是什么？</p>
 <p>14、如何集成 Spring Boot 和 ActiveMQ？</p>
 <p>15、如何重新加载Spring Boot上的更改，而无需重新启动服务器？</p>
 <p>16、 Spring Boot、Spring MVC 和 Spring 有什么区别？</p>
 <p>17、 能否举一个例子来解释更多 Staters 的内容？</p>
 <p>18、 Spring Boot 还提供了其它的哪些 Starter Project Options？</p>
+<p>19、如何自定义一个Starter</p>
 <h4 id="MySQL篇"><a href="#MySQL篇" class="headerlink" title="MySQL篇"></a>MySQL篇</h4><p>1、数据库的三范式是什么</p>
 <p>2、数据库引擎有哪些</p>
 <p>3、InnoDB与MyISAM的区别</p>
@@ -413,8 +476,7 @@
 <p>14、mysql有关权限的表都有哪几个</p>
 <p>15、mysql有哪些数据类型</p>
 <p>16、创建索引的三种方式，删除索引</p>
-<p>Redis篇</p>
-<p>1、Redis持久化机制</p>
+<h4 id="Redis篇"><a href="#Redis篇" class="headerlink" title="Redis篇"></a>Redis篇</h4><p>1、Redis持久化机制</p>
 <p>2、缓存雪崩、缓存穿透、缓存预热、缓存更新、缓存降级等问题</p>
 <p>3、热点数据和冷数据是什么</p>
 <p>4、Memcache与Redis的区别都有哪些？</p>
@@ -425,8 +487,7 @@
 <p>9、Redis 常见性能问题和解决方案？</p>
 <p>10、为什么Redis的操作是原子性的，怎么保证原子性的？</p>
 <p>11、Redis事务</p>
-<p>SpringCloud篇</p>
-<p>1、什么是SpringCloud</p>
+<h4 id="SpringCloud篇"><a href="#SpringCloud篇" class="headerlink" title="SpringCloud篇"></a>SpringCloud篇</h4><p>1、什么是SpringCloud</p>
 <p>2、什么是微服务</p>
 <p>3、SpringCloud有什么优势</p>
 <p>4、 什么是服务熔断？什么是服务降级？</p>
@@ -436,8 +497,7 @@
 <p>8、什么是Hystrix？它如何实现容错？</p>
 <p>9、什么是Hystrix断路器？我们需要它吗？</p>
 <p>10、说说 RPC 的实现原理</p>
-<p>Nginx篇</p>
-<p>1、简述一下什么是Nginx，它有什么优势和功能？</p>
+<h4 id="Nginx篇"><a href="#Nginx篇" class="headerlink" title="Nginx篇"></a>Nginx篇</h4><p>1、简述一下什么是Nginx，它有什么优势和功能？</p>
 <p>2、Nginx是如何处理一个HTTP请求的呢？</p>
 <p>3、列举一些Nginx的特性</p>
 <p>4、请列举Nginx和Apache 之间的不同点</p>
@@ -445,8 +505,7 @@
 <p>6、请解释Nginx服务器上的Master和Worker进程分别是什么?</p>
 <p>7、请解释代理中的正向代理和反向代理</p>
 <p>8、解释Nginx用途</p>
-<p>MQ篇</p>
-<p>1、为什么使用MQ</p>
+<h4 id="MQ篇"><a href="#MQ篇" class="headerlink" title="MQ篇"></a>MQ篇</h4><p>1、为什么使用MQ</p>
 <p>2、MQ优缺点</p>
 <p>3、Kafka、ActiveMQ、RabbitMQ、RocketMQ 都有什么区别？</p>
 <p>4、如何保证高可用的？</p>
@@ -454,15 +513,13 @@
 <p>6、如何保证消息的顺序性</p>
 <p>7、 如何解决消息队列的延时以及过期失效问题？消息队列满了以后该怎么处理？有几百万消息持续积压几小时，说说怎么解决？</p>
 <p>8、设计MQ的思路</p>
-<p>数据结构与算法篇</p>
-<p>1、常用的数据结构 - 1. 数组 - 2. 栈 - 3. 队列 - 4. 链表 - 5. 图 - 6. 树 - 7. 前缀树 - 8. 哈希表</p>
+<h5 id="数据结构与算法篇"><a href="#数据结构与算法篇" class="headerlink" title="数据结构与算法篇"></a>数据结构与算法篇</h5><p>1、常用的数据结构 - 1. 数组 - 2. 栈 - 3. 队列 - 4. 链表 - 5. 图 - 6. 树 - 7. 前缀树 - 8. 哈希表</p>
 <p>2、 数据里有{1,2,3,4,5,6,7,8,9}，请随机打乱顺序，生成一个新的数组（请以代码实现）</p>
 <p>3、 写出代码判断一个整数是不是2的阶次方（请代码实现，谢绝调用API方法）</p>
 <p>4、 假设今日是2015年3月1日，星期日，请算出13个月零6天后是星期几，距离现在多少天（请用代码实现，谢绝调用API方法）</p>
 <p>5、 有两个篮子，分别为A 和 B，篮子A里装有鸡蛋，篮子B里装有苹果，请用面向对象的思想实现两个篮子里的物品交换（请用代码实现）</p>
 <p>6、更多算法练习</p>
-<p>Linux篇</p>
-<p>1、 绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？</p>
+<h4 id="Linux篇"><a href="#Linux篇" class="headerlink" title="Linux篇"></a>Linux篇</h4><p>1、 绝对路径用什么符号表示？当前目录、上层目录用什么表示？主目录用什么表示? 切换目录用什么命令？</p>
 <p>2、 怎么查看当前进程？怎么执行退出？怎么查看当前路径？</p>
 <p>3、查看文件有哪些命令</p>
 <p>4、列举几个常用的Linux命令</p>
@@ -579,7 +636,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础篇"><span class="nav-number">1.</span> <span class="nav-text">基础篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM篇"><span class="nav-number">2.</span> <span class="nav-text">JVM篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程-amp-并发篇"><span class="nav-number">3.</span> <span class="nav-text">多线程&amp;并发篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring篇"><span class="nav-number">4.</span> <span class="nav-text">Spring篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring事务"><span class="nav-number">5.</span> <span class="nav-text">Spring事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis篇"><span class="nav-number">6.</span> <span class="nav-text">MyBatis篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpringBoot篇"><span class="nav-number">7.</span> <span class="nav-text">SpringBoot篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL篇"><span class="nav-number">8.</span> <span class="nav-text">MySQL篇</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#基础篇"><span class="nav-number">1.</span> <span class="nav-text">基础篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM篇"><span class="nav-number">2.</span> <span class="nav-text">JVM篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多线程-amp-并发篇"><span class="nav-number">3.</span> <span class="nav-text">多线程&amp;并发篇</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#其它"><span class="nav-number">3.0.1.</span> <span class="nav-text">其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring篇"><span class="nav-number">4.</span> <span class="nav-text">Spring篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyBatis篇"><span class="nav-number">5.</span> <span class="nav-text">MyBatis篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpringBoot篇"><span class="nav-number">6.</span> <span class="nav-text">SpringBoot篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MySQL篇"><span class="nav-number">7.</span> <span class="nav-text">MySQL篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis篇"><span class="nav-number">8.</span> <span class="nav-text">Redis篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpringCloud篇"><span class="nav-number">9.</span> <span class="nav-text">SpringCloud篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Nginx篇"><span class="nav-number">10.</span> <span class="nav-text">Nginx篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MQ篇"><span class="nav-number">11.</span> <span class="nav-text">MQ篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据结构与算法篇"><span class="nav-number">11.1.</span> <span class="nav-text">数据结构与算法篇</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux篇"><span class="nav-number">12.</span> <span class="nav-text">Linux篇</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
