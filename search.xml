@@ -1903,64 +1903,352 @@
       </tags>
   </entry>
   <entry>
-    <title>Spring Data JPA</title>
-    <url>/myblog/Spring-Data/Spring-Data-JPA/</url>
-    <content><![CDATA[<h4 id="Spring-Data介绍"><a href="#Spring-Data介绍" class="headerlink" title="Spring Data介绍"></a>Spring Data介绍</h4><p>　　Spring  Data项目是从2010年发展起来的，从创立之初SpringData就想提供一个大家熟悉的、一致的、基于Spring的数据访问编程模型，同时仍然保留底层数据存储的特殊特性。它可以轻松地让开发者使用数据访问技术，包括关系数据库、非关系数据库（NoSQL）和基于云的数据服务。　</p>
-<a id="more"></a>
-<p>　　Spring Data Common是Spring Data所有模块的公用部分，该项目提供跨Spring数据项目的共享基础设施。它包含了技术中立的库接口以及一个坚持java类的元数据模型。</p>
-<p>　　Spring Data不仅对传统的数据库访问技术JDBC、Hibernate、JDO、TopLick、JPA、Mybitas做了很好的支持、扩展、抽象、提供方便的API，还对NoSQL等非关系数据做了很好的支持，包括MongoDB、Redis、Apache Solr等.</p>
-<h4 id="Spring-Data操作的主要特性"><a href="#Spring-Data操作的主要特性" class="headerlink" title="Spring Data操作的主要特性"></a>Spring Data操作的主要特性</h4><p>　　Spring Data项目旨在为大家提供一种通用的编码模式。数据访问对象实现了对物理数据层的抽象，为编写查询方法提供了方便。通过对象映射，实现域对象和持续化存储之间的转换，而模板提供的是对底层存储实体的访问实现。如图1-4所示。操作上主要有如下特征：</p>
-<p>　　提供模板操作，如Spring Data Redis和Spring Data Riak。</p>
-<p>　　强大的Repository和定制的数据存储对象的抽象映射。<br>　　对数据访问对象的支持（Auting等）。</p>
-<h4 id="Spring-Data-JPA介绍"><a href="#Spring-Data-JPA介绍" class="headerlink" title="Spring Data JPA介绍"></a>Spring Data JPA介绍</h4><p>　　可以理解为JPA规范的再次封装抽象，底层还是使用了Hibernate的JPA技术实现，引用JPQL（Java Persistence Query Language）查询语言，属于Spring整个生态体系的一部分。随着Spring Boot和Spring Cloud在市场上的流行，Spring Data JPA也逐渐进入大家的视野，它们组成有机的整体，使用起来比较方便，加快了开发的效率，使开发者不需要关心和配置更多的东西，完全可以沉浸在Spring的完整生态标准实现下。JPA上手简单，开发效率高，对对象的支持比较好，又有很大的灵活性，市场的认可度越来越高。</p>
-<p>　　JPA是Java Persistence API的简称，中文名为Java持久层API，是JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。</p>
-<h6 id="JPA包括以下3方面的内容："><a href="#JPA包括以下3方面的内容：" class="headerlink" title="JPA包括以下3方面的内容："></a>JPA包括以下3方面的内容：</h6><p>　　（1）一套API标准。在javax.persistence的包下面，用来操作实体对象，执行CRUD操作，框架在后台替代我们完成所有的事情，开发者从烦琐的JDBC和SQL代码中解脱出来。</p>
-<p>　　（2）面向对象的查询语言：Java Persistence QueryLanguage（JPQL）。这是持久化操作中很重要的一个方面，通过面向对象而非面向数据库的查询语言查询数据，避免程序的SQL语句紧密耦合</p>
-<p>　　（3）ORM（object/relational metadata）元数据的映射。JPA支持XML和JDK5.0注解两种元数据的形式，元数据描述对象和表之间的映射关系，框架据此将实体对象持久化到数据库表中。</p>
-<h4 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h4><p> 1、首先在spring data jpa中基本的CRUD其实不用自己去做，你只需要</p>
- <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">User</span>, <span class="title">Integer</span>&gt;</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+    <title>Spring Boot 中 Redis的使用 及Spring Session共享实现</title>
+    <url>/myblog/spring-boot/Spring-Boot-%E4%B8%AD-Redis%E7%9A%84%E4%BD%BF%E7%94%A8-%E5%8F%8ASpring-Session%E5%85%B1%E4%BA%AB%E5%AE%9E%E7%8E%B0/</url>
+    <content><![CDATA[<h2 id="一、关于Redis"><a href="#一、关于Redis" class="headerlink" title="一、关于Redis"></a>一、关于Redis</h2> <a id="more"></a>                                     
+<p><img src="https://img-blog.csdnimg.cn/20181119212947332.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p><strong>最近阅读了《Redis开发与运维》，非常不错。这里对书中的知识整理一下，方便自己回顾Redis的整个体系，来对相关知识点查漏补缺。</strong></p>
+<p><strong>按照五点把书中的内容进行一下整理：</strong></p>
+<p>1、为什么要选择Redis：介绍Redis的使用场景与使用Redis的原因；</p>
+<p>2、Redis常用命令总结：包括时间复杂度总结与具体数据类型在Redis内部使用的数据结构；</p>
+<p>3、Redis的高级功能：包括持久化、复制、哨兵、集群介绍；</p>
+<p>4、理解Redis：理解内存、阻塞，这部分是非常重要的，前面介绍的都可以成为术，这里应该属于道的部分；</p>
+<p>5、开发技巧：主要是一些开发实战的总结，包括缓存设计与常见坑点。</p>
+<p>先来开启第一部分的内容，对Redis来一次重新打量。</p>
+<p><strong>Redis不是万金油</strong></p>
+<p>在面试的时候，常被问比较下Redis与Memcache的优缺点，个人觉得这二者并不适合一起比较，一个是非关系型数据库不仅可以做缓存还能干其他事情，一个是仅用做缓存。常常让我们对这二者进行比较，主要也是由于Redis最广泛的应用场景就是Cache，那么Redis到底能干什么？又不能干什么呢？</p>
+<p><img src="https://img-blog.csdnimg.cn/20181119213020882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 
-<p> 这样就具备了基础的CRUD功能，而且不需要写实现类，spring-data-jpa实现了上面的能力，那他是怎么实现的呢？这里我们通过源代码的方式来呈现他的来龙去脉，这个过程中cglib发挥了杰出的作用。   在spring-data-jpa内部，有一个类，叫做</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleJpaRepository</span>&lt;<span class="title">T</span>, <span class="title">ID</span> <span class="keyword">extends</span> <span class="title">Serializable</span>&gt; <span class="keyword">implements</span> <span class="title">JpaRepository</span>&lt;<span class="title">T</span>, <span class="title">ID</span>&gt;, <span class="title">JpaSpecificationExecutor</span>&lt;<span class="title">T</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Redis都可以干什么事儿"><a href="#Redis都可以干什么事儿" class="headerlink" title="Redis都可以干什么事儿"></a>Redis都可以干什么事儿</h2><p>缓存，毫无疑问这是Redis当今最为人熟知的使用场景，再提升服务器性能方面非常有效。</p>
+<p><strong>1.排行榜</strong>，如果使用传统的关系型数据库来做，非常麻烦，而利用Redis的SortSet数据结构能够非常方便搞定；</p>
+<p><strong>2.计算器/限速器</strong>，利用Redis中原子性的自增操作，我们可以统计类似用户点赞数、用户访问数等，这类操作如果用MySQL，频繁的读写会带来相当大的压力；限速器比较典型的使用场景是限制某个用户访问某个API的频率，常用的有抢购时，防止用户疯狂点击带来不必要的压力；</p>
+<p><strong>3.好友关系</strong>，利用集合的一些命令，比如求交集、并集、差集等，可以方便搞定一些共同好友、共同爱好之类的功能；</p>
+<p><strong>4.简单消息队列</strong>，除了Redis自身的发布/订阅模式，我们也可以利用List来实现一个队列机制，比如到货通知、邮件发送之类的需求，不需要高可靠，但是会带来非常大的DB压力，完全可以用List来完成异步解耦；</p>
+<p><strong>5.Session共享</strong>，以PHP为例，默认Session是保存在服务器的文件中，如果是集群服务，同一个用户过来可能落在不同机器上，这就会导致用户频繁登陆；采用Redis保存Session后，无论用户落在那台机器上都能够获取到对应的Session信息。</p>
+<h2><a name="t1"></a><a name="t1"></a><a id="Redis_41"></a>Redis不能干什么事儿</h2>
+<p>Redis感觉能干的事情特别多，但它不是万能的，合适的地方用它事半功倍，如果滥用可能导致系统的不稳定、成本增高等问题。</p>
+<p>1.比如，用Redis去保存用户的基本信息，虽然它能够支持持久化，但是它的持久化方案并不能保证数据绝对的落地，并且还可能带来Redis性能下降，因为持久化太过频繁会增大Redis服务的压力。</p>
+<p>2.简单总结就是数据量太大、数据访问频率非常低的业务都不适合使用Redis，数据太大会增加成本，访问频率太低，保存在内存中纯属浪费资源。</p>
+<h2><a name="t2"></a><a name="t2"></a><a id="_51"></a>选择总需要找个理由</h2>
+<p>上面说了Redis的一些使用场景，那么这些场景的解决方案也有很多其它选择，比如缓存可以用Memcache，Session共享还能用MySql来实现，消息队列可以用RabbitMQ，我们为什么一定要用Redis呢？</p>
+<p>速度快，完全基于内存，使用C语言实现，网络层使用epoll解决高并发问题，单线程模型避免了不必要的上下文切换及竞争条件；</p>
+<p><strong>注意：单线程仅仅是说在网络请求这一模块上用一个请求处理客户端的请求，像持久化它就会重开一个线程/进程去进行处理。</strong></p>
+<p>丰富的数据类型，Redis有8种数据类型，当然常用的主要是 String、Hash、List、Set、 SortSet 这5种类型，他们都是基于键值的方式组织数据。每一种数据类型提供了非常丰富的操作命令，可以满足绝大部分需求，如果有特殊需求还能自己通过 lua 脚本自己创建新的命令（具备原子性）；</p>
+<p><img src="https://img-blog.csdnimg.cn/20181119213123717.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>除了提供的丰富的数据类型，Redis还提供了像慢查询分析、性能测试、Pipeline、事务、Lua自定义命令、Bitmaps、HyperLogLog、发布/订阅、Geo等个性化功能。</p>
+<p>Redis的代码开源在GitHub，代码非常简单优雅，任何人都能够吃透它的源码；它的编译安装也是非常的简单，没有任何的系统依赖；有非常活跃的社区，各种客户端的语言支持也是非常完善。另外它还支持事务（没用过）、持久化、主从复制让高可用、分布式成为可能。</p>
+<p><img src="https://img-blog.csdnimg.cn/20181119213141787.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODk0ODk2,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>做为一个开发者，对于我们使用的东西不能让它成为一个黑盒子，我们应该深入进去，对它更了解、更熟悉，今天简单说了下Redis的使用场景，以及为什么选择了Redis而不是其他。</p>
 
-<p>我们可以看到这个类是实现了JpaRepository接口的，事实上如果我们按照上面的配置，在同一个包下面有UserRepository，但是没有UserRepositoryImpl这个类的话，在运行时期UserRepository这个接口的实现就是上面的SimpleJpaRepository这个接口。而如果有UserRepositoryImpl这个文件的话，那么UserRepository的实现类就是UserRepositoryImpl，而UserRepositoryImpl这个类又是SimpleJpaRepository的子类，如此一来就很好的解决了上面的这个不用写implements的问题。我们通过阅读这个类的源代码可以发现，里面包装了entityManager，底层的调用关系是entityManager在进行CRUD。</p>
-<p>2、关于自定义接口<br>Spring Data JPA的独特之处就是简单查询根本不用写实现类，直接写接口就好，它能根据你的接口去生成sql，但是需要遵循标准规范</p>
-<p>按照方法名解析规则如下：</p>
-<p>find+全局修饰+By+实体属性名称+限定词+连接词+（其他实体属性）+OrderBy+排序属性+排序方向：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">findDistinctByFirstNameIgnoreCaseAndLastNameOrderByAgeDesc(String firstName,String lastName)</span><br></pre></td></tr></table></figure>
-
-<p>全局修饰符：distinct,top,first</p>
-<p>关键词（限定词+连接词）：IsNull,IsNotNull,Like,NotLike,Containing,In,NotIn,IgnoreCase,Between,Equals,</p>
-<p>LessThan,GreaterThan,After,Before</p>
-<p>排序方向：Asc,Desc</p>
-<p>嵌套实体方法命名规则：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">List&lt;Person&gt; <span class="title">findByAddress_ZipCode</span><span class="params">(ZipCode zipCode)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>构词法：主实体中的子实体名称+_+子实体属性名称</p>
-<p>通过关键词构造方法如下：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">	<span class="comment">// 对应sql：  select * from user where phone like '136%' and address like '%路%'</span></span><br><span class="line">findByPhoneStartingWithAndAdressContaining(String phone, String address);</span><br></pre></td></tr></table></figure>
-
-<p>所有支持的关键词：请查看官网 <a href="https://docs.spring.io/spring-data/jpa/docs/2.3.3.RELEASE/reference/html/#reference" target="_blank" rel="noopener">https://docs.spring.io/spring-data/jpa/docs/2.3.3.RELEASE/reference/html/#reference</a></p>
-<h4 id="基于mysql数据库的快速开发实例"><a href="#基于mysql数据库的快速开发实例" class="headerlink" title="基于mysql数据库的快速开发实例"></a>基于mysql数据库的快速开发实例</h4><p>1、pom文件</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-data-rest&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      </span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">          &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">          &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">      &lt;/dependency&gt;</span><br><span class="line">      </span><br><span class="line">      &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<div id="content_views" class="markdown_views prism-atom-one-dark">
+                    <!-- flowchart 箭头图标 勿删 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"/>
+                    </svg>
+                                            <div id="article_content" class="article_content clearfix csdn-tracking-statistics">
 
 
-<p>2.配置文件</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">server:</span><br><span class="line">  port: <span class="number">8001</span></span><br><span class="line"></span><br><span class="line">spring:</span><br><span class="line">  application:</span><br><span class="line">    name: data-rest-crud-demo</span><br><span class="line">  #数据库相关配置</span><br><span class="line">  datasource:</span><br><span class="line">     driver-class-name: com.mysql.cj.jdbc.Driver</span><br><span class="line">     url: jdbc:mysql:<span class="comment">//localhost:3306/orcl?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</span></span><br><span class="line">     username: root</span><br><span class="line">     password: <span class="number">123456</span></span><br></pre></td></tr></table></figure>
 
-<p>3.entity</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"dept"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dept</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * dept table</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">9174265336050917155L</span>;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Id</span></span><br><span class="line">	<span class="meta">@GeneratedValue</span></span><br><span class="line">	<span class="meta">@Column</span>(name = <span class="string">"deptno"</span>)</span><br><span class="line">	<span class="keyword">private</span> Integer deptNo;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Column</span>(name = <span class="string">"deptname"</span>)</span><br><span class="line">	<span class="keyword">private</span> String deptName;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 对于不想暴漏的字段，使用@JsonIgnore即可。</span></span><br><span class="line">	<span class="comment">// @JsonIgnore</span></span><br><span class="line">	<span class="keyword">private</span> String localtion;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getDeptNo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptNo;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDeptNo</span><span class="params">(Integer deptNo)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.deptNo = deptNo;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getDeptName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> deptName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDeptName</span><span class="params">(String deptName)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.deptName = deptName;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getLocaltion</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> localtion;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLocaltion</span><span class="params">(String localtion)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.localtion = localtion;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二、为什么选择Redis"><a href="#二、为什么选择Redis" class="headerlink" title="二、为什么选择Redis"></a>二、为什么选择Redis</h2><h2 id="首先，要知道缓存技术，这里主要说一下这两个的（memcached，Redis）区别。"><a href="#首先，要知道缓存技术，这里主要说一下这两个的（memcached，Redis）区别。" class="headerlink" title="首先，要知道缓存技术，这里主要说一下这两个的（memcached，Redis）区别。"></a><p>首先，要知道缓存技术，这里主要说一下这两个的（memcached，Redis）区别。</p></h2></div></div><p>缓存：</p>
+<p>&nbsp; &nbsp; &nbsp;1）定义</p>
+<p><u>缓存就是在内存中存储的数据备份，当数据没有发生本质变化的时候，我们避免数据的查询操作直接连接数据库，而是去&nbsp; &nbsp; 内容中读取数据，这样就大大降低了数据库的读写次数，而且从内存中读数据的速度要比从数据库查询要快很多。</u></p>
+<p>&nbsp; &nbsp; 2）缓存的形式</p>
+<p>页面缓存（smarty静态化技术）：页面缓存经常用在CMS（content manage system）内存管理系统里面。</p>
+<p>数据缓存：经常会用在页面的具体数据里面。</p>
+<blockquote>
+<p>1，memcached</p>
+</blockquote>
+<ul><li>
+    <p>协议简单、基于libevent的事件处理、内置内存存储方式、memcached不互相通信的分布式。 各个memcached不会互相通信以共享信息，分布策略由客户端实现。不会对数据进行持久化，重启memcached、重启操作系统会导致全部数据消失。</p>
+    </li>
+    <li>
+    <p>Memcached常见的应用场景是存储一些读取频繁但更新较少的数据，如静态网页、系统配置及规则数据、活跃用户的基本数据和个性化定制数据、准实时统计信息等。</p>
+    </li>
+</ul><blockquote>
+<p>2，Redis</p>
+</blockquote>
+<ul><li>
+    <p>Redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string、list、set、zset(有序集合)和hash。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序和算法。</p>
+    </li>
+    <li>
+    <p>与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件（RDB和AOF两种方式），并且在此基础上实现了master-slave(主从)同步，机器重启后能通过持久化数据自动重建内存，使用Redis作为Cache时机器宕机后热点数据不会丢失。</p>
+    </li>
+    <li>
+    <p>Redis丰富的数据结构也使其拥有更加丰富的应用场景。Redis的命令都是原子性的，可以简单地利用INCR和DECR实现计数功能。使用list可以实现获取最近N个数的操作。sort set支持对数据排序，可以应用在排行榜中。set集合可以应用到数据排重。Redis还支持过期时间设置，可以应用到需要设定精确过期时间的应用。只要可以使用Redis支持的数据结构表示的场景，就可以使用Redis进行存储。</p>
+    </li>
+    <li>
+    <p>Redis基于乐观锁</p>
+    </li>
+</ul><p>为什么选择Redis？</p>
+<blockquote>
+<p>&nbsp; &nbsp; 1）Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，zset，hash等数据结构的存储。<br>
+&nbsp; &nbsp; 2）Redis支持master-slave(主-从)模式应用<br>
+&nbsp; &nbsp; 3）Redis支持数据持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用。<br>
+&nbsp; &nbsp; 4）Redis单个value的最大限制是1GB，memcached只能保存1MB的数据。</p>
+</blockquote><p>主要是从两个角度去考虑:<strong>性能</strong>和<strong>并发</strong>。当然，redis还具备可以做分布式锁等其他功能，但是如果只是为了分布式锁这些其他功能，完全还有其他中间件(如zookpeer等)代替，并不是非要使用redis。因此，这个问题主要从性能和并发两个角度去答。</p>
 
-<p>4、dao</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * collectionResourceRel是json的最外层显示名称，path是访问路径</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> CHFSUN</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RepositoryRestResource</span>(collectionResourceRel = <span class="string">"list"</span>, path = <span class="string">"dept"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DeptDao</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">Dept</span>, <span class="title">Integer</span>&gt; </span>&#123;</span><br><span class="line">	<span class="comment">// 可定义自己的接口</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 根据名字查询单个</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> deptName</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function">Dept <span class="title">getOneByDeptName</span><span class="params">(@Param(<span class="string">"deptname"</span>)</span> String deptName)</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 对于不需要暴漏的接口，可以使用<span class="doctag">@RestResource</span>(exported = false)隐藏该接口</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="meta">@RestResource</span>(exported = <span class="keyword">false</span>)</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">(Dept dept)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>一、Redis简介</strong></p>
+<blockquote>
+<p>REmote DIctionary Server(Redis) 是一个由Salvatore Sanfilippo写的key-value存储系统。Redis是一个开源的使用ANSI C语言编写、遵守BSD协议、支持网络、可基于内存亦可持久化的日志型、Key-Value数据库，并提供多种语言的API。它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。</p>
+</blockquote>
+<p><strong>二、支持的数据类型</strong></p>
+<blockquote>
+<p>Redis是Remote Dictionary Server(远程数据服务)的缩写，由意大利人antirez(Salvatore Sanfilippo)开发的一款内存高速缓存数据库，该软件使用C语言编写，它的数据模型为key-value。它支持丰富的数据结构(类型)，比如string(字符串)、list(链表)、set(集合)、zset(sorted set –有序集合)和hash（哈希类型，类似于<a href="http://lib.csdn.net/base/17" rel="nofollow" target="_blank">Java</a>中的map）。</p>
+</blockquote>
+<p>&nbsp;</p>
+<p><strong>（一）性能</strong><br>
+如下图所示，我们在碰到需要执行耗时特别久，且结果不频繁变动的SQL，就特别适合将运行结果放入缓存。这样，后面的请求就去缓存中读取，使得请求能够<strong>迅速响应</strong>。<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC9ibHNxGcIict6GSmQbA8Rn3RNvHsRkIgW8D97zhnfzNEiamA5C607FnWjg/640?wx_fmt=png"><br><strong>题外话：</strong>忽然想聊一下这个<strong>迅速响应</strong>的标准。其实根据交互效果的不同，这个响应时间没有固定标准。不过曾经有人这么告诉我:"在理想状态下，我们的页面跳转需要在<strong>瞬间</strong>解决，对于页内操作则需要在<strong>刹那</strong>间解决。另外，超过<strong>一弹指</strong>的耗时操作要有进度提示，并且可以随时中止或取消，这样才能给用户最好的体验。"</p>
+<p><br>
+那么<strong>瞬间、刹那、一弹指</strong>具体是多少时间呢？</p>
+<p><br>
+根据《摩诃僧祗律》记载</p>
+<p>一刹那者为一念，二十念为一瞬，二十瞬为一弹指，二十弹指为一罗预，二十罗预为一须臾，一日一夜有三十须臾。<br>
+&nbsp;</p>
+<p>那么，经过周密的计算，一<strong>瞬间</strong>为0.36 秒,一<strong>刹那</strong>有 0.018 秒.一<strong>弹指</strong>长达 7.2 秒。</p>
+<p><br><strong>（二）并发</strong></p>
+<p><br>
+如下图所示，在大并发的情况下，所有的请求直接访问数据库，数据库会出现连接异常。这个时候，就需要使用redis做一个缓冲操作，让请求先访问到redis，而不是直接访问数据库。<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC95NCicgQR2aYVARNYzjB1ZlgrL1HIxyicrlnBibQXFB537v6APjAKCoSfA/640?wx_fmt=png"></p>
+<h3><a name="t0"></a><a name="t0"></a>&nbsp;</h3>
+<p>2、使用redis有什么缺点</p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>分析</strong>:大家用redis这么久，这个问题是必须要了解的，基本上使用redis都会碰到一些问题，常见的也就几个。</p>
+<p><br><strong>回答</strong>:主要是四个问题<br>
+(一)缓存和数据库双写一致性问题<br>
+(二)缓存雪崩问题<br>
+(三)缓存击穿问题<br>
+(四)缓存的并发竞争问题<br>
+这四个问题，我个人是觉得在项目中，比较常遇见的，具体解决方案，后文给出。</p>
+<p>&nbsp;</p>
+<h3><a name="t1"></a><a name="t1"></a>&nbsp;</h3>
+<p>3、单线程的redis为什么这么快</p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>分析</strong>:这个问题其实是对redis内部机制的一个考察。其实根据博主的面试经验，很多人其实都不知道redis是单线程工作模型。所以，这个问题还是应该要复习一下的。</p>
+<p><br><strong>回答</strong>:主要是以下三点<br>
+(一)纯内存操作<br>
+(二)单线程操作，避免了频繁的上下文切换<br>
+(三)采用了非阻塞<strong>I/O多路复用机制</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>题外话：</strong>我们现在要仔细的说一说I/O多路复用机制，因为这个说法实在是太通俗了，通俗到一般人都不懂是什么意思。博主打一个比方：小曲在S城开了一家快递店，负责同城快送服务。小曲因为资金限制，雇佣了<strong>一批</strong>快递员，然后小曲发现资金不够了，只够买<strong>一辆</strong>车送快递。</p>
+<p><br><strong>经营方式一</strong><br>
+客户每送来一份快递，小曲就让一个快递员盯着，然后快递员开车去送快递。慢慢的小曲就发现了这种经营方式存在下述问题</p>
+<ul><li>
+    <p>几十个快递员基本上时间都花在了抢车上了，大部分快递员都处在闲置状态，谁抢到了车，谁就能去送快递</p>
+    </li>
+    <li>
+    <p>随着快递的增多，快递员也越来越多，小曲发现快递店里越来越挤，没办法雇佣新的快递员了</p>
+    </li>
+    <li>
+    <p>快递员之间的协调很花时间</p>
+    </li>
+</ul><p>综合上述缺点，小曲痛定思痛，提出了下面的经营方式</p>
+<p><br><strong>经营方式二</strong><br>
+小曲只雇佣一个快递员。然后呢，客户送来的快递，小曲按<strong>送达地点</strong>标注好，然后<strong>依次</strong>放在一个地方。最后，那个快递员<strong>依次</strong>的去取快递，一次拿一个，然后开着车去送快递，送好了就回来拿下一个快递。</p>
+<p>&nbsp;</p>
+<p><strong>对比</strong><br>
+上述两种经营方式对比，是不是明显觉得第二种，效率更高，更好呢。在上述比喻中:</p>
+<ul><li>
+    <p>每个快递员----------&gt;每个线程</p>
+    </li>
+    <li>
+    <p>每个快递------------&gt;每个socket(I/O流)</p>
+    </li>
+    <li>
+    <p>快递的送达地点------&gt;socket的不同状态</p>
+    </li>
+    <li>
+    <p>客户送快递请求------&gt;来自客户端的请求</p>
+    </li>
+    <li>
+    <p>小曲的经营方式------&gt;服务端运行的代码</p>
+    </li>
+    <li>
+    <p>一辆车---------------&gt;CPU的核数</p>
+    </li>
+</ul><p>&nbsp;</p>
+<p>于是我们有如下结论<br>
+1、经营方式一就是传统的并发模型，每个I/O流(快递)都有一个新的线程(快递员)管理。<br>
+2、经营方式二就是I/O多路复用。只有单个线程(一个快递员)，通过跟踪每个I/O流的状态(每个快递的送达地点)，来管理多个I/O流。</p>
+<p>下面类比到真实的redis线程模型，如图所示<br><img alt class="has" src="https://mmbiz.qpic.cn/mmbiz_png/fEsWkVrSk56fVjL0HJXvibicrE4666HwC93yQahTTjSKTSVBicx4XcyOpD9l00KSyXeDjltA4gmnVpeTYGPuM3e5Q/640?wx_fmt=png"><br>
+参照上图，简单来说，就是。我们的redis-client在操作的时候，会产生具有不同事件类型的socket。在服务端，有一段I/0多路复用程序，将其置入队列之中。然后，文件事件分派器，依次去队列中取，转发到不同的事件处理器中。</p>
+<p><br>
+需要说明的是，这个I/O多路复用机制，redis还提供了select、epoll、evport、kqueue等多路复用函数库，大家可以自行去了解。</p>
+<p>&nbsp;</p>
+<h3><a name="t2"></a><a name="t2"></a>&nbsp;</h3>
+<p>4、redis的数据类型，以及每种数据类型的使用场景</p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>分析</strong>：是不是觉得这个问题很基础，其实我也这么觉得。然而根据面试经验发现，至少百分八十的人答不上这个问题。建议，在项目中用到后，再类比记忆，体会更深，不要硬记。基本上，一个合格的程序员，五种类型都会用到。</p>
+<p><br><strong>回答</strong>：一共五种</p>
+<p><br>
+(一)String<br>
+这个其实没啥好说的，最常规的set/get操作，value可以是String也可以是数字。一般做<strong>一些复杂的计数功能的缓存。</strong></p>
+<p><br>
+(二)hash<br>
+这里value存放的是结构化的对象，比较方便的就是操作其中的某个字段。博主在做<strong>单点登录</strong>的时候，就是用这种数据结构存储用户信息，以cookieId作为key，设置30分钟为缓存过期时间，能很好的模拟出类似session的效果。</p>
+<p><br>
+(三)list<br>
+使用List的数据结构，可以<strong>做简单的消息队列的功能</strong>。另外还有一个就是，可以利用lrange命令，<strong>做基于redis的分页功能</strong>，性能极佳，用户体验好。</p>
+<p><br>
+(四)set<br>
+因为set堆放的是一堆不重复值的集合。所以可以做<strong>全局去重的功能</strong>。为什么不用JVM自带的Set进行去重？因为我们的系统一般都是集群部署，使用JVM自带的Set，比较麻烦，难道为了一个做一个全局去重，再起一个公共服务，太麻烦了。</p>
+<p><br>
+另外，就是利用交集、并集、差集等操作，可以<strong>计算共同喜好，全部的喜好，自己独有的喜好等功能</strong>。</p>
+<p><br>
+(五)sorted set<br>
+sorted set多了一个权重参数score,集合中的元素能够按score进行排列。可以做<strong>排行榜应用，取TOP N操作</strong>。sorted set可以用来做<strong>延时任务</strong>。最后一个应用就是可以做<strong>范围查找</strong>。</p>
+<p>&nbsp;</p>
+<p>5、redis的过期策略以及内存淘汰机制</p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>分析</strong>:这个问题其实相当重要，到底redis有没用到家，这个问题就可以看出来。比如你redis只能存5G数据，可是你写了10G，那会删5G的数据。怎么删的，这个问题思考过么？还有，你的数据已经设置了过期时间，但是时间到了，内存占用率还是比较高，有思考过原因么?<br>
+&nbsp;</p>
+<p><strong>回答</strong>:<br>
+redis采用的是定期删除+惰性删除策略。</p>
+<p><br><strong>为什么不用定时删除策略?</strong><br>
+定时删除,用一个定时器来负责监视key,过期则自动删除。虽然内存及时释放，但是十分消耗CPU资源。在大并发请求下，CPU要将时间应用在处理请求，而不是删除key,因此没有采用这一策略.</p>
+<p><br><strong>定期删除+惰性删除是如何工作的呢?</strong><br>
+定期删除，redis默认每个100ms检查，是否有过期的key,有过期key则删除。需要说明的是，redis不是每个100ms将所有的key检查一次，而是随机抽取进行检查(如果每隔100ms,全部key进行检查，redis岂不是卡死)。因此，如果只采用定期删除策略，会导致很多key到时间没有删除。</p>
+<p><br>
+于是，惰性删除派上用场。也就是说在你获取某个key的时候，redis会检查一下，这个key如果设置了过期时间那么是否过期了？如果过期了此时就会删除。</p>
+<p><br><strong>采用定期删除+惰性删除就没其他问题了么?</strong><br>
+不是的，如果定期删除没删除key。然后你也没即时去请求key，也就是说惰性删除也没生效。这样，redis的内存会越来越高。那么就应该采用<strong>内存淘汰机制</strong>。</p>
+<p><br>
+在redis.conf中有一行配置</p>
+<p># maxmemory-policy volatile-lru<br>
+&nbsp;</p>
+<p>该配置就是配内存淘汰策略的(什么，你没配过？好好反省一下自己)<br>
+1）noeviction：当内存不足以容纳新写入数据时，新写入操作会报错。<strong>应该没人用吧。</strong><br>
+2）allkeys-lru：当内存不足以容纳新写入数据时，在键空间中，移除最近最少使用的key。<strong>推荐使用，目前项目在用这种。</strong><br>
+3）allkeys-random：当内存不足以容纳新写入数据时，在键空间中，随机移除某个key。<strong>应该也没人用吧，你不删最少使用Key,去随机删。</strong><br>
+4）volatile-lru：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，移除最近最少使用的key。<strong>这种情况一般是把redis既当缓存，又做持久化存储的时候才用。不推荐</strong><br>
+5）volatile-random：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，随机移除某个key。<strong>依然不推荐</strong><br>
+6）volatile-ttl：当内存不足以容纳新写入数据时，在设置了过期时间的键空间中，有更早过期时间的key优先移除。<strong>不推荐</strong><br>
+ps：如果没有设置 expire 的key, 不满足先决条件(prerequisites); 那么 volatile-lru, volatile-random 和 volatile-ttl 策略的行为, 和 noeviction(不删除) 基本上一致。</p>
+<p>&nbsp;</p>
+<h3><a name="t3"></a><a name="t3"></a>&nbsp;</h3>
+<p>6、redis和数据库双写一致性问题</p>
+<h3><a name="t4"></a><a name="t4"></a>&nbsp;</h3>
+<p><strong>分析</strong>:一致性问题是分布式常见问题，还可以再分为最终一致性和强一致性。数据库和缓存双写，就必然会存在不一致的问题。答这个问题，先明白一个前提。就是<strong>如果对数据有强一致性要求，不能放缓存。</strong>我们所做的一切，只能保证最终一致性。另外，我们所做的方案其实从根本上来说，只能说<strong>降低不一致发生的概率</strong>，无法完全避免。因此，有强一致性要求的数据，不能放缓存。</p>
+<p><br><strong>回答</strong>:首先，采取正确更新策略，先更新数据库，再删缓存。其次，因为可能存在删除缓存失败的问题，提供一个补偿措施即可，例如利用消息队列。</p>
+<p>&nbsp;</p>
+<h3><a name="t5"></a><a name="t5"></a>&nbsp;</h3>
+<p>7、如何应对缓存穿透和缓存雪崩问题</p>
+<h3><a name="t6"></a><a name="t6"></a>&nbsp;</h3>
+<p><strong>分析</strong>:这两个问题，说句实在话，一般中小型传统软件企业，很难碰到这个问题。如果有大并发的项目，流量有几百万左右。这两个问题一定要深刻考虑。</p>
+<p><br><strong>回答</strong>:如下所示</p>
+<p><br><strong>缓存穿透</strong>，即黑客故意去请求缓存中不存在的数据，导致所有的请求都怼到数据库上，从而数据库连接异常。</p>
+<p><br><strong>解决方案</strong>:<br>
+(一)利用互斥锁，缓存失效的时候，先去获得锁，得到锁了，再去请求数据库。没得到锁，则休眠一段时间重试<br>
+(二)采用异步更新策略，无论key是否取到值，都直接返回。value值中维护一个缓存失效时间，缓存如果过期，异步起一个线程去读数据库，更新缓存。需要做<strong>缓存预热</strong>(项目启动前，先加载缓存)操作。<br>
+(三)提供一个能迅速判断请求是否有效的拦截机制，比如，利用布隆过滤器，内部维护一系列合法有效的key。迅速判断出，请求所携带的Key是否合法有效。如果不合法，则直接返回。</p>
+<p><br><strong>缓存雪崩</strong>，即缓存同一时间大面积的失效，这个时候又来了一波请求，结果请求都怼到数据库上，从而导致数据库连接异常。</p>
+<p><br><strong>解决方案</strong>:<br>
+(一)给缓存的失效时间，加上一个随机值，避免集体失效。<br>
+(二)使用互斥锁，但是该方案吞吐量明显下降了。<br>
+(三)双缓存。我们有两个缓存，缓存A和缓存B。缓存A的失效时间为20分钟，缓存B不设失效时间。自己做缓存预热操作。然后细分以下几个小点</p>
+<ul><li>
+    <p>I 从缓存A读数据库，有则直接返回</p>
+    </li>
+    <li>
+    <p>II A没有数据，直接从B读数据，直接返回，并且异步启动一个更新线程。</p>
+    </li>
+    <li>
+    <p>III 更新线程同时更新缓存A和缓存B。</p>
+    </li>
+</ul><p>&nbsp;</p>
+<h3><a name="t7"></a><a name="t7"></a>&nbsp;</h3>
+<p>8、如何解决redis的并发竞争key问题</p>
+<h3><a name="t8"></a><a name="t8"></a>&nbsp;</h3>
+<p><strong>分析</strong>:这个问题大致就是，同时有多个子系统去set一个key。这个时候要注意什么呢？大家思考过么。需要说明一下，博主提前百度了一下，发现答案基本都是推荐用redis事务机制。博主<strong>不推荐使用redis的事务机制。</strong>因为我们的生产环境，基本都是redis集群环境，做了数据分片操作。你一个事务中有涉及到多个key操作的时候，这多个key不一定都存储在同一个redis-server上。因此，<strong>redis的事务机制，十分鸡肋。</strong></p>
+<p><br><strong>回答:</strong>如下所示<br>
+(1)如果对这个key操作，<strong>不要求顺序</strong><br>
+这种情况下，准备一个分布式锁，大家去抢锁，抢到锁就做set操作即可，比较简单。<br>
+(2)如果对这个key操作，<strong>要求顺序</strong><br>
+假设有一个key1,系统A需要将key1设置为valueA,系统B需要将key1设置为valueB,系统C需要将key1设置为valueC.<br>
+期望按照key1的value值按照 valueA--&gt;valueB--&gt;valueC的顺序变化。这种时候我们在数据写入数据库的时候，需要保存一个时间戳。假设时间戳如下</p>
+<p>系统A key 1 {valueA &nbsp;3:00}<br>
+系统B key 1 {valueB &nbsp;3:05}<br>
+系统C key 1 {valueC &nbsp;3:10}</p>
+<p>那么，假设这会系统B先抢到锁，将key1设置为{valueB 3:05}。接下来系统A抢到锁，发现自己的valueA的时间戳早于缓存中的时间戳，那就不做set操作了。以此类推。</p>
+<p>其他方法，比如利用队列，将set方法变成串行访问也可以。总之，灵活变通。</p>
+<p>&nbsp;</p>
+<p>9 总结</p>
+<p>本文对redis的常见问题做了一个总结。大部分是博主自己在工作中遇到，以及以前面试别人的时候，爱问的一些问题。另外，<strong>不推荐大家临时抱佛脚</strong>，真正碰到一些有经验的工程师，其实几下就能把你问懵。最后，希望大家有所收获吧。</p>
 
-<p>5、使用接口测试工具 postman测试，发现已经能正常使用crud及分页功能</p>
-]]></content>
+
+
+<h2 id="Redis的一些优点。"><a href="#Redis的一些优点。" class="headerlink" title="Redis的一些优点。"></a>Redis的一些优点。</h2><blockquote>
+<p>异常快 - Redis非常快，每秒可执行大约110000次的设置(SET)操作，每秒大约可执行81000次的读取/获取(GET)操作。<br>支持丰富的数据类型 -<br>Redis支持开发人员常用的大多数数据类型，例如列表，集合，排序集和散列等等。这使得Redis很容易被用来解决各种问题，因为我们知道哪些问题可以更好使用地哪些数据类型来处理解决。<br>操作具有原子性 - 所有Redis操作都是原子操作，这确保如果两个客户端并发访问，Redis服务器能接收更新的值。 多实用工具 -<br>Redis是一个多实用工具，可用于多种用例，如：缓存，消息队列(Redis本地支持发布/订阅)，应用程序中的任何短期数据，例如，web应用程序中的会话，网页命中计数等。</p>
+</blockquote>
+<h2 id="三、-spring-boot-集成Redis"><a href="#三、-spring-boot-集成Redis" class="headerlink" title="三、 spring boot 集成Redis"></a>三、 spring boot 集成Redis</h2><p>1、添加依赖</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  &lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">	&lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;2.1.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-cloud-context&lt;/artifactId&gt;</span><br><span class="line">     &lt;version&gt;2.1.2.RELEASE&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">  &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;</span><br><span class="line">  &lt;artifactId&gt;commons-pool2&lt;/artifactId&gt;</span><br><span class="line">  &lt;version&gt;2.5.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;!<span class="selector-tag">--</span> <span class="selector-tag">Spring</span> <span class="selector-tag">Boot</span> 2<span class="selector-class">.0</span>中<span class="selector-tag">spring-boot-starter-data-redis</span>默认使用<span class="selector-tag">Lettuce</span>方式替代了<span class="selector-tag">Jedis</span>。使用<span class="selector-tag">Jedis</span>的话先排除掉<span class="selector-tag">Lettuce</span>的依赖，然后手动引入<span class="selector-tag">Jedis</span>的依赖。 <span class="selector-tag">--</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">     &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;spring-boot-starter-data-redis&lt;/artifactId&gt;</span><br><span class="line">     &lt;<span class="selector-tag">exclusions</span>&gt;</span><br><span class="line">         &lt;<span class="selector-tag">exclusion</span>&gt;</span><br><span class="line">             &lt;groupId&gt;io.lettuce&lt;/groupId&gt;</span><br><span class="line">             &lt;artifactId&gt;lettuce-core&lt;/artifactId&gt;</span><br><span class="line">         &lt;/exclusion&gt;</span><br><span class="line">     &lt;/exclusions&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">     &lt;groupId&gt;redis.clients&lt;/groupId&gt;</span><br><span class="line">     &lt;artifactId&gt;jedis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">	&lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">	&lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>2、配置文件</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">spring.redis.host=<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br><span class="line">#Redis服务器连接端口</span><br><span class="line">spring.redis.port=<span class="number">6379</span></span><br><span class="line">#Redis服务器连接密码（默认为空）</span><br><span class="line">spring.redis.password=</span><br><span class="line">#连接池最大连接数（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-active=<span class="number">8</span></span><br><span class="line">#连接池最大阻塞等待时间（使用负值表示没有限制）</span><br><span class="line">spring.redis.pool.max-wait=-<span class="number">1</span></span><br><span class="line">#连接池中的最大空闲连接</span><br><span class="line">spring.redis.pool.max-idle=<span class="number">8</span></span><br><span class="line">#连接池中的最小空闲连接</span><br><span class="line">spring.redis.pool.min-idle=<span class="number">0</span></span><br><span class="line">#连接超时时间（毫秒）</span><br><span class="line">spring.redis.timeout=<span class="number">30000</span></span><br></pre></td></tr></table></figure>
+<p>3、配置类RedisConfig</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cache.CacheManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cache.annotation.CachingConfigurerSupport;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cache.annotation.EnableCaching;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cache.interceptor.KeyGenerator;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.context.config.annotation.RefreshScope;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.cache.RedisCacheManager;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.connection.RedisConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.connection.jedis.JedisConnectionFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.StringRedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.PropertyAccessor; </span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.annotation.JsonAutoDetect;</span><br><span class="line"><span class="keyword">import</span> com.fasterxml.jackson.databind.ObjectMapper;</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="meta">@RefreshScope</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> <span class="keyword">extends</span> <span class="title">CachingConfigurerSupport</span></span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.host&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String host;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.timeout&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> timeout;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.password&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.pool.max-active&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxActive;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.pool.max-wait&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxWait;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.pool.max-idle&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> maxIdle;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.pool.min-idle&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> minIdle;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> KeyGenerator <span class="title">wiselyKeyGenerator</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> KeyGenerator() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Object <span class="title">generate</span><span class="params">(Object target, Method method, Object... params)</span> </span>&#123;</span><br><span class="line">                StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">                sb.append(target.getClass().getName());</span><br><span class="line">                sb.append(method.getName());</span><br><span class="line">                <span class="keyword">for</span> (Object obj : params) &#123;</span><br><span class="line">                    sb.append(obj.toString());</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> sb.toString();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> JedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        JedisConnectionFactory factory = <span class="keyword">new</span> JedisConnectionFactory();</span><br><span class="line">        factory.setHostName(host);</span><br><span class="line">        factory.setPort(port);</span><br><span class="line">        factory.setTimeout(timeout); <span class="comment">//设置连接超时时间</span></span><br><span class="line">        factory.setPassword(password);</span><br><span class="line">        factory.getPoolConfig().setMaxIdle(maxIdle);</span><br><span class="line">        factory.getPoolConfig().setMinIdle(minIdle);</span><br><span class="line">        factory.getPoolConfig().setMaxTotal(maxActive);</span><br><span class="line">        factory.getPoolConfig().setMaxWaitMillis(maxWait);</span><br><span class="line">        <span class="keyword">return</span> factory;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">	<span class="meta">@Bean</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> CacheManager <span class="title">cacheManager</span><span class="params">(RedisConnectionFactory connectionFactory)</span> </span>&#123;</span><br><span class="line">		RedisCacheManager cacheManager = RedisCacheManager.create(connectionFactory);</span><br><span class="line">		<span class="comment">// Number of seconds before expiration. Defaults to unlimited (0)</span></span><br><span class="line">		<span class="comment">// cacheManager.setDefaultExpiration(10); // 设置key-value超时时间</span></span><br><span class="line">		<span class="keyword">return</span> cacheManager;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, String&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory factory)</span> </span>&#123;</span><br><span class="line">        StringRedisTemplate template = <span class="keyword">new</span> StringRedisTemplate(factory);</span><br><span class="line">        setSerializer(template); <span class="comment">//设置序列化工具，这样ReportBean不需要实现Serializable接口</span></span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RefreshScope</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setSerializer</span><span class="params">(StringRedisTemplate template)</span> </span>&#123;</span><br><span class="line">        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = <span class="keyword">new</span> Jackson2JsonRedisSerializer(Object<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        ObjectMapper om = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line">        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);</span><br><span class="line">        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);</span><br><span class="line">        jackson2JsonRedisSerializer.setObjectMapper(om);</span><br><span class="line">        template.setValueSerializer(jackson2JsonRedisSerializer);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4、RedisUtils类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.HashOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.ListOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.SetOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.ValueOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.ZSetOperations;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisUtils</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 写入缓存</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">set</span><span class="params">(<span class="keyword">final</span> String key, Object value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ValueOperations&lt;Serializable, Object&gt; operations = redisTemplate.opsForValue();</span><br><span class="line">            operations.set(key, value);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 写入缓存设置时效时间</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">set</span><span class="params">(<span class="keyword">final</span> String key, Object value, Long expireTime ,TimeUnit timeUnit)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> result = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ValueOperations&lt;Serializable, Object&gt; operations = redisTemplate.opsForValue();</span><br><span class="line">            operations.set(key, value);</span><br><span class="line">            redisTemplate.expire(key, expireTime, timeUnit);</span><br><span class="line">            result = <span class="keyword">true</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 批量删除对应的value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> keys</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">final</span> String... keys)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (String key : keys) &#123;</span><br><span class="line">            remove(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 批量删除key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pattern</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removePattern</span><span class="params">(<span class="keyword">final</span> String pattern)</span> </span>&#123;</span><br><span class="line">        Set&lt;Serializable&gt; keys = redisTemplate.keys(pattern);</span><br><span class="line">        <span class="keyword">if</span> (keys.size() &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            redisTemplate.delete(keys);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除对应的value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">(<span class="keyword">final</span> String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (exists(key)) &#123;</span><br><span class="line">            redisTemplate.delete(key);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断缓存中是否有对应的value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">exists</span><span class="params">(<span class="keyword">final</span> String key)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisTemplate.hasKey(key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 读取缓存</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(<span class="keyword">final</span> String key)</span> </span>&#123;</span><br><span class="line">        Object result = <span class="keyword">null</span>;</span><br><span class="line">        ValueOperations&lt;Serializable, Object&gt; operations = redisTemplate.opsForValue();</span><br><span class="line">        result = operations.get(key);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 哈希 添加</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> hashKey</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hmSet</span><span class="params">(String key, Object hashKey, Object value)</span></span>&#123;</span><br><span class="line">        HashOperations&lt;String, Object, Object&gt; hash = redisTemplate.opsForHash();</span><br><span class="line">        hash.put(key,hashKey,value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 哈希获取数据</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> hashKey</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">hmGet</span><span class="params">(String key, Object hashKey)</span></span>&#123;</span><br><span class="line">        HashOperations&lt;String, Object, Object&gt;  hash = redisTemplate.opsForHash();</span><br><span class="line">        <span class="keyword">return</span> hash.get(key,hashKey);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 列表添加</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> v</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">lPush</span><span class="params">(String k,Object v)</span></span>&#123;</span><br><span class="line">        ListOperations&lt;String, Object&gt; list = redisTemplate.opsForList();</span><br><span class="line">        list.rightPush(k,v);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 列表获取</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> l</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> l1</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Object&gt; <span class="title">lRange</span><span class="params">(String k, <span class="keyword">long</span> l, <span class="keyword">long</span> l1)</span></span>&#123;</span><br><span class="line">        ListOperations&lt;String, Object&gt; list = redisTemplate.opsForList();</span><br><span class="line">        <span class="keyword">return</span> list.range(k,l,l1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 集合添加</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(String key,Object value)</span></span>&#123;</span><br><span class="line">        SetOperations&lt;String, Object&gt; set = redisTemplate.opsForSet();</span><br><span class="line">        set.add(key,value);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 集合获取</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;Object&gt; <span class="title">setMembers</span><span class="params">(String key)</span></span>&#123;</span><br><span class="line">        SetOperations&lt;String, Object&gt; set = redisTemplate.opsForSet();</span><br><span class="line">        <span class="keyword">return</span> set.members(key);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 有序集合添加</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> value</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> scoure</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">zAdd</span><span class="params">(String key,Object value,<span class="keyword">double</span> scoure)</span></span>&#123;</span><br><span class="line">        ZSetOperations&lt;String, Object&gt; zset = redisTemplate.opsForZSet();</span><br><span class="line">        zset.add(key,value,scoure);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 有序集合获取</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> key</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> scoure</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> scoure1</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Set&lt;Object&gt; <span class="title">rangeByScore</span><span class="params">(String key,<span class="keyword">double</span> scoure,<span class="keyword">double</span> scoure1)</span></span>&#123;</span><br><span class="line">        ZSetOperations&lt;String, Object&gt; zset = redisTemplate.opsForZSet();</span><br><span class="line">        <span class="keyword">return</span> zset.rangeByScore(key, scoure, scoure1);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>5、测试，编写controller</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.PathVariable;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"><span class="keyword">import</span> com.chenqi.springboot.redis.RedisUtils;</span><br><span class="line"><span class="keyword">import</span> com.chenqi.springboot.service.TestService;</span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"></span><br><span class="line">......    </span><br><span class="line">   <span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> RedisUtils redisUtils;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping</span>(value = <span class="string">"/hello/&#123;deptNo&#125;"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">hello</span><span class="params">(@PathVariable(value = <span class="string">"deptNo"</span>)</span> String deptNo) </span>&#123;</span><br><span class="line">		<span class="comment">// 查询缓存中是否存在</span></span><br><span class="line">		<span class="keyword">boolean</span> hasKey = redisUtils.exists(deptNo);</span><br><span class="line">		Dept dept = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">if</span> (hasKey) &#123;</span><br><span class="line">			<span class="comment">// 获取缓存</span></span><br><span class="line">			Object object = redisUtils.get(deptNo);</span><br><span class="line">			log.info(<span class="string">"从缓存获取的数据"</span> + object);</span><br><span class="line">			dept = (Dept) object;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="comment">// 从数据库中获取信息</span></span><br><span class="line">			log.info(<span class="string">"从数据库中获取数据"</span>);</span><br><span class="line">			dept = deptService.getDeptInfo(Integer.valueOf(deptNo));</span><br><span class="line">			<span class="comment">// 数据插入缓存（set中的参数含义：key值，user对象，缓存存在时间10（long类型），时间单位）</span></span><br><span class="line">			redisUtils.set(deptNo, dept, <span class="number">10L</span>, TimeUnit.MINUTES);</span><br><span class="line">			log.info(<span class="string">"数据插入缓存"</span> + dept);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> dept;</span><br><span class="line">	&#125;</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+ <p>6、启动项目，第一次访问：<a href="http://localhost:8002/hello/111" target="_blank" rel="nofollow noopener">http://localhost:8002/hello/111</a><br>
+<img src="https://img-blog.csdnimg.cn/20190801200449949.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDYyMzczNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190801200458311.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDYyMzczNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+通过控制台输出，我们可以看到是从数据库中获取的数据，并且存入了redis缓存中。</p>                    
+<p>7、我们再次刷新浏览器<br>
+<img src="https://img-blog.csdnimg.cn/20190801200519680.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDYyMzczNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+可以看到，第二次是从缓存中读取的，我们试试不断刷新浏览器<br>
+<img src="https://img-blog.csdnimg.cn/20190801200535433.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MDYyMzczNg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+可以看到，之后都是从缓存中获取的。</p>
+
+<p>8、测试Redis<br>    测试输入命令：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">redis-cli</span><span class="selector-class">.exe</span> <span class="selector-tag">-h</span> 127<span class="selector-class">.0</span><span class="selector-class">.0</span><span class="selector-class">.1</span> <span class="selector-tag">-p</span> 6379 </span><br><span class="line"><span class="selector-tag">set</span> <span class="selector-tag">userinfo</span> <span class="selector-tag">zjl</span></span><br><span class="line"><span class="selector-tag">get</span> <span class="selector-tag">userinfo</span></span><br></pre></td></tr></table></figure>
+<p>9、使用RedisDesktopManager可视化工具进行查看<br><img src="https://img-blog.csdnimg.cn/20200415232823550.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200415232855966.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="四、SpringBoot-使用-Redis-实现-Session-共享"><a href="#四、SpringBoot-使用-Redis-实现-Session-共享" class="headerlink" title="四、SpringBoot 使用 Redis 实现 Session 共享"></a>四、SpringBoot 使用 Redis 实现 Session 共享</h2><p><strong>1、 什么是 Session</strong></p>
+<blockquote>
+<p>由于 HTTP 协议是无状态的协议，因而服务端需要记录用户的状态时，就需要用某种机制来识具体的用户。Session<br>是另一种记录客户状态的机制，不同的是 Cookie 保存在客户端浏览器中，而 Session<br>保存在服务器上。客户端浏览器访问服务器的时候，服务器把客户端信息以某种形式记录在服务器上，这就是<br>Session。客户端浏览器再次访问时只需要从该 Session 中查找该客户的状态就可以了。</p>
+</blockquote>
+<p><strong>2、 为什么需要同步session ？</strong></p>
+<blockquote>
+<p>当用户量比较大时候一个tomcat可能无法处理更多的请求，超过单个tomcat的承受能力，可能会出现用户等待，严重的导致tomcat宕机。<br><img src="https://img-blog.csdnimg.cn/2020041523514483.png#pic_center" alt="在这里插入图片描述">    </p>
+<p>这时候我们后端可能会采用多个tomcat去处理请求，分派请求，不同请求让多个tomcat分担处理。</p>
+<p> 登录的时候可能采用的是tomca1，下单的时候可能采用的是tomcat2 等等等。</p>
+<p>若没有session共享同步，可能在tomcat1登录了，下一次请求被分派到tomcat2上，这时候用户就需要重新登录。</p>
+<p>在实际工作中我们建议使用外部的缓存设备来共享 Session，避免单个节点挂掉而影响服务，使用外部缓存 Session 后，我们的<br>    共享数据都会放到外部缓存容器中，服务本身就会变成无状态的服务，可以随意的根据流量的大小增加或者减少负载的设备。</p>
+</blockquote>
+<p><strong>目前主流的分布式 Session 管理有两种方案</strong>。</p>
+<p><strong>1 Session 复制</strong></p>
+<p>部分 Web 服务器能够支持 Session 复制功能，如 Tomcat。用户可以通过修改 Web 服务器的配置文件，让 Web 服务器进行 Session 复制，保持每一个服务器节点的 Session 数据都能达到一致。</p>
+<p>这种方案的实现依赖于 Web 服务器，需要 Web 服务器有 Session 复制功能。当 Web 应用中 Session 数量较多的时候，每个服务器节点都需要有一部分内存用来存放 Session，将会占用大量内存资源。同时大量的 Session 对象通过网络传输进行复制，不但占用了网络资源，还会因为复制同步出现延迟，导致程序运行错误。</p>
+<p>在微服务架构中，往往需要 N 个服务端来共同支持服务，不建议采用这种方案。</p>
+<p><strong>2 Session 集中存储</strong></p>
+<p>在单独的服务器或服务器集群上使用缓存技术，如 Redis 存储 Session 数据，集中管理所有的 Session，所有的 Web 服务器都从这个存储介质中存取对应的 Session，实现 Session 共享。将 Session 信息从应用中剥离出来后，其实就达到了服务的无状态化，这样就方便在业务极速发展时水平扩充。</p>
+<p>Spring Session<br>Spring Session 提供了一套创建和管理 Servlet HttpSession 的方案。Spring Session 提供了集群 Session（Clustered Sessions）功能，默认采用外置的 Redis 来存储 Session 数据，以此来解决 Session 共享的问题。</p>
+<p>Spring Session 为企业级 Java 应用的 Session 管理带来了革新，使得以下的功能更加容易实现：</p>
+<blockquote>
+<p>API 和用于管理用户会话的实现； HttpSession，允许以应用程序容器（即 Tomcat）中性的方式替换<br>              HttpSession；    将 Session 所保存的状态卸载到特定的外部 Session 存储中，如 Redis 或<br>              Apache Geode    中，它们能够以独立于应用服务器的方式提供高质量的集群； 支持每个浏览器上使用多个<br>              Session，从而能够很容易地构建更加丰富的终端用户体验； 控制 Session ID<br>              如何在客户端和服务器之间进行交换，这样的话就能很容易地编写 Restful API，因为它可以从 HTTP 头信息中获取<br>              Session ID，而不必再依赖于 cookie； 当用户使用 WebSocket 发送请求的时候，能够保持<br>              HttpSession 处于活跃状态。  需要说明的很重要的一点就是，Spring Session 的核心项目并不依赖于<br>              Spring 框架，因此，我们甚至能够将其应用于不使用  Spring 框架的项目中。</p>
+</blockquote>
+<p>3、spring boot中如何使用<br>首先新建一个springboot项目<br>1）、pom文件中除了引人redis外还需引入</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;<span class="selector-tag">dependency</span>&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.session&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-session-data-redis&lt;/artifactId&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>2）、配置</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">server.port=<span class="number">8080</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># Redis 配置</span><br><span class="line"># Redis 数据库索引（默认为0）</span><br><span class="line">spring.redis.database=<span class="number">0</span></span><br><span class="line"># Redis 服务器地址</span><br><span class="line">spring.redis.host=localhost</span><br><span class="line"># Redis 服务器连接端口</span><br><span class="line">spring.redis.port=<span class="number">6379</span>  </span><br><span class="line"># Redis 服务器连接密码（默认为空）</span><br><span class="line">spring.redis.password=</span><br><span class="line"># 连接池最大连接数（使用负值表示没有限制）</span><br><span class="line">spring.redis.lettuce.pool.max-active=<span class="number">8</span></span><br><span class="line">spring.redis.lettuce.pool.max-wait=-<span class="number">1</span></span><br><span class="line">spring.redis.lettuce.shutdown-timeout=<span class="number">100</span></span><br><span class="line">spring.redis.lettuce.pool.max-idle=<span class="number">8</span></span><br><span class="line">spring.redis.lettuce.pool.min-idle=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>3）、新建一个初始化类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * maxInactiveIntervalInSeconds: 设置 Session 失效时间</span></span><br><span class="line"><span class="comment"> * 使用 Redis Session 之后，原 Spring Boot 中的 server.session.timeout 属性不再生效。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableRedisHttpSession</span>(maxInactiveIntervalInSeconds = <span class="number">86400</span>*<span class="number">30</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SessionConfig</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>4）、一个控制层</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/setSession"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">setSession</span> <span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line">       Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">       request.getSession().setAttribute(<span class="string">"message"</span>, request.getRequestURL());</span><br><span class="line">       map.put(<span class="string">"request Url"</span>, request.getRequestURL());</span><br><span class="line">       <span class="keyword">return</span> map;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@RequestMapping</span>(value = <span class="string">"/getSession"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> Object <span class="title">getSession</span> <span class="params">(HttpServletRequest request)</span></span>&#123;</span><br><span class="line">       Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">       map.put(<span class="string">"sessionId"</span>, request.getSession().getId());</span><br><span class="line">       map.put(<span class="string">"message"</span>, request.getSession().getAttribute(<span class="string">"message"</span>));</span><br><span class="line">       <span class="keyword">return</span> map;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="meta">@RequestMapping</span>(value = <span class="string">"/login"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> String <span class="title">login</span> <span class="params">(HttpServletRequest request,String userName,String password)</span></span>&#123;</span><br><span class="line">       String msg=<span class="string">"logon failure!"</span>;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (userName!=<span class="keyword">null</span> &amp;&amp; <span class="string">"admin"</span>.equals(userName) &amp;&amp; <span class="string">"123"</span>.equals(password))&#123;</span><br><span class="line">           request.getSession().setAttribute(<span class="string">"user"</span>,userName);</span><br><span class="line">           msg=<span class="string">"login successful!"</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> msg;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>5）、同上再创建一个项目，该端口为8282</p>
+<p>6）、分别启动并测试<br>   在端口是8282 的项目中登录<br>    <img src="https://img-blog.csdnimg.cn/20200416000520408.png#pic_center" alt="在这里插入图片描述"> 然后在端口是8282 和 8080的项目中获取session<br>    <img src="https://img-blog.csdnimg.cn/20200416000611251.png#pic_center" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200416000622929.png#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>两个服务中session id 是一致的，说明我们的session管理成功。</p>
+<p>使用Spring Session 可以将session单独的从每个服务总抽离出来，存储到redis中进行集中管理。<br>相对于每个服务复制session的方式可谓简便至极，也不需要在每个Tomcat中修改配置文件，添加jar包等操作。</p>
+</blockquote>
+<p>有问题：316572403</p>
+<p>原文出处1：<a href="http://mp.toutiao.com/preview_article/?pgc_id=6625563203793322503" target="_blank" rel="nofollow noopener">http://mp.toutiao.com/preview_article/?pgc_id=6625563203793322503</a></p>
+<p>原文出处2：<a href="http://mp.toutiao.com/preview_article/?pgc_id=6625563203793322503" target="_blank" rel="nofollow noopener">https://blog.csdn.net/qq_43001609/article/details/82928798</a></p>
+<p>原文出处3：<a href="http://mp.toutiao.com/preview_article/?pgc_id=6625563203793322503" target="_blank" rel="nofollow noopener">https://blog.csdn.net/weixin_40623736/article/details/98097708</a></p>   
+<p>原文出处4：<a href="http://mp.toutiao.com/preview_article/?pgc_id=6625563203793322503" target="_blank" rel="nofollow noopener">https://segmentfault.com/a/1190000019625173</a></p>]]></content>
       <categories>
-        <category>Spring Data</category>
+        <category>spring boot</category>
       </categories>
       <tags>
-        <tag>Spring Data JPA</tag>
+        <tag>boot</tag>
       </tags>
   </entry>
   <entry>
@@ -2583,6 +2871,95 @@
       </tags>
   </entry>
   <entry>
+    <title>Welcome</title>
+    <url>/myblog/uncategorized/Welcome/</url>
+    <content><![CDATA[<img src="http://chfsun.gitee.io/cdn/bg_music.jpg">
+<a id="more"></a>]]></content>
+  </entry>
+  <entry>
+    <title>java端生成token</title>
+    <url>/myblog/token/ava%E7%AB%AF%E7%94%9F%E6%88%90token/</url>
+    <content><![CDATA[<h2 id="java后端生成token"><a href="#java后端生成token" class="headerlink" title="java后端生成token"></a>java后端生成token</h2><a id="more"></a>
+<h4 id="一、创建一个Token-类"><a href="#一、创建一个Token-类" class="headerlink" title="一、创建一个Token 类"></a>一、创建一个Token 类</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.lxl.utils;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * token编码工具类</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ouyangjun</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Token</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 编码密码,可自定义</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ENCODED_PASSWORD = <span class="string">"ouyangjun"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 编码</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">encoded</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> strToHex(encodedString(str, ENCODED_PASSWORD));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 转换</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> password</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">encodedString</span><span class="params">(String str, String password)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">char</span>[] pwd = password.toCharArray();</span><br><span class="line">		<span class="keyword">int</span> pwdLen = pwd.length;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">char</span>[] strArray = str.toCharArray();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; strArray.length; i++) &#123;</span><br><span class="line">			strArray[i] = (<span class="keyword">char</span>) (strArray[i] ^ pwd[i % pwdLen] ^ pwdLen);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> String(strArray);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">strToHex</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> bytesToHexStr(s.getBytes());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">bytesToHexStr</span><span class="params">(<span class="keyword">byte</span>[] bytesArray)</span> </span>&#123;</span><br><span class="line">		StringBuilder builder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">		String hexStr;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">byte</span> bt : bytesArray) &#123;</span><br><span class="line">			hexStr = Integer.toHexString(bt &amp; <span class="number">0xFF</span>);</span><br><span class="line">			<span class="keyword">if</span> (hexStr.length() == <span class="number">1</span>) &#123;</span><br><span class="line">				builder.append(<span class="string">"0"</span>);</span><br><span class="line">				builder.append(hexStr);</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				builder.append(hexStr);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> builder.toString();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 解码</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> str</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">decoded</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">		String hexStr = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			hexStr = hexStrToStr(str);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (hexStr != <span class="keyword">null</span>) &#123;</span><br><span class="line">			hexStr = encodedString(hexStr, ENCODED_PASSWORD);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> hexStr;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">hexStrToStr</span><span class="params">(String hexStr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> String(hexStrToBytes(hexStr));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hexStrToBytes(String hexStr) &#123;</span><br><span class="line">		String hex;</span><br><span class="line">		<span class="keyword">int</span> val;</span><br><span class="line">		<span class="keyword">byte</span>[] btHexStr = <span class="keyword">new</span> <span class="keyword">byte</span>[hexStr.length() / <span class="number">2</span>];</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; btHexStr.length; i++) &#123;</span><br><span class="line">			hex = hexStr.substring(<span class="number">2</span> * i, <span class="number">2</span> * i + <span class="number">2</span>);</span><br><span class="line">			val = Integer.valueOf(hex, <span class="number">16</span>);</span><br><span class="line">			btHexStr[i] = (<span class="keyword">byte</span>) val;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> btHexStr;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="二、再创建一个TokenUtils类"><a href="#二、再创建一个TokenUtils类" class="headerlink" title="二、再创建一个TokenUtils类"></a>二、再创建一个TokenUtils类</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.lxl.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Map.Entry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.lxl.utils.Token;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * token生成和校验</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> ouyangjun</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenUtils</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Map&lt;String, String&gt; MAP_TOKENS = <span class="keyword">new</span> HashMap&lt;String, String&gt;();</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VALID_TIME = <span class="number">60</span> * <span class="number">60</span> * <span class="number">2</span>; <span class="comment">// token有效期(秒)</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOKEN_ERROR = <span class="string">"F"</span>; <span class="comment">// 非法</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOKEN_OVERDUE = <span class="string">"G"</span>; <span class="comment">// 过期</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TOKEN_FAILURE = <span class="string">"S"</span>; <span class="comment">// 失效</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 生成token,该token长度不一致,如需一致,可自行MD5或者其它方式加密一下 </span></span><br><span class="line"><span class="comment">                 * 该方式的token只存在磁盘上,如果项目是分布式,最好用redis存储</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> str: 该字符串可自定义,在校验token时要保持一致</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getToken</span><span class="params">(String str)</span> </span>&#123;</span><br><span class="line">		String token = Token.encoded(getCurrentTime() + <span class="string">","</span> + str);</span><br><span class="line">		MAP_TOKENS.put(str, token);</span><br><span class="line">		<span class="keyword">return</span> token;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 校验token的有效性</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> token</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">checkToken</span><span class="params">(String token)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (token == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> TOKEN_ERROR;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			String[] tArr = Token.decoded(token).split(<span class="string">","</span>);</span><br><span class="line">			<span class="keyword">if</span> (tArr.length != <span class="number">2</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span> TOKEN_ERROR;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// token生成时间戳</span></span><br><span class="line">			<span class="keyword">int</span> tokenTime = Integer.parseInt(tArr[<span class="number">0</span>]);</span><br><span class="line">			<span class="comment">// 当前时间戳</span></span><br><span class="line">			<span class="keyword">int</span> currentTime = getCurrentTime();</span><br><span class="line">			<span class="keyword">if</span> (currentTime - tokenTime &lt; VALID_TIME) &#123;</span><br><span class="line">				String tokenStr = tArr[<span class="number">1</span>];</span><br><span class="line">				String mToken = MAP_TOKENS.get(tokenStr);</span><br><span class="line">				<span class="keyword">if</span> (mToken == <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">return</span> TOKEN_OVERDUE;</span><br><span class="line">				&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!mToken.equals(token)) &#123;</span><br><span class="line">					<span class="keyword">return</span> TOKEN_FAILURE;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> tokenStr;</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> TOKEN_OVERDUE;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> TOKEN_ERROR;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/** 获取当前时间戳（10位整数） */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>) (System.currentTimeMillis() / <span class="number">1000</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 移除过期的token</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">removeInvalidToken</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> currentTime = getCurrentTime();</span><br><span class="line">		<span class="keyword">for</span> (Entry&lt;String, String&gt; entry : MAP_TOKENS.entrySet()) &#123;</span><br><span class="line">			String[] tArr = Token.decoded(entry.getValue()).split(<span class="string">","</span>);</span><br><span class="line">			<span class="keyword">int</span> tokenTime = Integer.parseInt(tArr[<span class="number">0</span>]);</span><br><span class="line">			<span class="keyword">if</span> (currentTime - tokenTime &gt; VALID_TIME) &#123;</span><br><span class="line">				MAP_TOKENS.remove(entry.getKey());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>三、测试类测试调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 测试</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> args</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String str = <span class="string">"username_and_password"</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 获取token</span></span><br><span class="line">		String token = TokenUtils.getToken(str);</span><br><span class="line">		System.out.println(<span class="string">"token Result: "</span> + token);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">// 校验token</span></span><br><span class="line">		String checkToken = TokenUtils.checkToken(token);</span><br><span class="line">		System.out.println(<span class="string">"checkToken Result: "</span> + checkToken);</span><br><span class="line">		<span class="keyword">if</span>(str.equals(checkToken)) &#123;</span><br><span class="line">			System.out.println(<span class="string">"==&gt;token verification succeeded!"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>token</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>token</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git常用命令</title>
+    <url>/myblog/tool/it%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="代码提交"><a href="#代码提交" class="headerlink" title="代码提交"></a>代码提交</h2><p>1、初始化</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>2、添加</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>3、备注</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">'add'</span></span><br></pre></td></tr></table></figure>
+<p>4、推送到仓库,</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS:此处是推送到master分支下</p>
+</blockquote>
+<h2 id="创建分支并切换"><a href="#创建分支并切换" class="headerlink" title="创建分支并切换"></a>创建分支并切换</h2><p>1）新建分支</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">git branch <span class="title">xxx</span> <span class="params">(xxx填写你的分支名称)</span></span></span><br></pre></td></tr></table></figure>
+<p>2）查看所有分支</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git branch -a</span><br></pre></td></tr></table></figure>
+<p>3）切换到某一分支</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function">git checkout <span class="title">xxx</span> <span class="params">(xxx填写要切换的分支名称）</span></span></span><br></pre></td></tr></table></figure>
+<p>4）添加修改代码到缓存（注意最后的”.”前面有个空格</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git add .</span><br></pre></td></tr></table></figure>
+<p>5）添加提交代码的备注</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git commit -m <span class="string">"xxx"</span> （xxx为本次提交代码的备注）</span><br></pre></td></tr></table></figure>
+<p>6）提交代码到指定分支</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">git push origin xxx （xxx为要提交代码的分支名称）</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>tool</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>阿里云短信验证</title>
+    <url>/myblog/%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81/%E4%BA%91%E7%9F%AD%E4%BF%A1%E9%AA%8C%E8%AF%81/</url>
+    <content><![CDATA[<h2 id="阿里云短信验证"><a href="#阿里云短信验证" class="headerlink" title="阿里云短信验证"></a>阿里云短信验证</h2><p>ps:这是一个根据前端发送的手机号 发送一个验证码 和注册功能！！！！</p>
+<a id="more"></a>
+<h4 id="一、先在项目里导入jar包"><a href="#一、先在项目里导入jar包" class="headerlink" title="一、先在项目里导入jar包"></a>一、先在项目里导入jar包</h4><p>1、pom形式</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">  &lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.aliyun&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;aliyun-java-sdk-core&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;4.5.1&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.aliyun&lt;/groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;aliyun-java-sdk-dysmsapi&lt;/artifactId&gt;</span><br><span class="line">	&lt;version&gt;1.1.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2、jar包链接</p>
+<blockquote>
+<p>百度云：<a href="https://pan.baidu.com/s/1ld5CzBhIE0HHEkja2Xa90A" target="_blank" rel="noopener">https://pan.baidu.com/s/1ld5CzBhIE0HHEkja2Xa90A</a> 提取码：2etr</p>
+</blockquote>
+<h4 id="二、Controller-层"><a href="#二、Controller-层" class="headerlink" title="二、Controller 层"></a>二、Controller 层</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 产品名称:云通信短信API产品,开发者无需替换</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String product = <span class="string">"Dysmsapi"</span>;</span><br><span class="line">	<span class="comment">// 产品域名,开发者无需替换</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String domain = <span class="string">"dysmsapi.aliyuncs.com"</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String accessKeyId = <span class="string">"？？？？？？"</span>; <span class="comment">// TODO 修改成自己的</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">final</span> String accessKeySecret = <span class="string">"？？？？？？"</span>; <span class="comment">// TODO 修改成自己的</span></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SendSmsResponse <span class="title">sendSms</span><span class="params">(String telephone, String code)</span> <span class="keyword">throws</span> ClientException </span>&#123;</span><br><span class="line">		<span class="comment">// 可自助调整超时时间</span></span><br><span class="line">		System.setProperty(<span class="string">"sun.net.client.defaultConnectTimeout"</span>, <span class="string">"30000"</span>);</span><br><span class="line">		System.setProperty(<span class="string">"sun.net.client.defaultReadTimeout"</span>, <span class="string">"30000"</span>);</span><br><span class="line">		<span class="comment">// 初始化acsClient,暂不支持region化</span></span><br><span class="line">		IClientProfile profile = DefaultProfile.getProfile(<span class="string">"cn-hangzhou"</span>, accessKeyId, accessKeySecret);</span><br><span class="line">		DefaultProfile.addEndpoint(<span class="string">"cn-hangzhou"</span>, <span class="string">"cn-hangzhou"</span>, product, domain);</span><br><span class="line">		IAcsClient acsClient = <span class="keyword">new</span> DefaultAcsClient(profile);</span><br><span class="line">		<span class="comment">// 组装请求对象-具体描述见控制台-文档部分内容</span></span><br><span class="line">		SendSmsRequest request = <span class="keyword">new</span> SendSmsRequest();</span><br><span class="line">		<span class="comment">// 必填:待发送手机号</span></span><br><span class="line">		request.setPhoneNumbers(telephone);</span><br><span class="line">		<span class="comment">// 必填:短信签名-可在短信控制台中找到</span></span><br><span class="line">		request.setSignName(<span class="string">"？？？？？"</span>); <span class="comment">// TODO 修改成自己的</span></span><br><span class="line">		<span class="comment">// 必填:短信模板-可在短信控制台中找到</span></span><br><span class="line">		request.setTemplateCode(<span class="string">"？？？？？"</span>); <span class="comment">// TODO 修改成自己的</span></span><br><span class="line">		<span class="comment">// 可选:模板中的变量替换JSON串,如模板内容为"亲爱的$&#123;name&#125;,您的验证码为$&#123;code&#125;"时,此处的值为</span></span><br><span class="line"><span class="comment">//		        request.setTemplateParam("&#123;\"name\":\"Tom\", \"code\":\"123\"&#125;");</span></span><br><span class="line">		request.setTemplateParam(<span class="string">"&#123;\"code\":\""</span> + code + <span class="string">"\"&#125;"</span>);</span><br><span class="line">		<span class="comment">// 选填-上行短信扩展码(无特殊需求用户请忽略此字段)</span></span><br><span class="line">		<span class="comment">// request.setSmsUpExtendCode("90997");</span></span><br><span class="line">		<span class="comment">// 可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者</span></span><br><span class="line">		request.setOutId(<span class="string">"yourOutId"</span>);</span><br><span class="line">		<span class="comment">// hint 此处可能会抛出异常，注意catch</span></span><br><span class="line">		SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);</span><br><span class="line">		<span class="keyword">if</span> (sendSmsResponse.getCode() != <span class="keyword">null</span> &amp;&amp; sendSmsResponse.getCode().equals(<span class="string">"OK"</span>)) &#123;</span><br><span class="line">			System.out.println(<span class="string">"短信发送成功！"</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			System.out.println(<span class="string">"短信发送失败！"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> sendSmsResponse;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Map&lt;Object, String&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 接受手机号发短信</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> feedback</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClientException</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/inserts"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">inserts</span><span class="params">(@RequestBody Member member, HttpServletRequest request)</span> <span class="keyword">throws</span> ClientException </span>&#123;</span><br><span class="line">		<span class="comment">// 随机一个4位数</span></span><br><span class="line">		<span class="keyword">int</span> a = (<span class="keyword">int</span>) (Math.random() * <span class="number">9000</span> + <span class="number">1000</span>);</span><br><span class="line">		String code = Integer.toString(a);</span><br><span class="line">		String codess = map.get(member.getTelePhone());</span><br><span class="line">		map.put(member.getTelePhone(), code);</span><br><span class="line">		SendSmsResponse response = sendSms(member.getTelePhone(), code);</span><br><span class="line">		<span class="keyword">if</span> (response != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Result(code, <span class="number">200</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"操作失败"</span>, -<span class="number">200</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@PostMapping</span>(<span class="string">"/zc"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Result <span class="title">insertss</span><span class="params">(@RequestBody Member member)</span> </span>&#123;</span><br><span class="line">		Date date = <span class="keyword">new</span> Date();</span><br><span class="line">		SimpleDateFormat dateFormat = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyMMddhhmmss"</span>);</span><br><span class="line">		String now = dateFormat.format(date).toString();</span><br><span class="line">		member.setId(<span class="string">"KWY"</span> + now + (<span class="keyword">int</span>) (Math.random() * <span class="number">9000</span> + <span class="number">1000</span>));</span><br><span class="line">		String codess = map.get(member.getTelePhone());</span><br><span class="line">		String n = member.getCode();</span><br><span class="line">		<span class="keyword">if</span> (codess.equals(n)) &#123;</span><br><span class="line"></span><br><span class="line">			restTemplate.postForObject(memberServiceUrl + <span class="string">"/Member/zc"</span>, member, Result<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Result(n, <span class="number">200</span>);</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">new</span> Result(<span class="string">"操作失败"</span>, -<span class="number">200</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>阿里云短信验证</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>阿里云短信验证</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>关于限流的6种实现方案</title>
     <url>/myblog/tool/%E5%85%B3%E4%BA%8E%E9%99%90%E6%B5%81%E7%9A%846%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88/</url>
     <content><![CDATA[<h3 id="为什么需要限流"><a href="#为什么需要限流" class="headerlink" title="为什么需要限流"></a>为什么需要限流</h3><a id="more"></a>
@@ -2956,6 +3333,1212 @@
       </tags>
   </entry>
   <entry>
+    <title>程序员、架构师、技术经理、技术总监和CTO各自职责</title>
+    <url>/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/</url>
+    <content><![CDATA[<h3 id="程序员"><a href="#程序员" class="headerlink" title="程序员"></a>程序员</h3><p>　　程序员，英文名coder/programmer，大家常自嘲叫码农的阶段。这个角色职责是把需求或产品实现为用户可用的软件产品。</p>
+<a id="more"></a>
+<p>　　此职位为执行级别。另外因为经验较少，一般需要求助别人，或与别人一起完（ban）成（zhuan）一个任务。</p>
+<p>　　此阶段大概要经历3年，程序员的职责如下：</p>
+<p>　　1、负责公司运营系统的设计与开发工作</p>
+<p>　　2、运营数据处理和分析</p>
+<h3 id="高级程序员"><a href="#高级程序员" class="headerlink" title="高级程序员"></a>高级程序员</h3><p>　　高级程序员学名工程师。到了这个level，英文名可改叫做engineer或developer。此时你的功力开始增强，这与你平时的积累努力是分不开的，祝贺你～</p>
+<p>　　此时的你不仅可以完成任务，开始注重代码的质量，能够写出工业级的代码。</p>
+<p>　　你的经验可胜任模块级的系统设计，承担完成较为复杂的技术，能有效的自我管理，有帮助别人快速解决问题（trouble shooting）的能力。</p>
+<p>　　此阶段你需要经历到7、8年左右的体验，中间要经历一段深刻自我历练的过程。</p>
+<p>　　有时给人致命一击其实是心里的小蟊贼。一般人在5年前后遇到一个门槛，碰到天花板+彷徨期，或者你打心眼里不在喜欢编程，可尝试转为其它角色，如产品经理，售前售后支持等岗位，也不失为好选择。</p>
+<p>　　当我们熬过这段儿，就会“山随平野尽，江入大荒流“，渐入佳境矣。</p>
+<p>　　高级程序员定义软件功能、做开发计划推进和管理。可以带几个个帮手把产品规划的功能实现，你是团队中的”大手“，遇到难题也是你亲自攻艰克难。</p>
+<p>　　所以，一个高级程序员，他的职责很清晰：</p>
+<p>　　1、负责产品核心复杂功能的方案设计、编码实现</p>
+<p>　　2、负责疑难BUG分析诊断、攻关解决</p>
+<h3 id="架构师"><a href="#架构师" class="headerlink" title="架构师"></a>架构师</h3><p>　　到了架构师级别，想必你已经学会降龙十八掌，可登堂入世，成为一位准（lao）专（you）家（tiao）。</p>
+<p>　　我们大喊声：“单打独斗，老衲谁也不惧！“，遂开始领导一众技术高手，指点武功，来设计和完成一个系统，大多是分布式，高并发的系统架构平台。</p>
+<p>　　架构师的任务是为公司产品的业务问题提供高质量技术解决方案。可能每条产品线都设置了架构师，也可能多条生产品线的的后端是由一个架构师设计的平台提供。</p>
+<p>　　通过上面架构师的部分成果，总结其职责如下：</p>
+<p>　　1、需求分析：“知彼”有时比“知已”还重要。管理市场，产品等的需求，确立关键需求。坚持技术上的优秀与需求的愿景统一，提升技术负债意识，提供技术选项，风险预判，工期等解决方案。</p>
+<p>　　2、架构设计：在产品功能中抽取中非功能的需求，由关键需求变成概念型架构。列出功能树，分层治之，如用户界面层、系统交互层，数据管理层。达成高扩展，高可用，高性能，高安全，易运维，易部署，易接入等能力。</p>
+<p>　　3、功能设计与实现：对架构设计的底层代码级别实现。如公共核心类，接口实现，应用发现规则、接口变更等。</p>
+<h3 id="技术经理"><a href="#技术经理" class="headerlink" title="技术经理"></a>技术经理</h3><p>　　人生就是不断上升的过程，你已经到达经理的层次了。如今的你，需要不断提高领导力，需要定期召开团队会议讨论问题。</p>
+<p>　　首先我们要更加自信，在工作中显示自己的功力，给讲话增添力量。如：“本次项目虽然有很大的困难，我们也需苦战到底。当然示先垂范，身先士卒，方能成功！”</p>
+<p>　　技术经理有时候也可能叫系统分析员，一些小公司可能会整个公司或者部门有一个技术经理。技术经理承担的角色主要是系统分析、架构搭建、系统构建、代 码走查等工作，如果说项目经理是总统，那么技术经理就是总理。当然不是所有公司都是这样的，有些公司项目经理是不管技术团队的，只做需求、进度和同客户沟 通，那么这个时候的项目经理就好像工厂里的跟单人员了，这种情况在外包公司比较多。对于技术经理来说，着重于技术方面，你需要知道某种功能用哪些技术合 适，需要知道某项功能需要多长的开发时间等。同时，技术经理也应该承担提高团队整体技术水平的工作。</p>
+<p>　　你需要和大家站在一起，因为人们也都有解决问题的能力，更需要有以下的能力与责任：</p>
+<p>　　1、任务管理：开发工作量评估、定立开发流程、分配和追踪开发任务</p>
+<p>　　2、质量管理：代码review、开发风险判断/报告/协调解决</p>
+<p>　　3、效率提升：代码底层研发和培训、最佳代码实践规范总结与推广、自动化生产工具、自动化部署工具</p>
+<p>　　4、技术能力提升：招聘面试、试题主拟、新人指导、项目复盘与改进</p>
+<h3 id="技术总监"><a href="#技术总监" class="headerlink" title="技术总监"></a>技术总监</h3><p>　　如果一个研发团队超过20人，有多条产品线或业务量很大，这时已经有多个技术经理在负责每个业务，这时需要一位技术总监。</p>
+<p>　　技术总监的职责：</p>
+<p>　　1、组建平台研发部，与架构师共建软件公共平台，方便各条产品业务线研发。</p>
+<p>　　2、通过技术平台、通过高一层的职权，管理和协调公司各个部门与本部门各条线。现在每个产品线都应该有合格的技术经理和高级程序员。</p>
+<h3 id="CTO"><a href="#CTO" class="headerlink" title="CTO"></a>CTO</h3><p>　　首席技术官，英文名Chief Technology Officer。是与CEO、COO、CFO同级的领导者，是技术和业务融合的领袖。</p>
+<p>　　国内与国外对CTO的定义有些许不同。</p>
+<p>　　美国对CTO的职责是设计公司三年内的产品和服务的技术发展方向，较少参与技术团队的日常管理和项目管理事务。基本是前瞻性的策略思维，比如Google的谢尔盖.布林一直保持对技术方向的敏锐，比如无人驾驶汽车，人工智能等走向。</p>
+<p>　　在国内，CTO大部分则偏重于研发管理，相当于技术总监的Plus版。它相当于美国互联网公司常设的工程师副总裁+CTO的工作并集。但总体事情比美国的CTO层次低，大部分CTO的是领导技术团队开发各类产品，解决技术问题，管理不同的项目，排期交付。还有一部分的职能类似于架构师或总工程师，作为技术侧的权威，为下一步的发展方向 做研究探讨，为CEO提供建设型决定参考。</p>
+<p>　　CTO的职责如下列表：</p>
+<p>　　1、技术愿景：识别新技术、利用新技术、整合新技术、驱动新技术。驱动商业战略、驱动产品战略</p>
+<p>　　2、技术架构：建立主营业务中的技术架构与实施模式，建立技术体系标准</p>
+<p>　　3、流程制度：建立高质量，高效率的技术团队。健全的项目管理体系；完善的员工能力发展体系</p>
+<p>　　4、知识培训：建立以研发内容为主的知识库管理体系、技术分享与技术文化的体系</p>
+<p>　　5、业务支撑：与其它部门的沟通协作，如HR、市场、BD、财务、客服等提供技术管理接口；在产品技术层面能够领先于业内同行</p>
+<p>　　6、影响力：在公司内部与行业中具备一定影响力与口碑</p>
+<p>　　7、视野&amp;格局&amp;执行力：看待问题全面，具有强大的学习力，具备技术前瞻力，敏锐的市场嗅觉，战略落地的能力</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>　　CTO做的事情，是商业、产品、技术、管理、团队相平衡的综合统管，公司的技术研发方向与重点商业化的结果负责，激励员工，营造工程师文化。</p>
+<p>　　而技术总监主要是协调团队内部各个资源，引入工具，和方法提升工作效率。</p>
+<p>　　技术经理角色相对具体，绩效考核，产品落地，执行优胜劣汰的规则。</p>
+]]></content>
+      <categories>
+        <category>talkabout</category>
+      </categories>
+      <tags>
+        <tag>talkabout</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大型网站一般架构技术</title>
+    <url>/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/</url>
+    <content><![CDATA[<h3 id="一、-前端架构"><a href="#一、-前端架构" class="headerlink" title="一、  前端架构"></a>一、  前端架构</h3><p>前端指用户请求到达网站应用服务器之前经历的环节，通常不包含网站业务逻辑，不处理动态内容。</p>
+<a id="more"></a>
+<p>（1）    浏览器优化技术；</p>
+<p>（2）    CDN；</p>
+<p>（3）    动静分离，静态资源独立部署；</p>
+<p>（4）    图片服务；</p>
+<p>（5）    反向代理；</p>
+<p>（6）    DNS：域名服务，将域名解析成IP地址，利用DNS可以实现DNS负载均衡，配置CDN也需要修改DNS，使域名解析后指向CDN服务器。</p>
+<h3 id="二、-应用层架构"><a href="#二、-应用层架构" class="headerlink" title="二、  应用层架构"></a>二、  应用层架构</h3><p>应用层是处理网站主要业务逻辑的地方</p>
+<p>（1）    开发框架；</p>
+<p>（2）    页面渲染；</p>
+<p>（3）    负载均衡；</p>
+<p>（4）    Session管理；</p>
+<p>（5）    动态页面静态化；</p>
+<p>（6）    业务拆分；</p>
+<p>（7）    虚拟化服务器；</p>
+<h3 id="三、-服务层架构"><a href="#三、-服务层架构" class="headerlink" title="三、  服务层架构"></a>三、  服务层架构</h3><p>提供基础服务，供应用层调用，完成网站业务。</p>
+<p>（1）    分布式消息：利用消息队列机制，实现业务与业务、业务和服务之间的异步消息发送及低耦合的业务关系；</p>
+<p>（2）    分布式服务；提供高性能、低耦合、易复用、易管理的分布式服务，在网站实现面向服务架构（SOA）；</p>
+<p>（3）    分布式缓存：通过可伸缩的服务器集群提供大规模热点数据的缓存服务，是网站性能优化的重要手段；</p>
+<p>（4）    分布式配置；</p>
+<h3 id="四、-存储层架构"><a href="#四、-存储层架构" class="headerlink" title="四、  存储层架构"></a>四、  存储层架构</h3><p>提供数据、文件的持久化存储访问与管理服务。</p>
+<p>（1）    分布式文件；</p>
+<p>（2）    关系数据库；</p>
+<p>（3）    NoSQL数据库；</p>
+<p>（4）    数据同步；</p>
+<h3 id="五、-后台架构"><a href="#五、-后台架构" class="headerlink" title="五、  后台架构"></a>五、  后台架构</h3><p>网站应用中，除了要处理用户的实时访问请求外，还有一些后台非实时数据分析要处理。</p>
+<p>（1）    搜索引擎：即使是网站内部的搜索引擎，也需要进行数据增量更新及全量更新、构建索引等。这些操作通过后台系统定时执行；</p>
+<p>（2）    数据仓库：根据离线数据，提供数据分析与数据挖掘服务；</p>
+<p>（3）    推荐系统：社交网站及购物网站通过挖掘任何人之间的关系，任何商品之间的关系，发觉潜在的人际关系和购物兴趣，为用户提供个性化推荐服务；</p>
+<h3 id="六、-数据采集与监控"><a href="#六、-数据采集与监控" class="headerlink" title="六、  数据采集与监控"></a>六、  数据采集与监控</h3><p>监控网站访问情况与系统运行情况，为网站运营决策和运维管理提供支持保障。</p>
+<p>（1）    浏览器数据采集：通过在网站页面中嵌入JS脚本采集用户浏览器环境与操作记录，分析用户行为；</p>
+<p>（2）    服务器业务数据采集：服务器业务数据包括两种，一种是采集在服务端记录的用户请求操作日志；一种是采集应用程序运行期业务数据，比如待处理消息数目等；</p>
+<p>（3）    服务器性能数据采集；</p>
+<p>（4）    系统监控；</p>
+<p>（5）    系统报警；</p>
+<h3 id="七、-安全架构"><a href="#七、-安全架构" class="headerlink" title="七、  安全架构"></a>七、  安全架构</h3><p>保护网站免遭攻击及敏感信息泄露。</p>
+<p>（1）    Web攻击；</p>
+<p>（2）    数据保护；</p>
+<h3 id="八、-数据中心机房架构"><a href="#八、-数据中心机房架构" class="headerlink" title="八、  数据中心机房架构"></a>八、  数据中心机房架构</h3><p>大型网站需要的服务器规模数以万计，机房物理架构也需要关注。</p>
+<p>（1）    机房架构</p>
+<p>（2）    机柜架构</p>
+<p>（3）    服务器架构</p>
+]]></content>
+      <categories>
+        <category>talkabout</category>
+      </categories>
+      <tags>
+        <tag>talkabout</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title> 消息队列: 解耦、异步、削峰, 现有MQ对比</title>
+    <url>/myblog/interview/%E6%81%AF%E9%98%9F%E5%88%97-%E8%A7%A3%E8%80%A6%E3%80%81%E5%BC%82%E6%AD%A5%E3%80%81%E5%89%8A%E5%B3%B0-%E7%8E%B0%E6%9C%89MQ%E5%AF%B9%E6%AF%94/</url>
+    <content><![CDATA[<h3 id="解耦合、异步、流量削峰有哪些消息队列？"><a href="#解耦合、异步、流量削峰有哪些消息队列？" class="headerlink" title="解耦合、异步、流量削峰有哪些消息队列？"></a>解耦合、异步、流量削峰有哪些消息队列？</h3><p>RabbitMQ、RocketMQ、Kafka</p>
+<a id="more"></a>
+<h5 id="什么是消息队列（MQ）"><a href="#什么是消息队列（MQ）" class="headerlink" title="什么是消息队列（MQ）?"></a>什么是消息队列（MQ）?</h5><blockquote>
+<p>其实字面意思很清楚了，存放消息的队列。<br>由于它的应用场景在服务器方面被重新定义而名声大噪，它的价值也被由原先的通信而重新定义，成为高并发场景下，分布式系统解耦合，任务异步，流量削峰的利器。<br>其实消息队列属于一种中间件。</p>
+</blockquote>
+<h4 id="一、如何实现分布式系统解耦合"><a href="#一、如何实现分布式系统解耦合" class="headerlink" title="一、如何实现分布式系统解耦合"></a>一、如何实现分布式系统解耦合</h4><h6 id="传统做法"><a href="#传统做法" class="headerlink" title="传统做法"></a>传统做法</h6><p>传统的做法是，订单系统调用库存系统的接口。如下图：<br><img src="https://img-blog.csdnimg.cn/20200912140600880.png#pic_center" alt="在这里插入图片描述"><br><strong>传统模式的缺点</strong>：假如库存系统无法访问，则订单减库存将失败，从而导致订单失败，订单系统与库存系统耦合</p>
+<p>如何解决以上问题呢？</p>
+<blockquote>
+<p>使用消息队列</p>
+</blockquote>
+<p>引入应用消息队列后的方案，如下图：<br><img src="https://img-blog.csdnimg.cn/20200912140700786.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>订单系统：用户下单后，订单系统完成持久化处理，将消息写入消息队列，返回用户订单下单成功</p>
+</blockquote>
+<blockquote>
+<p>库存系统：订阅下单的消息，采用拉/推的方式，获取下单信息，库存系统根据下单信息，进行库存操作</p>
+</blockquote>
+<blockquote>
+<p>在下单时库存系统不能正常使用。也不影响正常下单，因为下单后，订单系统写入消息队列就不再关心其他的后续操作了。实现订单系统与库存系统的应用解耦.</p>
+</blockquote>
+<p><strong>举个新例子：</strong></p>
+<p>比如说某一个系统A要与其他系统打交道（即调用其中的方法），如果其它系统改变或者新增系统，那么A系统都会改变，这样的话耦合度比较高，比较麻烦。<br><img src="https://img-blog.csdnimg.cn/20200912140752645.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>使用消息队列来解决这个问题。</p>
+<p>我们A系统将产生的数据发入消息队列中，其它的系统再去消息队列来进行消费，那么其他系统的减少或者新增系统即与A系统关系不大了，这样来实现解耦的功能。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912140816784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="二、如何实现任务异步"><a href="#二、如何实现任务异步" class="headerlink" title="二、如何实现任务异步"></a>二、如何实现任务异步</h4><p><strong>场景说明：用户注册后，需要发注册邮件和注册短信</strong></p>
+<p><em>传统做法</em></p>
+<p><strong>串行</strong>：将注册信息写入数据库成功后，发送注册邮件，再发送注册短信</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912141042797.png#pic_center" alt="在这里插入图片描述"><br><strong>并行</strong>：将注册信息写入数据库成功后，发送注册邮件的同时，发送注册短信</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912141133429.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>其实让我想我也就只能想到并行。</p>
+</blockquote>
+<p><strong>使用消息队列</strong></p>
+<p>将不是必须的业务逻辑，异步处理。改造后的架构如下：<br><img src="https://img-blog.csdnimg.cn/20200912141220955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><strong>举个新例子</strong></p>
+<p>某一个用户使用系统A，但是A要调用系统B,C,D,但是每一个系统返回的时间是不一样的，你必须要等待全部返回后才可以响应用户。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912141249629.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>如果我们这里采用消息队列，当用户发送请求后，我们把数据传给消息队列，然后再直接响应给用户我已经发送了信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912141317593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="三、流量削峰"><a href="#三、流量削峰" class="headerlink" title="三、流量削峰"></a>三、流量削峰</h4><p><strong>场景说明：商品秒杀业务，一般会因为流量过大，导致流量暴增，应用挂掉</strong></p>
+<p>传统做法</p>
+<blockquote>
+<p>限制用户数量</p>
+</blockquote>
+<p>使用消息队列</p>
+<blockquote>
+<p>用户的请求，服务器接收后，首先写入消息队列，秒杀业务</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200912141445983.png#pic_center" alt="在这里插入图片描述"><br><strong>举个新例子</strong></p>
+<p>比如平常用户的请求我们会直接访问数据库，在大量用户过来的时候，这样的话我们会对数据库照常比较大的压力</p>
+<p><img src="https://img-blog.csdnimg.cn/20200912141513530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<blockquote>
+<p>在这里我们增加一个消息队列，这样的话不管你请求来多少，我先存入消息队列，然后我再让系统慢慢的处理你的请求（如上图），这样很好的减缓了数据库的访问压力。</p>
+</blockquote>
+<h4 id="四、优劣点"><a href="#四、优劣点" class="headerlink" title="四、优劣点"></a>四、优劣点</h4><p>当下比较流行的，其实也就三种：RabbitMQ、RocketMQ、Kafka</p>
+<h6 id="一、RabbitMQ"><a href="#一、RabbitMQ" class="headerlink" title="一、RabbitMQ"></a>一、RabbitMQ</h6><p>RabbitMQ在一开始是很强势的，也就是曾经很辉煌，当然，现在也不赖，只不过由于一些后起之秀，光芒不胜从前了，毕竟后来的也很优秀，</p>
+<p>RabbitMQ它的<strong>优点</strong>你需要记住：</p>
+<blockquote>
+<p>开箱即用<br>轻量级<br>易于部署和使用<br>支持灵活的路由配置<br>客户端支持的编程语言是最多的（至少目前是）<br>……</p>
+</blockquote>
+<p>不足之处嘛：</p>
+<blockquote>
+<p>使用Erlang语言编写（这是个啥语言我之前真不知道，这就导致一个大问题，想要二次开发与扩展，以及遇到问题的话，解决的成本都比较高啊）</p>
+<p>对消息堆积支持的不友好（消息队列就是进行消息收发的啊，大量的消息扔进RabbitMQ的话，它的性能表现就不那么好了）</p>
+<p>性能相比较RocketMQ和Kafka是最差的</p>
+</blockquote>
+<h6 id="二、RocketMQ"><a href="#二、RocketMQ" class="headerlink" title="二、RocketMQ"></a>二、RocketMQ</h6><p>RocketMQ属于明星产品啊，它是阿里巴巴搞出来的，后来捐赠给了Apache基金会，2017年成了其顶级项目，阿里内部也是使用的它。</p>
+<p>可以说，RocketMQ是一款综合变现都很不错的消息队列产品，无论是性能还是稳定性，亦或是可靠性，RocketMQ表现的都很不错，反正吧，这家伙是越来越首欢迎了。</p>
+<h6 id="三、Kafka"><a href="#三、Kafka" class="headerlink" title="三、Kafka"></a>三、Kafka</h6><p>它一开始是为了用于处理海量日志的，所以，它与大数据关系颇深，它在处理海量日志或者是监控信息，以及流计算这些的时候，无疑是最好的选择。</p>
+<p>而且Kafka可以说是与周边开源产品兼容最好的一个中间件，也就是说，几乎所有的相关开源软件系统都会优先支持Kafka。</p>
+<p>另外它使用java和Scala编写，在性能，稳定性和可靠性上也都表现优异，这么一看，这家伙好像是集万众宠爱于一身啊，妥妥的老大啊，各方面都很优异啊。</p>
+<p>不足之处：<br>但是它对消息是进行异步批量进行处理的，这就带来一个问题，延迟比较高，这点他是比不上RocketMQ。</p>
+<h4 id="五、使用场景"><a href="#五、使用场景" class="headerlink" title="五、使用场景"></a>五、使用场景</h4><p>首先对于RabbitMQ，我们讲到它的时候，可能最先想到的就是它的轻量，开箱即用易于维护，所以基于这个特点，<strong>如果你的项目需要用到消息队列，但是消息队列又不是你系统的主角，那么RabbitMQ是一个不错的选择</strong>  。</p>
+<p>当然，<strong>如果对于你的系统，消息队列扮演着重要的角色，对性能，稳定性以及可靠性等都有一定的要求，更重要的是你需要使用消息队列来处理在线业务场景，那么你最好选择RocketMQ</strong>，因为它优越的低延迟，以及优秀的稳定性绝对会给你给力的表现。</p>
+<p><strong>如果你是需要处理海量的信息，业务涉及大数据，流计算等，那么这样的情况下，Kafka无疑是最好的选择了</strong>。</p>
+]]></content>
+      <categories>
+        <category>interview</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+        <tag>interview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的外包经验：印度、中国和菲律宾（译文）</title>
+    <url>/myblog/talkabout/%E6%9D%82%E8%B0%88/</url>
+    <content><![CDATA[<h1 id="page-title" class="asset-name entry-title">我的外包经验：印度、中国和菲律宾（译文）</h1>
+作者： 阮一峰
+
+<p>日期：2020年2月27日</p>
+<p>外包在软件业很常见，各种规模的公司都在用，每年要吸纳大量就业。</p><p></p>
+<p>但是，外包的曝光量很少，大家似乎都不太关心，很少有人谈论。这导致许多人不了解外包到底是怎么回事。</p>
+<a id="more"></a>
+<p>本周，我读到 Troy Hunt 在2016年的<a href="https://www.troyhunt.com/offshoring-roulette-lessons-from-outsourcing-to-india-china-and-the-philippines/" target="_blank">一篇旧文</a>，介绍他的外包经验。我觉得，读起来很新鲜，有启发。下面就是节选的译文，插图是我配的。</p><p></p>
+<h2>我的外包经验：印度、中国和菲律宾</h2>
+
+<p>作者：Troy Hunt</p>
+
+<p>原文网址：<a href="https://www.troyhunt.com/offshoring-roulette-lessons-from-outsourcing-to-india-china-and-the-philippines/" target="_blank">troyhunt.com</a></p>
+
+<p>1、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022506.jpg" alt title></p>
+
+<p>我有很多与亚洲外包供应商合作的经历。这篇文章我想来谈谈，多年来将软件项目外包到印度，中国和菲律宾的经验。</p>
+
+<p>我以前的工作是辉瑞公司的软件架构师，一共干了14年，曾经负责过亚太地区的软件架构。</p>
+
+<p>2、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022507.jpg" alt title></p>
+
+<p>辉瑞公司的软件开发策略很简单，就是将所有事情外包。</p>
+
+<p>这是行业的标准做法，我因此跟亚太地区数十个软件供应商合作过，参与了各种各样的项目，范围很广，从简单的产品宣传网站到大型临床研究系统，从移动应用 App 到 POS 机的终端程序。</p>
+
+<p>我对印度、中国和菲律宾的软件外包行业，接触得比较多，感触尤其深，我想讨论对它们的观察。</p>
+
+<p>3、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022508.jpg" alt title></p>
+
+<p>辉瑞公司为什么要外包？</p>
+
+<p>原因很简单，因为程序员很贵。你必须花很多钱，雇佣很多人来构建软件产品，无论他们是否在工作，你都需要支付薪水。而且你雇来的程序员不一定懂每个项目所需的特定技能，这意味着你还要雇佣更多的人。</p>
+
+<p>外包就相当于"云程序员"，你可以只在需要的时候去用它，只为所消费的东西付费，因此减轻了自己公司的负担。</p>
+
+<p>4、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022509.jpg" alt title></p>
+
+<p>外包一般都选择亚洲，因为其他地方的工资太高。澳大利亚很贵，美国很贵，英国很贵，上图是世界银行的人均收入数据，这三个地区与印度、中国、菲律宾。</p>
+
+<p>以我的经验，前三个国家的外包公司小时工资，比后三个国家贵4到5倍。</p>
+
+<p>5、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022510.jpg" alt title></p>
+
+<p>先来看印度。这个国家已经成为离岸外包的代名词，在许多 IT 经理的心中，外包就等于印度。原因有很多。</p>
+
+<ul>
+<li>印度当过英国的殖民地，印度人的英语水平很好。</li>
+<li>印度拥有超过13亿人口，这意味着它有源源不断的工程师。</li>
+<li>印度的外包行业很成熟，外包巨头 Tech Mahindra、Infosys、Wipro 有规范的外包流程，在这个领域进行了大量投资。</li>
+</ul>
+
+<p>6、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022511.jpg" alt title></p>
+
+<p>印度许多程序员都是通过单项技术的强化培训而大量生产的，往往只懂培训教的非常特定的技术栈。我常常发现，他们只懂软件组件的一个独立部分，而这就是他们要做的全部事情。</p>
+
+<p>这对项目带来的后果就是，最终会导致很多人参与其中。我查看工作量估算，向外包负责人提问："为什么需要这么多人？"。里面会有初级程序员、高级程序员，专门从事 API 开发的人员，负责网站的人员，负责数据库的人员等等。有些项目由于庞大的规模，需要这样做，但即使是很小的项目，也是这个样子。</p>
+
+<p>7、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022515.jpg" alt title></p>
+
+<p>印度的另一个问题是流失率，程序员总是在离开。传统的公司忠诚度在印度并不盛行，大多数人在一家外包公司不会超过一两年。程序员总是去其他地方寻求更好的机会，这无可厚非，但是这种流失率意味着项目会产生更多的摩擦。这些并不会出现在你的外包合同中。</p>
+
+<p>我还发现，印度程序员对需求文档要求很高，他们始终要求真正详细的文档。其他地方的程序员也要求需求文档，但在印度这个要求更强烈，细节对印度人来说很重要。很多时候，我们假设软件应该包括的功能，事后发现这些功能被认为是"超出范围"。这可能在全世界任何地方的任何项目中发生，但在印度极为盛行。</p>
+
+<p>最合适外包到印度的项目，我认为最好是一个独立的工作单元，范围有着明确的界定，文档齐全，并且完全遵循印度公司现有的模式。你要知道，那里的程序员接受的是非常具体的事情的训练，并以工厂流水线的心态在开发，你按照他们的模式，那就会走上"快乐之路"。</p>
+
+<p>8、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022516.jpg" alt title></p>
+
+<p>接着来谈谈中国。</p>
+
+<p>中国正在快速城市化，越来越多的人口接受高等教育。他们是一个非常精通技术的国家，在这方面不断壮大，从新兴的硬件提供商变成现在占主导地位的厂商，比如华为和联想，也有像阿里巴巴这样的非常强的服务类公司。这些公司如今已经进入了世界舞台。如果您热衷于技术而不关心中国的动态，那么可能会错过未来几十年世界上最重要的技术创新和增长来源。</p>
+
+<p>9、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022517.jpg" alt title></p>
+
+<p>对于外国人来说，中国人并不容易合作，主要原因是外语水平。中国的内部市场很大，几乎所有项目都有自己的中文服务，因此中国人接触英语的机会很有限，如果要跟他们清晰的沟通可能是一件很棘手的事情。</p>
+
+<p>这意味着，你几乎总是与实际从事开发的程序员，至少隔了一层。通常会有一个具有一定英语技能的客户经理，你与他联系，他再把你的意思翻译给技术人员。这样的后果就是，当你真正需要进行详细讨论时，没法跟程序员直接沟通。中国程序员会在内部自己商量，你不知道他们在想些什么，并且很多东西在翻译过程中丢失了。</p>
+
+<p>这对代码质量有深刻影响。从功能上讲，代码本身可能还不错，但这是很少或几乎没有英语技能的人编写的代码。高质量软件的要求之一，就是代码本身就是自我记录的文档，这一点很难实现。他们的代码可能无法清晰地描述软件的功能，不仅对作者也对将来维护的人，都很难阅读。</p>
+
+<p>要是你愿意一直跟同一个软件供应商合作，那可能不会成为问题，但如果你收回代码或交给其他人维护，就会遇到严重问题。我的切身体会是，很难评审中国程序员编写的代码。另外，语言障碍对用户界面也有影响，那些编写代码的人由于不太了解英语，编写的​​标签和标题可能会使英语用户不适应，这意味着要进行许多意想不到的（且预算未定）的修订。</p>
+
+<p>10、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022518.jpg" alt title></p>
+
+<p>我有一个习惯，一直要求供应商提供工作分解表。如果我要外包一个具有20个功能的应用程序，那么我想知道每个功能要花多少钱。然后，我可以评估，讨论一下每个功能的重要性，是否要通过放弃价值较低的功能来降低成本。</p>
+
+<p>但是在中国，供应商无法提供这种表格，因为他们不是以这种方式核算成本。他们给我的细分，只是有多少个大三和​​大四的学生、项目经理、测试人员参与，他们每个人的花费是多少。在我看来，这根本没用，但我也没办法。</p>
+
+<p>中国的另一个现象，就是工时非常高，他们会投入大量的时间。我很清楚地记得一个案例，中国供应商的报价与澳大利亚的本地供应商相同，而工时却大了一个数量级。</p>
+
+<p>11、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022606.jpg" alt title></p>
+
+<p>中国现在变得越来越昂贵，根据我得到的消息，北京程序员的薪水是两位数的涨幅，有报告称，他们的年薪约为25,000美元，而孟买的年薪约为7,000美元。这是一个非常重要的差异。</p>
+
+<p>中国的优势之一（尤其跟印度相比）就是对需求文档的要求不高。中国有一种真正的"可以做"的态度，不管你提什么要求，他们都愿意拿起任何东西去尝试。不过，虽然他们对任何事情都会说"是"，但是实际上的意思很可能是"否"或别的，这里会存在风险。但是总的来说，我发现他们的适应性非常强，这是一大优势。</p>
+
+<p>我更倾向于外包给中国，因为那里更加灵活，限制也更少。不过由于语言障碍，与新的供应商合作期间，涉及的摩擦也更大。</p>
+
+<p>12、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022605.jpg" alt title></p>
+
+<p>再来谈谈菲律宾。</p>
+
+<p>我在马尼拉度过了很多时间，可以很自信地说，菲律宾人是你在任何地方所能遇到的最友好的一群人。由于菲律宾当过美国的殖民地，所以当地人的英语水平很出色，英语是菲律宾排名第二的官方语言。你在马尼拉的任何地方，都能毫无问题地被理解，并与当地人进行交流。</p>
+
+<p>近年来，我注意到的一件事是，呼叫中心转移到菲律宾的趋势很明显。以前你打客服电话，是印度人接听，现在每次我打给电信公司，都会与菲律宾人交谈。我认为，这是他们强大的英语能力，友善的性格和新兴的科技行业共同作用的结果。另外，菲律宾的薪水比中国低得多，更接近印度。</p>
+
+<p>13、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022607.jpg" alt title></p>
+
+<p>菲律宾是一个贫困的国家，到处都可以看到这一点，特别是在前往机场的路上穿过摇摇欲坠的房屋时。</p>
+
+<p>这对技术领域也产生了影响，我在外包中看到的最明显的一点，就是菲律宾程序员对 PHP 的强烈亲和力。这样说并不是要贬低 PHP，而是 LAMP 技术栈的低成本造成的。辉瑞公司所使用的 Microsoft 技术栈在菲律宾很难找到市场。你随便去一家供应商，他们的默认态度总是"是的，我们将用 PHP 和 MySQL做到你们的需求。 "尽管我们后来确实找到了可以使用 Microsoft 技术栈的供应商，但我始终觉得它们并不受到重视，这让我对他们的技术能力有些担心。</p>
+
+<p>14、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022608.jpg" alt title></p>
+
+<p>在成本上，菲律宾肯定比中国低，而且经常比印度低。根据现在的趋势，这种情况大概会保持很长一段时间。</p>
+
+<p>在许多方面，菲律宾是世界上最好的。除了成本，他们还有这个价格的国家中最好的英语技能，友善的性格，以及我在中国观察到的相同的"可以做"的态度。</p>
+
+<p>15、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022609.jpg" alt title></p>
+
+<p>最后，谈谈我的外包经验。</p>
+
+<p>首先，外包是一种不稳定的商品，因为程序员是不稳定的，尤其是在印度。我们当时与一家孟买的开发商合作，花了很多时间和金钱培训一个叫做 Avni 的程序员，让她掌握所需的特定技术。这个项目进展顺利，但是有一天，Avni 离开了。我怀疑她要去生孩子了，根据我的经验，这种情况通常会在发生几个月后才通知你。开发商跟我们说不要担心，会给你找另一个 Avni，跟上一个一样！</p>
+
+<p>开发人员不是可以替代的商品。你不能简单地用一个人去替代另一个人，然后期望他们同样地工作。我经常看到外包供应商信誓旦旦地断言，他们能够像更换厨房灯泡那样简单地更换程序员。这是一种危险的不称职的信念，表明对软件开发的实际情况有根本的误解。</p>
+
+<p>16、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022610.jpg" alt title></p>
+
+<p>第二点，外包软件的质量，不一定能够在项目交付时看出来。通常要花上数月甚至数年的时间，才能意识到你所承担的"技术债务"的成本。供应商开发完软件，将其移交给客户之后，如果客户以后要添加功能，发现代码难以辨认，将花多少钱才能解决？在软件产品生命周期中，长期的成本通常被忽略，因为人们争先恐后地希望立即节省短期成本。</p>
+
+<p>我从未见过，外包供应商为项目编写任何单元测试！他们没有自动化测试流程，总是用人工测试确保一切正常。开发人员甚至从未听说过自动化测试这种概念，因为编写额外的代码将花费更多的金钱，一切在他们看来理所当然。所以，外包项目的长期可维护性和成本是可怕的。</p>
+
+<p>17、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022611.jpg" alt title></p>
+
+<p>第三点，如果想让外包成功，最好采用混合模式。不是"将所有事情外包"，而是"让我们的人与他们的人一起工作，各自做自己最擅长的事情"。</p>
+
+<p>我花了大量时间，到世界各地的外包公司，培训他们的开发人员，跟他们的团队待在一起，交谈要开发的项目。我遇到了各种坏的故事，但也有一些非常积极的经历。</p>
+
+<p>避免依赖外包组织中的个人，比如上文的 Avni，外包行业的人员流动性比一般情况大得多。相反地，应将重点放在让更多人一起参与，如果其中一个离开，你就不会损失太多的项目知识。</p>
+
+<p>还可以多应用一些开发工具，比如代码质量检查工具、构建服务、版本管理等等，让工作过程变得更加可预测。</p>
+
+<p>18、</p>
+
+<p><img src="https://www.wangbase.com/blogimg/asset/202002/bg2020022612.jpg" alt title></p>
+
+<p>第四点，也是最重要的一点，不要把小时费率视为外包成功的指标，不要根据报价的高低选择供应商。</p>
+
+<p>外包给哪个供应商，通常是由公司内部对软件开发了解最少的人决定的。低报价吸引了他们，只考虑了短期成本和交付条件，没有将长期成本（诸如可维护性，可用性以及安全性之类的因素）考虑在内。因为公司的预算和业务目标总是聚焦在短期，难怪那些掌握资金却不了解技术的人做出了不明智的外包决策。</p>
+
+<p>廉价的离岸外包是软件行业的麦当劳。因为需求量很大，外包公司就把软件开发做成了批量生产的产品。但如果你一直吃麦当劳，就不是很好。你最好将外包视为均衡饮食的一部分，做出明智的决定，不要因标价低而盲目选择，不考虑要支付的实际成本。</p>
+
+<p>（完）</p>
+
+
+<h3>文档信息</h3>
+<ul>
+<li>版权声明：自由转载-非商用-非衍生-保持署名（<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh" target="_blank" rel="noopener">创意共享3.0许可证</a>）</li>
+<li>发表日期： <abbr class="published" title="2020-02-27T09:15:27+08:00">2020年2月27日</abbr></li>
+
+</ul>
+                                
+
+                            
+
+  <div style="display: inline-block ! important;width: 100%;">
+
+  </div>
+
+<p>留言（35条）</p>
+<p>我现在教三年级的儿子学C语言编程，要求他无论是变量命名，还是写注释，全部使用英语，不会的就谷歌翻译，从小严格要求。</p>
+        
+<span class="vcard author"><a title="https://mp.weixin.qq.com/s/5c7aaokFZ3umLdnypNzQ9A" href="https://mp.weixin.qq.com/s/5c7aaokFZ3umLdnypNzQ9A" target="_blank" rel="nofollow">布莱恩特</a></span>
+
+<p> 说：<br>                </p>
+<p></p>
+            
+        
+        <div class="comment-content" id="comment-quote-416445">
+            <p>之前在外包工作过，之前在杭州待过一段时间，在qq群上看到一条招聘信息，说深圳坂田有一个岗位非常匹配，问我要不要试试，确实是·非常匹配·，不知道你们听没听说过xamarin？这玩意根本没人做，并非恶意去黑微软的移动快平台框架，招聘网站确实几乎没有啊。</p>
+
+<p><br>
+后来才知道我被‘三包’了，客户公司外包项目给大外包公司，大外包再外包一个人头，我太太太难，结果是非常悲剧的，我tm以为能长期做，至少也能做个一年半载，结果把我的小摩托车从杭州物流到深圳，花了860，后来骑了不到2个月，就被深圳交警没收。毕竟三无车辆，没收也是理所当然。</p>
+
+<p>外包合同签了一年，一般都是一年，便于灵活操作。要人再招人，做完再释放，以此循环，毕竟外包公司是中间商赚差价。</p>
+
+<p>后来，没出任何意外，项目按原计划3个月完成，我也不出意外的·被动离职了。</p>
+
+<p>辞职之后，回到老家湖北，已经失业3个月了。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+<abbr class="published" title="February 27, 2020 10:08 PM">2020年2月27日 22:08</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416445" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用布莱恩特的这条留言" onclick="return CommentQuote('comment-quote-416445','布莱恩特');">引用</a>
+</p>
+</div>
+</div>
+    
+
+weston
+
+<p> 说：<br>                </p>
+<p></p>
+            
+        
+        <div class="comment-content" id="comment-quote-416447">
+            <p>实际上去东南亚的中国人并不是做外包，大部分是去做菠菜的，工资也比国内高一些，但是风险更是高了好几倍。菠菜现在已经演变成，大陆提供技术人员，香港提供资金，台湾提供运维和客服，面向的却是大陆市场，每年造成大量的金钱外流。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 28, 2020  1:13 AM">2020年2月28日 01:13</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416447" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用weston的这条留言" onclick="return CommentQuote('comment-quote-416447','weston');">引用</a>
+</p>
+</div>
+</div>
+    
+
+<div id="comment-416449" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+<span class="byline">
+
+<p><span class="vcard author">ww</span></p>
+<p> 说：<br>                </p></span></p>
+<p>我现在教三年级的儿子学C语言编程，要求他无论是变量命名，还是写注释，全部使用英语，不会的就谷歌翻译，从小严格要求。</p>
+
+
+
+<p>母语不是英语这种操作根本没用，因为一些英语专业词汇不是靠Google翻译就能表达的清的。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 28, 2020  9:00 AM">2020年2月28日 09:00</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416449" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用ww的这条留言" onclick="return CommentQuote('comment-quote-416449','ww');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416455" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author">哼哼哈嘿</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416455">
+            <blockquote>
+<pre>引用江云的发言：</pre>
+
+<p>印度人的英语真的好难听懂</p>
+
+</blockquote>
+
+<p>但是英美系国家的人反而可以和印度人几乎无障碍的沟通，且信息传达效率高。而东亚国家的英语口音似乎没那么重，但实际沟通起来却令人费解得多。个人认为，英语在中国的普及可能还需要一两代人才能实现，学习英语的确对理解世界大有裨益。</p>
+</div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+<abbr class="published" title="February 28, 2020 11:10 AM">2020年2月28日 11:10</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416455" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用哼哼哈嘿的这条留言" onclick="return CommentQuote('comment-quote-416455','哼哼哈嘿');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416478" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+<span class="byline">
+ <span class="vcard author">胡森</span>
+
+<p> 说：<br></p></span></p>
+<p></p>
+</div>
+        </div>
+        <div class="comment-content" id="comment-quote-416478">
+            <p>涨知识</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 28, 2020  3:47 PM">2020年2月28日 15:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416478" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用胡森的这条留言" onclick="return CommentQuote('comment-quote-416478','胡森');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416482" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+<span class="byline">
+<span class="vcard author">hei</span>
+
+<p> 说：<br></p></span></p>
+<p></p>
+ </div>
+</div>
+<div class="comment-content" id="comment-quote-416482">
+            <p>涨知识了</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+<abbr class="published" title="February 28, 2020  4:57 PM">2020年2月28日 16:57</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416482" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用hei的这条留言" onclick="return CommentQuote('comment-quote-416482','hei');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416486" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author">无畏</span>
+
+<p> 说：<br></p></span></p>
+<p></p>
+</div>
+        </div>
+        <div class="comment-content" id="comment-quote-416486">
+            <p>能干成事儿的都是有本事的，绝大部分还是像咱们这种在国内发展平平出去也还是个渣渣</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 28, 2020  6:26 PM">2020年2月28日 18:26</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416486" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用无畏的这条留言" onclick="return CommentQuote('comment-quote-416486','无畏');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416495" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author"><a title="https://blog.ifuture.pro/" href="https://blog.ifuture.pro/" target="_blank" rel="nofollow">ifuture</a></span>
+
+<p> 说：<br></p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416495">
+            <p>其实最应该思考，我们应该怎么改变</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 29, 2020 10:55 AM">2020年2月29日 10:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416495" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用ifuture的这条留言" onclick="return CommentQuote('comment-quote-416495','ifuture');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416508" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author">lliw</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416508">
+            <blockquote>
+<pre>引用bluesen的发言：</pre>
+
+<p>我现在教三年级的儿子学C语言编程，要求他无论是变量命名，还是写注释，全部使用英语，不会的就谷歌翻译，从小严格要求。</p>
+
+</blockquote>
+
+<p>你是亲爹吗？</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 29, 2020  3:26 PM">2020年2月29日 15:26</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416508" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用lliw的这条留言" onclick="return CommentQuote('comment-quote-416508','lliw');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416513" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+  <span class="vcard author"><a title="http://attilax" href="http://attilax" target="_blank" rel="nofollow">attilax</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416513">
+            <blockquote>
+<pre>引用lwl的发言：</pre>
+
+<p></p>
+
+<p>那岂不是比国内赚的钱还少？</p>
+
+</blockquote>
+
+<p>你不懂，哈哈，比上海更高赚的。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 29, 2020  9:01 PM">2020年2月29日 21:01</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416513" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用attilax的这条留言" onclick="return CommentQuote('comment-quote-416513','attilax');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+ <div id="comment-416514" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author">两仪院水月</span>
+
+<p> 说：<br> </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416514">
+            <p>正在外包 目前已经开始自动化，且自己就是项目组里的开发</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="February 29, 2020  9:08 PM">2020年2月29日 21:08</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416514" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用两仪院水月的这条留言" onclick="return CommentQuote('comment-quote-416514','两仪院水月');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+ <div id="comment-416525" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author"><a title="http://www.wekair.com" href="http://www.wekair.com" target="_blank" rel="nofollow">Kevin</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416525">
+            <p>深刻地体会到，在不是英语系的国家要把英语学好确实很难。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  2, 2020  9:27 AM">2020年3月 2日 09:27</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416525" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用Kevin的这条留言" onclick="return CommentQuote('comment-quote-416525','Kevin');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416526" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author"><a title="http://attilax" href="http://attilax" target="_blank" rel="nofollow">attilax</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416526">
+            <blockquote>
+<pre>引用哼哼哈嘿的发言：</pre>
+
+<p></p>
+
+<p>但是英美系国家的人反而可以和印度人几乎无障碍的沟通，且信息传达效率高。而东亚国家的英语口音似乎没那么重，但实际沟通起来却令人费解得多。个人认为，英语在中国的普及可能还需要一两代人才能实现，学习英语的确对理解世界大有裨益。</p>
+
+</blockquote>
+
+<p>没办法，谁让印度人和欧美都是一个种族呢。。。东南亚种族不同，做事方法不同差异大，<br>
+</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  2, 2020 11:46 AM">2020年3月 2日 11:46</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416526" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用attilax的这条留言" onclick="return CommentQuote('comment-quote-416526','attilax');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416527" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author"><a title="http://andyron.com" href="http://andyron.com" target="_blank" rel="nofollow">AndyRon</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416527">
+            <p>"技术债务"  哇，第一次听说</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  2, 2020  2:03 PM">2020年3月 2日 14:03</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416527" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用AndyRon的这条留言" onclick="return CommentQuote('comment-quote-416527','AndyRon');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416543" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author"><a title="http://没有" href="http://没有" target="_blank" rel="nofollow">岑小白</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416543">
+            <p>“中国的优势之一（尤其跟印度相比）就是对需求文档的要求不高。中国有一种真正的"可以做"的态度，不管你提什么要求，他们都愿意拿起任何东西去尝试。不过，虽然他们对任何事情都会说"是"，但是实际上的意思很可能是"否"或别的，这里会存在风险。但是总的来说，我发现他们的适应性非常强，这是一大优势。”</p>
+
+<p>----</p>
+
+<p>翻译过来就是，操起键盘就能干，能不能成另说。</p>
+
+<p>其实外包在远程工作中特别常见，但是说实话，专干互联网外包项目的公司就悬了，因为互联网项目能做三个月就已经是大项目！</p>
+
+<p>这类项目不仅开发周期短，命也断。无论是短期线上活动还是官网、 APP， 甚至线下物联网项目做个能滚会说的“小机器人”，都是小跑快打，新手一直泡在这样的项目中自然难有技术积累。</p>
+
+<p>再者，因为项目大多是一锤子买卖，少有长期运维或者版本升级迭代一说，所以公司单位时间承接的项目总量起伏特别大，员工会在闲死和忙死中反复切换！人员流动自然大了。</p>
+
+<p>总之，互联网外包项目只适合经验丰富的小团队，不适合新手、菜鸟踩坑，这种项目就是赚快钱。三五个人把技术栈撸齐了，收入还是非常可观的，时间上也相对灵活可控，方便照顾家庭。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  3, 2020 12:12 AM">2020年3月 3日 00:12</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416543" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用岑小白的这条留言" onclick="return CommentQuote('comment-quote-416543','岑小白');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416548" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author">流浪码农</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416548">
+            <p>这篇老外的文章写得蛮中肯，站在外国人的观点看中国，确实英语这方面要抓紧，我觉得中国是缺少英语环境，不是缺少能力，我跟外国人交流不用注重语法也能沟通</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  3, 2020 12:47 PM">2020年3月 3日 12:47</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416548" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用流浪码农的这条留言" onclick="return CommentQuote('comment-quote-416548','流浪码农');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416549" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author">adc</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416549">
+            <p>云程序员。。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  3, 2020  1:48 PM">2020年3月 3日 13:48</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416549" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用adc的这条留言" onclick="return CommentQuote('comment-quote-416549','adc');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416556" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author">Thinker</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416556">
+            <blockquote>
+<pre>引用daly的发言：</pre>
+
+<p>正在外包工作，表示从未有过单元测试与自动化测试</p>
+
+</blockquote>
+
+<p>确实要做这些要多很多工作量</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+<abbr class="published" title="March  3, 2020  5:18 PM">2020年3月 3日 17:18</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416556" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用Thinker的这条留言" onclick="return CommentQuote('comment-quote-416556','Thinker');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416692" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author"><a title="http://www.91guangju.com" href="http://www.91guangju.com" target="_blank" rel="nofollow">我要吃肉</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416692">
+            <p>确实英语环境不一样啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  8, 2020  6:53 PM">2020年3月 8日 18:53</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416692" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用我要吃肉的这条留言" onclick="return CommentQuote('comment-quote-416692','我要吃肉');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416693" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author"><a title="http://www.91guangju.com" href="http://www.91guangju.com" target="_blank" rel="nofollow">guangju</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416693">
+            <p>看来以后要加强英语水平了，毕竟有的新技术是英文原版，方便学习和交流啊</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March  8, 2020  6:55 PM">2020年3月 8日 18:55</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416693" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用guangju的这条留言" onclick="return CommentQuote('comment-quote-416693','guangju');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416803" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author">Feng</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416803">
+            <blockquote>
+<pre>引用bluesen的发言：</pre>
+
+<p>我现在教三年级的儿子学C语言编程，要求他无论是变量命名，还是写注释，全部使用英语，不会的就谷歌翻译，从小严格要求。</p>
+
+</blockquote>
+
+<p>大神，膜拜啊！三年级就被你推坑里去了！！</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 11, 2020  3:11 PM">2020年3月11日 15:11</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416803" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用Feng的这条留言" onclick="return CommentQuote('comment-quote-416803','Feng');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416860" class="comment">
+    <div class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+<span class="vcard author"><a title="http://www.leoseo.cn" href="http://www.leoseo.cn" target="_blank" rel="nofollow">吕民康</a></span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416860">
+            <blockquote>
+<pre>引用bluesen的发言：</pre>
+
+<p>我现在教三年级的儿子学C语言编程，要求他无论是变量命名，还是写注释，全部使用英语，不会的就谷歌翻译，从小严格要求。</p>
+
+</blockquote>
+
+<p>这个。。。你也要看他是不是适合，是不是喜欢编程这个东西吧。这个世界这么大， 孩子的未来是有无限可能性的，他可以靠其他的技能一样生活得很好。</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 13, 2020  9:37 PM">2020年3月13日 21:37</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416860" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用吕民康的这条留言" onclick="return CommentQuote('comment-quote-416860','吕民康');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+<div id="comment-416905" class="comment">
+    <div id="comment-last" class="inner">
+        <div class="comment-header">
+            <div class="asset-meta">
+<p>
+                <span class="byline">
+ <span class="vcard author">Q</span>
+
+<p> 说：<br>                </p></span></p>
+<p></p>
+            </div>
+        </div>
+        <div class="comment-content" id="comment-quote-416905">
+            <p>印度约两亿人（约占总人口1/7）说流利英语，这一点比菲律宾好，菲律宾人口才一亿多</p>
+        </div>
+<div class="comment-footer">
+<div class="comment-footer-inner">
+<p>
+                   <abbr class="published" title="March 18, 2020 12:14 PM">2020年3月18日 12:14</abbr>
+ | <a href="http://www.ruanyifeng.com/blog/2020/02/software-outsourcing.html#comment-416905" target="_blank" rel="noopener">#</a>
+ | <a href="#comment-text" title="引用Q的这条留言" onclick="return CommentQuote('comment-quote-416905','Q');">引用</a>
+</p>
+</div>
+</div>
+    </div>
+</div>
+ </div>
+
+]]></content>
+      <categories>
+        <category>talkabout</category>
+      </categories>
+      <tags>
+        <tag>talkabout</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一次面试经历</title>
+    <url>/myblog/interview/%E6%AC%A1%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/</url>
+    <content><![CDATA[<h4 id="面试场景"><a href="#面试场景" class="headerlink" title="面试场景"></a>面试场景</h4><a id="more"></a>
+<p>面试官：自我介绍一下吧</p>
+<p>程序员：你好，我毕业于XXX，工作3年了，最近的工作主要是负责在柬埔寨做移动支付钱包（聚合支付的项目，让柬埔寨当地华人能使用微信、支付宝支付），吧啦吧吧…….</p>
+<p>面试官：你项目这块儿功能是怎么实现的呢xxxxxxxxx吧啦吧啦….为什么选择使用这个技术实现..吧啦吧啦…..</p>
+<p>程序员：这块儿的功能是使用xxxxxxx吧啦吧啦…….</p>
+<p>面试官：看到你写到熟练掌握Java语言的高级特性，简单介绍一下Bean SpringBean一个注入过程吧</p>
+<p>程序员：Bean的注入过程……首先是从配置文件（注解）里面把它和对象…..额，我对这方面还是不太熟悉</p>
+<p>面试官：没事没事….我们接着往下聊</p>
+<p>程序员：尴尬一笑</p>
+<p>面试官：我看大你写到你了解一些高级特性，你能给我简单的介绍一下Java8有哪些新特性吗，或者你比较擅长的新特性有哪些？</p>
+<p>程序员：Java8主要就是在语法上就是lambda表达式，它可以用函数式进行那个函数式编程，函数式接口的意思就是它这个接口它只有一个方法…..</p>
+<p>面试官：还有别的吗？</p>
+<p>程序员：还有一些流的操作，比如：Stream API它可以简化编程语义，显得更清晰，比如在做一个filter功能，就可以绑定数据把不符合要求的数据过滤掉，就在以前的话写一个for循环，看起来就没那么好理解….然后对于数据结构进行了一些优化，像ConcurrentHashMap，它底层实现改成了红黑树…..</p>
+<p>面试官：你刚刚说的都是一些优化，我问的是它新加的一些高级特性</p>
+<p>程序员：再次尴尬一笑…..</p>
+<p>面试官：你刚刚提到它的流式处理，那对比像foreach或者基本的for循环，它有没有在效率上进行优化，还是说它更慢了？你有去了解过吗？</p>
+<p>程序员：额…没有</p>
+<p>面试官：我看你说对并发编程有些了解，你能跟我讲一下Synchronized和Lock锁它的底层实现原理吗？</p>
+<p>程序员：啊….Synchronized是一个语义级的支持，它在一个对象头里面，它有一个Mark Word的标记去记录它的锁，Lock显示锁是利用了它底层是一个AQS，它式一个双向链表的先进先出的一个队列，它只有当前持有锁的线程就是一个对头，然后它释放出来之后，就会利用一个自旋的操作，让下一个线程作为队头这样子</p>
+<p>面试官：那它们两个分别是什么层面的呢，是jdk层面还是JVM层面，还是？</p>
+<p>程序员：Synchronized是JVM层面的，Lock是jdk层面的</p>
+<p>面试官：刚刚你说到了Synchronized，你有去了解过它锁方法、锁对象和锁代码块分别是怎么去实现的吗？</p>
+<p>程序员：额…..这个没有</p>
+<p>面试官：那你了解Synchronized锁升级过程吗？</p>
+<p>程序员：没有….</p>
+<p>面试官：那刚刚提到了Lock，CAS你能给我简单的介绍一下吗？</p>
+<p>程序员：CAS就是比较并交换</p>
+<p>面试官：恩恩，提到这点就可以了，那你有在实际开发过程中有实际的一些应用吗？应用到乐观锁的一个过程</p>
+<p>程序员：有的，就譬如，我在更新数据库的时候，如果一个数据库用的是乐观锁的话，我也用一个自旋的操作，就把他更新到成功为止</p>
+<p>面试官：自旋的效率会不会很低？如果一直取不到这个锁的话，那可能会造成一些线程堵塞，或者在高并发场景下其他的会影响到很多效率，有考虑到这个问题吗？</p>
+<p>程序员：也考虑到了…..如果并发高的时候确实不太适用用自旋，这个时候更适合用悲观锁</p>
+<p>面试官：那跟我聊一下线程池吧</p>
+<p>程序员：线程池是…..我还是先说一下它的工作流程，再变成先提交进来，它先进入核心吃里面，如果线程书大于coreSize，就会进入一个阻塞队列，阻塞队列满了后就会新建一些线程，进入最大的池里面；当线程数，连maxSize的超出了之后，它就会执行一个拒绝策略，JDK自带的拒绝策略有四种：一种是直接丢弃；一种是抛异常；一种是由调用者的线程执行；一种是丢弃阻塞队列里面等待时间最长的一个线程</p>
+<p>面试官：我看你简历上还提到了熟练掌握JVM调优的知识，我能问一下你了解它调优的一些基本步骤吗？</p>
+<p>程序员：啊….一口老血，调优的基本步骤….就譬如，我从…恩..我从OOM说起吧….如果生产上发生一个OOM异常，首先是要判断它是在堆里面发生的还是元空间里面，还有……它还有一种类型就是GC效率过低…..吧啦吧啦</p>
+<p><img src="https://img-blog.csdnimg.cn/20200909132324691.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909132324524.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020090913232345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909132322991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>面试官：我看你基本上都是待了一年就离职了，你能说一下你离职的原因吗？</p>
+<p>程序员：………</p>
+<p>面试官：你对自己职业规划大概是什么样的？</p>
+<p>程序员：往互联网金融行业走</p>
+<p>面试官：你有什么想问我的？</p>
+<p>程序员：问了一些之前没太懂的</p>
+<blockquote>
+<p>面试总结：从这场面试官中可以看出，面试官没有深问，不然估计80%的内容都答不上来，基本上都是偏基础的东西，底层的内容没有怎么问，写了个Dubbo在简历上，面试官都没有问他Spring Cloud，Hystrix容器这些，连bus都可以问出一堆东西，一旦问了真的就只有尴尬了，问到怀疑人生。</p>
+</blockquote>
+<h4 id="如何备战面试"><a href="#如何备战面试" class="headerlink" title="如何备战面试"></a>如何备战面试</h4><p>首先，像这位朋友一样，可以去投一些小公司的简历，去面试扫盲，看看哪些东西不会，欠缺哪些知识，然后回家做面试复盘。</p>
+<p>针对自己简历做优化，不要搞得写了一个Dubbo，然后面试官稍微往深一点问你就答不出来了。简历上注意以下三点：</p>
+<blockquote>
+<p>（1）注意区分：了解，熟悉，精通，不要乱写，面试官很多问题都是根据简历描述来进行的；</p>
+</blockquote>
+<blockquote>
+<p>（2）专业知识和项目经验在精不在多，尤其是项目经验一定要写自己熟悉的且有内容可说的，不要认为写得越多越好；</p>
+</blockquote>
+<blockquote>
+<p>（3）要熟悉自己的简历内容，准确掌握，最好是多阅读自己的简历。</p>
+</blockquote>
+<h4 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h4><p>大家可以把Java基础，JVM，并发编程，MySQL，Redis，Spring，Spring Boot、Spring cloud等等做一个知识总结以及延伸，再去进行操作，不然光记是学不会的。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>无论是哪家公司，都很重视基础，大厂更加重视技术的深度和广度，面试是一个双向选择的过程，不要抱着畏惧的心态去面试，不利于自己的发挥。同时看中的应该不止薪资，还要看你是不是真的喜欢这家公司，长远来看是不是能真的得到锻炼。</p>
+]]></content>
+      <categories>
+        <category>interview</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+        <tag>interview</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一个简单的拦截器</title>
+    <url>/myblog/interceptor/%E7%AE%80%E5%8D%95%E7%9A%84%E6%8B%A6%E6%88%AA%E5%99%A8/</url>
+    <content><![CDATA[<h4 id="一个简单的拦截器"><a href="#一个简单的拦截器" class="headerlink" title="一个简单的拦截器"></a>一个简单的拦截器</h4><a id="more"></a>
+<h4 id="一、创建一个LoginInterceptor-继承"><a href="#一、创建一个LoginInterceptor-继承" class="headerlink" title="一、创建一个LoginInterceptor 继承"></a>一、创建一个LoginInterceptor 继承</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">HandlerInterceptorpackage cn.lxl.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.StringRedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.lxl.utils.RedisUtils;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoginInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"></span><br><span class="line">                <span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</span><br><span class="line">      </span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> RedisUtils redisUtils;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		LOGGER.info(<span class="string">"############进入用户token验证拦截器"</span>);</span><br><span class="line">		String uri = request.getRequestURI().toString();</span><br><span class="line">		LOGGER.info(uri);</span><br><span class="line">		<span class="comment">// 根据名称获取请求头的值</span></span><br><span class="line">		String token = request.getHeader(<span class="string">"Authorization"</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">null</span> == token) &#123;</span><br><span class="line">			LOGGER.error(<span class="string">"##########当前用户未登录"</span>);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 根据key获取缓存中的val</span></span><br><span class="line">		<span class="keyword">boolean</span> hasKey = redisUtils.exists(token);</span><br><span class="line">		<span class="keyword">if</span> (hasKey == <span class="keyword">false</span>) &#123;</span><br><span class="line">			LOGGER.error(<span class="string">"##########当前用户token在redis中不存在,token:&#123;&#125;"</span> + token);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 根据key获取过期时间</span></span><br><span class="line">		Long expire = redisUtils.getExpire(token);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (expire &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">			LOGGER.error(<span class="string">"##########当前用户token已失效,token:&#123;&#125;"</span> + token);</span><br><span class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 为当前登录用户重置登录活性</span></span><br><span class="line">		<span class="comment">// 向redis里存入数据和设置缓存时间</span></span><br><span class="line">		redisUtils.set(token, token, <span class="number">1L</span>, TimeUnit.DAYS);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 在业务处理器处理请求完成之后，生成视图之前执行</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler,</span></span></span><br><span class="line"><span class="function"><span class="params">			ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 在DispatcherServlet完全处理完请求之后被调用，可用于清理资源</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response</span></span></span><br><span class="line"><span class="function"><span class="params">                                                                           , Object handler, Exception ex)</span></span></span><br><span class="line"><span class="function">			<span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>二、在这个类里写判断条件，然后创建一个WebConfigurer 继承 jar包里的WebMvcConfigurer类 引用LoginInterceptor类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.lxl.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.InterceptorRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> cn.lxl.controller.LoginInterceptor;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfigurer</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	<span class="keyword">private</span> LoginInterceptor loginInterceptor;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这个方法是用来配置静态资源的，比如html，js，css，等等</span></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 解决跨域请求问题</span></span><br><span class="line"><span class="comment">	 *</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> registry</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">		registry.addMapping(<span class="string">"/**"</span>).allowedOrigins(<span class="string">"*"</span>).allowCredentials(<span class="keyword">true</span>)</span><br><span class="line">				.allowedMethods(<span class="string">"GET"</span>, <span class="string">"POST"</span>, <span class="string">"DELETE"</span>, <span class="string">"PUT"</span>).maxAge(<span class="number">3600</span>);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这个方法用来注册拦截器，我们自己写好的拦截器需要通过这里添加注册才能生效</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">		<span class="comment">// addPathPatterns("/**") 表示拦截所有的请求，</span></span><br><span class="line">		<span class="comment">// excludePathPatterns("/login", "/register") 表示除了登陆与注册之外，因为登陆注册不需要登陆也可以访问</span></span><br><span class="line">		registry.addInterceptor(loginInterceptor).addPathPatterns(<span class="string">"/**"</span>)</span><br><span class="line">				.excludePathPatterns(<span class="string">"/FeedbackService/login/&#123;card&#125;"</span>);</span><br><span class="line">		<span class="comment">/* super.addInterceptors(registry); */</span> <span class="comment">// 较新Spring Boot的版本中这里可以直接去掉，否则会报错</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// 众多的拦截器组成了一个拦截器链</span></span><br><span class="line">		<span class="comment">/**</span></span><br><span class="line"><span class="comment">		 * 主要方法说明： addPathPatterns 用于添加拦截规则 excludePathPatterns 用户排除拦截</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		<span class="comment">// registry.addInterceptor(new FirstInterceptor()).addPathPatterns("/*");</span></span><br><span class="line">		<span class="comment">// 拦截器SecondInterceptor不拦截hello</span></span><br><span class="line">		<span class="comment">// registry.addInterceptor(new</span></span><br><span class="line">		<span class="comment">// LoginInterceptor()).addPathPatterns("/*").excludePathPatterns("/hello");</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>里面写需要拦截的方法 和 放行的方法 路径</p>
+]]></content>
+      <categories>
+        <category>interceptor</category>
+      </categories>
+      <tags>
+        <tag>springboot</tag>
+        <tag>interceptor</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>如何设计一个高并发系统</title>
+    <url>/myblog/spring-cloud/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h4 id="1、面试题"><a href="#1、面试题" class="headerlink" title="1、面试题"></a>1、面试题</h4><p>如何设计一个高并发系统？</p>
+<a id="more"></a>
+<h4 id="2、面试官心里分析"><a href="#2、面试官心里分析" class="headerlink" title="2、面试官心里分析"></a>2、面试官心里分析</h4><p>说实话，如果面试官问你这个题目，那么你必须要使出全身吃奶劲了。为啥？因为你没看到现在很多公司招聘的jd里都是说啥，有高并发就经验者优先。</p>
+<p>所以如果你确实有真才实学，在互联网公司里干过高并发系统，那你确实拿offer基本如探囊取物，没啥问题。但是如果你要是真是干过高并发系统，面试官绝对绝对不会问这个问题，否则他就不太明智了。</p>
+<p>假设你在某知名电商公司干过高并发系统，用户上亿，一天流量几十亿，高峰期并发量上万，甚至是十万。那么人家一定会仔细盘问你的系统架构，你们系统啥架构？怎么部署的？部署了多少台机器？缓存咋用的？MQ咋用的？数据库咋用的？就是深挖你到底是如何抗下高并发的。</p>
+<p>因为真正干过高并发的人一定知道，脱离了业务的系统架构都是在纸上谈兵，真正在复杂业务场景而且还高并发的时候，那系统架构一定不是那么简单的，用个redis，用mq就能搞定？当然不是，真实的系统架构搭配上业务之后，会比这种简单的所谓“高并发架构”要复杂很多倍。</p>
+<p>如果有面试官问你个问题说，如何设计一个高并发系统？那么不好意思，一定是因为你实际上没干过高并发系统。面试官看你简历就没啥出彩的，感觉就不咋地，所以就会问问你，如何设计一个高并发系统？其实说白了本质就是看看你有没有自己研究过，有没有一定的知识积累。</p>
+<p>最好的当然是招聘个真正干过高并发的哥儿们咯，但是这种哥儿们人数稀缺，不好招。所以可能次一点的就是招一个自己研究过的哥儿们，总比招一个啥也不会的哥儿们好吧！</p>
+<p>所以这个时候你必须得做一把个人秀了，秀出你所有关于高并发的知识！</p>
+<h4 id="3、面试题剖析"><a href="#3、面试题剖析" class="headerlink" title="3、面试题剖析"></a>3、面试题剖析</h4><p>其实所谓的高并发，如果你要理解这个问题呢，其实就得从高并发的根源出发，为啥会有高并发？为啥高并发就很牛逼？</p>
+<p>我说的浅显一点，很简单，就是因为刚开始系统都是连接数据库的，但是要知道数据库支撑到每秒并发两三千的时候，基本就快完了。所以才有说，很多公司，刚开始干的时候，技术比较low，结果业务发展太快，有的时候系统扛不住压力就挂了。（你们访问量大约多少？访问量不是很高，为什么还需要使用到这些高并发技术呢？）</p>
+<p>当然会挂了，凭什么不挂？你数据库如果瞬间承载每秒5000,8000，甚至上万的并发，一定会宕机，因为比如mysql就压根儿扛不住这么高的并发量。</p>
+<p>所以为啥高并发牛逼？就是因为现在用互联网的人越来越多，很多app、网站、系统承载的都是高并发请求，可能高峰期每秒并发量几千，很正常的。如果是什么双十一了之类的，每秒并发几万几十万都有可能。</p>
+<p>高并发系统的架构组成.png</p>
+<p>那么如此之高的并发量，加上原本就如此之复杂的业务，咋玩儿？真正厉害的，一定是在复杂业务系统里玩儿过高并发架构的人，但是你没有，那么我给你说一下你该怎么回答这个问题：</p>
+<p>（1）系统拆分，将一个系统拆分为多个子系统，用分布式来实现。然后每个系统连一个数据库，这样本来就一个库，现在多个数据库，不也可以抗高并发么。</p>
+<p>（2）缓存，必须得用缓存。大部分的高并发场景，都是读多写少，那你完全可以在数据库和缓存里都写一份，然后读的时候大量走缓存不就得了。毕竟人家redis轻轻松松单机几万的并发啊。没问题的。所以你可以考虑考虑你的项目里，那些承载主要请求的读场景，怎么用缓存来抗高并发。</p>
+<p>（3）MQ，必须得用MQ。可能你还是会出现高并发写的场景，比如说一个业务操作里要频繁搞数据库几十次，增删改增删改，疯了。那高并发绝对搞挂你的系统，你要是用redis来承载写那肯定不行，人家是缓存，数据随时就被LRU了，数据格式还无比简单，没有事务支持。所以该用mysql还得用mysql啊。那你咋办？用MQ吧，大量的写请求灌入MQ里，排队慢慢玩儿，后边系统消费后慢慢写，控制在mysql承载范围之内。所以你得考虑考虑你的项目里，那些承载复杂写业务逻辑的场景里，如何用MQ来异步写，提升并发性。MQ单机抗几万并发也是ok的，这个之前还特意说过。</p>
+<p>（4）分库分表，可能到了最后数据库层面还是免不了抗高并发的要求，好吧，那么就将一个数据库拆分为多个库，多个库来抗更高的并发；然后将一个表拆分为多个表，每个表的数据量保持少一点，提高sql跑的性能。</p>
+<p>（5）读写分离，这个就是说大部分时候数据库可能也是读多写少，没必要所有请求都集中在一个库上吧，可以搞个主从架构，主库写入，从库读取，搞一个读写分离。读流量太多的时候，还可以加更多的从库。</p>
+<p>（6）合理使用数据库Elasticsearch。es是分布式的，可以随便扩容，分布式天然就可以支撑高并发，因为动不动就可以扩容加机器来抗更高的并发。那么一些比较简单的查询、统计类的操作，可以考虑用es来承载，还有一些全文搜索类的操作，也可以考虑用es来承载。对非索引字段的查询</p>
+<p> (7) 使用Undertow来替代Tomcat来作为http服务。Undertow在高并发业务场景中，性能要优于Tomcat，并且Undertow在新版本中默认使用持久连接，这将会进一步提高它的并发吞吐能力。</p>
+<p>上面的7点，基本就是高并发系统肯定要干的一些事儿，大家可以仔细结合之前讲过的知识考虑一下，到时候你可以系统的把这块阐述一下，然后每个部分要注意哪些问题，之前都讲过了，你都可以阐述阐述，表明你对这块是有点积累的。</p>
+<p>说句实话，毕竟真正你厉害的一点，不是在于弄明白一些技术，或者大概知道一个高并发系统应该长什么样？其实实际上在真正的复杂的业务系统里，做高并发要远远比我这个图复杂几十倍到上百倍。你需要考虑，哪些需要分库分表，哪些不需要分库分表，单库单表跟分库分表如何join，哪些数据要放到缓存里去啊，放哪些数据再可以抗掉高并发的请求，你需要完成对一个复杂业务系统的分析之后，然后逐步逐步的加入高并发的系统架构的改造，这个过程是务必复杂的，一旦做过一次，一旦做好了，你在这个市场上就会非常的吃香。</p>
+<p>其实大部分公司，真正看重的，不是说你掌握高并发相关的一些基本的架构知识，架构中的一些技术，RocketMQ、Kafka、Redis、Elasticsearch，高并发这一块，次一等的人才。对一个有几十万行代码的复杂的分布式系统，一步一步架构、设计以及实践过高并发架构的人，这个经验是难能可贵的。</p>
+<p>参考链接：<a href="https://blog.csdn.net/A_BlacksMoon/article/details/86386705" target="_blank" rel="noopener">https://blog.csdn.net/A_BlacksMoon/article/details/86386705</a></p>
+]]></content>
+      <categories>
+        <category>spring cloud</category>
+      </categories>
+      <tags>
+        <tag>cloud</tag>
+        <tag>高并发</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>综合面试题</title>
     <url>/myblog/interview/%E5%90%88%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<p>综合面试题</p>
@@ -3256,251 +4839,6 @@
       <tags>
         <tag>面试题</tag>
         <tag>interview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>程序员、架构师、技术经理、技术总监和CTO各自职责</title>
-    <url>/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/</url>
-    <content><![CDATA[<h3 id="程序员"><a href="#程序员" class="headerlink" title="程序员"></a>程序员</h3><p>　　程序员，英文名coder/programmer，大家常自嘲叫码农的阶段。这个角色职责是把需求或产品实现为用户可用的软件产品。</p>
-<a id="more"></a>
-<p>　　此职位为执行级别。另外因为经验较少，一般需要求助别人，或与别人一起完（ban）成（zhuan）一个任务。</p>
-<p>　　此阶段大概要经历3年，程序员的职责如下：</p>
-<p>　　1、负责公司运营系统的设计与开发工作</p>
-<p>　　2、运营数据处理和分析</p>
-<h3 id="高级程序员"><a href="#高级程序员" class="headerlink" title="高级程序员"></a>高级程序员</h3><p>　　高级程序员学名工程师。到了这个level，英文名可改叫做engineer或developer。此时你的功力开始增强，这与你平时的积累努力是分不开的，祝贺你～</p>
-<p>　　此时的你不仅可以完成任务，开始注重代码的质量，能够写出工业级的代码。</p>
-<p>　　你的经验可胜任模块级的系统设计，承担完成较为复杂的技术，能有效的自我管理，有帮助别人快速解决问题（trouble shooting）的能力。</p>
-<p>　　此阶段你需要经历到7、8年左右的体验，中间要经历一段深刻自我历练的过程。</p>
-<p>　　有时给人致命一击其实是心里的小蟊贼。一般人在5年前后遇到一个门槛，碰到天花板+彷徨期，或者你打心眼里不在喜欢编程，可尝试转为其它角色，如产品经理，售前售后支持等岗位，也不失为好选择。</p>
-<p>　　当我们熬过这段儿，就会“山随平野尽，江入大荒流“，渐入佳境矣。</p>
-<p>　　高级程序员定义软件功能、做开发计划推进和管理。可以带几个个帮手把产品规划的功能实现，你是团队中的”大手“，遇到难题也是你亲自攻艰克难。</p>
-<p>　　所以，一个高级程序员，他的职责很清晰：</p>
-<p>　　1、负责产品核心复杂功能的方案设计、编码实现</p>
-<p>　　2、负责疑难BUG分析诊断、攻关解决</p>
-<h3 id="架构师"><a href="#架构师" class="headerlink" title="架构师"></a>架构师</h3><p>　　到了架构师级别，想必你已经学会降龙十八掌，可登堂入世，成为一位准（lao）专（you）家（tiao）。</p>
-<p>　　我们大喊声：“单打独斗，老衲谁也不惧！“，遂开始领导一众技术高手，指点武功，来设计和完成一个系统，大多是分布式，高并发的系统架构平台。</p>
-<p>　　架构师的任务是为公司产品的业务问题提供高质量技术解决方案。可能每条产品线都设置了架构师，也可能多条生产品线的的后端是由一个架构师设计的平台提供。</p>
-<p>　　通过上面架构师的部分成果，总结其职责如下：</p>
-<p>　　1、需求分析：“知彼”有时比“知已”还重要。管理市场，产品等的需求，确立关键需求。坚持技术上的优秀与需求的愿景统一，提升技术负债意识，提供技术选项，风险预判，工期等解决方案。</p>
-<p>　　2、架构设计：在产品功能中抽取中非功能的需求，由关键需求变成概念型架构。列出功能树，分层治之，如用户界面层、系统交互层，数据管理层。达成高扩展，高可用，高性能，高安全，易运维，易部署，易接入等能力。</p>
-<p>　　3、功能设计与实现：对架构设计的底层代码级别实现。如公共核心类，接口实现，应用发现规则、接口变更等。</p>
-<h3 id="技术经理"><a href="#技术经理" class="headerlink" title="技术经理"></a>技术经理</h3><p>　　人生就是不断上升的过程，你已经到达经理的层次了。如今的你，需要不断提高领导力，需要定期召开团队会议讨论问题。</p>
-<p>　　首先我们要更加自信，在工作中显示自己的功力，给讲话增添力量。如：“本次项目虽然有很大的困难，我们也需苦战到底。当然示先垂范，身先士卒，方能成功！”</p>
-<p>　　技术经理有时候也可能叫系统分析员，一些小公司可能会整个公司或者部门有一个技术经理。技术经理承担的角色主要是系统分析、架构搭建、系统构建、代 码走查等工作，如果说项目经理是总统，那么技术经理就是总理。当然不是所有公司都是这样的，有些公司项目经理是不管技术团队的，只做需求、进度和同客户沟 通，那么这个时候的项目经理就好像工厂里的跟单人员了，这种情况在外包公司比较多。对于技术经理来说，着重于技术方面，你需要知道某种功能用哪些技术合 适，需要知道某项功能需要多长的开发时间等。同时，技术经理也应该承担提高团队整体技术水平的工作。</p>
-<p>　　你需要和大家站在一起，因为人们也都有解决问题的能力，更需要有以下的能力与责任：</p>
-<p>　　1、任务管理：开发工作量评估、定立开发流程、分配和追踪开发任务</p>
-<p>　　2、质量管理：代码review、开发风险判断/报告/协调解决</p>
-<p>　　3、效率提升：代码底层研发和培训、最佳代码实践规范总结与推广、自动化生产工具、自动化部署工具</p>
-<p>　　4、技术能力提升：招聘面试、试题主拟、新人指导、项目复盘与改进</p>
-<h3 id="技术总监"><a href="#技术总监" class="headerlink" title="技术总监"></a>技术总监</h3><p>　　如果一个研发团队超过20人，有多条产品线或业务量很大，这时已经有多个技术经理在负责每个业务，这时需要一位技术总监。</p>
-<p>　　技术总监的职责：</p>
-<p>　　1、组建平台研发部，与架构师共建软件公共平台，方便各条产品业务线研发。</p>
-<p>　　2、通过技术平台、通过高一层的职权，管理和协调公司各个部门与本部门各条线。现在每个产品线都应该有合格的技术经理和高级程序员。</p>
-<h3 id="CTO"><a href="#CTO" class="headerlink" title="CTO"></a>CTO</h3><p>　　首席技术官，英文名Chief Technology Officer。是与CEO、COO、CFO同级的领导者，是技术和业务融合的领袖。</p>
-<p>　　国内与国外对CTO的定义有些许不同。</p>
-<p>　　美国对CTO的职责是设计公司三年内的产品和服务的技术发展方向，较少参与技术团队的日常管理和项目管理事务。基本是前瞻性的策略思维，比如Google的谢尔盖.布林一直保持对技术方向的敏锐，比如无人驾驶汽车，人工智能等走向。</p>
-<p>　　在国内，CTO大部分则偏重于研发管理，相当于技术总监的Plus版。它相当于美国互联网公司常设的工程师副总裁+CTO的工作并集。但总体事情比美国的CTO层次低，大部分CTO的是领导技术团队开发各类产品，解决技术问题，管理不同的项目，排期交付。还有一部分的职能类似于架构师或总工程师，作为技术侧的权威，为下一步的发展方向 做研究探讨，为CEO提供建设型决定参考。</p>
-<p>　　CTO的职责如下列表：</p>
-<p>　　1、技术愿景：识别新技术、利用新技术、整合新技术、驱动新技术。驱动商业战略、驱动产品战略</p>
-<p>　　2、技术架构：建立主营业务中的技术架构与实施模式，建立技术体系标准</p>
-<p>　　3、流程制度：建立高质量，高效率的技术团队。健全的项目管理体系；完善的员工能力发展体系</p>
-<p>　　4、知识培训：建立以研发内容为主的知识库管理体系、技术分享与技术文化的体系</p>
-<p>　　5、业务支撑：与其它部门的沟通协作，如HR、市场、BD、财务、客服等提供技术管理接口；在产品技术层面能够领先于业内同行</p>
-<p>　　6、影响力：在公司内部与行业中具备一定影响力与口碑</p>
-<p>　　7、视野&amp;格局&amp;执行力：看待问题全面，具有强大的学习力，具备技术前瞻力，敏锐的市场嗅觉，战略落地的能力</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>　　CTO做的事情，是商业、产品、技术、管理、团队相平衡的综合统管，公司的技术研发方向与重点商业化的结果负责，激励员工，营造工程师文化。</p>
-<p>　　而技术总监主要是协调团队内部各个资源，引入工具，和方法提升工作效率。</p>
-<p>　　技术经理角色相对具体，绩效考核，产品落地，执行优胜劣汰的规则。</p>
-]]></content>
-      <categories>
-        <category>talkabout</category>
-      </categories>
-      <tags>
-        <tag>talkabout</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一次面试经历</title>
-    <url>/myblog/interview/%E6%AC%A1%E9%9D%A2%E8%AF%95%E7%BB%8F%E5%8E%86/</url>
-    <content><![CDATA[<h4 id="面试场景"><a href="#面试场景" class="headerlink" title="面试场景"></a>面试场景</h4><a id="more"></a>
-<p>面试官：自我介绍一下吧</p>
-<p>程序员：你好，我毕业于XXX，工作3年了，最近的工作主要是负责在柬埔寨做移动支付钱包（聚合支付的项目，让柬埔寨当地华人能使用微信、支付宝支付），吧啦吧吧…….</p>
-<p>面试官：你项目这块儿功能是怎么实现的呢xxxxxxxxx吧啦吧啦….为什么选择使用这个技术实现..吧啦吧啦…..</p>
-<p>程序员：这块儿的功能是使用xxxxxxx吧啦吧啦…….</p>
-<p>面试官：看到你写到熟练掌握Java语言的高级特性，简单介绍一下Bean SpringBean一个注入过程吧</p>
-<p>程序员：Bean的注入过程……首先是从配置文件（注解）里面把它和对象…..额，我对这方面还是不太熟悉</p>
-<p>面试官：没事没事….我们接着往下聊</p>
-<p>程序员：尴尬一笑</p>
-<p>面试官：我看大你写到你了解一些高级特性，你能给我简单的介绍一下Java8有哪些新特性吗，或者你比较擅长的新特性有哪些？</p>
-<p>程序员：Java8主要就是在语法上就是lambda表达式，它可以用函数式进行那个函数式编程，函数式接口的意思就是它这个接口它只有一个方法…..</p>
-<p>面试官：还有别的吗？</p>
-<p>程序员：还有一些流的操作，比如：Stream API它可以简化编程语义，显得更清晰，比如在做一个filter功能，就可以绑定数据把不符合要求的数据过滤掉，就在以前的话写一个for循环，看起来就没那么好理解….然后对于数据结构进行了一些优化，像ConcurrentHashMap，它底层实现改成了红黑树…..</p>
-<p>面试官：你刚刚说的都是一些优化，我问的是它新加的一些高级特性</p>
-<p>程序员：再次尴尬一笑…..</p>
-<p>面试官：你刚刚提到它的流式处理，那对比像foreach或者基本的for循环，它有没有在效率上进行优化，还是说它更慢了？你有去了解过吗？</p>
-<p>程序员：额…没有</p>
-<p>面试官：我看你说对并发编程有些了解，你能跟我讲一下Synchronized和Lock锁它的底层实现原理吗？</p>
-<p>程序员：啊….Synchronized是一个语义级的支持，它在一个对象头里面，它有一个Mark Word的标记去记录它的锁，Lock显示锁是利用了它底层是一个AQS，它式一个双向链表的先进先出的一个队列，它只有当前持有锁的线程就是一个对头，然后它释放出来之后，就会利用一个自旋的操作，让下一个线程作为队头这样子</p>
-<p>面试官：那它们两个分别是什么层面的呢，是jdk层面还是JVM层面，还是？</p>
-<p>程序员：Synchronized是JVM层面的，Lock是jdk层面的</p>
-<p>面试官：刚刚你说到了Synchronized，你有去了解过它锁方法、锁对象和锁代码块分别是怎么去实现的吗？</p>
-<p>程序员：额…..这个没有</p>
-<p>面试官：那你了解Synchronized锁升级过程吗？</p>
-<p>程序员：没有….</p>
-<p>面试官：那刚刚提到了Lock，CAS你能给我简单的介绍一下吗？</p>
-<p>程序员：CAS就是比较并交换</p>
-<p>面试官：恩恩，提到这点就可以了，那你有在实际开发过程中有实际的一些应用吗？应用到乐观锁的一个过程</p>
-<p>程序员：有的，就譬如，我在更新数据库的时候，如果一个数据库用的是乐观锁的话，我也用一个自旋的操作，就把他更新到成功为止</p>
-<p>面试官：自旋的效率会不会很低？如果一直取不到这个锁的话，那可能会造成一些线程堵塞，或者在高并发场景下其他的会影响到很多效率，有考虑到这个问题吗？</p>
-<p>程序员：也考虑到了…..如果并发高的时候确实不太适用用自旋，这个时候更适合用悲观锁</p>
-<p>面试官：那跟我聊一下线程池吧</p>
-<p>程序员：线程池是…..我还是先说一下它的工作流程，再变成先提交进来，它先进入核心吃里面，如果线程书大于coreSize，就会进入一个阻塞队列，阻塞队列满了后就会新建一些线程，进入最大的池里面；当线程数，连maxSize的超出了之后，它就会执行一个拒绝策略，JDK自带的拒绝策略有四种：一种是直接丢弃；一种是抛异常；一种是由调用者的线程执行；一种是丢弃阻塞队列里面等待时间最长的一个线程</p>
-<p>面试官：我看你简历上还提到了熟练掌握JVM调优的知识，我能问一下你了解它调优的一些基本步骤吗？</p>
-<p>程序员：啊….一口老血，调优的基本步骤….就譬如，我从…恩..我从OOM说起吧….如果生产上发生一个OOM异常，首先是要判断它是在堆里面发生的还是元空间里面，还有……它还有一种类型就是GC效率过低…..吧啦吧啦</p>
-<p><img src="https://img-blog.csdnimg.cn/20200909132324691.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909132324524.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020090913232345.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200909132322991.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>面试官：我看你基本上都是待了一年就离职了，你能说一下你离职的原因吗？</p>
-<p>程序员：………</p>
-<p>面试官：你对自己职业规划大概是什么样的？</p>
-<p>程序员：往互联网金融行业走</p>
-<p>面试官：你有什么想问我的？</p>
-<p>程序员：问了一些之前没太懂的</p>
-<blockquote>
-<p>面试总结：从这场面试官中可以看出，面试官没有深问，不然估计80%的内容都答不上来，基本上都是偏基础的东西，底层的内容没有怎么问，写了个Dubbo在简历上，面试官都没有问他Spring Cloud，Hystrix容器这些，连bus都可以问出一堆东西，一旦问了真的就只有尴尬了，问到怀疑人生。</p>
-</blockquote>
-<h4 id="如何备战面试"><a href="#如何备战面试" class="headerlink" title="如何备战面试"></a>如何备战面试</h4><p>首先，像这位朋友一样，可以去投一些小公司的简历，去面试扫盲，看看哪些东西不会，欠缺哪些知识，然后回家做面试复盘。</p>
-<p>针对自己简历做优化，不要搞得写了一个Dubbo，然后面试官稍微往深一点问你就答不出来了。简历上注意以下三点：</p>
-<blockquote>
-<p>（1）注意区分：了解，熟悉，精通，不要乱写，面试官很多问题都是根据简历描述来进行的；</p>
-</blockquote>
-<blockquote>
-<p>（2）专业知识和项目经验在精不在多，尤其是项目经验一定要写自己熟悉的且有内容可说的，不要认为写得越多越好；</p>
-</blockquote>
-<blockquote>
-<p>（3）要熟悉自己的简历内容，准确掌握，最好是多阅读自己的简历。</p>
-</blockquote>
-<h4 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h4><p>大家可以把Java基础，JVM，并发编程，MySQL，Redis，Spring，Spring Boot、Spring cloud等等做一个知识总结以及延伸，再去进行操作，不然光记是学不会的。</p>
-<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>无论是哪家公司，都很重视基础，大厂更加重视技术的深度和广度，面试是一个双向选择的过程，不要抱着畏惧的心态去面试，不利于自己的发挥。同时看中的应该不止薪资，还要看你是不是真的喜欢这家公司，长远来看是不是能真的得到锻炼。</p>
-]]></content>
-      <categories>
-        <category>interview</category>
-      </categories>
-      <tags>
-        <tag>面试题</tag>
-        <tag>interview</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>脑裂</title>
-    <url>/myblog/spring-cloud/%E8%84%91%E8%A3%82/</url>
-    <content><![CDATA[<h3 id="什么是裂脑？"><a href="#什么是裂脑？" class="headerlink" title="什么是裂脑？"></a>什么是裂脑？</h3><a id="more"></a>
-<p>当两台高可用服务器在指定的时间内，无法互相检测到对方心跳而各自启动故障转移功能，取得了资源以及服务的所有权，而此时的两台高可用服务器对都还活着并作正常运行，这样就会导致同一个服务在两端同时启动而发生冲突的严重问题，最严重的就是两台主机同时占用一个VIP的地址（类似双端导入概念），当用户写入数据的时候可能会分别写入到两端，这样可能会导致服务器两端的数据不一致或造成数据的丢失，这种情况就称为裂脑，也有的人称之为分区集群或者大脑垂直分隔</p>
-<h3 id="脑裂导致的问题"><a href="#脑裂导致的问题" class="headerlink" title="脑裂导致的问题"></a>脑裂导致的问题</h3><ol>
-<li><p>引起数据的不完整性：集群中节点（在脑裂期间）同时访问同一共享资源，而且没有机制去协调控制的话，那么就存在数据的不完整性的可能。</p>
-</li>
-<li><p>服务异常：对外提供的服务出现异常。</p>
-</li>
-<li><p>发生脑裂，导致互相竞争同一个IP资源，就如同我们局域网内常见的IP地址冲突一样，两个机器就会有一个或者两个不正常，影响用户正常访问服务器。如果是应用在数据库或者是存储服务这种极重要的高可用上，那就导致用户发布的数据间断的写在两台服务器上的恶果，最终数据恢复及困难或者是难已恢复</p>
-</li>
-</ol>
-<h3 id="导致裂脑发生的原因："><a href="#导致裂脑发生的原因：" class="headerlink" title="导致裂脑发生的原因："></a>导致裂脑发生的原因：</h3><p>优先考虑心跳线路上的问题，在可能是心跳服务，软件层面的问题</p>
-<p>1）高可用服务器对之间心跳线路故障，导致无法正常的通信。原因比如：</p>
-<ol>
-<li><p>——心跳线本身就坏了（包括断了，老化）；</p>
-</li>
-<li><p>-——网卡以及相关驱动坏了,IP配置及冲突问题；</p>
-</li>
-<li><p>——心跳线间连接的设备故障（交换机的故障或者是网卡的故障）；</p>
-</li>
-<li><p>——仲裁的服务器出现问题。</p>
-</li>
-</ol>
-<p>2）高可用服务器对上开启了防火墙阻挡了心跳消息的传输；</p>
-<p>3）高可用服务器对上的心跳网卡地址等信息配置的不正确，导致发送心跳失败；</p>
-<p>4）其他服务配置不当等原因，如心跳的方式不同，心跳广播冲突，软件出现了BUG等。</p>
-<h3 id="防止脑裂发生的方法："><a href="#防止脑裂发生的方法：" class="headerlink" title="防止脑裂发生的方法："></a>防止脑裂发生的方法：</h3><p>实际的生产环境中，我们可以从以下几个方面来防止裂脑的发生：</p>
-<p>1）同时使用串行电缆和以太网电缆连接，同时用两条心跳线路，这样一条线路坏了，另一个线路还是好的，依然能传送消息（推荐的）</p>
-<p>2）检测到裂脑的时候强行的关闭一个心跳节点（需要特殊的节点支持，如stonith，fence），相当于程序上备节点发现心跳线故障，发送关机命令到主节点。</p>
-<p>3）多节点集群中，可以通过增加仲裁的机制，确定谁该获得资源，这里面有几个参考的思路：</p>
-<ol>
-<li><p>——增加一个仲裁机制。例如设置参考的IP，当心跳完全断开的时候，2个节点各自都ping一下参考的IP，不同则表明断点就出现在本段，这样就主动放弃竞争，让能够ping通参考IP的一端去接管服务。</p>
-</li>
-<li><p>——通过第三方软件仲裁谁该获得资源，这个在阿里有类似的软件应用</p>
-</li>
-</ol>
-<p>4）做好对裂脑的监控报警（如邮件以及手机短信等），在问题发生的时候能够人为的介入到仲裁，降低损失。当然，在实施高可用方案的时候，要根据业务的实际需求确定是否能够容忍这样的损失。对于一般的网站业务，这个损失是可控的（公司使用）</p>
-<p>5）启用磁盘锁。正在服务一方锁住共享磁盘，脑裂发生的时候，让对方完全抢不走共享的磁盘资源。但使用锁磁盘也会有一个不小的问题，如果占用共享盘的乙方不主动解锁，另一方就永远得不到共享磁盘。现实中介入服务节点突然死机或者崩溃，另一方就永远不可能执行解锁命令。后备节点也就截关不了共享的资源和应用服务。于是有人在HA中涉及了“智能”锁，正在服务的一方只在发现心跳线全部断开时才启用磁盘锁，平时就不上锁了</p>
-<p>6）报警报在服务器接管之前，给人员处理留足够的时间就是1分钟内报警了，但是服务器不接管，而是5分钟之后接管，接管的时间较长。数据不会丢失，但就是会导致用户无法写数据。报警后，不直接自动服务器接管，而是由人员接管。</p>
-<h4 id="redis脑裂"><a href="#redis脑裂" class="headerlink" title="redis脑裂"></a>redis脑裂</h4><p>redis的集群脑裂是指因为网络原因，导致redis master节点和redis slave节点和sentinel集群处于不用的网络分区，此时因为sentinel集群无法感知到master的存在所以将slave节点提升为master节点 此时存在两个不同的master节点就像一个大脑分裂成了两个。</p>
-<p>集群脑裂问题中，如果客户端还在基于原来的master节点继续写入数据那么新的master节点将无法同步这些数据当网络问题解决后sentinel集群将原先的master节点降为slave节点，此时再从新的master中同步数据将造成大量的数据丢失。</p>
-<h4 id="处理方案"><a href="#处理方案" class="headerlink" title="处理方案"></a>处理方案</h4><p>redis的配置文件中存在两个参数</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">min-slaves-to-write 3</span><br><span class="line">min-slaves-max-lag 10</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>第一个参数表示连接到master的最少slave数量<br>第二个参数表示slave连接到master的最大延迟时间</p>
-</blockquote>
-<p>如果连接到master的slave数量小于第一个参数且ping的延迟时间小于等于第二个参数那么master就会拒绝写请求配置了这两个参数后, 如果发生了集群脑裂原先的master节点接收到客户端的写入请求会拒绝就可以减少数据同步之后的数据丢失。</p>
-<blockquote>
-<p>redis中的异步复制情况下的数据丢失问题也能使用这两个参数</p>
-</blockquote>
-<h2 id="ZooKeeper脑裂"><a href="#ZooKeeper脑裂" class="headerlink" title="ZooKeeper脑裂"></a>ZooKeeper脑裂</h2><p>在搭建hadoop的HA集群环境后，由于两个namenode的状态不一，当active的namenode由于网络等原因出现假死状态，standby接收不到active的心跳，因此判断active的namenode宕机，但实际上active并没有死亡。</p>
-<p>此时standby的namenode就会切换成active的状态，保证服务能够正常使用。若原来的namenode复活，此时在整个集群中就出现2个active状态的namenode，该状态成为脑裂。脑裂现象可能导致这2个namenode争抢资源，从节点不知道该连接哪一台namenode，导致节点的数据不统一，这在企业生产中是不可以容忍的。</p>
-<h5 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h5><ol>
-<li><p>添加心跳线。</p>
-<p>原来两个namenode之间只有一条心跳线路，此时若断开，则接收不到心跳报告，判断对方已经死亡。此时若有2条心跳线路，一条断开，另一条仍然能够接收心跳报告，能保证集群服务正常运行。2条心跳线路同时断开的可能性比1条心跳线路断开的小得多。再有，心跳线路之间也可以HA（高可用），这两条心跳线路之间也可以互相检测，若一条断开，则另一条马上起作用。正常情况下，则不起作用，节约资源。</p>
-</li>
-<li><p>启用磁盘锁。</p>
-<p>由于两个active会争抢资源，导致从节点不知道该连接哪一台namenode，可以使用磁盘锁的形式，保证集群中只能有一台namenode获取磁盘锁，对外提供服务，避免数据错乱的情况发生。但是，也会存在一个问题，若该namenode节点宕机，则不能主动释放锁，那么其他的namenode就永远获取不了共享资源。因此，在HA上使用”智能锁”就成为了必要措施。”智能锁”是指active的namenode检测到了心跳线全部断开时才启动磁盘锁，正常情况下不上锁。保证了假死状态下，仍然只有一台namenode的节点提供服务。</p>
-</li>
-<li><p>设置仲裁机制</p>
-<p>脑裂导致的后果最主要的原因就是从节点不知道该连接哪一台namenode，此时如果有一方来决定谁留下，谁放弃就最好了。因此出现了仲裁机制，比如提供一个参考的IP地址，当出现脑裂现象时，双方接收不到对方的心跳机制，但是能同时ping参考IP，如果有一方ping不通，那么表示该节点网络已经出现问题，则该节点需要自行退出争抢资源的行列，或者更好的方法是直接强制重启，这样能更好的释放曾经占有的共享资源，将服务的提供功能让给功能更全面的namenode节点。</p>
-</li>
-</ol>
-<p>以上的3种方式可以同时使用，这样更能减少集群中脑裂情况的发生。但是还是不能保证完全不出现，如果仲裁机制中2台机器同时宕机，那么此时集群中没有namenode可以使用。此时需要运维人员人工的抢修，或者提供一台新的机器作为namenode，这个时间是不可避免的。</p>
-<h4 id="数据库脑裂"><a href="#数据库脑裂" class="headerlink" title="数据库脑裂"></a>数据库脑裂</h4><p>….算了，感觉自己要脑裂了……</p>
-<p>希望未来能有更好的解决办法，能彻底杜绝这类情况的发生吧~</p>
-]]></content>
-      <categories>
-        <category>spring cloud</category>
-      </categories>
-      <tags>
-        <tag>脑裂</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何设计一个高并发系统</title>
-    <url>/myblog/spring-cloud/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</url>
-    <content><![CDATA[<h4 id="1、面试题"><a href="#1、面试题" class="headerlink" title="1、面试题"></a>1、面试题</h4><p>如何设计一个高并发系统？</p>
-<a id="more"></a>
-<h4 id="2、面试官心里分析"><a href="#2、面试官心里分析" class="headerlink" title="2、面试官心里分析"></a>2、面试官心里分析</h4><p>说实话，如果面试官问你这个题目，那么你必须要使出全身吃奶劲了。为啥？因为你没看到现在很多公司招聘的jd里都是说啥，有高并发就经验者优先。</p>
-<p>所以如果你确实有真才实学，在互联网公司里干过高并发系统，那你确实拿offer基本如探囊取物，没啥问题。但是如果你要是真是干过高并发系统，面试官绝对绝对不会问这个问题，否则他就不太明智了。</p>
-<p>假设你在某知名电商公司干过高并发系统，用户上亿，一天流量几十亿，高峰期并发量上万，甚至是十万。那么人家一定会仔细盘问你的系统架构，你们系统啥架构？怎么部署的？部署了多少台机器？缓存咋用的？MQ咋用的？数据库咋用的？就是深挖你到底是如何抗下高并发的。</p>
-<p>因为真正干过高并发的人一定知道，脱离了业务的系统架构都是在纸上谈兵，真正在复杂业务场景而且还高并发的时候，那系统架构一定不是那么简单的，用个redis，用mq就能搞定？当然不是，真实的系统架构搭配上业务之后，会比这种简单的所谓“高并发架构”要复杂很多倍。</p>
-<p>如果有面试官问你个问题说，如何设计一个高并发系统？那么不好意思，一定是因为你实际上没干过高并发系统。面试官看你简历就没啥出彩的，感觉就不咋地，所以就会问问你，如何设计一个高并发系统？其实说白了本质就是看看你有没有自己研究过，有没有一定的知识积累。</p>
-<p>最好的当然是招聘个真正干过高并发的哥儿们咯，但是这种哥儿们人数稀缺，不好招。所以可能次一点的就是招一个自己研究过的哥儿们，总比招一个啥也不会的哥儿们好吧！</p>
-<p>所以这个时候你必须得做一把个人秀了，秀出你所有关于高并发的知识！</p>
-<h4 id="3、面试题剖析"><a href="#3、面试题剖析" class="headerlink" title="3、面试题剖析"></a>3、面试题剖析</h4><p>其实所谓的高并发，如果你要理解这个问题呢，其实就得从高并发的根源出发，为啥会有高并发？为啥高并发就很牛逼？</p>
-<p>我说的浅显一点，很简单，就是因为刚开始系统都是连接数据库的，但是要知道数据库支撑到每秒并发两三千的时候，基本就快完了。所以才有说，很多公司，刚开始干的时候，技术比较low，结果业务发展太快，有的时候系统扛不住压力就挂了。（你们访问量大约多少？访问量不是很高，为什么还需要使用到这些高并发技术呢？）</p>
-<p>当然会挂了，凭什么不挂？你数据库如果瞬间承载每秒5000,8000，甚至上万的并发，一定会宕机，因为比如mysql就压根儿扛不住这么高的并发量。</p>
-<p>所以为啥高并发牛逼？就是因为现在用互联网的人越来越多，很多app、网站、系统承载的都是高并发请求，可能高峰期每秒并发量几千，很正常的。如果是什么双十一了之类的，每秒并发几万几十万都有可能。</p>
-<p>高并发系统的架构组成.png</p>
-<p>那么如此之高的并发量，加上原本就如此之复杂的业务，咋玩儿？真正厉害的，一定是在复杂业务系统里玩儿过高并发架构的人，但是你没有，那么我给你说一下你该怎么回答这个问题：</p>
-<p>（1）系统拆分，将一个系统拆分为多个子系统，用分布式来实现。然后每个系统连一个数据库，这样本来就一个库，现在多个数据库，不也可以抗高并发么。</p>
-<p>（2）缓存，必须得用缓存。大部分的高并发场景，都是读多写少，那你完全可以在数据库和缓存里都写一份，然后读的时候大量走缓存不就得了。毕竟人家redis轻轻松松单机几万的并发啊。没问题的。所以你可以考虑考虑你的项目里，那些承载主要请求的读场景，怎么用缓存来抗高并发。</p>
-<p>（3）MQ，必须得用MQ。可能你还是会出现高并发写的场景，比如说一个业务操作里要频繁搞数据库几十次，增删改增删改，疯了。那高并发绝对搞挂你的系统，你要是用redis来承载写那肯定不行，人家是缓存，数据随时就被LRU了，数据格式还无比简单，没有事务支持。所以该用mysql还得用mysql啊。那你咋办？用MQ吧，大量的写请求灌入MQ里，排队慢慢玩儿，后边系统消费后慢慢写，控制在mysql承载范围之内。所以你得考虑考虑你的项目里，那些承载复杂写业务逻辑的场景里，如何用MQ来异步写，提升并发性。MQ单机抗几万并发也是ok的，这个之前还特意说过。</p>
-<p>（4）分库分表，可能到了最后数据库层面还是免不了抗高并发的要求，好吧，那么就将一个数据库拆分为多个库，多个库来抗更高的并发；然后将一个表拆分为多个表，每个表的数据量保持少一点，提高sql跑的性能。</p>
-<p>（5）读写分离，这个就是说大部分时候数据库可能也是读多写少，没必要所有请求都集中在一个库上吧，可以搞个主从架构，主库写入，从库读取，搞一个读写分离。读流量太多的时候，还可以加更多的从库。</p>
-<p>（6）合理使用数据库Elasticsearch。es是分布式的，可以随便扩容，分布式天然就可以支撑高并发，因为动不动就可以扩容加机器来抗更高的并发。那么一些比较简单的查询、统计类的操作，可以考虑用es来承载，还有一些全文搜索类的操作，也可以考虑用es来承载。对非索引字段的查询</p>
-<p> (7) 使用Undertow来替代Tomcat来作为http服务。Undertow在高并发业务场景中，性能要优于Tomcat，并且Undertow在新版本中默认使用持久连接，这将会进一步提高它的并发吞吐能力。</p>
-<p>上面的7点，基本就是高并发系统肯定要干的一些事儿，大家可以仔细结合之前讲过的知识考虑一下，到时候你可以系统的把这块阐述一下，然后每个部分要注意哪些问题，之前都讲过了，你都可以阐述阐述，表明你对这块是有点积累的。</p>
-<p>说句实话，毕竟真正你厉害的一点，不是在于弄明白一些技术，或者大概知道一个高并发系统应该长什么样？其实实际上在真正的复杂的业务系统里，做高并发要远远比我这个图复杂几十倍到上百倍。你需要考虑，哪些需要分库分表，哪些不需要分库分表，单库单表跟分库分表如何join，哪些数据要放到缓存里去啊，放哪些数据再可以抗掉高并发的请求，你需要完成对一个复杂业务系统的分析之后，然后逐步逐步的加入高并发的系统架构的改造，这个过程是务必复杂的，一旦做过一次，一旦做好了，你在这个市场上就会非常的吃香。</p>
-<p>其实大部分公司，真正看重的，不是说你掌握高并发相关的一些基本的架构知识，架构中的一些技术，RocketMQ、Kafka、Redis、Elasticsearch，高并发这一块，次一等的人才。对一个有几十万行代码的复杂的分布式系统，一步一步架构、设计以及实践过高并发架构的人，这个经验是难能可贵的。</p>
-<p>参考链接：<a href="https://blog.csdn.net/A_BlacksMoon/article/details/86386705" target="_blank" rel="noopener">https://blog.csdn.net/A_BlacksMoon/article/details/86386705</a></p>
-]]></content>
-      <categories>
-        <category>spring cloud</category>
-      </categories>
-      <tags>
-        <tag>cloud</tag>
-        <tag>高并发</tag>
       </tags>
   </entry>
   <entry>
