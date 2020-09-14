@@ -22,20 +22,32 @@
     var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="一、  前端架构前端指用户请求到达网站应用服务器之前经历的环节，通常不包含网站业务逻辑，不处理动态内容。">
+  <meta name="description" content="主从复制概念主从复制指将一台redis的数据复制另外一台redis服务器上，前者称为主节点（master）,后者称为从节点（slave）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="大型网站一般架构技术">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/index.html">
+<meta property="og:title" content="Redis的主从复制和哨兵模式">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/interview/dis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="梦.星河">
-<meta property="og:description" content="一、  前端架构前端指用户请求到达网站应用服务器之前经历的环节，通常不包含网站业务逻辑，不处理动态内容。">
+<meta property="og:description" content="主从复制概念主从复制指将一台redis的数据复制另外一台redis服务器上，前者称为主节点（master）,后者称为从节点（slave）。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-05-21T02:31:51.000Z">
-<meta property="article:modified_time" content="2020-06-11T02:34:12.026Z">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143255408.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143400711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143459173.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143602623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143626326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143648514.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091414370940.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143804214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/202009141438372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200914143856774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2020-05-21T13:55:08.000Z">
+<meta property="article:modified_time" content="2020-09-14T06:46:41.166Z">
 <meta property="article:author" content="chfsun">
-<meta property="article:tag" content="talkabout">
+<meta property="article:tag" content="面试题">
+<meta property="article:tag" content="interview">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200914143255408.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center">
 
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/">
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/interview/dis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -48,7 +60,7 @@
   };
 </script>
 
-  <title>大型网站一般架构技术 | 梦.星河</title>
+  <title>Redis的主从复制和哨兵模式 | 梦.星河</title>
   
 
 
@@ -208,7 +220,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/interview/dis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/myblog/images/avatar.gif">
@@ -221,7 +233,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          大型网站一般架构技术
+          Redis的主从复制和哨兵模式
         </h1>
 
         <div class="post-meta">
@@ -231,14 +243,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-05-21 10:31:51" itemprop="dateCreated datePublished" datetime="2020-05-21T10:31:51+08:00">2020-05-21</time>
+              <time title="创建时间：2020-05-21 21:55:08" itemprop="dateCreated datePublished" datetime="2020-05-21T21:55:08+08:00">2020-05-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-21 10:31:51" itemprop="dateModified" datetime="2020-05-21T10:31:51+08:00">2020-05-21</time>
+                <time title="修改时间：2020-05-21 21:55:08" itemprop="dateModified" datetime="2020-05-21T21:55:08+08:00">2020-05-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -246,7 +258,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/myblog/categories/talkabout/" itemprop="url" rel="index"><span itemprop="name">talkabout</span></a>
+                  <a href="/myblog/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a>
                 </span>
             </span>
 
@@ -268,49 +280,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="一、-前端架构"><a href="#一、-前端架构" class="headerlink" title="一、  前端架构"></a>一、  前端架构</h3><p>前端指用户请求到达网站应用服务器之前经历的环节，通常不包含网站业务逻辑，不处理动态内容。</p>
+        <h4 id="主从复制概念"><a href="#主从复制概念" class="headerlink" title="主从复制概念"></a>主从复制概念</h4><p>主从复制指将一台redis的数据复制另外一台redis服务器上，前者称为主节点（master）,后者称为从节点（slave）。</p>
 <a id="more"></a>
-<p>（1）    浏览器优化技术；</p>
-<p>（2）    CDN；</p>
-<p>（3）    动静分离，静态资源独立部署；</p>
-<p>（4）    图片服务；</p>
-<p>（5）    反向代理；</p>
-<p>（6）    DNS：域名服务，将域名解析成IP地址，利用DNS可以实现DNS负载均衡，配置CDN也需要修改DNS，使域名解析后指向CDN服务器。</p>
-<h3 id="二、-应用层架构"><a href="#二、-应用层架构" class="headerlink" title="二、  应用层架构"></a>二、  应用层架构</h3><p>应用层是处理网站主要业务逻辑的地方</p>
-<p>（1）    开发框架；</p>
-<p>（2）    页面渲染；</p>
-<p>（3）    负载均衡；</p>
-<p>（4）    Session管理；</p>
-<p>（5）    动态页面静态化；</p>
-<p>（6）    业务拆分；</p>
-<p>（7）    虚拟化服务器；</p>
-<h3 id="三、-服务层架构"><a href="#三、-服务层架构" class="headerlink" title="三、  服务层架构"></a>三、  服务层架构</h3><p>提供基础服务，供应用层调用，完成网站业务。</p>
-<p>（1）    分布式消息：利用消息队列机制，实现业务与业务、业务和服务之间的异步消息发送及低耦合的业务关系；</p>
-<p>（2）    分布式服务；提供高性能、低耦合、易复用、易管理的分布式服务，在网站实现面向服务架构（SOA）；</p>
-<p>（3）    分布式缓存：通过可伸缩的服务器集群提供大规模热点数据的缓存服务，是网站性能优化的重要手段；</p>
-<p>（4）    分布式配置；</p>
-<h3 id="四、-存储层架构"><a href="#四、-存储层架构" class="headerlink" title="四、  存储层架构"></a>四、  存储层架构</h3><p>提供数据、文件的持久化存储访问与管理服务。</p>
-<p>（1）    分布式文件；</p>
-<p>（2）    关系数据库；</p>
-<p>（3）    NoSQL数据库；</p>
-<p>（4）    数据同步；</p>
-<h3 id="五、-后台架构"><a href="#五、-后台架构" class="headerlink" title="五、  后台架构"></a>五、  后台架构</h3><p>网站应用中，除了要处理用户的实时访问请求外，还有一些后台非实时数据分析要处理。</p>
-<p>（1）    搜索引擎：即使是网站内部的搜索引擎，也需要进行数据增量更新及全量更新、构建索引等。这些操作通过后台系统定时执行；</p>
-<p>（2）    数据仓库：根据离线数据，提供数据分析与数据挖掘服务；</p>
-<p>（3）    推荐系统：社交网站及购物网站通过挖掘任何人之间的关系，任何商品之间的关系，发觉潜在的人际关系和购物兴趣，为用户提供个性化推荐服务；</p>
-<h3 id="六、-数据采集与监控"><a href="#六、-数据采集与监控" class="headerlink" title="六、  数据采集与监控"></a>六、  数据采集与监控</h3><p>监控网站访问情况与系统运行情况，为网站运营决策和运维管理提供支持保障。</p>
-<p>（1）    浏览器数据采集：通过在网站页面中嵌入JS脚本采集用户浏览器环境与操作记录，分析用户行为；</p>
-<p>（2）    服务器业务数据采集：服务器业务数据包括两种，一种是采集在服务端记录的用户请求操作日志；一种是采集应用程序运行期业务数据，比如待处理消息数目等；</p>
-<p>（3）    服务器性能数据采集；</p>
-<p>（4）    系统监控；</p>
-<p>（5）    系统报警；</p>
-<h3 id="七、-安全架构"><a href="#七、-安全架构" class="headerlink" title="七、  安全架构"></a>七、  安全架构</h3><p>保护网站免遭攻击及敏感信息泄露。</p>
-<p>（1）    Web攻击；</p>
-<p>（2）    数据保护；</p>
-<h3 id="八、-数据中心机房架构"><a href="#八、-数据中心机房架构" class="headerlink" title="八、  数据中心机房架构"></a>八、  数据中心机房架构</h3><p>大型网站需要的服务器规模数以万计，机房物理架构也需要关注。</p>
-<p>（1）    机房架构</p>
-<p>（2）    机柜架构</p>
-<p>（3）    服务器架构</p>
+<p>注意复制的过程是单向的，只能从主节点到从节点，主节点以写为主，从节点以读为主。</p>
+<p>主从复制的作用</p>
+<p>数据冗余：主从复制实现了数据的热备份</p>
+<p>故障恢复：当主节点出现问题时，可以由从节点提供服务，快速恢复故障</p>
+<p>负载均衡：主节点复制写数据，从节点负责读数据，实现读写分离分担服务器负载。</p>
+<p>最常见的主从复制架构如下图所示</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143255408.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h6 id="手动实现主从复制"><a href="#手动实现主从复制" class="headerlink" title="手动实现主从复制"></a>手动实现主从复制</h6><p>开启三个redis服务，例如开启三个端口分别为6379、6380、6381三台redis服务，未设置谁是主节点之前，默认每台服务都是主节点的。</p>
+<p><code>info replication</code>  #查看节点信息:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143400711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>这里为了演示所以配置了伪集群，即一台机器启动三个redis服务，只是不同端口。注意启动6380和6381需要增加一个redis配置文件，例如启动6380时复制一份redis.conf修改名字为redis6380.conf，然后修改配置文件中的以下几个地方:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">daemonize yes  #后台启动修改为yes</span><br><span class="line"></span><br><span class="line">pidfile /var/run/redis_6380.pid  #修改进程文件的名称</span><br><span class="line"></span><br><span class="line">logfile "6380.log" #日志文件的名称</span><br><span class="line"></span><br><span class="line">dbfilename dump6380.rdb   #rdb文件的名称</span><br><span class="line"></span><br><span class="line">port 6380  #端口号</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200914143459173.png#pic_center" alt="在这里插入图片描述"></p>
+<h5 id="正式配置一主二从"><a href="#正式配置一主二从" class="headerlink" title="正式配置一主二从"></a>正式配置一主二从</h5><p>因为redis启动默认是主节点，所以主需要将6380和6379的设置为6379的从节点就行了，设置redis6380的主节点为6379，使用slaveof [主节点IP] [主节点端口]</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">slaveof <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20200914143602623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>使用同样的方式设置6381，最后回到主节点6379进行查看节点信息</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143626326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>至此我们就把一主二从的架构的配置好了，下面测试一下，主机写入数据后，会不会将数据自动同步到从机中。</p>
+<p>主机设置一个key为test1</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143648514.png#pic_center" alt="在这里插入图片描述"><br>从机进行获取test1<br><img src="https://img-blog.csdnimg.cn/2020091414370940.png#pic_center" alt="在这里插入图片描述"><br>进过测试，没问题，大功告成！</p>
+<p>你以为这就完了么，有的同学会问，当主机挂了会怎么样，这个问题问的好。这种手动模式的一主二从架构，当主机挂了之后需要人为的手动重新设置一个主机，才能正常工作。说到这里，是不是会觉得这也太low了吧，讲这个有啥用，其实讲这个是为了让你清楚主从复制真正的工作原理。那么为了解决这个当主机挂了，需要手动重新设置一个主节点的问题，就需要使用我们的哨兵模式。</p>
+<h4 id="什么是哨兵"><a href="#什么是哨兵" class="headerlink" title="什么是哨兵"></a>什么是哨兵</h4><p>顾名思义，哨兵就是用来巡逻检查的，哨兵每隔一段时间会向redis发送命令，等待redis响应，如果得不到响应，此时这个哨兵会认为这台redis服务以挂掉。一般情况会启动多个哨兵，判断redis主机是否挂掉，哨兵会进行投票。例如启动三个哨兵，其中有两个哨兵认为当前redis主机以挂掉，一个认为没有，那么2:1，那可以认为当前redis挂掉了。当主节点挂掉后，哨兵会通过投票的方式重新选举一个主机。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143804214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>哨兵的作用</p>
+<p>通过发送命令，让redis服务器返回运行状态，包括主服务器和从服务器。</p>
+<p>当哨兵检测到master宕机后，会通过投票选举新的master，然后通过发布订阅模式通知其它从机切换主机。</p>
+<p>配置哨兵</p>
+<p>在/opt/redis-6.0.7/myconf目录下添加哨兵配置文件 sentinel.conf内容如下</p>
+<p>sentinel monitor myredis 127.0.0.1 6379 1</p>
+<p>意思监控master，后面的1表示当master挂了后是否发起投票。</p>
+<p>开启一个终端，进入redis目录</p>
+<p>启动哨兵：./src/redis-sentinel myconf/sentinel.conf</p>
+<p><img src="https://img-blog.csdnimg.cn/202009141438372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>下面测试如果master宕机了，会不会重新选举一个新的master。</p>
+<p>现在手动把master关掉，等待几秒钟可以看到master主机变成了6380</p>
+<p><img src="https://img-blog.csdnimg.cn/20200914143856774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>如果此时原来的主机恢复正常了呢，会不会重新选举其为master，答案是否定的，原来的主机恢复正常后，只能作为新主机的从节点。</p>
 
     </div>
 
@@ -336,7 +340,8 @@
       <footer class="post-footer">
           
           <div class="post-tags">
-              <a href="/myblog/tags/talkabout/" rel="tag"><i class="fa fa-tag"></i> talkabout</a>
+              <a href="/myblog/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/" rel="tag"><i class="fa fa-tag"></i> 面试题</a>
+              <a href="/myblog/tags/interview/" rel="tag"><i class="fa fa-tag"></i> interview</a>
           </div>
 
         
@@ -345,12 +350,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/myblog/interview/%E5%90%88%E9%9D%A2%E8%AF%95%E9%A2%982/" rel="prev" title="综合面试题02">
-      <i class="fa fa-chevron-left"></i> 综合面试题02
+    <a href="/myblog/interview/%E6%81%AF%E9%98%9F%E5%88%97-%E8%A7%A3%E8%80%A6%E3%80%81%E5%BC%82%E6%AD%A5%E3%80%81%E5%89%8A%E5%B3%B0-%E7%8E%B0%E6%9C%89MQ%E5%AF%B9%E6%AF%94/" rel="prev" title=" 消息队列: 解耦、异步、削峰, 现有MQ对比">
+      <i class="fa fa-chevron-left"></i>  消息队列: 解耦、异步、削峰, 现有MQ对比
     </a></div>
       <div class="post-nav-item">
-    <a href="/myblog/talkabout/%E5%91%98%E3%80%81%E6%9E%B6%E6%9E%84%E5%B8%88%E3%80%81%E6%8A%80%E6%9C%AF%E7%BB%8F%E7%90%86%E3%80%81%E6%8A%80%E6%9C%AF%E6%80%BB%E7%9B%91%E5%92%8CCTO%E5%90%84%E8%87%AA%E8%81%8C%E8%B4%A3/" rel="next" title="程序员、架构师、技术经理、技术总监和CTO各自职责">
-      程序员、架构师、技术经理、技术总监和CTO各自职责 <i class="fa fa-chevron-right"></i>
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -422,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、-前端架构"><span class="nav-number">1.</span> <span class="nav-text">一、  前端架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、-应用层架构"><span class="nav-number">2.</span> <span class="nav-text">二、  应用层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、-服务层架构"><span class="nav-number">3.</span> <span class="nav-text">三、  服务层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、-存储层架构"><span class="nav-number">4.</span> <span class="nav-text">四、  存储层架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、-后台架构"><span class="nav-number">5.</span> <span class="nav-text">五、  后台架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、-数据采集与监控"><span class="nav-number">6.</span> <span class="nav-text">六、  数据采集与监控</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、-安全架构"><span class="nav-number">7.</span> <span class="nav-text">七、  安全架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、-数据中心机房架构"><span class="nav-number">8.</span> <span class="nav-text">八、  数据中心机房架构</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#主从复制概念"><span class="nav-number">1.</span> <span class="nav-text">主从复制概念</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#手动实现主从复制"><span class="nav-number">1.0.1.</span> <span class="nav-text">手动实现主从复制</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#正式配置一主二从"><span class="nav-number">1.1.</span> <span class="nav-text">正式配置一主二从</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是哨兵"><span class="nav-number">2.</span> <span class="nav-text">什么是哨兵</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -594,7 +599,7 @@
       quicklink({
         timeout : 3000,
         priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/talkabout/%E5%9E%8B%E7%BD%91%E7%AB%99%E4%B8%80%E8%88%AC%E6%9E%B6%E6%9E%84%E6%8A%80%E6%9C%AF/',]
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/interview/dis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/',]
       });
       });
   </script>
@@ -610,7 +615,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blog',
       owner       : 'chfsun',
       admin       : ['chfsun'],
-      id          : 'ecfc6868c1e269a0d31beb2cdce81a8a',
+      id          : '8a0642702b015a348cfde22ad9f008fe',
         language: 'zh-CN',
       distractionFreeMode: true
     });
