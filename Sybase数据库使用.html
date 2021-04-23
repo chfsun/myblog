@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[Sybase——学习笔记]一、安装将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。  安装完之后，可以在“控制面板”-&gt;“性能和维护">
+<meta property="og:type" content="website">
+<meta property="og:title" content="梦.星河">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html">
+<meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="[Sybase——学习笔记]一、安装将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。  安装完之后，可以在“控制面板”-&gt;“性能和维护">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-25T07:19:57.910Z">
+<meta property="article:modified_time" content="2020-11-25T07:19:57.910Z">
+<meta property="article:author" content="chfsun">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | 梦.星河
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">梦.星河</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a>
+
+  </li>
+        <li class="menu-item menu-item-talkabout">
+
+    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/myblog/categories/interview" rel="section"><i class="fa fa-sitemap fa-fw"></i>历年面试题</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="Sybase——学习笔记"><a href="#Sybase——学习笔记" class="headerlink" title="[Sybase——学习笔记]"></a>[Sybase——学习笔记]</h1><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><pre><code>将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。
+
+安装完之后，可以在“控制面板”-&gt;“性能和维护”-&gt;“管理工具”的“数据源 (ODBC)”中查看一下：</code></pre><p>其中的“Adaptive Server Enterprise”就是Sybase的ODBC驱动。<br>    不过至此我们的安装工作还没有结束，如果不想看到自己输入的中文变成乱码，就按照下面方法去做。</p>
+<pre><code>请 点击“开始”菜单-&gt;“所有程序”-&gt;“Sybase”-&gt;“Adaptive Server Enterprise”-&gt;“Server Config”，打开“Configure Sybase Server”窗口。在窗口左侧的Product栏中选择Adaptive，然后点击“Configure Adaptive Server...”按钮，打开“Existing Servers”窗口。在窗口选中服务器，然后点击Continue按钮进入下一窗口。输入用户名和密码，默认用户名为sa，密码为空，点击 Continue。此时如果服务没启，Sybase会提示，点击“确定”，稍等片刻，“Configure Adaptive Server”窗口就出现了。</code></pre><p>在窗口中点击“Language”按钮，打开“Language Options”窗口。</p>
+<p>点击Character下的“Add/Remove”按钮，打开“Install Character Sets”窗口，在Available栏中选中“Unicode 3.1 UTF-8 CHaracter Set”，即utf8字符集，点击“Add”按钮，点击OK。下面再点击Character下的“Set Default”按钮，打开“Change Default Character Set”窗口，默认选中的是“Code Page 850 (Multilingual) character set”，即cp850字符集。这个字符集不对，请选中刚刚添加的utf8字符集，点击OK，回到“Language Options”窗口，然后再点击OK。由于我们对服务重新进行了设置，因此接下来需要等待一段时间。</p>
+<pre><code>设置完成后，打开“运行”窗口，输 入命令“services.msc /s”，打开“服务”。请选中“Sybase SQLServer _ IMAGE”，IMAGE是我的Sybase服务名，点击“启动服务”按钮，等待片刻后，系统提示此次启动失败，重启操作系统。重启后，再次在“服务”中 启动Sybase，如果还是提示错误，不要管他，再次启动服务一切就OK了。
+
+服务启动后，请点击“开始”菜单-&gt;“所有程序 ”-&gt;“Sybase”-&gt;“Sybase Central v4.3”，打开Sybase Central，这是一个Sybase客户端工具。在左侧的Folders中点开Adaptive Server Enterprise，选中Default，右建，选择“Connect...”，打开Connect窗口。</code></pre><p>在窗口中填写User ID为sa，Password为空，Server name选择IMAGE，Character set和Language分别设置为cp936和Chinese。注意，这里客户端设置的字符集是cp936，而非cp850、utf8或者eucgb。 设置好后，点击OK，就可以开始对Sybase的操作了。</p>
+<h4 id="二、简单操作"><a href="#二、简单操作" class="headerlink" title="二、简单操作"></a>二、简单操作</h4><p>1．创建数据库设备<br>    数据库设备其实就是一个用来保存数据的文件，一个数据库通常会指定保存在一个或多个数据库设备中。<br>    在 Sybase Central的Folders中找到Database Devices（数据库设备），选中，然后在Details中双击“Add Database Device”。在弹出窗口的“Device Path”中设置存放路径和文件名称，我设置的是F:/YPJCCK/DataBase/Sybase/zhengTest.dat，点击Next。新界 面是用来设置设备编号和文件大小的，这里我只设置Size为64M。点击Next，无需修改，再次点击Next：</p>
+<p>这个界面是用来展示设置信息的，用户可以根据这些信息确定自己之前的设置是否正确。请注意Preview按钮，点击该按钮后即通过可查看到创建设备 的SQL语句。Sybase Central在创建视图、存储过程及触发器等对象时同样会提供该功能。确认信息无误，点击Finish创建设备。<br>    如果想在设备创建后查看SQL语句，请在Details中选中相应设备，右键，点击Generate DDL就可以了。<br>    如果想删掉设备，请在Details中选中相应设备，右键，点击Delete：</p>
+<p>这个界面是用来确认删除对象的，确认后点击Yes即可。这里也请注意Preview按钮，点击该按钮后同样可以查看到删除设备的SQL语句，而且Sybase Central在删除表、视图、存储过程及触发器等对象时也都提供了该功能。<br>2．创建数据库<br>    在 Sybase Central的Folders中找到Databases（数据库），选中，然后在Details中双击“Add Database”。在弹出窗口中设置数据库名称，我设置的是zhengTest，点击Next。新界面是用来为数据库指定设备的，可以指定多个，请点击 Add按钮：</p>
+<p>在弹出窗口中选中设备zhengTest，然后设置Size为32，点击OK返回，再点击Finish，数据库就被创建了。<br>    如果想 在数据库创建后查看SQL语句，请在Details中选中zhengTest，右键，点击Generate DDL。不过数据库的Generate DDL下还有两个子菜单，第一个为Create Database DDL，选择后只会看到创建数据库本身的SQL语句；第二个为Database Object DDL，点击后会出现一个对话框：</p>
+<p>这个对话框列出了数据库中的所有对象类型，但要注意，在这个对话框中，选择了哪个类型，属于那个类型的对象的就不会出现在弹出窗口中，而没有选择的则会出现。Sybase Central对表、视图、存储过程、触发器等对象都提供了Generate DDL。<br>    如果想删掉数据库，只要选中zhengTest，右键，点击Delete，或者在Interactive SQL（Sybase自带的一个SQL命令执行工具，） 中执行命令：<br>    drop database zhengTest<br>即可。Sybase Central对表、视图、存储过程、触发器等对象也都提供了Delete。<br>3．创建数据表<br>    在Sybase Central的Folders中找到zhengTest-&gt;User Tables并选中，然后在Details中双击“Add Table”，打开“New Table”窗口：</p>
+<p>在窗口中设置Name为book，添加两个字段：<br>    bookcode    nvarchar(10)    主键<br>    bookname    nvarchar(50)<br>然后点击“Save and Close”按钮，这样book表就创建好了。<br>    下 面选中book表，右键，点击“View Data in Interactive SQL”，就可以在Interactive SQL中查询book的数据了。不过由于我们还没有向book表中添加过任何数据，因此看到的结果为空。请在Interactive SQL中执行以下命令：<br>    insert into book (bookcode, bookname) values (‘0000000001’, ‘test’)<br>    go<br>    insert into book (bookcode, bookname) values (‘0000000002’, ‘测试’)<br>    go<br>然后再次执行select * from book，此时就看到刚刚插入的数据了。<br>    不过我现在又有了个新的想法，为book表增加一个anthor，即作者字段。但一个作者似乎可以创作很多书，要是每条记录都将作者信息重复填写一遍，好麻烦啊，该怎么办呢？<br>    请在Sybase Central中创建一个新表author，字段如下：<br>    authorcode    nvarchar(10)    主键<br>    authorname    nvarchar(20)<br>创建之后，在Interactive SQL中向author表插入一条数据：<br>    insert into author (authorcode, authorname) values (‘0000000001’, ‘Smile’)<br>    下面选中book，右键，点击Edit，修改book表如下：</p>
+<p>新增加bookauthor字段，类型为nvarchar(10)，由于增加该字段之前表中已有数据，为防止出错须选中Allow Nulls，即允许该字段为空。修改之后，在Interactive SQL中更新book表中的数据：<br>    update book set bookauthor = ‘0000000001’<br>这时再次查询数据：<br>    select bookcode, bookname, authorname from book, author where bookauthor *= authorcode<br>就看到期待已久的结果了。<br>    如果想删掉表，只要选中book，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>    drop table dbo.book<br>即可。<br>4．创建视图<br>    视图是虚拟的表，其特点是操作简单、使用安全。<br>    请 在Sybase Central的Folders中找到zhengTest-&gt;Views并选中，然后在Details中双击“Add View(Wizard)”，打开“Add Trigger”向导。在第一个界面中输入视图名v_book，点击Next进入下一个界面。</p>
+<p>这个界面是用来编写代码的，除可以在文本域中编写外，还提供有“SQL Editor”和“Load”两个按钮，前者点击后会调出一个Sybase自带的编辑器，下面在编辑器中编写代码如下：<br>    CREATE VIEW dbo.v_book<br>    AS select bookcode, bookname, authorname<br>        from book, author<br>        where bookauthor *= authorcode<br>然 后点击“Save view and close”回到刚才的界面；后者用于加载已经完成的SQL语句，这里不使用。点击Finish按钮，Sybase提示视图v_book已存在，因为刚才 在编辑器中点击的是“Save view and close”，即保存视图并关闭。此时点击OK，然后点击Cancel即可。类似的界面在后面编写存储过程和触发器的时候还会遇到。<br>    下面选中视图v_book，右键，点击“View Data in Interactive SQL”，就可以在Interactive SQL中使用v_book来查询数据了。<br>    如果想删掉视图，只要选中v_book，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>    drop view dbo.v_book<br>即可。<br>5．创建存储过程<br>    存储过程是一组存储在数据库服务器段执行特定操作的SQL语句，具有创建时编译、可重复使用、安全性高等特点。</p>
+<pre><code>最简单的存储过程（查询）：
+在Sybase Central的Folders中找到zhengTest-&gt;Stored Procedures并选中，然后在Details中双击“Add Procedures(Wizard)”，打开“Add Stored Procedure”向导。在第一个界面中填写存储过程名称，例如simple_query，点击Next。在接下来的两个界面中不必进行任何操作，直接 点击Next。在第四个界面中输入代码：
+CREATE PROCEDURE dbo.simple_query
+AS select bookcode, bookname, authorname 
+    from book, author 
+    where bookauthor *= authorcode</code></pre><p>点击Finish。至此，存储过程创建完毕。<br>    这个存储过程最为简单，即没有参数，也没有返回值，更没有任何逻辑处理。<br>下 面选中存储过程simple_query，右键，点击“Execute with Interactive SQL”，在Interactive SQL中会生成一条语句“exec dbo.simple_query”，其中exec全拼为execute，表示执行存储过程。执行后，会返回一个结果集，即SQL语句的执行结果。</p>
+<ul>
+<li><p>下面来看一个内容相对完整的存储过程例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.simple_demo</span><br><span class="line">(</span><br><span class="line">    <span class="meta">@i</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span> </span>= <span class="string">'Y'</span>,            --输入参数，设置默认值为<span class="string">'Y'</span></span><br><span class="line">    <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span> output       --输出参数</span></span><br><span class="line"><span class="function">)</span></span><br><span class="line"><span class="function">AS</span></span><br><span class="line"><span class="function">BEGIN</span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> @i_mesg </span>= <span class="string">'Y'</span>    --逻辑处理</span><br><span class="line">    begin</span><br><span class="line">        select <span class="meta">@o</span>_mesg = <span class="string">'运行正常！'</span>    --在Sybase中需要使用select语句为变量赋值</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>        --返回值</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    select <span class="meta">@o</span>_mesg = <span class="string">'运行异常！'</span></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>           --返回值</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<p>这个存储过程虽然没有调用数据表，但带有输入参数、输出参数、逻辑处理和返回值，因此内容相对完整。这里请注意，返回值只能是整数，而输出参数也可以用来将值传入并设置默认值。<br>下面在Interactive SQL中执行以下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    declare <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span>,      --定义变量</span></span><br><span class="line"><span class="function">                   @ret <span class="keyword">int</span></span></span><br><span class="line"><span class="function">    exec @ret </span>= dbo.simple_demo <span class="string">'N'</span>, <span class="meta">@o</span>_mesg output     --执行存储过程，注意，输出参数必须标以output，否则不会输出任何值</span><br><span class="line">    print <span class="string">'%1!--------%2!'</span>, <span class="meta">@ret</span>, <span class="meta">@o</span>_mesg               --输出结果</span><br><span class="line">按F5键执行，输出结果：-<span class="number">1</span>--------运行异常！</span><br><span class="line">    下面将这段代码写到存储过程当中：</span><br><span class="line">    CREATE PROCEDURE dbo.simple_call</span><br><span class="line">    AS</span><br><span class="line">    BEGIN</span><br><span class="line">        declare <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span>,</span></span><br><span class="line"><span class="function">                       @ret <span class="keyword">int</span></span></span><br><span class="line"><span class="function">        exec @ret </span>= dbo.simple_demo <span class="string">'N'</span>, <span class="meta">@o</span>_mesg output</span><br><span class="line">        print <span class="string">'%1!--------%2!'</span>, <span class="meta">@ret</span>, <span class="meta">@o</span>_mesg</span><br><span class="line">    END</span><br><span class="line">这是一个存储过程调用存储过程的例子了。</span><br><span class="line"></span><br><span class="line">    下面再新建一个simple_execute存储过程，代码如下：</span><br><span class="line">    CREATE PROCEDURE dbo.simple_execute</span><br><span class="line">    AS</span><br><span class="line">    BEGIN</span><br><span class="line">        execute (<span class="string">'select * from v_book'</span>)</span><br><span class="line">    END</span><br></pre></td></tr></table></figure>
+<p>这个存储过程含有两个内容：一个SQL语句的动态执行，即Sybase中允许将SQL语句处理成一个字符串或字符串变量来执行；一个是对视图的访问。</p>
+<p>  下面再看几个存储过程的例子。<br>  通过游标读取数据示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.p_query_list</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">    declare <span class="meta">@bc</span> nvarchar(<span class="number">10</span>)</span><br><span class="line">                 ,<span class="meta">@bn</span> nvarchar(<span class="number">50</span>)</span><br><span class="line">                 ,<span class="meta">@an</span> nvarchar(<span class="number">20</span>)</span><br><span class="line">    --定义游标</span><br><span class="line">    declare book_curs cursor <span class="keyword">for</span> </span><br><span class="line">    select bookcode, bookname, authorname </span><br><span class="line">        from book, author </span><br><span class="line">        where bookauthor *= authorcode</span><br><span class="line">        order by bookcode</span><br><span class="line"></span><br><span class="line">    open book_curs --打开游标</span><br><span class="line">    </span><br><span class="line">    --循环游标读取数据</span><br><span class="line">    fetch book_curs into <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">    <span class="keyword">while</span> (@<span class="meta">@sqlstatus</span> = <span class="number">0</span>)</span><br><span class="line">    begin</span><br><span class="line">        print <span class="string">'编号：%1!|名称：%2!|作者：%3!'</span>, <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">        fetch book_curs into <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    close book_curs --关闭游标</span><br><span class="line">    deallocate cursor book_curs --释放游标</span><br><span class="line">END</span><br></pre></td></tr></table></figure></li>
+<li><p>通过变量读取数据示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.p_query_detail</span><br><span class="line"><span class="meta">@query</span>      nvarchar(<span class="number">10</span>)</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">    declare <span class="meta">@bookcode</span>   nvarchar(<span class="number">10</span>),</span><br><span class="line">                  <span class="meta">@bookname</span>   nvarchar(<span class="number">50</span>),</span><br><span class="line">                  <span class="meta">@authorname</span> nvarchar(<span class="number">20</span>)</span><br><span class="line">    <span class="comment">/* top用来指定取得结果集的前n条数据，这里使用top 1即表示取得结果集的第一条记录，否则当结果集中有多条记录时，只有最后一条记录的值才会被赋值给变量 */</span></span><br><span class="line">    select top <span class="number">1</span> <span class="meta">@bookcode</span> = bookcode, <span class="meta">@bookname</span> = bookname, <span class="meta">@authorname</span> = authorname from v_book where bookcode = <span class="meta">@query</span></span><br><span class="line"></span><br><span class="line">    print <span class="string">'编号：%1!|名称：%2!|作者：%3!'</span>, <span class="meta">@bookcode</span>, <span class="meta">@bookname</span>, <span class="meta">@authorname</span></span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<p>执行：在Sybase Central中选中p_query_detail，右键，点击“Execute with Interactive SQL”，由于p_query_detail有一个输入参数，因此Central会弹出一个Call窗口：</p>
+</li>
+</ul>
+<p>在窗口中填值时一定要注意，由于数据类型为nvarchar(10)，为字符串，因此一定要在值的两边加上单引号“’”。然后点击OK，在Interactive SQL中按F5键执行该存储过程。</p>
+<ul>
+<li><p>使用存储过程插入数据示例：</p>
+<pre><code class="java">CREATE PROCEDURE dbo.p_insert
+<span class="meta">@bookname</span>   nvarchar(<span class="number">50</span>),
+<span class="meta">@bookauthor</span> nvarchar(<span class="number">10</span>),
+<span class="meta">@mesg</span>       nvarchar(<span class="number">200</span>) = <span class="string">'ok'</span> output
+AS
+BEGIN
+  declare <span class="meta">@bookcode</span> nvarchar(<span class="number">10</span>)
+
+  --使用月、日、时、分、秒组成bookcode
+  select <span class="meta">@bookcode</span> = convert(nvarchar(<span class="number">10</span>), datepart(mm,getdate())*<span class="number">100000000</span> + datepart(dd,getdate())*<span class="number">1000000</span> + datepart(hh,getdate())*<span class="number">10000</span> + datepart(mi,getdate())*<span class="number">100</span> + datepart(ss,getdate()))</code></pre>
+</li>
+<li><p>插入数据到book表<br>  insert into book (bookcode, bookname, bookauthor) values (@bookcode, @bookname, @bookauthor)<br>  if @@error &lt;&gt; 0 –异常处理<br>  begin</p>
+<pre><code>select @mesg = &apos;新增数据异常！&apos; + convert(nvarchar(3), @@error)
+rollback    --事务回滚
+return -1</code></pre><p>  end</p>
+<p>  commit  –事务提交<br>  return 0<br>END<br>执行：在Interactive SQL中尝试执行以下代码调用p_insert存储过程：<br>  declare @mesg nvarchar(200),</p>
+<pre><code>@flag int</code></pre><p>  exec @flag = p_insert ‘NUnit学习笔记’, ‘0000000001’, @mesg output<br>  if @flag &lt;&gt; 0<br>  begin</p>
+<pre><code>print @mesg</code></pre><p>  end<br>  else<br>  begin</p>
+<pre><code>print &apos;程序运行正常！&apos;</code></pre><p>  end<br>  go</p>
+<p>  使用存储过程修改数据示例：<br>CREATE PROCEDURE dbo.p_update<br>@bookcode   nvarchar(10),<br>@bookname   nvarchar(50),<br>@bookauthor nvarchar(10)<br>AS<br>BEGIN<br>  update book set bookname = @bookname, bookauthor = @bookauthor where bookcode = @bookcode<br>END</p>
+<p>  使用存储过程删除数据示例：<br>CREATE PROCEDURE dbo.p_delete<br>@bookcode nvarchar(10)<br>AS<br>BEGIN<br>  delete book where bookcode = @bookcode<br>END</p>
+<p>  如果想删掉存储过程，只要选中simple_query，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>  drop procedure dbo.simple_query<br>即可。<br>6．创建触发器<br>  触发器是因某一行为而自动做出反应并进行特定操作的一组SQL语句，可以理解为表的事件。例如在对表进行插入、修改或删除数据等操作时，都会导致触发器被触发。这里我会创建三个触发器，分别对应book表的插入、修改和删除操作。</p>
+<p>  insert触发器：<br>  在Sybase Central的Folders中找到zhengTest-&gt;User Tables-&gt;book-&gt;Triggers并选中，然后在Details中双击“Add Trigger(Wizard)”，打开“Add Trigger”向导。在第一个界面中填写触发器名称，例如t_insert，点击Next；在第二个界面中选择Insert，点击Next；在第三个界 面中输入代码：<br>CREATE TRIGGER dbo.t_insert ON dbo.book<br>  For INSERT AS<br>BEGIN<br>  declare @bookcode   nvarchar(10),</p>
+<pre><code>@bookname   nvarchar(50),
+@bookauthor nvarchar(20)</code></pre><p>  select @bookcode = bookcode, @bookname = bookname, @bookauthor = bookauthor from inserted</p>
+<p>  print ‘编号：%1!|名称：%2!|作者：%3!’, @bookcode, @bookname, @bookauthor<br>END<br>点击Finish。至此，insert触发器创建完毕。<br>  触 发器其实也可以认为是一种存储过程，就像我们在VB、VC、Delphi、Swing等开发中写的事件处理方法一样，只不过这个存储过程即没有参数，也没 有返回值，更不允许返回结果集，例如select * from book这种语句是绝对不能写到触发器中的。此外，触发器中有两个逻辑表，inserted和deleted，前者代表新插入或更新的值，后者代表数据表 中已存在并将被更新掉或删除掉的值，这里用到了inserted。下面赶紧向book表中插入一条数据，看看效果吧！</p>
+<p>  update触发器，代码：<br>CREATE TRIGGER dbo.t_update ON dbo.book<br>  For UPDATE AS<br>BEGIN<br>  IF UPDATE (bookname)<br>  BEGIN</p>
+<pre><code>rollback transaction</code></pre><p>  END</p>
+<p>  declare @o_mesg nvarchar(100),</p>
+<pre><code>@ret int</code></pre><p>  exec @ret = dbo.simple_demo ‘N’, @o_mesg output<br>  print ‘%1!——–%2!’, @ret, @o_mesg<br>END<br>这 里需要说明的是IF UPDATE (bookname)，该语句判断bookname字段是否被更新，在这里，bookname被更新便会导致回滚，即数据永远无法通过update bookname字段的方式更改。当有多个字段需要作这种判断时，只要写作“IF UPDATE(bookcode) and|or UPDATE(bookname)”即可。此外，逻辑表inserted、deleted在update触发器中同样有效，相关说明请见insert触发 器。</p>
+<p>  delete触发器，代码：<br>CREATE TRIGGER dbo.t_delete ON dbo.book<br>  For DELETE AS<br>BEGIN<br>  declare @bc nvarchar(10)</p>
+<pre><code>,@bn nvarchar(50)
+,@ba nvarchar(10)</code></pre><p>  –定义游标<br>  declare del_curs cursor for </p>
+<pre><code>select bookcode, bookname, bookauthor 
+from deleted
+order by bookcode</code></pre><p>  open del_curs –打开游标</p>
+<p>  –循环游标读取数据<br>  fetch del_curs into @bc, @bn, @ba<br>  while (@@sqlstatus = 0)<br>  begin</p>
+<pre><code>print &apos;编号：%1!|名称：%2!|作者：%3!&apos;, @bc, @bn, @ba
+fetch del_curs into @bc, @bn, @ba</code></pre><p>  end</p>
+<p>  close del_curs –关闭游标<br>  deallocate cursor del_curs –释放游标<br>END<br>这里使用了逻辑表deleted和游标来查询被删除的数据。</p>
+<p>  注意，insert、update、delete触发器在每张表中都只允许创建一个，如果再次创建，例如insert触发器，无论使用什么 名字，如test_trigger，之前创建的insert触发器都会被覆盖掉。此外，Sybase也允许在一个触发器中指定多个操作，例如：<br>CREATE TRIGGER dbo.t_author ON dbo.author<br>For INSERT, DELETE, UPDATE AS<br>BEGIN<br>  print ‘author表的触发器被执行！’<br>END<br>这个触发器就同时被指定了insert、update和delete操作。<br>  此外，我们还可以指定触发器失效或者有效，只要选中触发器，右键，点击Disable/Enable，或者在Interactive SQL 中执行命令：<br>  alter table dbo.book disable| enable trigger dbo.t_insert<br>即可。<br>  如果想删掉触发器，只要选中触发器，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>  drop trigger dbo.t_insert<br>即可。</p>
+</li>
+</ul>
+<p>三、使用Java访问Sybase<br>    我写了两个Java访问Sybase的例子，IDE任意，驱动位于${Sybase安装目录}/jConnect-6_0/devclasses下， 将文件jconn3d.jar引入即可。</p>
+<pre><code>第一个例子的代码如下：</code></pre><p>package net.test.db.sybase;</p>
+<p>import java.sql.*;</p>
+<p>public class TestQuery {</p>
+<p> public static void main(String[] args) {<br>     Connection cn = null;<br>     CallableStatement cs = null;<br>     ResultSet rs = null;</p>
+<pre><code> try {
+    // 初始化连接对象
+    Class.forName(&quot;com.sybase.jdbc3.jdbc.SybDriver&quot;);
+    cn = DriverManager.getConnection(&quot;jdbc:sybase:Tds:image:5000/zhengTest?charset=cp936&amp;jconnect_version=3&quot;, &quot;sa&quot;, &quot;&quot;);
+
+    cs = cn.prepareCall(&quot;{call simple_query()}&quot;); // 获得声明对象
+
+    rs = cs.executeQuery(); // 执行，当有结果集时使用executeQuery()方法执行
+
+    while (rs.next()) {
+        System.out.print(&quot;编号：&quot; + rs.getString(1));
+        System.out.print(&quot;|名称：&quot; + rs.getString(2));
+        System.out.println(&quot;|作者：&quot; + rs.getString(3));
+    }
+
+    if (rs != null)
+        rs.close(); //关闭结果集
+    if (cs != null)
+        cs.close(); // 关闭声明
+    if (cn != null)
+        cn.close(); // 关闭连接
+} catch (Exception ex) {
+    ex.printStackTrace();
+} finally {
+    rs = null;
+    cs = null;
+    cn = null;
+}</code></pre><p> }<br>}<br>这 个例子演示的是如何访问存储过程simple_query，该存储过程会返回一个结果集。这里需要注意两点：由于simple_query会返回一个结果 集，因此需要使用cs.executeQuery()方法执行；在设置连接字符串的时候，设置了charset=cp936，即将客户端的字符集设置成 cp936，这样查看结果时才不会乱码。</p>
+<pre><code>第二个例子的代码如下：</code></pre><p>package net.test.db.sybase;</p>
+<p>import java.sql.*;</p>
+<p>public class TestDemo {</p>
+<p> public static void main(String[] args) {<br>  Connection cn = null;<br>  CallableStatement cs = null;</p>
+<p>  try {<br>   // 初始化连接对象<br>   Class.forName(“com.sybase.jdbc3.jdbc.SybDriver”);<br>   cn = DriverManager.getConnection(“jdbc:sybase:Tds:image:5000/zhengTest?charset=cp936&amp;jconnect_version=3”,”sa”, “”);</p>
+<p>   cs = cn.prepareCall(“{?=call simple_demo(?,?)}”); // 获得声明对象</p>
+<p>   // 设置参数<br>   cs.registerOutParameter(1, Types.INTEGER);<br>   cs.setString(2, “N”);<br>   cs.registerOutParameter(3, Types.VARCHAR);</p>
+<p>   cs.execute(); // 执行，当没有返回结果集时，为防止出错，使用execute()方法作执行</p>
+<p>   // 输出处理结果<br>   System.out.println(cs.getInt(1));<br>   System.out.println(cs.getString(3));</p>
+<p>   if (cs != null)<br>    cs.close(); // 关闭声明<br>   if (cn != null)<br>    cn.close(); // 关闭连接<br>  } catch (Exception ex) {<br>   ex.printStackTrace();<br>  } finally {<br>   cs = null;<br>   cn = null;<br>  }<br> }<br>}<br>这个例子演示的是动态访问存储过程simple_demo，该存储过程带有一个输出参数，并有一个返回值，在JDBC中，返回值和输出参数可以认为是一回事。这里需要注意的是，由于这个存储过程没有结果集，因此执行时应该使用cs.execute()方法。</p>
+<p>四、使用VB.net/C#访问Sybase<br>    我 写了两个VB.net/C#访问Sybase的例子，IDE使用SharpDevelop 2.1，环境为.net Framework 2.0，驱动位于${Sybase安装目录}/DataAccess/ADONET/dll下， 引用其中的文件Sybase.Data.AseClient.dll到项目中即可。</p>
+<pre><code>第一个例子的VB.net代码如下：</code></pre><p>Imports Sybase.Data.AseClient</p>
+<p>Public Class TestQuery<br> Sub New()<br>  Dim cn As AseConnection = Nothing<br>  Dim cmd As AseCommand = Nothing<br>  Dim rd As AseDataReader = Nothing</p>
+<p>  Try<br>   ‘初始化连接对象<br>   cn = New AseConnection(“Data Source=image;Port=5000;UID=sa;PWD=;Database=zhengTest;CharSet=cp936;”) </p>
+<p>   cn.Open() ‘打开连接</p>
+<p>   cmd = New AseCommand(“exec simple_query”, cn) ‘获得命令对象</p>
+<p>   rd = cmd.ExecuteReader() ‘执行，当有只读记录集时使用ExecuteReader()方法执行</p>
+<p>   While rd.Read()<br>    Console.Write(“编号：” &amp; rd.GetString(0))<br>    Console.Write(“|名称：” &amp; rd.GetString(1))<br>    Console.WriteLine(“|作者：” &amp; rd.GetString(2))<br>   End While</p>
+<p>   If rd IsNot Nothing Then<br>    rd.Close() ‘关闭只读记录集<br>   End If<br>   If cmd IsNot Nothing Then<br>    cmd.Dispose() ‘销毁命令对象<br>   End If<br>   If cn IsNot Nothing Then<br>    cn.Close() ‘关闭连接对象<br>   End If<br>  Catch ex As AseException<br>   Console.WriteLine(ex.Message)<br>  Finally<br>   rd = Nothing<br>   cmd = Nothing<br>   cn = Nothing<br>  End Try<br> End Sub<br>End Class<br>    C#代码如下：<br>using System;<br>using Sybase.Data.AseClient;</p>
+<p>namespace zhengTest_Sybase<br>{<br> public class TestQuery<br> {<br>  public TestQuery()<br>  {<br>   AseConnection cn = null;<br>   AseCommand cmd = null;<br>   AseDataReader rd = null;</p>
+<p>   try<br>   {<br>    //初始化连接对象<br>    cn = new AseConnection(“Data Source=image;Port=5000;UID=sa;PWD=;Database=zhengTest;CharSet=cp936;”); </p>
+<pre><code>cn.Open(); //打开连接
+
+cmd = new AseCommand(&quot;exec simple_query&quot;, cn); //获得命令对象
+
+rd = cmd.ExecuteReader(); //执行，当有只读记录集时使用ExecuteReader()方法执行
+
+while(rd.Read())
+{
+ Console.Write(&quot;编号：&quot; + rd.GetString(0));
+ Console.Write(&quot;|名称：&quot; + rd.GetString(1));
+ Console.WriteLine(&quot;|作者：&quot; + rd.GetString(2));
+}
+
+if (rd != null)
+ rd.Close(); //关闭只读记录集
+if (cmd != null)
+ cmd.Dispose(); //销毁命令对象
+if (cn != null)
+ cn.Close(); //关闭连接对象</code></pre><p>   }<br>   catch( AseException ex )<br>   {<br>    Console.WriteLine(ex.Message);<br>   }<br>   finally<br>   {<br>    rd = null;<br>    cmd = null;<br>    cn = null;<br>   }<br>  }<br> }<br>}<br>跟 第一个Java例子一样，也是演示如何访问simple_query存储过程并对记录集进行操作的。这里请注意几点：第一，连接字符串中Data Source=image指的不是数据源，而是服务器，与设置Server=image效果一样；第二，连接字符串中的CharSet=cp936用来设 置字符集，但从当前环境看，这个设置不是必须的，至于我是如何知道该参数有效的，我将字符集设置成cp850后出现乱码了；第三，由于 simple_query会返回一个结果集，因此需要使用ExecuteReader方法来执行，这点与Java很类似。</p>
+<pre><code>第二个例子的VB.net代码如下：</code></pre><p>Imports System.Data<br>Imports Sybase.Data.AseClient</p>
+<p>Public Class TestDemo<br> Sub New()<br>  Dim cn As AseConnection = Nothing<br>  Dim cmd As AseCommand = Nothing</p>
+<p>  Try<br>   ‘初始化连接对象<br>   cn = New AseConnection(“Data Source=image;Port=5000;UID=sa;PWD=;Database=zhengTest;”)</p>
+<p>   cn.Open()’打开连接</p>
+<p>   cmd = New AseCommand(“simple_demo”, cn) ‘获得命令对象<br>   cmd.CommandType = CommandType.StoredProcedure ‘设置命令类型为存储过程</p>
+<p>   ‘设置参数<br>   cmd.Parameters.Add(“RETURN_VALUE”, AseDbType.[Integer]).Direction = ParameterDirection.ReturnValue<br>   cmd.Parameters.Add(“@i_mesg”, “N”)<br>   cmd.Parameters.Add(“@o_mesg”, AseDbType.NVarChar, 50).Direction = ParameterDirection.Output</p>
+<p>   cmd.ExecuteNonQuery() ‘执行，当没有返回结果集时，使用ExecuteNonQuery()方法作执行</p>
+<p>   ‘输出处理结果<br>   Console.WriteLine(cmd.Parameters(0).Value)<br>   Console.WriteLine(cmd.Parameters(2).Value)</p>
+<p>   If cmd IsNot Nothing Then<br>    cmd.Dispose() ‘销毁命令对象<br>   End If</p>
+<p>   If cn IsNot Nothing Then<br>    cn.Close() ‘关闭连接对象<br>   End If<br>  Catch ex As AseException<br>   Console.WriteLine(ex.Message)<br>  Finally<br>   cmd = Nothing<br>   cn = Nothing<br>  End Try<br> End Sub<br>End Class<br>    C#代码如下：<br>using System;<br>using System.Data;<br>using Sybase.Data.AseClient;</p>
+<p>namespace zhengTest_Sybase<br>{<br> public class TestDemo<br> {<br>  public TestDemo()<br>  {<br>   AseConnection cn = null;<br>   AseCommand cmd = null;</p>
+<p>   try<br>   {<br>    //初始化连接对象<br>    cn = new AseConnection(“Data Source=image;Port=5000;UID=sa;PWD=;Database=zhengTest;”);</p>
+<pre><code>cn.Open(); //打开连接
+
+cmd = new AseCommand(&quot;simple_demo&quot;, cn); //获得命令对象
+cmd.CommandType = CommandType.StoredProcedure; //设置命令类型为存储过程
+
+//设置参数
+cmd.Parameters.Add(&quot;RETURN_VALUE&quot;, AseDbType.Integer).Direction = ParameterDirection.ReturnValue;
+cmd.Parameters.Add(&quot;@i_mesg&quot;, &quot;N&quot;);
+cmd.Parameters.Add(&quot;@o_mesg&quot;, AseDbType.NVarChar, 50).Direction = ParameterDirection.Output;
+
+cmd.ExecuteNonQuery(); //执行，当没有返回结果集时，使用ExecuteNonQuery()方法作执行
+
+//输出处理结果
+Console.WriteLine(cmd.Parameters[0].Value);
+Console.WriteLine(cmd.Parameters[2].Value);
+
+if (cmd != null)
+ cmd.Dispose(); //销毁命令对象
+if (cn != null)
+ cn.Close(); //关闭连接对象</code></pre><p>   }<br>   catch( AseException ex )<br>   {<br>    Console.WriteLine(ex.Message);<br>   }<br>   finally<br>   {<br>    cmd = null;<br>    cn = null;<br>   }<br>  }<br> }<br>}<br>跟 第二个Java例子类似，演示如何访问simple_demo存储过程。不过ADO.net调用存储过程的方式与JDBC不同，只允许在命令对象中输入过 程名作为语句，而且不支持“?”占位符。关于参数设置中用到的RETURN_VALUE、@i_mesg、@o_mesg，分别代表 simple_demo的返回值和两个参数。由于simple_demo不会返回记录集，因此需要使用ExecuteNonQuery方法来执行。这里推 荐一下文章《将存储过程用于命令》，该文对ADO.net访问存储过程进行了比较详细的介绍，从.net Framework自带文档或网上都能找到。</p>
+<pre><code>另外，再提供两个连接字符串：
+Sybase for OLED：PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;</code></pre><p>请注意字符串中的Initial Catalog=zhengTest，表示要访问我在Sybase中创建的zhengTest数据库，而CharSet=cp936是用来设置字符集的，不设置会乱码。<br>    Sybase for ODBC：DSN=zhengTest_Sybase;UID=sa;PWD=;CharSet=cp936;<br>字符串中的DSN=zhengTest_Sybase表示访问我在ODBC中设置的数据源zhengTest_Sybase（如何在ODBC中设置数据源就不演示了），而CharSet=cp936也是用来设置字符集的，但在当前环境中不是必须的。<br> 关于OLEDB和ODBC的使用，与示例类似，请参考其他ADO.net书籍或文档。<br>五、使用Perl访问Sybase<br>     我使用的Perl是5.8.8 build 820，虽然默认不带数据库访问接口，但可以使用工具ppm下载到DBI。<br>     打 开命令行工具，输入ppm search dbi，查找dbi，有183个结果，我们需要的是第56个——DBI v1.57。下面执行命令ppm install dbi，如果提示错误，请尝试ppm install 56，即安装查询结果中的第56个。不过安装结束后，暂时还是无法使用DBI来连接数据库，因为DBI提供的只是一套数据库接口，而不是数据库驱动，因此 还需要安装dbd-ado和dbd-odbc，安装方法同dbi。<br>    不过您或许已经注意到了，我使用的dbi版本不是最新的1.58，而且驱动也不是dbd-sybase，的确，因为这些都没有安装包，只能从<a href="http://www.perl.com/CPAN/" target="_blank" rel="noopener">http://www.perl.com/CPAN/</a> 上 下载源码自己编译。我自己倒是也做了不少尝试，包括安装FreeTDS，在cygwin和WinGW中make，结果都失败了，自己推测原因大约是 Perl和DBI、DBD-SYBASE之间版本不对应，毕竟这些东东每个版本接口都会有所变化。最后在经过一周的折磨之后，终于连编译Ruby的 dbd_sybase模块的想法统统放弃了。</p>
+<pre><code>这里也是两个例子。第一个例子的代码如下：</code></pre><p>use DBI;<br>#创建连接对象，类型为ADO<br>$dbh=DBI-&gt;connect(‘DBI:ADO:PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;’);</p>
+<p>$sth=$dbh-&gt;prepare(‘exec simple_query’ ); #获得声明对象<br>$sth-&gt;execute; #当有结果集时，使用execute方法</p>
+<p>while (@row=$sth-&gt;fetchrow_array) {<br>  print ‘编号：’, $row[0];<br>  print ‘|名称：’, $row[1];<br>  print ‘|作者：’, $row[2], “/n”;<br>}</p>
+<p>$sth-&gt;finish if $sth; #关闭声明</p>
+<p>$dbh-&gt;disconnect if $dbh; #断开连接<br>也是演示如何访问simple_query存储过程并对结果集进行 操作的。这里请注意两点：第一，本例使用的驱动类型为ADO，其连接字符串中，Initial Catalog=zhengTest表示要访问我在Sybase中创建的zhengTest数据库，而CharSet=cp936则表示设置字符集为 cp936，目的在于避免乱码；第二，由于simple_query会返回一个结果集，因此需要使用execute方法来执行，这点与前面很类似。</p>
+<pre><code>第二个例子的代码如下：</code></pre><p>use DBI;<br>#创建连接对象，类型为ODBC<br>$dbh=DBI-&gt;connect(‘DBI:ODBC:DSN=zhengTest_Sybase;UID=sa;PWD=;CharSet=cp936;’);</p>
+<p>$sql=’{?=call simple_demo(?,?)}’;<br>$ret=’’;<br>$msg=’’;</p>
+<p>$sth=$dbh-&gt;prepare($sql); #获得声明对象</p>
+<p>#设置参数<br>$sth-&gt;bind_param_inout(1, /$ret, 1);<br>$sth-&gt;bind_param(2, ‘N’);<br>$sth-&gt;bind_param_inout(3, /$msg, 100);</p>
+<p>$sth-&gt;execute; #执行</p>
+<p>#输出处理结果<br>print $ret, “/n”;<br>print $msg, “/n”;</p>
+<p>$sth-&gt;finish if $sth; #关闭声明</p>
+<p>$dbh-&gt;disconnect if $dbh; #断开连接<br>也是演示动态访问simple_demo存储过程的。这里需要注意 的是，本例使用的驱动类型为ODBC，其连接字符串中，DSN=zhengTest_Sybase表示访问我在ODBC中设置的数据源 zhengTest_Sybase，而CharSet=cp936则表示设置字符集为cp936，这里是必须的。<br>六、使用Ruby访问Sybase<br>    我使用的Ruby是1.8.6-25，已安装Rails 1.2.3。由于Ruby默认不带数据库访问接口，因此请先从<a href="http://rubyforge.org/projects/ruby-dbi" target="_blank" rel="noopener">http://rubyforge.org/projects/ruby-dbi</a> 下载ruby-dbi，当前版本0.1.1。由于Ruby版本的DBI是从Perl版本演变过来的，因此两者有很多相似之出。<br>    下载完dbi-0.1.1.tar.gz文件之后，解压缩，在命令行中定位到解压后的目录下，例如F:/ruby-dbi，执行命令：<br>    ruby setup.rb config –with=dbi,dbd_ado,dbd_odbc<br>    ruby setup.rb setup<br>    ruby setup.rb install<br>此时dbi接口连带dbd_ado、dbd_odbc驱动就都安装到系统中了。<br>    据 说dbi所提供的驱动仅是表层的，如果要使用还需要安装底层驱动，例如PostgreSQL，就还需要安装ruby-postgres。不过似乎是因为我 安装了Rails的缘故（Rails带有activerecord，据说里边包含了很多驱动），我在使用的过程中倒也没被要求安装底层驱动。<br>    此 外，我也没有使用dbd_sybase驱动。不知道为什么，dbd_sybase居然需要编译，而我在cygwin和Windows命令行下都进行过尝 试，还安装了MinGW（GCC的Windows版本），甚至查找了perl-dbi和freetds的资料，结果还是失败。最可恨的是 dbd_sybase调用的接口居然跟freetds和ruby中定义的接口不一致，后来看了dbd_sybase代码才发现，居然是2001年的。最 后，dbd_sybase到底没装上，可是make倒学会了。汗！</p>
+<pre><code>这里也是还个例子。第一个例子的代码如下：</code></pre><p>require ‘dbi’<br>#创建连接对象，类型为ADO<br>dbh=DBI.connect(‘DBI:ADO:PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;’)</p>
+<p>sth=dbh.prepare(‘exec simple_query’) #获得声明对象<br>sth.execute #当有结果集时，使用execute方法</p>
+<p>while row=sth.fetch do<br>  print ‘编号：’, row[0]<br>  print ‘|名称：’, row[1]<br>  print ‘|作者：’, row[2], “/n”<br>end</p>
+<p>sth.finish if sth #关闭声明</p>
+<p>dbh.disconnect if dbh #断开连接</p>
+<pre><code>第二个例子的代码如下：</code></pre><p>require ‘dbi’<br>#创建连接对象，类型为ODBC<br>dbh=DBI.connect(‘DBI:ODBC:DSN=zhengTest_Sybase;UID=sa;PWD=;CharSet=cp936;’)</p>
+<p>sql=’{?=call simple_demo(?,?)}’ #支持该代码<br>ret=’’<br>msg=’’</p>
+<p>sth=dbh.prepare(sql)  #获得声明对象</p>
+<p>#设置参数<br>sth.bind_param(1, ret)<br>sth.bind_param(2, ‘N’)<br>sth.bind_param(3, msg)</p>
+<p>sth.execute  #执行</p>
+<p>#由于dbi不支持输出参数，因此这里无法获取simple_demo的返回值与输出参数</p>
+<p>sth.finish if sth #关闭声明</p>
+<p>dbh.disconnect if dbh #断开连接<br>演示动态访问simple_demo存储过程。不过由于dbi不支持存储过程的输出参数，注意是存储过程，所以在这个示例中没有获取返回值的代码。</p>
+<pre><code>也不知道为什么，dbi只支持函数的输出参数，而不支持存储过程的输出参数，似乎SQL Server和DB2的存储过程也同样无法返回输出参数。
+由 于本文只是使用Ruby访问Sybase，因此没打算对dbi作深入介绍。如果对dbi有兴趣，建议在网上找一篇名为《firstworks Programming with SQL Relay using the Ruby DBI API》的文章，虽然是英文的，但内容很全面，对多种数据库都有介绍，值得一看。
+别告诉我你英文不好，我英文也不好，不也是用着金山词霸就那么看了吗^_^</code></pre><p>七、小结<br>    本文只是对Sybase操作的简单介绍，像索引、序列这些都没有作说明，而且给出的Java、.net、Perl和Ruby示例也都比较简单，如果希望了解更多内容，还请参考其他书籍或文档。<br>    此 外，SQL Server与Sybase系出同门，大约是在Sybase 6的时候微软不愿再同Sybase公司合作而分成两支的，因此如果手头缺少Sybase资料，也不妨参考一下SQL Server的文档。不过作为一款大型数据库，Sybase至今已发布了15个大的版本，却不知道为什么，在程序汉化和帮助文档方面做得始终很差，而且提 供的功能也很弱，像用户自定义函数、try-catch语句和row_number函数这些，至今没有，因此在使用SQL Server文档的时候，如果发现某些功能在Sybase中实现不了，请不要奇怪。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+	(function(){
+		if(''){
+			if (prompt('请输入文章密码') !== ''){
+				alert('密码错误');
+				history.back();
+			}
+		}
+	})();
+  
+
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sybase——学习笔记"><span class="nav-number">1.</span> <span class="nav-text">[Sybase——学习笔记]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、安装"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">一、安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、简单操作"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">二、简单操作</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	 
+	  
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : '0581fa43cc0a07fe0ab891b673426792',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/myblog/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

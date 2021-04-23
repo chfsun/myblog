@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ORACLE 02">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORACLE的使用 02">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/interview/ORACLE%E4%BD%BF%E7%94%A8%2002/index.html">
+<meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="ORACLE 02">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-21T13:55:15.000Z">
+<meta property="article:modified_time" content="2020-11-13T03:03:49.773Z">
+<meta property="article:author" content="chfsun">
+<meta property="article:tag" content="interview">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/interview/ORACLE%E4%BD%BF%E7%94%A8%2002/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ORACLE的使用 02 | 梦.星河</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">梦.星河</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a>
+
+  </li>
+        <li class="menu-item menu-item-talkabout">
+
+    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/myblog/categories/interview" rel="section"><i class="fa fa-sitemap fa-fw"></i>历年面试题</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/interview/ORACLE%E4%BD%BF%E7%94%A8%2002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ORACLE的使用 02
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-21 21:55:15" itemprop="dateCreated datePublished" datetime="2020-05-21T21:55:15+08:00">2020-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-21 21:55:15" itemprop="dateModified" datetime="2020-05-21T21:55:15+08:00">2020-05-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="ORACLE-02"><a href="#ORACLE-02" class="headerlink" title="ORACLE 02"></a>ORACLE 02</h2><a id="more"></a>
+<h3 id="PL-SQL"><a href="#PL-SQL" class="headerlink" title="PL/SQL"></a>PL/SQL</h3><blockquote>
+<p>PL/SQL是是由甲骨文公司在90年代初开发，以提高SQL的功能。PL/SQL是嵌入在Oracle数据库中的编程语言之一。PL/SQL是Oracle数据库对SQL语句的扩展。在普通SQL语句的使用上增加了编程语言的特点，所以PL/SQL就是把数据操作和查询语句组织在PL/SQL代码的过程性单元中，通过逻辑判断、循环等操作实现复杂的功能或者计算的程序语言。</p>
+</blockquote>
+<ul>
+<li>总结就是：PL/SQL是一门为扩展Oracle中SQL功能的编程语言。</li>
+</ul>
+<h4 id="hello-word"><a href="#hello-word" class="headerlink" title="hello word"></a>hello word</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">    <span class="function">msg <span class="title">varchar</span><span class="params">(<span class="number">20</span>)</span></span>;</span><br><span class="line">begin</span><br><span class="line">    msg := <span class="string">'Hello world ! '</span>;</span><br><span class="line">    dbms_output.put_line(msg);</span><br><span class="line">exception</span><br><span class="line">    -- 单行注释</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     * 多行注释 ，这部分是异常处理模块，可有可无。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">end；</span><br></pre></td></tr></table></figure>
+<ol>
+<li>declare 声明部分 – 所有变量，游标，子程序，和其他元素</li>
+<li>begin - end ; – 程序主体，可执行命令</li>
+<li>dbms_output.put_line();-输出     dbms_output是一个内置的软件包，能够显示输出显示调试信息 。其中包含许多子程序，put_line( ) 就是其中的一个</li>
+</ol>
+<ul>
+<li>PL/SQL中常见符号解释：</li>
+</ul>
+<ol>
+<li>||     字符串连接符</li>
+<li>:=    赋值运算符</li>
+<li>%    属性索引 使用%type可以使变量获得与字段相同的数据类型，用于不知道给什么类型才合适的变量</li>
+<li>=     相等运算符</li>
+</ol>
+<h4 id="变量和数据类型"><a href="#变量和数据类型" class="headerlink" title="变量和数据类型"></a>变量和数据类型</h4><p>PL/SQL 变量命名 : 由数字，字母，下划线，美元符号组成。字母开头。<br>变量分类：局部变量和全局变量。</p>
+<p>变量的常见类型：</p>
+<blockquote>
+<p>varchar2 : 可变长字符串<br>int : 整数类型<br>number (precision,scale) :</p>
+</blockquote>
+<ol>
+<li>precision表示数字中的有效位，如果没有指定precision的话，oracle将使用38作为精度；</li>
+<li>如果scale大于零，表示数字精度到小数点右边的位数；scale默认设置为0；如果scale小于零，oracle将把该数字取舍到小数点左边的指定位数。</li>
+</ol>
+<blockquote>
+<p>clob: 用于存储字符大块数据在数据库中 大小为 8 - 128 TB<br>date : 日期和时间</p>
+</blockquote>
+<ul>
+<li><p>变量的定义分为局部变量和全局变量</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	DECLARE</span><br><span class="line">    -- Global variables 全局变量</span><br><span class="line">    num1 number := <span class="number">95</span>;</span><br><span class="line">    num2 number := <span class="number">85</span>;</span><br><span class="line">BEGIN</span><br><span class="line">    dbms_output.put_line(<span class="string">'Outer Variable num1: '</span> || num1);</span><br><span class="line">    dbms_output.put_line(<span class="string">'Outer Variable num2: '</span> || num2);</span><br><span class="line">    DECLARE</span><br><span class="line">        -- Local variables 局部变量</span><br><span class="line">        num1 number := <span class="number">195</span>;</span><br><span class="line">        num2 number := <span class="number">185</span>;</span><br><span class="line">    BEGIN</span><br><span class="line">        dbms_output.put_line(<span class="string">'Inner Variable num1: '</span> || num1);</span><br><span class="line">        dbms_output.put_line(<span class="string">'Inner Variable num2: '</span> || num2);</span><br><span class="line">    END;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>SQL的SELECT INTO子句给PL/SQL变量赋值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">     c_id customers.id%type := <span class="number">1</span>;</span><br><span class="line">     c_name customers.name%type;</span><br><span class="line">     c_addr customers.address%type;</span><br><span class="line">     c_sal customers.salary%type;</span><br><span class="line">   begin</span><br><span class="line">     select name,address,salary into c_name,c_addr,c_sal from customers where id = c_id;</span><br><span class="line">     dbms_output.put_line(<span class="string">'Customer '</span>||c_name||<span class="string">' from '</span>||c_addr||<span class="string">' earns '</span>||c_sal);</span><br><span class="line">   end;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li>%type 作用：定义一个变量，其数据类型与已定义的某个数据变量（尤其是表的某一列）的数据类型相一致，这时可以使用%type，<blockquote>
+<p>使用它可以不必知道所引用的数据库列的数据类型。</p>
+</blockquote>
+</li>
+<li>%rowtype 作用：返回一个记录类型，其数据类型与数据库表的数据结构相一致，这时候可以使用%rowtype <blockquote>
+<p>可以不必知道所引用的数据库中列的个数和数据类型</p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>PL/SQL 中的常量：<br>PI constant number := 3.14;<blockquote>
+<p>常量和变量名放在前面，数据的类型放在后面。。。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="条件控制语句："><a href="#条件控制语句：" class="headerlink" title="条件控制语句："></a>条件控制语句：</h4><ol>
+<li>IF-THEN</li>
+<li>IF-THEN-ELSE</li>
+<li>IF-THEN-ELSIF</li>
+<li>CASE</li>
+<li>嵌套IF-THEN-ELSE</li>
+</ol>
+<blockquote>
+<p>每一次 if 结构结束都要用 end if,这才表示 if 结束。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    <span class="function">a <span class="title">number</span><span class="params">(<span class="number">3</span>)</span> :</span>= <span class="number">100</span>;</span><br><span class="line">BEGIN</span><br><span class="line">    IF ( a = <span class="number">10</span> ) THEN</span><br><span class="line">        dbms_output.put_line(<span class="string">'Value of a is 10'</span> );</span><br><span class="line">    ELSIF ( a = <span class="number">20</span> ) THEN</span><br><span class="line">        dbms_output.put_line(<span class="string">'Value of a is 20'</span> );</span><br><span class="line">    ELSIF ( a = <span class="number">30</span> ) THEN</span><br><span class="line">        dbms_output.put_line(<span class="string">'Value of a is 30'</span> );</span><br><span class="line">    ELSE</span><br><span class="line">        dbms_output.put_line(<span class="string">'None of the values is matching'</span>);</span><br><span class="line">    END IF;</span><br><span class="line">    dbms_output.put_line(<span class="string">'Exact value of a is: '</span>|| a );</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>CASE 结构：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">  <span class="function">grade <span class="title">char</span><span class="params">(<span class="number">1</span>)</span> :</span>= <span class="string">'A'</span>;</span><br><span class="line">begin</span><br><span class="line">  <span class="keyword">case</span> grade</span><br><span class="line">    when <span class="string">'A'</span> then dbms_output.put_line(<span class="string">'A'</span>);</span><br><span class="line">    when <span class="string">'B'</span> then dbms_output.put_line(<span class="string">'B'</span>);</span><br><span class="line">    <span class="keyword">else</span> dbms_output.put_line(<span class="string">'NO'</span>);</span><br><span class="line">  end <span class="keyword">case</span>;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="循环控制语句："><a href="#循环控制语句：" class="headerlink" title="循环控制语句："></a>循环控制语句：</h4><ol>
+<li>LOOP -END LOOP</li>
+<li>WHILE</li>
+<li>FOR</li>
+<li>嵌套循环</li>
+</ol>
+<ul>
+<li><p>LOOP</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    x number := <span class="number">10</span>;</span><br><span class="line">BEGIN</span><br><span class="line">    LOOP</span><br><span class="line">        dbms_output.put_line(x);</span><br><span class="line">        x := x + <span class="number">10</span>;</span><br><span class="line">        IF x &gt; <span class="number">50</span> THEN</span><br><span class="line">            exit;</span><br><span class="line">        END IF;</span><br><span class="line">    END LOOP;</span><br><span class="line">    -- after exit, control resumes here</span><br><span class="line">    dbms_output.put_line(<span class="string">'After Exit x is: '</span> || x);</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>WHILE</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    <span class="function">a <span class="title">number</span><span class="params">(<span class="number">2</span>)</span> :</span>= <span class="number">10</span>;</span><br><span class="line">BEGIN</span><br><span class="line">    WHILE a &lt; <span class="number">20</span> LOOP</span><br><span class="line">        dbms_output.put_line(<span class="string">'value of a: '</span> || a);</span><br><span class="line">        a := a + <span class="number">1</span>;</span><br><span class="line">    END LOOP;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure></li>
+<li><p>FOR</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    <span class="function">a <span class="title">number</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">BEGIN</span><br><span class="line">    FOR a in <span class="number">10</span> .. <span class="number">20</span> LOOP   -- <span class="number">10</span> .. <span class="number">20</span> 表示<span class="number">10</span>-<span class="number">20</span> 全包含</span><br><span class="line">        dbms_output.put_line(<span class="string">'value of a: '</span> || a);</span><br><span class="line">    END LOOP;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+<h4 id="常用的操作字符串的函数"><a href="#常用的操作字符串的函数" class="headerlink" title="常用的操作字符串的函数"></a>常用的操作字符串的函数</h4><blockquote>
+<p>UPPER(x) ：x转换为大写字母，并返回该字符串<br>TRIM([trim_char FROM) x) ： 从左侧和右侧修剪x字符的空格<br>SUBSTR(x, start [, length]) ： 返回x的一个子开始于由start指定的位置。可选长度为子字符串<br>CHR(x) ： 返回字符 x 的 ASCII 值<br>CONCAT(x, y) ： 连接字符串x和y，并返回附加的字符串<br>INITCAP(x) ： 每个单词的首字母x中转换为大写，并返回该字符串<br>INSTR(x, find_string [, start] [, occurrence]) ：搜索find_string在x中并返回它出现的位置<br>INSTRB(x) ： 返回另一个字符串中字符串的位置，但返回以字节为单位的值<br>LENGTH(x) : 返回x中的字符数<br>LOWER(x) : 在x转换为小写字母，并返回该字符串<br>LTRIM(x [, trim_string]) ： 从x的左修剪字符</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="PL-SQL-数组"><a href="#PL-SQL-数组" class="headerlink" title="PL/SQL 数组"></a>PL/SQL 数组</h4><ul>
+<li>数组的定义 TYPE varray_type_name IS VARRAY(n) OF element_type <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TYPE namearray IS <span class="title">VARRAY</span><span class="params">(<span class="number">5</span>)</span> OF <span class="title">VARCHAR2</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function">Type grades IS <span class="title">VARRAY</span><span class="params">(<span class="number">5</span>)</span> OF INTEGER</span>;</span><br></pre></td></tr></table></figure></li>
+<li>可变数组：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    <span class="function">type namesarray IS <span class="title">VARRAY</span><span class="params">(<span class="number">5</span>)</span> OF <span class="title">VARCHAR2</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">    <span class="function">type grades IS <span class="title">VARRAY</span><span class="params">(<span class="number">5</span>)</span> OF INTEGER</span>;</span><br><span class="line">    names namesarray; --拿到数组的引用，下面就可以变长使用该数组</span><br><span class="line">    marks grades;</span><br><span class="line">    total integer;</span><br><span class="line">BEGIN</span><br><span class="line">    names := namesarray(<span class="string">'Kavita'</span>, <span class="string">'Pritam'</span>, <span class="string">'Ayan'</span>, <span class="string">'Rishav'</span>, <span class="string">'Aziz'</span>);</span><br><span class="line">    marks:= grades(<span class="number">98</span>, <span class="number">97</span>, <span class="number">78</span>, <span class="number">87</span>, <span class="number">92</span>);</span><br><span class="line">    total := names.count; --求数组的长度</span><br><span class="line">    dbms_output.put_line(<span class="string">'Total '</span>|| total || <span class="string">' Students'</span>);</span><br><span class="line">    FOR i in <span class="number">1</span> .. total LOOP</span><br><span class="line">        dbms_output.put_line(<span class="string">'Student: '</span> || names(i) || <span class="string">' Marks: '</span> || marks(i));</span><br><span class="line">    END LOOP;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>求数组的长度 array_name.count<br>数组的起始索引从1开始。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h4><ul>
+<li>PL/SQL子程序被命名之后，可使用一组参数来调用PL/SQL块。 PL/SQL提供两种子程序：</li>
+</ul>
+<ol>
+<li>函数：这些子程序返回一个值，主要用于计算并返回一个值。</li>
+<li>过程：这些子程序没有直接返回值，主要用于执行操作。</li>
+</ol>
+<ul>
+<li>存储过程定义：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE [OR REPLACE] PROCEDURE procedure_name</span><br><span class="line">[(parameter_name [IN | OUT | IN OUT] type [, ...])] </span><br><span class="line">    （IS，AS）</span><br><span class="line">BEGIN</span><br><span class="line">    &lt; procedure_body &gt;</span><br><span class="line">END[procedure_name];</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li>procedure-name 指定的程序的名称</li>
+<li>[OR REPLACE] 选项允许修改现有的程序</li>
+<li>可选的参数列表中包含的名称，模式和类型的参数。IN表示该值将被从外部传递，OUT表示该参数将被用于从过程返回一个值到外面</li>
+<li>procedure-body 包含可执行部分</li>
+<li>AS关键字来代替了IS关键字用于创建一个独立的程序</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE PROCEDURE greetings</span><br><span class="line">    AS</span><br><span class="line">BEGIN</span><br><span class="line">    dbms_output.put_line(<span class="string">'Hello World!'</span>);</span><br><span class="line">END;</span><br><span class="line"></span><br><span class="line"><span class="function">CREATE OR REPLACE PROCEDURE <span class="title">add_emp</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	eno NUMBER,</span></span></span><br><span class="line"><span class="function"><span class="params">	name VARCHAR2</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> </span></span><br><span class="line"><span class="function">IS</span></span><br><span class="line"><span class="function">BEGIN</span></span><br><span class="line"><span class="function">   INSERT INTO emp <span class="title">VALUES</span><span class="params">(eno,name)</span></span></span><br><span class="line"><span class="function">END</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>创建好的存储过程只需要运行一下就会自动保存。可以通过选中存储过程右键，进行测试。</p>
+</blockquote>
+<ul>
+<li><p>调用存储过程 :exec   存储过程的名称即可；</p>
+</li>
+<li><p>删除存储过程 ： drop procedure procedure_name;</p>
+</li>
+<li><p>创建函数语法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE [OR REPLACE] FUNCTION function_name</span><br><span class="line">[(parameter_name [IN | OUT | IN OUT] type [, ...])] RETURN return_datatype</span><br><span class="line">    &#123;IS | AS&#125;</span><br><span class="line">BEGIN</span><br><span class="line">    &lt; function_body &gt;</span><br><span class="line">END [function_name];</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li>function-name 指定函数的名称</li>
+<li>[OR REPLACE] 选项允许修改现有的函数</li>
+<li>可选的参数列表中包含的名称，模式和类型的参数。IN表示该值将被从外部传递和OUT表示该参数将被用于过程外面返回一个值</li>
+<li>函数必须包含一个return语句</li>
+<li>return 子句指定要带函数返回的数据类型</li>
+<li>function-body 包含可执行部分</li>
+<li>AS关键字来代替了IS关键字用于创建一个独立的函数</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE FUNCTION totalCustomers</span><br><span class="line">   RETURN number IS</span><br><span class="line">    <span class="function">total <span class="title">number</span><span class="params">(<span class="number">2</span>)</span> :</span>= <span class="number">0</span>;</span><br><span class="line">BEGIN</span><br><span class="line">    <span class="function">SELECT <span class="title">count</span><span class="params">(<span class="number">1</span>)</span> into total</span></span><br><span class="line"><span class="function">    FROM customers</span>;</span><br><span class="line"></span><br><span class="line">    RETURN total;</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">create or replace function <span class="title">findMax</span><span class="params">(x in number,y in number)</span></span></span><br><span class="line"><span class="function">return number as</span></span><br><span class="line"><span class="function">       z number</span>;</span><br><span class="line">begin</span><br><span class="line">  <span class="keyword">if</span> x &gt; y then</span><br><span class="line">    z := x;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    z := y;</span><br><span class="line">  end <span class="keyword">if</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> z;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<h4 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h4><blockquote>
+<p>Oracle会创建一个存储区域，被称为上下文区域，用于处理SQL语句，其中包含需要处理的语句，例如所有的信息，行数处理，等等。<br>游标是指向这一上下文的区域。 PL/SQL通过控制光标在上下文区域。游标持有的行(一个或多个)由SQL语句返回。行集合光标保持的被称为活动集合。 </p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CURSOR cursor_name IS select_statement;</span><br></pre></td></tr></table></figure>
+<p>使用显式游标的工作包括四个步骤：</p>
+<ol>
+<li>声明游标用于初始化在存储器 cursor c_customer is select * from customers; </li>
+<li>打开游标分配内存 open c_customer; </li>
+<li>获取游标检索数据 fetch c_customers into c_addr,c_name,c_salary; </li>
+<li>关闭游标释放分配的内存 close c_customers;</li>
+</ol>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">-- Created on <span class="number">2018</span>/<span class="number">3</span>/<span class="number">29</span> by E.WANG </span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">显式游标是程序员定义游标获得更多的控制权的上下文的区域。</span></span><br><span class="line"><span class="comment">显式游标应在PL/SQL块的声明部分中定义。这是创建一个SELECT语句返回多行。</span></span><br><span class="line"><span class="comment">创建显式游标语法是：CURSOR cursor_name IS select_statement;</span></span><br><span class="line"><span class="comment">使用显式游标的工作包括四个步骤：</span></span><br><span class="line"><span class="comment">1.声明游标用于初始化在存储器</span></span><br><span class="line"><span class="comment">2.打开游标分配内存</span></span><br><span class="line"><span class="comment">3.获取游标检索数据</span></span><br><span class="line"><span class="comment">4.关闭游标释放分配的内存</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">declare</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    创建与属性对应类型的变量；</span></span><br><span class="line"><span class="comment">    通过%获取表属性类型</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   e_empno    emp.empno%type;</span><br><span class="line">   e_ename    emp.ename%type;</span><br><span class="line">   e_job      emp.job%type;</span><br><span class="line">   --声明游标定义游标的名称和相关的SELECT语句</span><br><span class="line">   cursor cursor_emp is</span><br><span class="line">      select empno, ename, job from emp;</span><br><span class="line">begin</span><br><span class="line">   --打开游标</span><br><span class="line">   open cursor_emp;</span><br><span class="line">   --输出游标中存储的全部数据</span><br><span class="line">   LOOP</span><br><span class="line">      --获取游标中的每一行数据</span><br><span class="line">      fetch cursor_emp into e_empno, e_ename, e_job;</span><br><span class="line">      --当游标不在发生变化时退出循环</span><br><span class="line">      exit when cursor_emp%notfound;</span><br><span class="line">      --输出游标每一行的数据</span><br><span class="line">      dbms_output.put_line(<span class="string">'employee No: '</span> || e_empno || <span class="string">'  employee Name: '</span>|| e_ename || <span class="string">'  employee Position: '</span> || e_job);</span><br><span class="line">   end loop;</span><br><span class="line">   --关闭游标来释放分配的内存</span><br><span class="line">   close cursor_emp;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过显式游标select读取多行数据<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">  cursor cur_emp is</span><br><span class="line">  select * from emp where deptno=&amp;no;</span><br><span class="line"> </span><br><span class="line">   emp_rec   emp%rowtype;</span><br><span class="line">   </span><br><span class="line">    begin</span><br><span class="line">      <span class="keyword">if</span> not cur_emp%isopen then</span><br><span class="line">          open cur_emp;</span><br><span class="line">     end <span class="keyword">if</span>;</span><br><span class="line">  </span><br><span class="line">     loop</span><br><span class="line">         fetch  cur_emp into emp_rec ;</span><br><span class="line">     exit when cur_emp%notfound ;</span><br><span class="line">  </span><br><span class="line">       dbms_output.put_line( emp_rec.ename ||<span class="string">' , '</span>||emp_rec.sal||<span class="string">' , '</span>|| emp_rec.deptno );</span><br><span class="line">     end loop;</span><br><span class="line">   close cur_emp;</span><br><span class="line">  </span><br><span class="line">  end;</span><br></pre></td></tr></table></figure></li>
+<li>通过for循环读取游标数据：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">        cursor cur_emp is</span><br><span class="line">       select * from emp where deptno=&amp;no;</span><br><span class="line">    </span><br><span class="line">      begin</span><br><span class="line">          <span class="keyword">for</span> emp_rec in cur_emp loop</span><br><span class="line">           dbms_output.put_line( emp_rec.ename ||<span class="string">' , '</span>||emp_rec.sal||<span class="string">' , '</span>|| emp_rec.deptno );</span><br><span class="line">          end loop;</span><br><span class="line">    </span><br><span class="line">     end;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h4 id="PL-SQL-异常处理"><a href="#PL-SQL-异常处理" class="headerlink" title="PL/SQL 异常处理"></a>PL/SQL 异常处理</h4><ul>
+<li><p>语法格式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">   &lt;declarations section&gt;BEGIN</span><br><span class="line">   &lt;<span class="function">executable <span class="title">command</span><span class="params">(s)</span>&gt;</span></span><br><span class="line"><span class="function">EXCEPTION</span></span><br><span class="line"><span class="function">   &lt;exception handling goes here &gt;</span></span><br><span class="line"><span class="function">   WHEN exception1 THEN</span></span><br><span class="line"><span class="function">       exception1-handling-statements</span></span><br><span class="line"><span class="function">   WHEN exception2  THEN</span></span><br><span class="line"><span class="function">      exception2-handling-statements</span></span><br><span class="line"><span class="function">   WHEN exception3 THEN</span></span><br><span class="line"><span class="function">      exception3-handling-statements</span></span><br><span class="line"><span class="function">   ........</span></span><br><span class="line"><span class="function">   WHEN others THEN</span></span><br><span class="line"><span class="function">      exception3-handling-statements</span></span><br><span class="line"><span class="function">END</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">  c_id customers.id%type := <span class="number">8</span>;</span><br><span class="line">  c_name customers.name%type;</span><br><span class="line">  c_addr customers.address%type;</span><br><span class="line"></span><br><span class="line">begin</span><br><span class="line">  select name,address into c_name,c_addr from customers where id = c_id;</span><br><span class="line">  dbms_output.put_line(c_name || <span class="string">' '</span> || c_addr);</span><br><span class="line"></span><br><span class="line">exception</span><br><span class="line">  when no_data_found then --这里的no_data_found是系统预定义的异常类型。</span><br><span class="line">    dbms_output.put_line(<span class="string">'No such customers !'</span>);</span><br><span class="line">  when others then</span><br><span class="line">    dbms_output.put_line(<span class="string">'Error ! '</span>);</span><br><span class="line"></span><br><span class="line">end;</span><br></pre></td></tr></table></figure></li>
+<li><p>当系统预定义的异常不能满足条件时，可以使用自定义异常类型。</p>
+</li>
+</ul>
+<ol>
+<li>异常声明 ： exception_name exception;</li>
+<li>抛出异常 ： raise exception_name;</li>
+<li>捕获异常 ： when exception_name then…<blockquote>
+<p>抛出方式，三种</p>
+</blockquote>
+</li>
+</ol>
+<p>　　1.系统在运行时自动抛出</p>
+<p>　　2.通过raise语句抛出，抛出的异常为已定义有名字的；</p>
+<p>　　3.调用raise_application_error存储过程抛出异常，可直接抛出异常代码和异常消息；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">   c_id customers.id%type := &amp;c_id; -- 接收用户输入的值，运行的时候会弹出一个输入框。</span><br><span class="line">   c_name  customers.name%type;</span><br><span class="line">   c_addr customers.address%type;</span><br><span class="line"></span><br><span class="line">   -- user defined exception</span><br><span class="line">   ex_invalid_id  EXCEPTION;</span><br><span class="line">BEGIN</span><br><span class="line">   IF c_id &lt;= <span class="number">0</span> THEN</span><br><span class="line">      RAISE ex_invalid_id;</span><br><span class="line">   ELSE</span><br><span class="line">      SELECT  name, address INTO  c_name, c_addr</span><br><span class="line">      FROM customers</span><br><span class="line">      WHERE id = c_id;</span><br><span class="line"></span><br><span class="line">      DBMS_OUTPUT.PUT_LINE (<span class="string">'Name: '</span>||  c_name);</span><br><span class="line">      DBMS_OUTPUT.PUT_LINE (<span class="string">'Address: '</span> || c_addr);</span><br><span class="line">   END IF;</span><br><span class="line">EXCEPTION</span><br><span class="line">   WHEN ex_invalid_id THEN</span><br><span class="line">      dbms_output.put_line(<span class="string">'ID must be greater than zero!'</span>);</span><br><span class="line">   WHEN no_data_found THEN</span><br><span class="line">      dbms_output.put_line(<span class="string">'No such customer!'</span>);</span><br><span class="line">   WHEN others THEN</span><br><span class="line">      dbms_output.put_line(<span class="string">'Error!'</span>);</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/myblog/images/wechatpay.png" alt="chfsun 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/myblog/tags/interview/" rel="tag"><i class="fa fa-tag"></i> interview</a>
+              <a href="/myblog/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/myblog/interview/##%20ORACLE%E4%BD%BF%E7%94%A8%2002/" rel="prev" title="ORACLE使用 02">
+      <i class="fa fa-chevron-left"></i> ORACLE使用 02
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/design/ava%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%A7%93%E5%90%8D%E3%80%81%E6%80%A7%E5%88%AB%E5%92%8C%E5%B9%B4%E9%BE%84/" rel="next" title="Java生成随机姓名、性别和年龄">
+      Java生成随机姓名、性别和年龄 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+	
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+	(function(){
+		if(''){
+			if (prompt('请输入文章密码') !== ''){
+				alert('密码错误');
+				history.back();
+			}
+		}
+	})();
+  
+
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORACLE-02"><span class="nav-number">1.</span> <span class="nav-text">ORACLE 02</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PL-SQL"><span class="nav-number">1.1.</span> <span class="nav-text">PL&#x2F;SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#hello-word"><span class="nav-number">1.1.1.</span> <span class="nav-text">hello word</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#变量和数据类型"><span class="nav-number">1.1.2.</span> <span class="nav-text">变量和数据类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件控制语句："><span class="nav-number">1.1.3.</span> <span class="nav-text">条件控制语句：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#循环控制语句："><span class="nav-number">1.1.4.</span> <span class="nav-text">循环控制语句：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的操作字符串的函数"><span class="nav-number">1.1.5.</span> <span class="nav-text">常用的操作字符串的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PL-SQL-数组"><span class="nav-number">1.1.6.</span> <span class="nav-text">PL&#x2F;SQL 数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#存储过程"><span class="nav-number">1.1.7.</span> <span class="nav-text">存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#游标"><span class="nav-number">1.1.8.</span> <span class="nav-text">游标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PL-SQL-异常处理"><span class="nav-number">1.1.9.</span> <span class="nav-text">PL&#x2F;SQL 异常处理</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	 
+	  
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/interview/ORACLE%E4%BD%BF%E7%94%A8%2002/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : 'cad67e80cbf9078d5bb8e9ce4513ffe0',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/myblog/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+<link rel="stylesheet" href="/myblog/css/main.css">
+
+
+<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ORACLE的使用 01">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORACLE的使用 01">
+<meta property="og:url" content="http://chfsun.gitee.io/myblog/interview/ORACLE%E7%9A%84%E4%BD%BF%E7%94%A8%2001/index.html">
+<meta property="og:site_name" content="梦.星河">
+<meta property="og:description" content="ORACLE的使用 01">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-05-21T13:55:16.000Z">
+<meta property="article:modified_time" content="2020-11-13T01:07:24.260Z">
+<meta property="article:author" content="chfsun">
+<meta property="article:tag" content="interview">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://chfsun.gitee.io/myblog/interview/ORACLE%E7%9A%84%E4%BD%BF%E7%94%A8%2001/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ORACLE的使用 01 | 梦.星河</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/myblog/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">梦.星河</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">14</span></a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">34</span></a>
+
+  </li>
+        <li class="menu-item menu-item-talkabout">
+
+    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
+
+  </li>
+        <li class="menu-item menu-item-interview">
+
+    <a href="/myblog/categories/interview" rel="section"><i class="fa fa-sitemap fa-fw"></i>历年面试题</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chfsun.gitee.io/myblog/interview/ORACLE%E7%9A%84%E4%BD%BF%E7%94%A8%2001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="chfsun">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="梦.星河">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ORACLE的使用 01
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-05-21 21:55:16" itemprop="dateCreated datePublished" datetime="2020-05-21T21:55:16+08:00">2020-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-21 21:55:16" itemprop="dateModified" datetime="2020-05-21T21:55:16+08:00">2020-05-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="ORACLE的使用-01"><a href="#ORACLE的使用-01" class="headerlink" title="ORACLE的使用 01"></a>ORACLE的使用 01</h2><a id="more"></a>
+<h4 id="去除重复字段"><a href="#去除重复字段" class="headerlink" title="去除重复字段"></a>去除重复字段</h4><ul>
+<li>DISTINCT<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select DISTINCT e.job from emp e;</span><br><span class="line"><span class="function">select <span class="title">count</span><span class="params">(DISTINCT e.job)</span> from emp e</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">CREATE TABLE <span class="title">employee</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">      Empno     NUMBER NOT NULL PRIMARY KEY ,--自增--</span></span></span><br><span class="line"><span class="function"><span class="params">      Ename     VARCHAR2(<span class="number">10</span>)</span>,</span></span><br><span class="line"><span class="function">      Job       <span class="title">VARCHAR2</span><span class="params">(<span class="number">9</span>)</span></span></span><br><span class="line"><span class="function">)</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>DROP TABLE IF EXISTS employee;  –oracle 没有此方法函数，可自定义一个存储过程–</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">create or replace procedure <span class="title">proc_dropifexists</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    p_table in varchar2</span></span></span><br><span class="line"><span class="function"><span class="params">)</span> is</span></span><br><span class="line"><span class="function">    v_count <span class="title">number</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">begin</span><br><span class="line">   <span class="function">select <span class="title">count</span><span class="params">(*)</span></span></span><br><span class="line"><span class="function">   into v_count</span></span><br><span class="line"><span class="function">   from user_objects</span></span><br><span class="line"><span class="function">   where object_name </span>= upper(p_table);</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> v_count &gt; <span class="number">0</span> then</span><br><span class="line">      execute immediate <span class="string">'drop table '</span> || p_table ||<span class="string">' purge'</span>;</span><br><span class="line">   end <span class="keyword">if</span>;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>-在创建表前调用执行后的存储过程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">exec <span class="title">proc_dropifexists</span><span class="params">(<span class="string">'employee'</span>)</span></span>;---调用存储过程--</span><br></pre></td></tr></table></figure>
+<h4 id="自增序列"><a href="#自增序列" class="headerlink" title="自增序列"></a>自增序列</h4><ul>
+<li><p>关键字 SEQUENCE</p>
+<blockquote>
+<p>序列参数说明<br>   INCREMENT BY： 指定序列号之间的间隔，该值可为正的或负的整数，但不可为0。序列为升序。忽略该子句时，缺省值为1。<br>  START WITH：指定生成的第一个序列号。在升序时，序列可从比最小值大的值开始，缺省值为序列的最小值。对于降序，序列可由比最大值小的值开始，缺省值为序列的最大值。<br>  MAXVALUE：指定序列可生成的最大值。<br>  NOMAXVALUE：为升序指定最大值为1027，为降序指定最大值为-1。<br>  MINVALUE：指定序列的最小值。<br>  NOMINVALUE：为升序指定最小值为1。为降序指定最小值为-1026。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- 创建一个自增序列--</span><br><span class="line">CREATE SEQUENCE seq_employee</span><br><span class="line">MINVALUE <span class="number">1</span> -- 最小值--</span><br><span class="line">NOMAXVALUE  --不设置最大值--</span><br><span class="line">start with <span class="number">1</span>  -- 从<span class="number">1</span>开始--</span><br><span class="line">INCREMENT by <span class="number">1</span>;---每次自增<span class="number">1</span>--</span><br></pre></td></tr></table></figure>
+<p>– 更改序列  Student_stuId_Seq–</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alter sequence seq_employee</span><br><span class="line">   increment by <span class="number">2</span>  </span><br><span class="line">   minvalue <span class="number">1</span></span><br><span class="line">   maxvalue <span class="number">999999999</span>;</span><br></pre></td></tr></table></figure>
+<p>–获取序列自增ID –</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select seq_employee.Nextval 自增序列ID from dual;</span><br></pre></td></tr></table></figure>
+<p>– 删除序列 – </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop sequence Student_stuId_Seq;</span><br></pre></td></tr></table></figure>
+<p>–调用序列，插入Student数据 –</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">INSERT INTO employee <span class="title">VALUES</span><span class="params">(SEQ_EMPLOYEE.nextval,<span class="string">'张三'</span>,<span class="string">'程序'</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<p>–获取自增序列当前的值–</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select SEQ_EMPLOYEE.nextval from dual;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>重置序列<blockquote>
+<p>Oracle中一般将自增sequence重置为初始1时，都是删除再重建，这种方式有很多弊端，依赖它的函数和存储过程将失效，需要重新编译。<br>不过还有种巧妙的方式，不用删除，利用步长参数，先查出sequence的nextval，记住，把递增改为负的这个值（反过来走），然后再改回来。 </p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>select seq_name.nextval from dual; //假设得到结果5656</li>
+<li>alter sequence seq_name increment by -5655; //注意是-(n-1)</li>
+<li>select seq_name.nextval from dual;//再查一遍，走一下,重置为1了</li>
+<li>alter sequence seq_name increment by 1;//还原</li>
+<li></li>
+</ol>
+<p>-可以写个存储过程，以下是完整的存储过程,然后调用传参即可:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">create or replace procedure <span class="title">seq_reset</span><span class="params">(v_seqname varchar2)</span> as n <span class="title">number</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function">tsql <span class="title">varchar2</span><span class="params">(<span class="number">100</span>)</span></span>;</span><br><span class="line">begin</span><br><span class="line">execute immediate <span class="string">'select '</span>||v_seqname||<span class="string">'.nextval from dual'</span> into n;</span><br><span class="line">n:=-(n-<span class="number">1</span>);</span><br><span class="line">tsql:=<span class="string">'alter sequence '</span>||v_seqname||<span class="string">' increment by '</span>|| n;</span><br><span class="line">execute immediate tsql;</span><br><span class="line">execute immediate <span class="string">'select '</span>||v_seqname||<span class="string">'.nextval from dual'</span> into n;</span><br><span class="line">tsql:=<span class="string">'alter sequence '</span>||v_seqname||<span class="string">' increment by 1'</span>;</span><br><span class="line">execute immediate tsql;</span><br><span class="line">end seq_reset;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用存储过程<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">exec <span class="title">seq_reset</span><span class="params">(<span class="string">'seq_name'</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="使用UUID"><a href="#使用UUID" class="headerlink" title="使用UUID"></a>使用UUID</h4><ul>
+<li>Oracle提供的函数 sys_guid() 用于获取32位uuid，该函数返回32位的uuid为大写，可以使用 lower(sys_guid()) 转为小写.简单使用为:<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">select <span class="title">sys_guid</span><span class="params">()</span> from dual</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol>
+<li>需要自增列为字符串</li>
+<li>需要长度最少为32位</li>
+</ol>
+<ul>
+<li><p>示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">create table <span class="title">testuu</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	id varchar2(<span class="number">2000</span>)</span> <span class="keyword">default</span> <span class="title">sys_guid</span><span class="params">()</span>,</span></span><br><span class="line"><span class="function">	name <span class="title">varchar2</span><span class="params">(<span class="number">2000</span>)</span></span></span><br><span class="line"><span class="function">) </span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>如果已经创建了表，那么先保证你原有的主键ID没有任何实际的业务意义，要修改的话使用下面的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">alter table testuu modify id <span class="keyword">default</span> <span class="title">sys_guid</span><span class="params">()</span> </span>;</span><br><span class="line">update testuu set id = sys_guid ();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果要让返回的uuid满足标准格式，可利用如下函数实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE</span><br><span class="line">FUNCTION get_uuid</span><br><span class="line">RETURN VARCHAR</span><br><span class="line">IS</span><br><span class="line"><span class="function">guid <span class="title">VARCHAR</span> <span class="params">(<span class="number">50</span>)</span></span>;</span><br><span class="line">BEGIN</span><br><span class="line">guid := lower(RAWTOHEX(sys_guid()));</span><br><span class="line">RETURN</span><br><span class="line">substr(guid,<span class="number">1</span>,<span class="number">8</span>)||<span class="string">'-'</span>||substr(guid,<span class="number">9</span>,<span class="number">4</span>)||<span class="string">'-'</span>||substr(guid,<span class="number">13</span>,<span class="number">4</span>)||<span class="string">'-'</span>||substr(guid,<span class="number">17</span>,<span class="number">4</span>)||<span class="string">'-'</span>||substr(guid,<span class="number">21</span>,<span class="number">12</span>);</span><br><span class="line">END get_uuid;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="分页查询"><a href="#分页查询" class="headerlink" title="分页查询"></a>分页查询</h2><ol>
+<li><p>方式一外层最小值内层最大值</p>
+<blockquote>
+<p>其中最内层的查询<br>–SELECT * FROM TABLE_NAME表示不进行翻页的原始查询语句。<br>—-ROWNUM &lt;= 10和RN &gt;= 1控制分页查询的每页的范围。<br>—-上面给出的这个分页查询语句，在大多数情况拥有较高的效率。分页的目的就是控制输出结果集大小，将结果尽快的返回。<br>—-在上面的分页查询语句中，这种考虑主要体现在WHERE ROWNUM &lt;= 40这句上。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">     FROM (SELECT a.*, ROWNUM rn</span><br><span class="line">              FROM (SELECT *</span><br><span class="line">                      FROM emp) a</span><br><span class="line">             WHERE ROWNUM &lt;= <span class="number">10</span>)tt</span><br><span class="line">WHERE tt.rn &gt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>方式2</p>
+</li>
+</ol>
+<p>—去掉查询第二层的WHERE ROWNUM &lt;= 40语句，在查询的最外层控制分页的最小值和最大值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">  FROM (SELECT a.*, ROWNUM rn</span><br><span class="line">          FROM (SELECT *</span><br><span class="line">                 FROM emp) a) tt</span><br><span class="line"> WHERE tt.rn BETWEEN <span class="number">1</span> AND <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对比这两种写法，绝大多数的情况下，第一个查询的效率比第二个高得多。</li>
+</ul>
+<blockquote>
+<p>这是由于CBO优化模式下，Oracle可以将外层的查询条件推到内层查询中，以提高内层查询的执行效率。对于第一个查询语句，第二层的查询条件WHERE ROWNUM &lt;= 40就可以被Oracle推入到内层查询中，这样Oracle查询的结果一旦超过了ROWNUM限制条件，就终止查询将结果返回了。</p>
+</blockquote>
+<blockquote>
+<p>而第二个查询语句，由于查询条件BETWEEN 1 AND 10是存在于查询的第三层，而Oracle无法将第三层的查询条件推到最内层（即使推到最内层也没有意义，因为最内层查询不知道RN代表什么）。因此，对于第二个查询语句，Oracle最内层返回给中间层的是所有满足条件的数据，而中间层返回给最外层的也是所有数据。数据的过滤在最外层完成，显然这个效率要比第一个查询低得多。</p>
+</blockquote>
+<blockquote>
+<p>上面分析的查询不仅仅是针对单表的简单查询，对于最内层查询是复杂的多表联合查询或最内层查询包含排序的情况一样有效。</p>
+</blockquote>
+<ol start="3">
+<li>复杂多条件</li>
+</ol>
+<ul>
+<li>无ORDER BY排序的写法。</li>
+<li>此方法成本最低效率最高，只嵌套一层，速度最快！即使查询的数据量再大，也几乎不受影响，速度依然！<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line">  FROM (SELECT ROWNUM AS rowno, t.*</span><br><span class="line">          FROM emp t</span><br><span class="line">         WHERE sal BETWEEN <span class="number">1000</span> AND <span class="number">3000</span></span><br><span class="line">           AND ROWNUM &lt;= <span class="number">10</span>) table_alias </span><br><span class="line"> WHERE table_alias.rowno &gt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>有ORDER BY排序的写法。(效率较高)</li>
+</ol>
+–此方法随着查询范围的扩大，速度也会越来越慢<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT *</span><br><span class="line"> FROM (SELECT tt.*, ROWNUM AS rowno</span><br><span class="line">         FROM (  SELECT t.*</span><br><span class="line">                   FROM emp t</span><br><span class="line">                  WHERE sal BETWEEN <span class="number">1000</span> AND <span class="number">3000</span></span><br><span class="line">               ORDER BY sal DESC, empNO) tt</span><br><span class="line">        WHERE ROWNUM &lt;= <span class="number">10</span>) table_alias</span><br><span class="line">WHERE table_alias.rowno &gt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h2 id="利用现有的表创建新表"><a href="#利用现有的表创建新表" class="headerlink" title="利用现有的表创建新表"></a>利用现有的表创建新表</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE newStuInfo1 AS SELECT * FROM StuInfo; </span><br><span class="line">              </span><br><span class="line">CREATE TABLE newStuInfo2 AS SELECT stuName,stuNo,stuAge FROM StuInfo; </span><br><span class="line"></span><br><span class="line">CREATE TABLE newStuInfo3 AS SELECT * FROM StuInfo WHERE <span class="number">1</span>=<span class="number">2</span>; </span><br><span class="line"></span><br><span class="line">SELECT * FROM newStuInfo1;</span><br><span class="line">SELECT * FROM newStuInfo2;</span><br><span class="line">SELECT * FROM newStuInfo3;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="事务控制语句应用举例"><a href="#事务控制语句应用举例" class="headerlink" title="事务控制语句应用举例"></a>事务控制语句应用举例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">select * FROM dept;</span><br><span class="line"></span><br><span class="line">--执行步骤一：创建dept 表</span><br><span class="line">CREATE TABLE DEPT</span><br><span class="line">(    <span class="function">DEPTNO <span class="title">NUMBER</span><span class="params">(<span class="number">2</span>)</span>  PRIMARY KEY,  --部门编号</span></span><br><span class="line"><span class="function">     DNAME <span class="title">VARCHAR2</span><span class="params">(<span class="number">14</span>)</span> ,    --部门名称</span></span><br><span class="line"><span class="function">     LOC <span class="title">VARCHAR2</span><span class="params">(<span class="number">13</span>)</span>            --地址</span></span><br><span class="line"><span class="function">) </span>;                             </span><br><span class="line">--执行步骤二：插入数据</span><br><span class="line"><span class="function">INSERT INTO DEPT <span class="title">VALUES</span> <span class="params">(<span class="number">10</span>,<span class="string">'ACCOUNTING'</span>,<span class="string">'NEW YORK'</span>)</span></span>;</span><br><span class="line"><span class="function">INSERT INTO DEPT <span class="title">VALUES</span> <span class="params">(<span class="number">20</span>,<span class="string">'RESEARCH'</span>,<span class="string">'DALLAS'</span>)</span></span>;</span><br><span class="line"><span class="function">INSERT INTO DEPT <span class="title">VALUES</span> <span class="params">(<span class="number">30</span>,<span class="string">'SALES'</span>,<span class="string">'CHICAGO'</span>)</span></span>;</span><br><span class="line"><span class="function">INSERT INTO DEPT <span class="title">VALUES</span> <span class="params">(<span class="number">40</span>,<span class="string">'OPERATIONS'</span>,<span class="string">'BOSTON'</span>)</span></span>;</span><br><span class="line">--执行步骤三：操作dept 表</span><br><span class="line"><span class="function">INSERT INTO dept <span class="title">VALUES</span><span class="params">(<span class="number">50</span>,<span class="string">'a'</span>,<span class="keyword">null</span>)</span></span>;</span><br><span class="line"><span class="function">INSERT INTO dept <span class="title">VALUES</span><span class="params">(<span class="number">60</span>,<span class="string">'b'</span>,<span class="keyword">null</span>)</span></span>;</span><br><span class="line">SAVEPOINT a;</span><br><span class="line"><span class="function">INSERT INTO dept <span class="title">VALUES</span><span class="params">(<span class="number">70</span>,<span class="string">'c'</span>,<span class="keyword">null</span>)</span></span>;</span><br><span class="line">ROLLBACK TO SAVEPOINT a;</span><br><span class="line">--执行步骤四：查看dept 表,有<span class="number">50</span>、<span class="number">60</span> 号部门</span><br><span class="line">SELECT * FROM dept;</span><br><span class="line">--执行步骤五：回滚</span><br><span class="line">ROLLBACK;--没有<span class="number">50</span>、<span class="number">60</span> 号部门</span><br><span class="line">--执行步骤六：查看dept 表</span><br><span class="line">SELECT * FROM dept;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建退休员工表"><a href="#创建退休员工表" class="headerlink" title="创建退休员工表"></a>创建退休员工表</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE retireEmp AS SELECT * FROM employee;</span><br><span class="line"></span><br><span class="line">ALTER TABLE  retireEmp RENAME COLUMN empno TO rempno;  </span><br><span class="line"></span><br><span class="line">UPDATE retireEmp  SET rempno=<span class="number">8888</span> WHERE rempno=<span class="number">7788</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="union操作符"><a href="#union操作符" class="headerlink" title="union操作符"></a>union操作符</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT empno FROM emp </span><br><span class="line"> UNION </span><br><span class="line">SELECT rempno FROM retireEmp;</span><br></pre></td></tr></table></figure>
+
+<h2 id="union-order-by"><a href="#union-order-by" class="headerlink" title="union+order by"></a>union+order by</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">SELECT empno FROM emp  </span><br><span class="line">UNION </span><br><span class="line">SELECT rempno FROM retireEmp </span><br><span class="line"> ORDER BY empno;</span><br><span class="line">```                      </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 其它函数</span><br><span class="line">```java</span><br><span class="line">SELECT ename,</span><br><span class="line">       sal+NVL(comm,<span class="number">0</span>) sal1,</span><br><span class="line">       NVL2(comm,sal+comm,sal) sal2,</span><br><span class="line">       DECODE(to_char(hiredate,<span class="string">'MM'</span>),<span class="string">'01'</span>,<span class="string">'一月'</span>,<span class="string">'02'</span>,<span class="string">'二月'</span>,<span class="string">'03'</span>,<span class="string">'三月'</span>,</span><br><span class="line">	  			     <span class="string">'04'</span>,<span class="string">'四月'</span>,<span class="string">'05'</span>,<span class="string">'五月'</span>,<span class="string">'06'</span>,<span class="string">'六月'</span>,<span class="string">'下半年'</span>) mon</span><br><span class="line">  FROM employee;</span><br></pre></td></tr></table></figure>
+
+<h2 id="转换函数–"><a href="#转换函数–" class="headerlink" title="转换函数–"></a>转换函数–</h2><p>TO_CHAR()函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT TO_CHAR（sysdate,<span class="string">'YYYY"年"fmMM"月"fmDD"日" HH24:MI:SS'</span>） FROM dual;</span><br></pre></td></tr></table></figure>
+<h2 id="TO-CHAR-函数"><a href="#TO-CHAR-函数" class="headerlink" title="TO_CHAR()函数"></a>TO_CHAR()函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT to_char（<span class="number">1210.7</span>, <span class="string">'$9,999.00'</span>） FROM dual;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TO-DATE-函数"><a href="#TO-DATE-函数" class="headerlink" title="TO_DATE()函数"></a>TO_DATE()函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT to_date（<span class="string">'2013-07-13'</span> , <span class="string">'yyyy-mm-dd'</span>） FROM dual;</span><br><span class="line">TO_NUMBER()函数</span><br><span class="line"></span><br><span class="line">SELECT SQRT（to_number（<span class="string">'100'</span>）） FROM dual;</span><br></pre></td></tr></table></figure>
+<h2 id="分析函数"><a href="#分析函数" class="headerlink" title="分析函数"></a>分析函数</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">SELECT ename, deptno, sal,</span><br><span class="line">       --按照每个部门分组,对薪水从大到小排序,每个部门序号从<span class="number">1</span>开始,同一个部门相同薪水序号相同,</span><br><span class="line">       --且和下一条不同记录的排名之间空出排名</span><br><span class="line">       RANK( ) OVER (PARTITION BY deptno ORDER BY sal DESC) <span class="string">"RANK"</span>,</span><br><span class="line">       --按照每个部门分组,对薪水从大到小排序,每个部门序号从<span class="number">1</span>开始,同一个部门相同薪水序号相同,</span><br><span class="line">       --且和下一条不同记录的排名之间不空出排名</span><br><span class="line">       DENSE_RANK( ) OVER (PARTITION BY deptno ORDER BY sal DESC) <span class="string">"DENSE_RANK"</span>,</span><br><span class="line">       --按照每个部门分组,对薪水从大到小排序,每个部门序号从<span class="number">1</span>开始,同一个部门相同薪水序号继续</span><br><span class="line">       --递增，顺序排名</span><br><span class="line">       ROW_NUMBER( ) OVER (PARTITION BY deptno ORDER BY sal DESC) <span class="string">"ROW_NUMBER"</span></span><br><span class="line"> FROM emp;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>您的支持将鼓励我继续创作</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/myblog/images/wechatpay.png" alt="chfsun 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/myblog/tags/interview/" rel="tag"><i class="fa fa-tag"></i> interview</a>
+              <a href="/myblog/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/myblog/design/ava%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E5%A7%93%E5%90%8D%E3%80%81%E6%80%A7%E5%88%AB%E5%92%8C%E5%B9%B4%E9%BE%84/" rel="prev" title="Java生成随机姓名、性别和年龄">
+      <i class="fa fa-chevron-left"></i> Java生成随机姓名、性别和年龄
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/myblog/uncategorized/Welcome/" rel="next" title="Welcome">
+      Welcome <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+	
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="gitalk-container"></div>
+
+<script>
+	(function(){
+		if(''){
+			if (prompt('请输入文章密码') !== ''){
+				alert('密码错误');
+				history.back();
+			}
+		}
+	})();
+  
+
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORACLE的使用-01"><span class="nav-number">1.</span> <span class="nav-text">ORACLE的使用 01</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#去除重复字段"><span class="nav-number">1.0.1.</span> <span class="nav-text">去除重复字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">1.0.2.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自增序列"><span class="nav-number">1.0.3.</span> <span class="nav-text">自增序列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用UUID"><span class="nav-number">1.0.4.</span> <span class="nav-text">使用UUID</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分页查询"><span class="nav-number">2.</span> <span class="nav-text">分页查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用现有的表创建新表"><span class="nav-number">3.</span> <span class="nav-text">利用现有的表创建新表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务控制语句应用举例"><span class="nav-number">4.</span> <span class="nav-text">事务控制语句应用举例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建退休员工表"><span class="nav-number">5.</span> <span class="nav-text">创建退休员工表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#union操作符"><span class="nav-number">6.</span> <span class="nav-text">union操作符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#union-order-by"><span class="nav-number">7.</span> <span class="nav-text">union+order by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换函数–"><span class="nav-number">8.</span> <span class="nav-text">转换函数–</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TO-CHAR-函数"><span class="nav-number">9.</span> <span class="nav-text">TO_CHAR()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TO-DATE-函数"><span class="nav-number">10.</span> <span class="nav-text">TO_DATE()函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析函数"><span class="nav-number">11.</span> <span class="nav-text">分析函数</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="chfsun"
+      src="/myblog/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">chfsun</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/myblog/archives/">
+        
+          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/myblog/categories">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/myblog/tags">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+	 
+	  
+	  
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chfsun</span>
+</div>
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+<!-- -->
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
+  <script src="/myblog/lib/anime.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.min.js"></script>
+  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/myblog/js/utils.js"></script>
+
+<script src="/myblog/js/motion.js"></script>
+
+
+<script src="/myblog/js/schemes/pisces.js"></script>
+
+
+<script src="/myblog/js/next-boot.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  
+<script src="/myblog/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
+  <script>
+      window.addEventListener('load', () => {
+      quicklink({
+        timeout : 3000,
+        priority: true,
+        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/interview/ORACLE%E7%9A%84%E4%BD%BF%E7%94%A8%2001/',]
+      });
+      });
+  </script>
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '0b5a2d7255d7c0b2a142',
+      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
+      repo        : 'blog',
+      owner       : 'chfsun',
+      admin       : ['chfsun'],
+      id          : 'fce932dc5343d058d8bdcb4540c17251',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
+
+  <!-- 页面点击小红心 -->
+  <script type="text/javascript" src="/myblog/js/love.js"></script>
+<script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
