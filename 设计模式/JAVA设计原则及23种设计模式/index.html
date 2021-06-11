@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Redis的主从复制和哨兵模式, 梦.星河">
+    <meta name="keywords" content="JAVA设计原则及23种设计模式, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Redis的主从复制和哨兵模式 | 梦.星河</title>
+    <title>JAVA设计原则及23种设计模式 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -293,7 +293,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Redis的主从复制和哨兵模式</h1>
+                    <h1 class="description center-align post-title">JAVA设计原则及23种设计模式</h1>
                 </div>
             </div>
         </div>
@@ -409,12 +409,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/myblog/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                                <span class="chip bg-color">面试题</span>
-                            </a>
-                        
-                            <a href="/myblog/tags/interview/">
-                                <span class="chip bg-color">interview</span>
+                            <a href="/myblog/tags/%E8%AE%BE%E8%AE%A1/">
+                                <span class="chip bg-color">设计</span>
                             </a>
                         
                     </div>
@@ -425,8 +421,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/myblog/categories/interview/" class="post-category">
-                                interview
+                            <a href="/myblog/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-category">
+                                设计模式
                             </a>
                         
                     </div>
@@ -438,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-21
+                    2021-06-09
                 </div>
                 
 				
@@ -447,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-09-14
+                    2021-06-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    3.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    12 分
                 </div>
                 
 
@@ -474,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: 传芳
+				     
 				</div>
 				
             </div>
@@ -488,48 +484,261 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="主从复制概念"><a href="#主从复制概念" class="headerlink" title="主从复制概念"></a>主从复制概念</h4><p>主从复制指将一台redis的数据复制另外一台redis服务器上，前者称为主节点（master）,后者称为从节点（slave）。</p>
-<a id="more"></a>
-<p>注意复制的过程是单向的，只能从主节点到从节点，主节点以写为主，从节点以读为主。</p>
-<p>主从复制的作用</p>
-<p>数据冗余：主从复制实现了数据的热备份</p>
-<p>故障恢复：当主节点出现问题时，可以由从节点提供服务，快速恢复故障</p>
-<p>负载均衡：主节点复制写数据，从节点负责读数据，实现读写分离分担服务器负载。</p>
-<p>最常见的主从复制架构如下图所示</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143255408.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<h6 id="手动实现主从复制"><a href="#手动实现主从复制" class="headerlink" title="手动实现主从复制"></a>手动实现主从复制</h6><p>开启三个redis服务，例如开启三个端口分别为6379、6380、6381三台redis服务，未设置谁是主节点之前，默认每台服务都是主节点的。</p>
-<p><code>info replication</code>  #查看节点信息:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143400711.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>这里为了演示所以配置了伪集群，即一台机器启动三个redis服务，只是不同端口。注意启动6380和6381需要增加一个redis配置文件，例如启动6380时复制一份redis.conf修改名字为redis6380.conf，然后修改配置文件中的以下几个地方:</p>
-<pre class=" language-java"><code class="language-java">daemonize yes  #后台启动修改为yes
-
-pidfile <span class="token operator">/</span>var<span class="token operator">/</span>run<span class="token operator">/</span>redis_6380<span class="token punctuation">.</span>pid  #修改进程文件的名称
-
-logfile <span class="token string">"6380.log"</span> #日志文件的名称
-
-dbfilename dump6380<span class="token punctuation">.</span>rdb   #rdb文件的名称
-
-port <span class="token number">6380</span>  #端口号</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20200914143459173.png#pic_center" alt="在这里插入图片描述"></p>
-<h5 id="正式配置一主二从"><a href="#正式配置一主二从" class="headerlink" title="正式配置一主二从"></a>正式配置一主二从</h5><p>因为redis启动默认是主节点，所以主需要将6380和6379的设置为6379的从节点就行了，设置redis6380的主节点为6379，使用slaveof [主节点IP] [主节点端口]</p>
-<pre class=" language-java"><code class="language-java">slaveof <span class="token number">127.0</span><span class="token punctuation">.</span><span class="token number">0.1</span> <span class="token number">6379</span></code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20200914143602623.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>使用同样的方式设置6381，最后回到主节点6379进行查看节点信息</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143626326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>至此我们就把一主二从的架构的配置好了，下面测试一下，主机写入数据后，会不会将数据自动同步到从机中。</p>
-<p>主机设置一个key为test1</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143648514.png#pic_center" alt="在这里插入图片描述"><br>从机进行获取test1<br><img src="https://img-blog.csdnimg.cn/2020091414370940.png#pic_center" alt="在这里插入图片描述"><br>进过测试，没问题，大功告成！</p>
-<p>你以为这就完了么，有的同学会问，当主机挂了会怎么样，这个问题问的好。这种手动模式的一主二从架构，当主机挂了之后需要人为的手动重新设置一个主机，才能正常工作。说到这里，是不是会觉得这也太low了吧，讲这个有啥用，其实讲这个是为了让你清楚主从复制真正的工作原理。那么为了解决这个当主机挂了，需要手动重新设置一个主节点的问题，就需要使用我们的哨兵模式。</p>
-<h4 id="什么是哨兵"><a href="#什么是哨兵" class="headerlink" title="什么是哨兵"></a>什么是哨兵</h4><p>顾名思义，哨兵就是用来巡逻检查的，哨兵每隔一段时间会向redis发送命令，等待redis响应，如果得不到响应，此时这个哨兵会认为这台redis服务以挂掉。一般情况会启动多个哨兵，判断redis主机是否挂掉，哨兵会进行投票。例如启动三个哨兵，其中有两个哨兵认为当前redis主机以挂掉，一个认为没有，那么2:1，那可以认为当前redis挂掉了。当主节点挂掉后，哨兵会通过投票的方式重新选举一个主机。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143804214.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>哨兵的作用</p>
-<p>通过发送命令，让redis服务器返回运行状态，包括主服务器和从服务器。</p>
-<p>当哨兵检测到master宕机后，会通过投票选举新的master，然后通过发布订阅模式通知其它从机切换主机。</p>
-<p>配置哨兵</p>
-<p>在/opt/redis-6.0.7/myconf目录下添加哨兵配置文件 sentinel.conf内容如下</p>
-<p>sentinel monitor myredis 127.0.0.1 6379 1</p>
-<p>意思监控master，后面的1表示当master挂了后是否发起投票。</p>
-<p>开启一个终端，进入redis目录</p>
-<p>启动哨兵：./src/redis-sentinel myconf/sentinel.conf</p>
-<p><img src="https://img-blog.csdnimg.cn/202009141438372.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>下面测试如果master宕机了，会不会重新选举一个新的master。</p>
-<p>现在手动把master关掉，等待几秒钟可以看到master主机变成了6380</p>
-<p><img src="https://img-blog.csdnimg.cn/20200914143856774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>如果此时原来的主机恢复正常了呢，会不会重新选举其为master，答案是否定的，原来的主机恢复正常后，只能作为新主机的从节点。</p>
+                <h3 id="一、JAVA六大设计原则"><a href="#一、JAVA六大设计原则" class="headerlink" title="一、JAVA六大设计原则"></a>一、JAVA六大设计原则</h3><a id="more"></a>
+<blockquote>
+<p>亦可称之为 六大基本原则</p>
+</blockquote>
+<ol>
+<li>开闭原则(OCP) - The Open-Closed Principle</li>
+<li>单一职责原则(SRP) - Single Responsibility Principle</li>
+<li>里氏替换原则(LSP) - Liskov Substitution Principle</li>
+<li>依赖倒置原则(DIP) - Dependency Inversion Principle</li>
+<li>接口隔离原则(ISP) - Interface Segregation Principle</li>
+<li>迪米特法则(DP) - Demeter Principle</li>
+</ol>
+<h4 id="1-开闭原则"><a href="#1-开闭原则" class="headerlink" title="1.开闭原则"></a>1.开闭原则</h4><p>对扩展开放，对修改关闭</p>
+<blockquote>
+<p>开闭原则宗旨是在已有系统基础上进行开发，不要对正常运行的代码进行修改操作。需要扩展需求时，通过添加新类或者新代码来实现，对已有代码做到最少修改，甚至是零修改。</p>
+</blockquote>
+<ul>
+<li>问题产生</li>
+</ul>
+<p>在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<ul>
+<li>解决方案</li>
+</ul>
+<p>当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<p>开闭原则无非就是想表达这样一层意思：用抽象构建框架，用实现扩展细节。因为抽象灵活性好，适应性广，只要抽象的合理，可以基本保持软件架构的稳定。而软件中易变的细节，我们用从抽象派生的实现类来进行扩展，当软件需要发生变化时，我们只需要根据需求重新派生一个实现类来扩展就可以了。当然前提是我们的抽象要合理，要对需求的变更有前瞻性和预见性才行。</p>
+<h4 id="2-单一职责原则"><a href="#2-单一职责原则" class="headerlink" title="2.单一职责原则"></a>2.单一职责原则</h4><p>接口或类只提供一种业务实现</p>
+<blockquote>
+<p>单一职责原则宗旨是每个接口、类的功能，只能用来做专门的事，强调系统内业务职责唯一，避免职责扩散，做到业务统一管理。</p>
+</blockquote>
+<ul>
+<li>问题产生</li>
+</ul>
+<p>类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<ul>
+<li>解决方案</li>
+</ul>
+<p>遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
+<p>但是由于职责扩散会导致在实际中往往会有悖于单一职责</p>
+<h4 id="3-里氏替换原则"><a href="#3-里氏替换原则" class="headerlink" title="3.里氏替换原则"></a>3.里氏替换原则</h4><p>使用父类的地方可以用子类来替换。</p>
+<blockquote>
+<p>里氏替换原则宗旨是子类尽量不要重写父类或者接口中已经实现的方法，即子类和父类逻辑保持一致性。</p>
+</blockquote>
+<ul>
+<li>问题产生</li>
+</ul>
+<p>有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<ul>
+<li>解决方案</li>
+</ul>
+<p>当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>继承包含这样一层含义：父类中凡是已经实现好的方法（相对于抽象方法而言），实际上是在设定一系列的规范和契约，虽然它不强制要求所有的子类必须遵从这些契约，但是如果子类对这些非抽象方法任意修改，就会对整个继承体系造成破坏。而里氏替换原则就是表达了这一层含义。</p>
+<p>继承作为面向对象三大特性之一，在给程序设计带来巨大便利的同时，也带来了弊端。比如使用继承会给程序带来侵入性，程序的可移植性降低，增加了对象间的耦合性，如果一个类被其他的类所继承，则当这个类需要修改时，必须考虑到所有的子类，并且父类修改后，所有涉及到子类的功能都有可能会产生故障。</p>
+<h4 id="4-依赖倒置原则"><a href="#4-依赖倒置原则" class="headerlink" title="4.依赖倒置原则"></a>4.依赖倒置原则</h4><p>面向抽象编程，即通过接口或者抽象类提供依赖关系。</p>
+<blockquote>
+<p>依赖倒置原则宗旨是指各个业务模块之间依赖关系，通过约定的接口或者抽象类来实现，不涉及具体的实现细节，细节交给具体的实现类来完成。</p>
+</blockquote>
+<p>JAVA实现依赖倒置的方式有三种：</p>
+<ol>
+<li>构造方法</li>
+<li>setter方法</li>
+<li>接口注入</li>
+</ol>
+<ul>
+<li>问题产生</li>
+</ul>
+<p>类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
+<ul>
+<li>解决方案</li>
+</ul>
+<p>将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
+<p>依赖倒置原则基于这样一个事实：相对于细节的多变性，抽象的东西要稳定的多。以抽象为基础搭建起来的架构比以细节为基础搭建起来的架构要稳定的多。在java中，抽象指的是接口或者抽象类，细节就是具体的实现类，使用接口或者抽象类的目的是制定好规范和契约，而不去涉及任何具体的操作，把展现细节的任务交给他们的实现类去完成。</p>
+<p>依赖倒置原则的核心思想是面向接口编程，</p>
+<h4 id="5-接口隔离原则"><a href="#5-接口隔离原则" class="headerlink" title="5.接口隔离原则"></a>5.接口隔离原则</h4><p> 接口中的方法和属性都是实现类所需要，没有额外无用信息。</p>
+<blockquote>
+<p>接口隔离原则宗旨是接口的完美复用，接口的内容对于实现来说无冗余代码。</p>
+</blockquote>
+<pre><code>问题产生</code></pre><p>类A通过接口I依赖类B，类C通过接口I依赖类D，如果接口I对于类A和类B来说不是最小接口，则类B和类D必须去实现他们不需要的方法。</p>
+<pre><code>解决方案</code></pre><p>将臃肿的接口I拆分为独立的几个接口，类A和类C分别与他们需要的接口建立依赖关系。也就是采用接口隔离原则。</p>
+<p>接口隔离原则跟之前的单一职责原则很相似，其实不然。其一，单一职责原则原注重的是职责；而接口隔离原则注重对接口依赖的隔离。其二，单一职责原则主要是约束类，其次才是接口和方法，它针对的是程序中的实现和细节；而接口隔离原则主要约束接口接口，主要针对抽象，针对程序整体框架的构建。</p>
+<p>采用接口隔离原则对接口进行约束时，要注意以下几点：</p>
+<ol>
+<li><p>接口尽量小，但是要有限度。对接口进行细化可以提高程序设计灵活性是不挣的事实，但是如果过小，则会造成接口数量过多，使设计复杂化。所以一定要适度。</p>
+</li>
+<li><p>为依赖接口的类定制服务，只暴露给调用的类它需要的方法，它不需要的方法则隐藏起来。只有专注地为一个模块提供定制服务，才能建立最小的依赖关系。</p>
+</li>
+<li><p>提高内聚，减少对外交互。使接口用最少的方法去完成最多的事情。</p>
+</li>
+</ol>
+<p>运用接口隔离原则，一定要适度，接口设计的过大或过小都不好。设计接口的时候，只有多花些时间去思考和筹划，才能准确地实践这一原则。</p>
+<h4 id="6-迪米特原则"><a href="#6-迪米特原则" class="headerlink" title="6.迪米特原则"></a>6.迪米特原则</h4><p>迪米特原则又叫最少知道原则，核心思想是低耦合，高内聚。</p>
+<blockquote>
+<p>迪米特原则宗旨是弱化代码（通常指类）之间的依赖关系。</p>
+</blockquote>
+<ul>
+<li>问题产生</li>
+</ul>
+<p>类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</p>
+<ul>
+<li>解决方案</li>
+</ul>
+<p>尽量降低类与类之间的耦合。</p>
+<p>通俗的来讲，就是一个类对自己依赖的类知道的越少越好。也就是说，对于被依赖的类来说，无论逻辑多么复杂，都尽量地的将逻辑封装在类的内部，对外除了提供的public方法，不对外泄漏任何信息，</p>
+<p>迪米特法则还有一个更简单的定义：只与直接的朋友通信。首先来解释一下什么是直接的朋友：每个对象都会与其他对象有耦合关系，只要两个对象之间有耦合关系，我们就说这两个对象之间是朋友关系。耦合的方式很多，依赖、关联、组合、聚合等。其中，我们称出现成员变量、方法参数、方法返回值中的类为直接的朋友，而出现在局部变量中的类则不是直接的朋友。也就是说，陌生的类最好不要作为局部变量的形式出现在类的内部。</p>
+<p><strong>几个原则的关联性</strong></p>
+<p>用抽象构建框架，用实现扩展细节的注意事项而已：</p>
+<blockquote>
+<p>单一职责原则告诉我们实现类要职责单一；</p>
+</blockquote>
+<blockquote>
+<p>里氏替换原则告诉我们不要破坏继承体系；</p>
+</blockquote>
+<blockquote>
+<p>依赖倒置原则告诉我们要面向接口编程；</p>
+</blockquote>
+<blockquote>
+<p>接口隔离原则告诉我们在设计接口的时候要精简单一；</p>
+</blockquote>
+<blockquote>
+<p>迪米特法则告诉我们要降低耦合。</p>
+</blockquote>
+<blockquote>
+<p>而开闭原则是总纲，他告诉我们要对扩展开放，对修改关闭。</p>
+</blockquote>
+<p><strong>六大设计原则是代码设计的基本原则。设计原则规范了开发人员如何去设计和实现代码，来提高程序的规范性、可读性、扩展性和维护性。</strong></p>
+<h2 id="二、JAVA-23种设计模式"><a href="#二、JAVA-23种设计模式" class="headerlink" title="二、JAVA 23种设计模式"></a>二、JAVA 23种设计模式</h2><blockquote>
+<p>可以分为三个类型:  创建型、结构型和行为型</p>
+</blockquote>
+<h4 id="创建型："><a href="#创建型：" class="headerlink" title="创建型："></a>创建型：</h4><ol>
+<li><p>单例模式(Singleton)：</p>
+<blockquote>
+<p>保证一个类只有一个实例，并提供一个访问它的全局访问点</p>
+</blockquote>
+</li>
+<li><p>抽象工厂(Abstract Factory)：</p>
+<blockquote>
+<p>提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们的具体类。</p>
+</blockquote>
+</li>
+</ol>
+<ol start="3">
+<li><p>工厂方法(Factory Method)：</p>
+<blockquote>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪一个类，Factory Method使一个类的实例化延迟到了子类。</p>
+</blockquote>
+</li>
+<li><p>建造模式(Builder)：</p>
+<blockquote>
+<p>将一个复杂对象的构建与他的表示相分离，使得同样的构建过程可以创建不同的表示。</p>
+</blockquote>
+</li>
+<li><p>原型模式(Prototype)：</p>
+<blockquote>
+<p>用原型实例指定创建对象的种类，并且通过拷贝这些原型来创建新的对象。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="行为型"><a href="#行为型" class="headerlink" title="行为型"></a>行为型</h4><ol start="6">
+<li><p>迭代器模式(Iterator)：</p>
+<blockquote>
+<p>提供一个方法顺序访问一个聚合对象的各个元素，而又不需要暴露该对象的内部表示。</p>
+</blockquote>
+</li>
+<li><p>观察者模式(Observer)：</p>
+<blockquote>
+<p>定义对象间一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知自动更新。</p>
+</blockquote>
+</li>
+<li><p>模板方法(Template Method)：</p>
+<blockquote>
+<p>定义一个操作中的算法的骨架，而将一些步骤延迟到子类中，TemplateMethod使得子类可以不改变一个算法的结构即可以重定义该算法得某些特定步骤。</p>
+</blockquote>
+</li>
+</ol>
+<ol start="9">
+<li><p>命令模式(Command)：</p>
+<blockquote>
+<p>将一个请求封装为一个对象，从而使你可以用不同的请求对客户进行参数化，对请求排队和记录请求日志，以及支持可撤销的操作。</p>
+</blockquote>
+</li>
+<li><p>状态模式(State)：</p>
+<blockquote>
+<p>允许对象在其内部状态改变时改变他的行为。对象看起来似乎改变了他的类。</p>
+</blockquote>
+</li>
+<li><p>策略模式(Strategy)：</p>
+<blockquote>
+<p>定义一系列的算法，把他们一个个封装起来，并使他们可以互相替换，本模式使得算法可以独立于使用它们的客户。</p>
+</blockquote>
+</li>
+<li><p>职责链模式(China of Responsibility)：</p>
+<blockquote>
+<p>使多个对象都有机会处理请求，从而避免请求的送发者和接收者之间的耦合关系</p>
+</blockquote>
+</li>
+<li><p>中介者模式(Mediator)：</p>
+<blockquote>
+<p>用一个中介对象封装一些列的对象交互。</p>
+</blockquote>
+</li>
+<li><p>访问者模式(Visitor)：</p>
+<blockquote>
+<p>表示一个作用于某对象结构中的各元素的操作，它使你可以在不改变各元素类的前提下定义作用于这个元素的新操作。</p>
+</blockquote>
+</li>
+<li><p>解释器模式(Interpreter)：</p>
+<blockquote>
+<p>给定一个语言，定义他的文法的一个表示，并定义一个解释器，这个解释器使用该表示来解释语言中的句子。</p>
+</blockquote>
+</li>
+<li><p>备忘录模式(Memento)：</p>
+<blockquote>
+<p>在不破坏对象的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="结构型："><a href="#结构型：" class="headerlink" title="结构型："></a>结构型：</h4><ol start="17">
+<li><p>组合模式(Composite)：</p>
+<blockquote>
+<p>将对象组合成树形结构以表示部分整体的关系，Composite使得用户对单个对象和组合对象的使用具有一致性。</p>
+</blockquote>
+</li>
+<li><p>外观模式(Facade)：</p>
+<blockquote>
+<p>为子系统中的一组接口提供一致的界面，facade提供了一高层接口，这个接口使得子系统更容易使用。</p>
+</blockquote>
+</li>
+<li><p>代理模式(Proxy)：</p>
+<blockquote>
+<p>为其他对象提供一种代理以控制对这个对象的访问</p>
+</blockquote>
+</li>
+<li><p>适配器模式(Adapter)：</p>
+<blockquote>
+<p>将一类的接口转换成客户希望的另外一个接口，Adapter模式使得原本由于接口不兼容而不能一起工作那些类可以一起工作。</p>
+</blockquote>
+</li>
+<li><p>装饰模式(Decrator)：</p>
+<blockquote>
+<p>动态地给一个对象增加一些额外的职责，就增加的功能来说，Decorator模式相比生成子类更加灵活。</p>
+</blockquote>
+</li>
+<li><p>桥接模式(Bridge)：</p>
+<blockquote>
+<p>将抽象部分与它的实现部分相分离，使他们可以独立的变化。</p>
+</blockquote>
+</li>
+<li><p>享元模式(Flyweight)：</p>
+<blockquote>
+<p>运用共享技术有效地支持大量细粒度的对象。</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<p>参考书籍：《大话设计模式》、《Java设计模式》、《设计模式之禅》、《研磨设计模式》、《Head First 设计模式》</p>
+</blockquote>
 
                 
             </div>
@@ -546,7 +755,7 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="/myblog/about" rel="external nofollow noreferrer">chfsun</a>
+                    <a href="/myblog/about" rel="external nofollow noreferrer">传芳</a>
                 </span>
             </div>
             <div class="reprint__type">
@@ -556,7 +765,7 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/">http://chfsun.gitee.io/myblog/myblog/interview/redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E5%92%8C%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F/</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/JAVA%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%8F%8A23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">http://chfsun.gitee.io/myblog/myblog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/JAVA%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99%E5%8F%8A23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -569,7 +778,7 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                     本博客所有文章除特別声明外，均采用
                     <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
                     许可协议。转载请注明来源
-                    <a href="/myblog/about" target="_blank">chfsun</a>
+                    <a href="/myblog/about" target="_blank">传芳</a>
                     !
                 </span>
             </div>
@@ -594,12 +803,8 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                     
                         <div class="article-tag">
                             
-                                <a href="/myblog/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                                    <span class="chip bg-color">面试题</span>
-                                </a>
-                            
-                                <a href="/myblog/tags/interview/">
-                                    <span class="chip bg-color">interview</span>
+                                <a href="/myblog/tags/%E8%AE%BE%E8%AE%A1/">
+                                    <span class="chip bg-color">设计</span>
                                 </a>
                             
                         </div>
@@ -819,33 +1024,29 @@ port <span class="token number">6380</span>  #端口号</code></pre>
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/myblog/interview/%E7%BA%BF%E7%A8%8B-JUC-Lock%E9%94%81-ReentrantLock%E3%80%81AQS/">
+                <a href="/myblog/uncategorized/Welcome/">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/20.jpg" class="responsive-img" alt="多线程--JUC-Lock锁(ReentrantLock、AQS)">
+                        <img src="/myblog/medias/featureimages/14.jpg" class="responsive-img" alt="Welcome">
                         
-                        <span class="card-title">多线程--JUC-Lock锁(ReentrantLock、AQS)</span>
+                        <span class="card-title">Welcome</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            简介java.util.concurrent 在并发编程中使用的工具类，其重点有lock锁、辅助工具类、Atomic原子类以及并发集合框架等。
+                            洛阳三月花如锦，多少工夫织得成。
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-21
+                            <i class="far fa-clock fa-fw icon-date"></i>2120-05-28
                         </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/myblog/categories/interview/" class="post-category">
-                                    interview
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            chfsun
                             
                         </span>
                     </div>
@@ -853,12 +1054,8 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/myblog/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="chip bg-color">面试题</span>
-                    </a>
-                    
-                    <a href="/myblog/tags/interview/">
-                        <span class="chip bg-color">interview</span>
+                    <a href="/myblog/tags/index/">
+                        <span class="chip bg-color">index</span>
                     </a>
                     
                 </div>
@@ -872,31 +1069,31 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/%E6%81%AF%E9%98%9F%E5%88%97-%E8%A7%A3%E8%80%A6%E3%80%81%E5%BC%82%E6%AD%A5%E3%80%81%E5%89%8A%E5%B3%B0-%E7%8E%B0%E6%9C%89MQ%E5%AF%B9%E6%AF%94/">
+                <a href="/myblog/spring-boot/springboot%E6%95%B4%E5%90%88swagger3/">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/23.jpg" class="responsive-img" alt=" 消息队列: 解耦、异步、削峰, 现有MQ对比">
+                        <img src="/myblog/medias/featureimages/20.jpg" class="responsive-img" alt="springboot整合swagger3">
                         
-                        <span class="card-title"> 消息队列: 解耦、异步、削峰, 现有MQ对比</span>
+                        <span class="card-title">springboot整合swagger3</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            解耦合、异步、流量削峰有哪些消息队列？RabbitMQ、RocketMQ、Kafka
+                            一、Swagger是什么？它能干什么？
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-21
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-05-05
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/myblog/categories/interview/" class="post-category">
-                                    interview
+                            <a href="/myblog/categories/spring-boot/" class="post-category">
+                                    spring boot
                                 </a>
                             
                             
@@ -906,12 +1103,8 @@ port <span class="token number">6380</span>  #端口号</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/myblog/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <span class="chip bg-color">面试题</span>
-                    </a>
-                    
-                    <a href="/myblog/tags/interview/">
-                        <span class="chip bg-color">interview</span>
+                    <a href="/myblog/tags/swagger/">
+                        <span class="chip bg-color">swagger</span>
                     </a>
                     
                 </div>
