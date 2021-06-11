@@ -1,232 +1,477 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="zh-CN">
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/myblog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/myblog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/myblog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/myblog/images/logo.svg" color="#222">
-  <meta http-equiv="Cache-Control" content="no-transform">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-
-<link rel="stylesheet" href="/myblog/css/main.css">
-
-
-<link rel="stylesheet" href="/myblog/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"chfsun.gitee.io","root":"/myblog/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"b2t":false,"onmobile":false,"scrollpercent":true},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="[Sybase——学习笔记]一、安装将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。  安装完之后，可以在“控制面板”-&gt;“性能和维护">
-<meta property="og:type" content="website">
-<meta property="og:title" content="梦.星河">
-<meta property="og:url" content="http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html">
-<meta property="og:site_name" content="梦.星河">
-<meta property="og:description" content="[Sybase——学习笔记]一、安装将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。  安装完之后，可以在“控制面板”-&gt;“性能和维护">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-11-25T07:19:57.910Z">
-<meta property="article:modified_time" content="2020-11-25T07:19:57.910Z">
-<meta property="article:author" content="chfsun">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8">
+    <meta charset="utf-8">
+    <meta name="keywords" content="梦.星河">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : false,
-    lang   : 'zh-CN'
-  };
-</script>
+    <title>梦.星河</title>
+    <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
-  <title> | 梦.星河
-</title>
-  
+    <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/myblog/css/my.css">
+
+    <script src="/myblog/libs/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/myblog/css/prism-tomorrow.css" type="text/css"></head>
 
 
 
 
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/myblog/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">梦.星河</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">醉后不知天在水，满船清梦压星河</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/myblog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/myblog/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/myblog/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">15</span></a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/myblog/categories" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">7</span></a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/myblog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">35</span></a>
-
-  </li>
-        <li class="menu-item menu-item-talkabout">
-
-    <a href="/myblog/categories/talkabout" rel="section"><i class="fa fa-calendar fa-fw"></i>杂谈</a>
-
-  </li>
-        <li class="menu-item menu-item-interview">
-
-    <a href="/myblog/categories/interview" rel="section"><i class="fa fa-sitemap fa-fw"></i>历年面试题</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
-  </ul>
-</nav>
-
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="搜索..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-  <div class="reading-progress-bar"></div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-  
-  
-
-          <div class="content page posts-expand">
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/myblog/" class="waves-effect waves-light">
+                    
+                    <img src="/myblog/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">梦.星河</span>
+                </a>
+            </div>
             
 
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
-      <header class="post-header">
-
-<h1 class="post-title" itemprop="name headline">
-</h1>
-
-<div class="post-meta">
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
   
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/myblog/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
 
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/myblog/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">梦.星河</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/myblog/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="http://chfsun.gitee.io/s2/" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
 </div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #F062A7;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="http://chfsun.gitee.io/s2/" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
 
 </header>
 
-      
-      
-      
-      <div class="post-body">
-          <h1 id="Sybase——学习笔记"><a href="#Sybase——学习笔记" class="headerlink" title="[Sybase——学习笔记]"></a>[Sybase——学习笔记]</h1><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><pre><code>将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title"></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/myblog/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        padding: 35px 0 15px 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        padding-bottom: 30px;
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+
+        position: absolute;
+        right: 23.5vw;
+        display: block;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-11-25
+                </div>
+                
+				
+				
+				
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-11-25
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    33 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+				
+				<div class="info-break-policy">
+				    
+				    <i class="fa fa-pencil"></i> 作者: chfsun
+				    
+				</div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Sybase——学习笔记"><a href="#Sybase——学习笔记" class="headerlink" title="[Sybase——学习笔记]"></a>[Sybase——学习笔记]</h1><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><pre><code>将下载的ase1500_de_win.zip文件解压缩，双击setup.exe。由于整个安装过程都有提示，因此不需 要做太多说明，唯一要注意的是在选择安装类型时，如果想使用ODBC、OleDb或者ADO.net进行开发，一定要选择自定义安装，因为在默认情况下被 安装的只有JDBC驱动，其他驱动是不会安装的。
 
 安装完之后，可以在“控制面板”-&gt;“性能和维护”-&gt;“管理工具”的“数据源 (ODBC)”中查看一下：</code></pre><p>其中的“Adaptive Server Enterprise”就是Sybase的ODBC驱动。<br>    不过至此我们的安装工作还没有结束，如果不想看到自己输入的中文变成乱码，就按照下面方法去做。</p>
 <pre><code>请 点击“开始”菜单-&gt;“所有程序”-&gt;“Sybase”-&gt;“Adaptive Server Enterprise”-&gt;“Server Config”，打开“Configure Sybase Server”窗口。在窗口左侧的Product栏中选择Adaptive，然后点击“Configure Adaptive Server...”按钮，打开“Existing Servers”窗口。在窗口选中服务器，然后点击Continue按钮进入下一窗口。输入用户名和密码，默认用户名为sa，密码为空，点击 Continue。此时如果服务没启，Sybase会提示，点击“确定”，稍等片刻，“Configure Adaptive Server”窗口就出现了。</code></pre><p>在窗口中点击“Language”按钮，打开“Language Options”窗口。</p>
@@ -250,59 +495,132 @@ AS select bookcode, bookname, authorname
     where bookauthor *= authorcode</code></pre><p>点击Finish。至此，存储过程创建完毕。<br>    这个存储过程最为简单，即没有参数，也没有返回值，更没有任何逻辑处理。<br>下 面选中存储过程simple_query，右键，点击“Execute with Interactive SQL”，在Interactive SQL中会生成一条语句“exec dbo.simple_query”，其中exec全拼为execute，表示执行存储过程。执行后，会返回一个结果集，即SQL语句的执行结果。</p>
 <ul>
 <li><p>下面来看一个内容相对完整的存储过程例子：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.simple_demo</span><br><span class="line">(</span><br><span class="line">    <span class="meta">@i</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span> </span>= <span class="string">'Y'</span>,            --输入参数，设置默认值为<span class="string">'Y'</span></span><br><span class="line">    <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span> output       --输出参数</span></span><br><span class="line"><span class="function">)</span></span><br><span class="line"><span class="function">AS</span></span><br><span class="line"><span class="function">BEGIN</span></span><br><span class="line"><span class="function">    <span class="keyword">if</span> @i_mesg </span>= <span class="string">'Y'</span>    --逻辑处理</span><br><span class="line">    begin</span><br><span class="line">        select <span class="meta">@o</span>_mesg = <span class="string">'运行正常！'</span>    --在Sybase中需要使用select语句为变量赋值</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>        --返回值</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    select <span class="meta">@o</span>_mesg = <span class="string">'运行异常！'</span></span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span>           --返回值</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<pre class=" language-java"><code class="language-java">  CREATE PROCEDURE dbo<span class="token punctuation">.</span><span class="token function">simple_demo</span>
+  <span class="token punctuation">(</span>
+      <span class="token annotation punctuation">@i_mesg</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">'Y'</span><span class="token punctuation">,</span>            <span class="token operator">--</span>输入参数，设置默认值为<span class="token string">'Y'</span>
+      <span class="token annotation punctuation">@o_mesg</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span> output       <span class="token operator">--</span>输出参数
+  <span class="token punctuation">)</span>
+  AS
+  BEGIN
+      <span class="token keyword">if</span> <span class="token annotation punctuation">@i_mesg</span> <span class="token operator">=</span> <span class="token string">'Y'</span>    <span class="token operator">--</span>逻辑处理
+      begin
+          select <span class="token annotation punctuation">@o_mesg</span> <span class="token operator">=</span> <span class="token string">'运行正常！'</span>    <span class="token operator">--</span>在Sybase中需要使用select语句为变量赋值
+          <span class="token keyword">return</span> <span class="token number">0</span>        <span class="token operator">--</span>返回值
+      end
+
+      select <span class="token annotation punctuation">@o_mesg</span> <span class="token operator">=</span> <span class="token string">'运行异常！'</span>
+      <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>           <span class="token operator">--</span>返回值
+  END</code></pre>
 <p>这个存储过程虽然没有调用数据表，但带有输入参数、输出参数、逻辑处理和返回值，因此内容相对完整。这里请注意，返回值只能是整数，而输出参数也可以用来将值传入并设置默认值。<br>下面在Interactive SQL中执行以下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">    declare <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span>,      --定义变量</span></span><br><span class="line"><span class="function">                   @ret <span class="keyword">int</span></span></span><br><span class="line"><span class="function">    exec @ret </span>= dbo.simple_demo <span class="string">'N'</span>, <span class="meta">@o</span>_mesg output     --执行存储过程，注意，输出参数必须标以output，否则不会输出任何值</span><br><span class="line">    print <span class="string">'%1!--------%2!'</span>, <span class="meta">@ret</span>, <span class="meta">@o</span>_mesg               --输出结果</span><br><span class="line">按F5键执行，输出结果：-<span class="number">1</span>--------运行异常！</span><br><span class="line">    下面将这段代码写到存储过程当中：</span><br><span class="line">    CREATE PROCEDURE dbo.simple_call</span><br><span class="line">    AS</span><br><span class="line">    BEGIN</span><br><span class="line">        declare <span class="meta">@o</span><span class="function">_mesg <span class="title">nvarchar</span><span class="params">(<span class="number">100</span>)</span>,</span></span><br><span class="line"><span class="function">                       @ret <span class="keyword">int</span></span></span><br><span class="line"><span class="function">        exec @ret </span>= dbo.simple_demo <span class="string">'N'</span>, <span class="meta">@o</span>_mesg output</span><br><span class="line">        print <span class="string">'%1!--------%2!'</span>, <span class="meta">@ret</span>, <span class="meta">@o</span>_mesg</span><br><span class="line">    END</span><br><span class="line">这是一个存储过程调用存储过程的例子了。</span><br><span class="line"></span><br><span class="line">    下面再新建一个simple_execute存储过程，代码如下：</span><br><span class="line">    CREATE PROCEDURE dbo.simple_execute</span><br><span class="line">    AS</span><br><span class="line">    BEGIN</span><br><span class="line">        execute (<span class="string">'select * from v_book'</span>)</span><br><span class="line">    END</span><br></pre></td></tr></table></figure>
+<pre class=" language-java"><code class="language-java">  declare <span class="token annotation punctuation">@o_mesg</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">,</span>      <span class="token operator">--</span>定义变量
+                 <span class="token annotation punctuation">@ret</span> <span class="token keyword">int</span>
+  exec <span class="token annotation punctuation">@ret</span> <span class="token operator">=</span> dbo<span class="token punctuation">.</span>simple_demo <span class="token string">'N'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@o_mesg</span> output     <span class="token operator">--</span>执行存储过程，注意，输出参数必须标以output，否则不会输出任何值
+  print <span class="token string">'%1!--------%2!'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@ret</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@o_mesg</span>               <span class="token operator">--</span>输出结果
+按F5键执行，输出结果：<span class="token operator">-</span><span class="token number">1</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span>运行异常！
+  下面将这段代码写到存储过程当中：
+  CREATE PROCEDURE dbo<span class="token punctuation">.</span>simple_call
+  AS
+  BEGIN
+      declare <span class="token annotation punctuation">@o_mesg</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                     <span class="token annotation punctuation">@ret</span> <span class="token keyword">int</span>
+      exec <span class="token annotation punctuation">@ret</span> <span class="token operator">=</span> dbo<span class="token punctuation">.</span>simple_demo <span class="token string">'N'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@o_mesg</span> output
+      print <span class="token string">'%1!--------%2!'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@ret</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@o_mesg</span>
+  END
+这是一个存储过程调用存储过程的例子了。
+
+  下面再新建一个simple_execute存储过程，代码如下：
+  CREATE PROCEDURE dbo<span class="token punctuation">.</span>simple_execute
+  AS
+  BEGIN
+      <span class="token function">execute</span> <span class="token punctuation">(</span><span class="token string">'select * from v_book'</span><span class="token punctuation">)</span>
+  END</code></pre>
 <p>这个存储过程含有两个内容：一个SQL语句的动态执行，即Sybase中允许将SQL语句处理成一个字符串或字符串变量来执行；一个是对视图的访问。</p>
 <p>  下面再看几个存储过程的例子。<br>  通过游标读取数据示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.p_query_list</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">    declare <span class="meta">@bc</span> nvarchar(<span class="number">10</span>)</span><br><span class="line">                 ,<span class="meta">@bn</span> nvarchar(<span class="number">50</span>)</span><br><span class="line">                 ,<span class="meta">@an</span> nvarchar(<span class="number">20</span>)</span><br><span class="line">    --定义游标</span><br><span class="line">    declare book_curs cursor <span class="keyword">for</span> </span><br><span class="line">    select bookcode, bookname, authorname </span><br><span class="line">        from book, author </span><br><span class="line">        where bookauthor *= authorcode</span><br><span class="line">        order by bookcode</span><br><span class="line"></span><br><span class="line">    open book_curs --打开游标</span><br><span class="line">    </span><br><span class="line">    --循环游标读取数据</span><br><span class="line">    fetch book_curs into <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">    <span class="keyword">while</span> (@<span class="meta">@sqlstatus</span> = <span class="number">0</span>)</span><br><span class="line">    begin</span><br><span class="line">        print <span class="string">'编号：%1!|名称：%2!|作者：%3!'</span>, <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">        fetch book_curs into <span class="meta">@bc</span>, <span class="meta">@bn</span>, <span class="meta">@an</span></span><br><span class="line">    end</span><br><span class="line">    </span><br><span class="line">    close book_curs --关闭游标</span><br><span class="line">    deallocate cursor book_curs --释放游标</span><br><span class="line">END</span><br></pre></td></tr></table></figure></li>
+<pre class=" language-java"><code class="language-java">CREATE PROCEDURE dbo<span class="token punctuation">.</span>p_query_list
+AS
+BEGIN
+  declare <span class="token annotation punctuation">@bc</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+               <span class="token punctuation">,</span><span class="token annotation punctuation">@bn</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+               <span class="token punctuation">,</span><span class="token annotation punctuation">@an</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+  <span class="token operator">--</span>定义游标
+  declare book_curs cursor <span class="token keyword">for</span> 
+  select bookcode<span class="token punctuation">,</span> bookname<span class="token punctuation">,</span> authorname 
+      from book<span class="token punctuation">,</span> author 
+      where bookauthor <span class="token operator">*=</span> authorcode
+      order by bookcode
+
+  open book_curs <span class="token operator">--</span>打开游标
+
+  <span class="token operator">--</span>循环游标读取数据
+  fetch book_curs into <span class="token annotation punctuation">@bc</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bn</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@an</span>
+  <span class="token keyword">while</span> <span class="token punctuation">(</span>@<span class="token annotation punctuation">@sqlstatus</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+  begin
+      print <span class="token string">'编号：%1!|名称：%2!|作者：%3!'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bc</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bn</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@an</span>
+      fetch book_curs into <span class="token annotation punctuation">@bc</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bn</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@an</span>
+  end
+
+  close book_curs <span class="token operator">--</span>关闭游标
+  deallocate cursor book_curs <span class="token operator">--</span>释放游标
+END</code></pre>
+</li>
 <li><p>通过变量读取数据示例：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE PROCEDURE dbo.p_query_detail</span><br><span class="line"><span class="meta">@query</span>      nvarchar(<span class="number">10</span>)</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">    declare <span class="meta">@bookcode</span>   nvarchar(<span class="number">10</span>),</span><br><span class="line">                  <span class="meta">@bookname</span>   nvarchar(<span class="number">50</span>),</span><br><span class="line">                  <span class="meta">@authorname</span> nvarchar(<span class="number">20</span>)</span><br><span class="line">    <span class="comment">/* top用来指定取得结果集的前n条数据，这里使用top 1即表示取得结果集的第一条记录，否则当结果集中有多条记录时，只有最后一条记录的值才会被赋值给变量 */</span></span><br><span class="line">    select top <span class="number">1</span> <span class="meta">@bookcode</span> = bookcode, <span class="meta">@bookname</span> = bookname, <span class="meta">@authorname</span> = authorname from v_book where bookcode = <span class="meta">@query</span></span><br><span class="line"></span><br><span class="line">    print <span class="string">'编号：%1!|名称：%2!|作者：%3!'</span>, <span class="meta">@bookcode</span>, <span class="meta">@bookname</span>, <span class="meta">@authorname</span></span><br><span class="line">END</span><br></pre></td></tr></table></figure>
+<pre class=" language-java"><code class="language-java">CREATE PROCEDURE dbo<span class="token punctuation">.</span>p_query_detail
+<span class="token annotation punctuation">@query</span>      <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+AS
+BEGIN
+  declare <span class="token annotation punctuation">@bookcode</span>   <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token annotation punctuation">@bookname</span>   <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+                <span class="token annotation punctuation">@authorname</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+  <span class="token comment" spellcheck="true">/* top用来指定取得结果集的前n条数据，这里使用top 1即表示取得结果集的第一条记录，否则当结果集中有多条记录时，只有最后一条记录的值才会被赋值给变量 */</span>
+  select top <span class="token number">1</span> <span class="token annotation punctuation">@bookcode</span> <span class="token operator">=</span> bookcode<span class="token punctuation">,</span> <span class="token annotation punctuation">@bookname</span> <span class="token operator">=</span> bookname<span class="token punctuation">,</span> <span class="token annotation punctuation">@authorname</span> <span class="token operator">=</span> authorname from v_book where bookcode <span class="token operator">=</span> <span class="token annotation punctuation">@query</span>
+
+  print <span class="token string">'编号：%1!|名称：%2!|作者：%3!'</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bookcode</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@bookname</span><span class="token punctuation">,</span> <span class="token annotation punctuation">@authorname</span>
+END</code></pre>
 <p>执行：在Sybase Central中选中p_query_detail，右键，点击“Execute with Interactive SQL”，由于p_query_detail有一个输入参数，因此Central会弹出一个Call窗口：</p>
 </li>
 </ul>
 <p>在窗口中填值时一定要注意，由于数据类型为nvarchar(10)，为字符串，因此一定要在值的两边加上单引号“’”。然后点击OK，在Interactive SQL中按F5键执行该存储过程。</p>
 <ul>
 <li><p>使用存储过程插入数据示例：</p>
-<pre><code class="java">CREATE PROCEDURE dbo.p_insert
-<span class="meta">@bookname</span>   nvarchar(<span class="number">50</span>),
-<span class="meta">@bookauthor</span> nvarchar(<span class="number">10</span>),
-<span class="meta">@mesg</span>       nvarchar(<span class="number">200</span>) = <span class="string">'ok'</span> output
+<pre class=" language-java"><code class="language-java">CREATE PROCEDURE dbo<span class="token punctuation">.</span>p_insert
+<span class="token annotation punctuation">@bookname</span>   <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token annotation punctuation">@bookauthor</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token annotation punctuation">@mesg</span>       <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">'ok'</span> output
 AS
 BEGIN
-  declare <span class="meta">@bookcode</span> nvarchar(<span class="number">10</span>)
+  declare <span class="token annotation punctuation">@bookcode</span> <span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
 
-  --使用月、日、时、分、秒组成bookcode
-  select <span class="meta">@bookcode</span> = convert(nvarchar(<span class="number">10</span>), datepart(mm,getdate())*<span class="number">100000000</span> + datepart(dd,getdate())*<span class="number">1000000</span> + datepart(hh,getdate())*<span class="number">10000</span> + datepart(mi,getdate())*<span class="number">100</span> + datepart(ss,getdate()))</code></pre>
+  <span class="token operator">--</span>使用月、日、时、分、秒组成bookcode
+  select <span class="token annotation punctuation">@bookcode</span> <span class="token operator">=</span> <span class="token function">convert</span><span class="token punctuation">(</span><span class="token function">nvarchar</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">datepart</span><span class="token punctuation">(</span>mm<span class="token punctuation">,</span><span class="token function">getdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">100000000</span> <span class="token operator">+</span> <span class="token function">datepart</span><span class="token punctuation">(</span>dd<span class="token punctuation">,</span><span class="token function">getdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">1000000</span> <span class="token operator">+</span> <span class="token function">datepart</span><span class="token punctuation">(</span>hh<span class="token punctuation">,</span><span class="token function">getdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">10000</span> <span class="token operator">+</span> <span class="token function">datepart</span><span class="token punctuation">(</span>mi<span class="token punctuation">,</span><span class="token function">getdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">100</span> <span class="token operator">+</span> <span class="token function">datepart</span><span class="token punctuation">(</span>ss<span class="token punctuation">,</span><span class="token function">getdate</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 </li>
 <li><p>插入数据到book表<br>  insert into book (bookcode, bookname, bookauthor) values (@bookcode, @bookname, @bookauthor)<br>  if @@error &lt;&gt; 0 –异常处理<br>  begin</p>
-<pre><code>select @mesg = &apos;新增数据异常！&apos; + convert(nvarchar(3), @@error)
-rollback    --事务回滚
-return -1</code></pre><p>  end</p>
+<pre><code>  select @mesg = &#39;新增数据异常！&#39; + convert(nvarchar(3), @@error)
+  rollback    --事务回滚
+  return -1</code></pre><p>  end</p>
 <p>  commit  –事务提交<br>  return 0<br>END<br>执行：在Interactive SQL中尝试执行以下代码调用p_insert存储过程：<br>  declare @mesg nvarchar(200),</p>
-<pre><code>@flag int</code></pre><p>  exec @flag = p_insert ‘NUnit学习笔记’, ‘0000000001’, @mesg output<br>  if @flag &lt;&gt; 0<br>  begin</p>
-<pre><code>print @mesg</code></pre><p>  end<br>  else<br>  begin</p>
-<pre><code>print &apos;程序运行正常！&apos;</code></pre><p>  end<br>  go</p>
+<pre><code>             @flag int</code></pre><p>  exec @flag = p_insert ‘NUnit学习笔记’, ‘0000000001’, @mesg output<br>  if @flag &lt;&gt; 0<br>  begin</p>
+<pre><code>  print @mesg</code></pre><p>  end<br>  else<br>  begin</p>
+<pre><code>  print &#39;程序运行正常！&#39;</code></pre><p>  end<br>  go</p>
 <p>  使用存储过程修改数据示例：<br>CREATE PROCEDURE dbo.p_update<br>@bookcode   nvarchar(10),<br>@bookname   nvarchar(50),<br>@bookauthor nvarchar(10)<br>AS<br>BEGIN<br>  update book set bookname = @bookname, bookauthor = @bookauthor where bookcode = @bookcode<br>END</p>
 <p>  使用存储过程删除数据示例：<br>CREATE PROCEDURE dbo.p_delete<br>@bookcode nvarchar(10)<br>AS<br>BEGIN<br>  delete book where bookcode = @bookcode<br>END</p>
 <p>  如果想删掉存储过程，只要选中simple_query，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>  drop procedure dbo.simple_query<br>即可。<br>6．创建触发器<br>  触发器是因某一行为而自动做出反应并进行特定操作的一组SQL语句，可以理解为表的事件。例如在对表进行插入、修改或删除数据等操作时，都会导致触发器被触发。这里我会创建三个触发器，分别对应book表的插入、修改和删除操作。</p>
 <p>  insert触发器：<br>  在Sybase Central的Folders中找到zhengTest-&gt;User Tables-&gt;book-&gt;Triggers并选中，然后在Details中双击“Add Trigger(Wizard)”，打开“Add Trigger”向导。在第一个界面中填写触发器名称，例如t_insert，点击Next；在第二个界面中选择Insert，点击Next；在第三个界 面中输入代码：<br>CREATE TRIGGER dbo.t_insert ON dbo.book<br>  For INSERT AS<br>BEGIN<br>  declare @bookcode   nvarchar(10),</p>
-<pre><code>@bookname   nvarchar(50),
-@bookauthor nvarchar(20)</code></pre><p>  select @bookcode = bookcode, @bookname = bookname, @bookauthor = bookauthor from inserted</p>
+<pre><code>             @bookname   nvarchar(50),
+             @bookauthor nvarchar(20)</code></pre><p>  select @bookcode = bookcode, @bookname = bookname, @bookauthor = bookauthor from inserted</p>
 <p>  print ‘编号：%1!|名称：%2!|作者：%3!’, @bookcode, @bookname, @bookauthor<br>END<br>点击Finish。至此，insert触发器创建完毕。<br>  触 发器其实也可以认为是一种存储过程，就像我们在VB、VC、Delphi、Swing等开发中写的事件处理方法一样，只不过这个存储过程即没有参数，也没 有返回值，更不允许返回结果集，例如select * from book这种语句是绝对不能写到触发器中的。此外，触发器中有两个逻辑表，inserted和deleted，前者代表新插入或更新的值，后者代表数据表 中已存在并将被更新掉或删除掉的值，这里用到了inserted。下面赶紧向book表中插入一条数据，看看效果吧！</p>
 <p>  update触发器，代码：<br>CREATE TRIGGER dbo.t_update ON dbo.book<br>  For UPDATE AS<br>BEGIN<br>  IF UPDATE (bookname)<br>  BEGIN</p>
-<pre><code>rollback transaction</code></pre><p>  END</p>
+<pre><code>  rollback transaction</code></pre><p>  END</p>
 <p>  declare @o_mesg nvarchar(100),</p>
-<pre><code>@ret int</code></pre><p>  exec @ret = dbo.simple_demo ‘N’, @o_mesg output<br>  print ‘%1!——–%2!’, @ret, @o_mesg<br>END<br>这 里需要说明的是IF UPDATE (bookname)，该语句判断bookname字段是否被更新，在这里，bookname被更新便会导致回滚，即数据永远无法通过update bookname字段的方式更改。当有多个字段需要作这种判断时，只要写作“IF UPDATE(bookcode) and|or UPDATE(bookname)”即可。此外，逻辑表inserted、deleted在update触发器中同样有效，相关说明请见insert触发 器。</p>
+<pre><code>             @ret int</code></pre><p>  exec @ret = dbo.simple_demo ‘N’, @o_mesg output<br>  print ‘%1!——–%2!’, @ret, @o_mesg<br>END<br>这 里需要说明的是IF UPDATE (bookname)，该语句判断bookname字段是否被更新，在这里，bookname被更新便会导致回滚，即数据永远无法通过update bookname字段的方式更改。当有多个字段需要作这种判断时，只要写作“IF UPDATE(bookcode) and|or UPDATE(bookname)”即可。此外，逻辑表inserted、deleted在update触发器中同样有效，相关说明请见insert触发 器。</p>
 <p>  delete触发器，代码：<br>CREATE TRIGGER dbo.t_delete ON dbo.book<br>  For DELETE AS<br>BEGIN<br>  declare @bc nvarchar(10)</p>
-<pre><code>,@bn nvarchar(50)
-,@ba nvarchar(10)</code></pre><p>  –定义游标<br>  declare del_curs cursor for </p>
-<pre><code>select bookcode, bookname, bookauthor 
-from deleted
-order by bookcode</code></pre><p>  open del_curs –打开游标</p>
+<pre><code>           ,@bn nvarchar(50)
+           ,@ba nvarchar(10)</code></pre><p>  –定义游标<br>  declare del_curs cursor for </p>
+<pre><code>  select bookcode, bookname, bookauthor 
+  from deleted
+  order by bookcode</code></pre><p>  open del_curs –打开游标</p>
 <p>  –循环游标读取数据<br>  fetch del_curs into @bc, @bn, @ba<br>  while (@@sqlstatus = 0)<br>  begin</p>
-<pre><code>print &apos;编号：%1!|名称：%2!|作者：%3!&apos;, @bc, @bn, @ba
-fetch del_curs into @bc, @bn, @ba</code></pre><p>  end</p>
+<pre><code>  print &#39;编号：%1!|名称：%2!|作者：%3!&#39;, @bc, @bn, @ba
+  fetch del_curs into @bc, @bn, @ba</code></pre><p>  end</p>
 <p>  close del_curs –关闭游标<br>  deallocate cursor del_curs –释放游标<br>END<br>这里使用了逻辑表deleted和游标来查询被删除的数据。</p>
 <p>  注意，insert、update、delete触发器在每张表中都只允许创建一个，如果再次创建，例如insert触发器，无论使用什么 名字，如test_trigger，之前创建的insert触发器都会被覆盖掉。此外，Sybase也允许在一个触发器中指定多个操作，例如：<br>CREATE TRIGGER dbo.t_author ON dbo.author<br>For INSERT, DELETE, UPDATE AS<br>BEGIN<br>  print ‘author表的触发器被执行！’<br>END<br>这个触发器就同时被指定了insert、update和delete操作。<br>  此外，我们还可以指定触发器失效或者有效，只要选中触发器，右键，点击Disable/Enable，或者在Interactive SQL 中执行命令：<br>  alter table dbo.book disable| enable trigger dbo.t_insert<br>即可。<br>  如果想删掉触发器，只要选中触发器，右键，点击Delete，或者在Interactive SQL 中执行命令：<br>  drop trigger dbo.t_insert<br>即可。</p>
 </li>
@@ -414,7 +732,7 @@ if (cn != null)
  cn.Close(); //关闭连接对象</code></pre><p>   }<br>   catch( AseException ex )<br>   {<br>    Console.WriteLine(ex.Message);<br>   }<br>   finally<br>   {<br>    cmd = null;<br>    cn = null;<br>   }<br>  }<br> }<br>}<br>跟 第二个Java例子类似，演示如何访问simple_demo存储过程。不过ADO.net调用存储过程的方式与JDBC不同，只允许在命令对象中输入过 程名作为语句，而且不支持“?”占位符。关于参数设置中用到的RETURN_VALUE、@i_mesg、@o_mesg，分别代表 simple_demo的返回值和两个参数。由于simple_demo不会返回记录集，因此需要使用ExecuteNonQuery方法来执行。这里推 荐一下文章《将存储过程用于命令》，该文对ADO.net访问存储过程进行了比较详细的介绍，从.net Framework自带文档或网上都能找到。</p>
 <pre><code>另外，再提供两个连接字符串：
 Sybase for OLED：PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;</code></pre><p>请注意字符串中的Initial Catalog=zhengTest，表示要访问我在Sybase中创建的zhengTest数据库，而CharSet=cp936是用来设置字符集的，不设置会乱码。<br>    Sybase for ODBC：DSN=zhengTest_Sybase;UID=sa;PWD=;CharSet=cp936;<br>字符串中的DSN=zhengTest_Sybase表示访问我在ODBC中设置的数据源zhengTest_Sybase（如何在ODBC中设置数据源就不演示了），而CharSet=cp936也是用来设置字符集的，但在当前环境中不是必须的。<br> 关于OLEDB和ODBC的使用，与示例类似，请参考其他ADO.net书籍或文档。<br>五、使用Perl访问Sybase<br>     我使用的Perl是5.8.8 build 820，虽然默认不带数据库访问接口，但可以使用工具ppm下载到DBI。<br>     打 开命令行工具，输入ppm search dbi，查找dbi，有183个结果，我们需要的是第56个——DBI v1.57。下面执行命令ppm install dbi，如果提示错误，请尝试ppm install 56，即安装查询结果中的第56个。不过安装结束后，暂时还是无法使用DBI来连接数据库，因为DBI提供的只是一套数据库接口，而不是数据库驱动，因此 还需要安装dbd-ado和dbd-odbc，安装方法同dbi。<br>    不过您或许已经注意到了，我使用的dbi版本不是最新的1.58，而且驱动也不是dbd-sybase，的确，因为这些都没有安装包，只能从<a href="http://www.perl.com/CPAN/" target="_blank" rel="noopener">http://www.perl.com/CPAN/</a> 上 下载源码自己编译。我自己倒是也做了不少尝试，包括安装FreeTDS，在cygwin和WinGW中make，结果都失败了，自己推测原因大约是 Perl和DBI、DBD-SYBASE之间版本不对应，毕竟这些东东每个版本接口都会有所变化。最后在经过一周的折磨之后，终于连编译Ruby的 dbd_sybase模块的想法统统放弃了。</p>
-<pre><code>这里也是两个例子。第一个例子的代码如下：</code></pre><p>use DBI;<br>#创建连接对象，类型为ADO<br>$dbh=DBI-&gt;connect(‘DBI:ADO:PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;’);</p>
+<pre><code> 这里也是两个例子。第一个例子的代码如下：</code></pre><p>use DBI;<br>#创建连接对象，类型为ADO<br>$dbh=DBI-&gt;connect(‘DBI:ADO:PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;Initial Catalog=zhengTest;CharSet=cp936;’);</p>
 <p>$sth=$dbh-&gt;prepare(‘exec simple_query’ ); #获得声明对象<br>$sth-&gt;execute; #当有结果集时，使用execute方法</p>
 <p>while (@row=$sth-&gt;fetchrow_array) {<br>  print ‘编号：’, $row[0];<br>  print ‘|名称：’, $row[1];<br>  print ‘|作者：’, $row[2], “/n”;<br>}</p>
 <p>$sth-&gt;finish if $sth; #关闭声明</p>
@@ -444,275 +762,744 @@ Sybase for OLED：PROVIDER=ASEOLEDB;Server=image;Port=5000;User Id=sa;Password=;
 由 于本文只是使用Ruby访问Sybase，因此没打算对dbi作深入介绍。如果对dbi有兴趣，建议在网上找一篇名为《firstworks Programming with SQL Relay using the Ruby DBI API》的文章，虽然是英文的，但内容很全面，对多种数据库都有介绍，值得一看。
 别告诉我你英文不好，我英文也不好，不也是用着金山词霸就那么看了吗^_^</code></pre><p>七、小结<br>    本文只是对Sybase操作的简单介绍，像索引、序列这些都没有作说明，而且给出的Java、.net、Perl和Ruby示例也都比较简单，如果希望了解更多内容，还请参考其他书籍或文档。<br>    此 外，SQL Server与Sybase系出同门，大约是在Sybase 6的时候微软不愿再同Sybase公司合作而分成两支的，因此如果手头缺少Sybase资料，也不妨参考一下SQL Server的文档。不过作为一款大型数据库，Sybase至今已发布了15个大的版本，却不知道为什么，在程序汉化和帮助文档方面做得始终很差，而且提 供的功能也很弱，像用户自定义函数、try-catch语句和row_number函数这些，至今没有，因此在使用SQL Server文档的时候，如果发现某些功能在Sybase中实现不了，请不要奇怪。</p>
 
-      </div>
-      
-      
-      
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/myblog/about" rel="external nofollow noreferrer">chfsun</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://chfsun.gitee.io/myblog/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html">http://chfsun.gitee.io/myblog/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/myblog/about" target="_blank">chfsun</a>
+                    !
+                </span>
+            </div>
+        
     </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/myblog/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="qq,qzone,wechat,weibo" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/myblog/libs/share/js/social-share.min.js"></script>
     
 
     
-    
-    
 
+</div>
 
-          </div>
-          
-    <div class="comments" id="gitalk-container"></div>
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/myblog/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/myblog/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-	(function(){
-		if(''){
-			if (prompt('请输入文章密码') !== ''){
-				alert('密码错误');
-				history.back();
-			}
-		}
-	})();
-  
-
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
+    $(function () {
+        $('.tabs').tabs();
     });
-  }
 </script>
 
+            
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sybase——学习笔记"><span class="nav-number">1.</span> <span class="nav-text">[Sybase——学习笔记]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、安装"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">一、安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、简单操作"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">二、简单操作</span></a></li></ol></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="chfsun"
-      src="/myblog/images/avatar.gif">
-  <p class="site-author-name" itemprop="name">chfsun</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/myblog/archives/">
-        
-          <span class="site-state-item-count">35</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/myblog/categories">
-          
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/myblog/tags">
-          
-        <span class="site-state-item-count">15</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://wpa.qq.com/msgrd?v=3&uin=316572403&site=qq&menu=yes" title="QQ → https:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;316572403&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>QQ</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="mailto:316572403@qq.com" title="E-Mail → mailto:316572403@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-
-
-      </div>
-	 
-	  
-	  
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
 
+    
 
-      </div>
-    </main>
+    
 
-    <footer class="footer">
-      <div class="footer-inner">
-        
+    
 
-        
-<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2021</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">chfsun</span>
+    
+
+    
+
+    
+        <style>
+    .mvaline-card {
+        margin: 1.5rem auto;
+    }
+
+    .mvaline-card .card-content {
+        padding: 20px 20px 5px 20px;
+    }
+</style>
+
+<div class="card mvaline-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="mvcomments" class="card-content" style="display: grid">
+    </div>
 </div>
 
-<div class="powered-by">
-<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
-  本站访客数:<span id="busuanzi_value_site_uv"></span>
-</span>
-</div>
-<!-- -->
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
-</div>
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script size="300" alpha="0.6" zIndex="-1" src="//cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js"></script>
-  <script src="/myblog/lib/anime.min.js"></script>
-  <script src="/myblog/lib/velocity/velocity.min.js"></script>
-  <script src="/myblog/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/myblog/js/utils.js"></script>
-
-<script src="/myblog/js/motion.js"></script>
-
-
-<script src="/myblog/js/schemes/pisces.js"></script>
-
-
-<script src="/myblog/js/next-boot.js"></script>
-
-
-
-
-  
-  <script>
-    (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
-  </script>
-
-
-
-
-  
-<script src="/myblog/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-  
-  <script src="//cdn.jsdelivr.net/npm/quicklink@1/dist/quicklink.umd.js"></script>
-  <script>
-      window.addEventListener('load', () => {
-      quicklink({
-        timeout : 3000,
-        priority: true,
-        ignores : [uri => uri.includes('#'),uri => uri === 'http://chfsun.gitee.io/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html',]
-      });
-      });
-  </script>
-
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
-
+<script src="/myblog/libs/minivaline/MiniValine.js"></script>
 <script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : '0b5a2d7255d7c0b2a142',
-      clientSecret: '8489625c00546f06c7684b0180efc982654ad69f',
-      repo        : 'blog',
-      owner       : 'chfsun',
-      admin       : ['chfsun'],
-      id          : '0581fa43cc0a07fe0ab891b673426792',
-        language: 'zh-CN',
-      distractionFreeMode: true
+    new MiniValine({
+        el: '#mvcomments',
+        appId: 'zhM0AOiqle17oPoE84CoYw1e-gzGzoHsz',
+        appKey: 'itmzT1JbXfAjVwMqDhGPzU45',
+        mode: 'DesertsP',
+        placeholder: 'Write a Comment',
+        pathname: window.location.pathname,
+        lang: 'zh-CN',
+        adminEmailMd5: 'de8a7aa53d07e6b6bceb45c64027763d',
+        tagMeta: ["管理员", "小伙伴", "访客"],
+        master: ["de8a7aa53d07e6b6bceb45c64027763d"],
+        friends: ["b5bd5d836c7a0091aa8473e79ed4c25e", "adb7d1cd192658a55c0ad22a3309cecf", "3ce1e6c77b4910f1871106cb30dc62b0", "cfce8dc43725cc14ffcd9fb4892d5bfc"],
+        math: true,
+        md: true,
+        enableQQ: false,
+        NoRecordIP: false,
+        visitor: true,
+        maxNest: 6,
+        pageSize: 6,
+        serverURLs: '',
+        emoticonUrl: ["https://cdn.jsdelivr.net/npm/alus@latest", "https://cdn.jsdelivr.net/gh/MiniValine/qq@latest", "https://cdn.jsdelivr.net/gh/MiniValine/Bilibilis@latest", "https://cdn.jsdelivr.net/gh/MiniValine/tieba@latest", "https://cdn.jsdelivr.net/gh/MiniValine/twemoji@latest", "https://cdn.jsdelivr.net/gh/MiniValine/weibo@latest"],
     });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
+</script>
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            chfsun
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/myblog/Sybase%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BD%BF%E7%94%A8.html">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        
+                        <span class="card-title"></span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-25
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            chfsun
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/myblog/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/myblog/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/myblog/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/myblog/libs/codeBlock/codeShrink.js"></script>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/myblog/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/myblog/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/myblog/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2018-2021</span>
+            
+            <span id="year">2018</span>
+            <a href="/myblog/about" target="_blank">chfsun</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">190.1k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=316572403" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 316572403" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+    <a href="/myblog/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/myblog/search.xml', 'searchInput', 'searchResult');
 });
 </script>
 
-  <!-- 页面点击小红心 -->
-  <script type="text/javascript" src="/myblog/js/love.js"></script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/myblog/libs/materialize/materialize.min.js"></script>
+    <script src="/myblog/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/myblog/libs/aos/aos.js"></script>
+    <script src="/myblog/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/myblog/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/myblog/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+    
+    <script src="/myblog/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/myblog/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+	
+    
+
+    
+
+    
+    <script type="text/javascript" src="/myblog/libs/background/ribbon-dynamic.js" async="async"></script>
+    
+
+    
+    <script src="/myblog/libs/instantpage/instantpage.js" type="module"></script>
+    
+
 <script src="/myblog/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/myblog/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
 </html>
