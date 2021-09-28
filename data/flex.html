@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="Flex box布局, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>Flex box布局 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">Flex box布局</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-04-14
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,8 +484,34 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
-
+                <h4 id="一、容器属性"><a href="#一、容器属性" class="headerlink" title="一、容器属性"></a>一、容器属性</h4><h6 id="1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"><a href="#1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性" class="headerlink" title="1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"></a>1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性</h6><a id="more"></a>
+<pre><code>作用:
+1. 它能够更加高效方便的控制元素的对齐、排列
+2. 可以自动计算布局内元素的尺寸，无论这个元素的尺寸是固定的还是动态的
+3. 控制元素在页面的布局方向
+4. 按照不同于DOM所指定排序方式对屏幕上的元素重新排序</code></pre><h6 id="2-Flex基本概念"><a href="#2-Flex基本概念" class="headerlink" title="2.Flex基本概念"></a>2.Flex基本概念</h6><pre><code> 2.1 采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”
+ 2.2 水平主轴（main axis）
+ 2.3 垂直交叉轴（cross axis）
+ 2.4 项目默认沿主轴排列</code></pre><h6 id="3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效"><a href="#3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效" class="headerlink" title="3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效"></a>3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效</h6><h6 id="4-flex-direction-决定主轴的方向（即项目的排列方向）"><a href="#4-flex-direction-决定主轴的方向（即项目的排列方向）" class="headerlink" title="4. flex-direction 决定主轴的方向（即项目的排列方向）"></a>4. flex-direction 决定主轴的方向（即项目的排列方向）</h6><pre><code> 4.1 row（默认）、row-reverse：主轴为水平方向，起点在左端、右端
+ 4.2 column 、column-reverse：主轴为垂直方向，起点在上沿、下沿</code></pre><h6 id="5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"><a href="#5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行" class="headerlink" title="5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"></a>5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行</h6><pre><code> 5.1 nowrap（默认）：不换行
+ 5.2 wrap：换行，第一行在上方
+ 5.3 wrap-reverse：换行，第一行在下方</code></pre><h6 id="6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap"><a href="#6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap" class="headerlink" title="6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap"></a>6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap</h6><pre><code>  符合团队习惯，不能因为简便，而去损失了代码的可读性</code></pre><h6 id="7-justify-content-定义了项目在主轴上的对齐方式"><a href="#7-justify-content-定义了项目在主轴上的对齐方式" class="headerlink" title="7. justify-content 定义了项目在主轴上的对齐方式"></a>7. justify-content 定义了项目在主轴上的对齐方式</h6><pre><code> 7.1 flex-start（默认值）：左对齐
+ 7.2 flex-end：右对齐
+ 7.3 center： 居中
+ 7.4 space-between：两端对齐，项目之间的间隔都相等
+ 7.5 space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍</code></pre><h6 id="8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"><a href="#8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下" class="headerlink" title="8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"></a>8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下</h6><pre><code>8.1 flex-start：交叉轴的起点对齐
+8.2 flex-end：交叉轴的终点对齐
+8.3 center：交叉轴的中点对齐
+8.4 baseline: 项目的第一行文字的基线对齐
+8.5 stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度</code></pre><h4 id="二、项目属性"><a href="#二、项目属性" class="headerlink" title="二、项目属性"></a>二、项目属性</h4><h6 id="1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0"><a href="#1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0" class="headerlink" title="1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0"></a>1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0</h6><pre><code>1.1 必须为 0 或者 非负整数
+1.2 负数的话不起作用，会排列在首位，设置了order属性，会按照order属性的值大小排列</code></pre><h6 id="2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"><a href="#2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的" class="headerlink" title="2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"></a>2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的</h6><pre><code>2.1 flex-grow: &lt;number&gt;;
+2.2 不能为负数，虽然可以设置为正小数值，一般不这么用
+2.3 平均分配的含义是，去掉内容之后的空间进行均分，如果本身内容就多，虽然均分，但还是占比较大的空间</code></pre><h6 id="3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"><a href="#3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的" class="headerlink" title="3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"></a>3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的</h6><pre><code>3.1 flex-shrink: &lt;number&gt;;
+3.2 负值对该属性无效</code></pre><h6 id="4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"><a href="#4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小" class="headerlink" title="4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"></a>4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小</h6><pre><code>4.1 length: 我们平常用的一些属性值，如 px、%、 rem等 
+4.2 具体的空间算法：伸缩项目分配的空间=伸缩容器的空间 - basis设置的空间 - 其他项目内容的空间</code></pre><h6 id="5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto"><a href="#5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto" class="headerlink" title="5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto"></a>5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto</h6><pre><code>5.1 两个快捷值
+   flex：auto；代表 (1 1 auto)
+   flex：none；代表 (0 0 auto)</code></pre><h6 id="6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"><a href="#6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性" class="headerlink" title="6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"></a>6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性</h6><pre><code>6.1 默认值为auto，表示继承父元素的align-items属性
+6.2 可能取6个值，除了auto，其他都与align-items属性完全一致</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +537,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/flex.html">http://chfsun.gitee.io/myblog/myblog/data/flex.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +574,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,34 +797,46 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/flex.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/9.jpg" class="responsive-img" alt="Flex box布局">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">Flex box布局</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            一、容器属性1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,34 +847,46 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/flex.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/9.jpg" class="responsive-img" alt="Flex box布局">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">Flex box布局</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            一、容器属性1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-14
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

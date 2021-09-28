@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="前端食用规范(七)css表现之性能优化, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>前端食用规范(七)css表现之性能优化 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">前端食用规范(七)css表现之性能优化</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-05-02
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-07
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    6 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,7 +484,153 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <h3 id="慎重选择高消耗的样式"><a href="#慎重选择高消耗的样式" class="headerlink" title="慎重选择高消耗的样式"></a>慎重选择高消耗的样式</h3><p>高消耗属性在绘制前需要浏览器进行大量计算：</p>
+<ul>
+<li>box-shadows</li>
+<li>border-radius</li>
+<li>transparency</li>
+<li>transforms</li>
+<li>CSS filters（性能杀手）</li>
+</ul>
+<h3 id="避免过分重排"><a href="#避免过分重排" class="headerlink" title="避免过分重排"></a>避免过分重排</h3><p>当发生重排的时候，浏览器需要重新计算布局位置与大小。</p>
+<p>常见的重排元素:</p>
+<ul>
+<li>width</li>
+<li>height</li>
+<li>padding</li>
+<li>margin</li>
+<li>display</li>
+<li>border-width</li>
+<li>position</li>
+<li>top</li>
+<li>left</li>
+<li>right</li>
+<li>bottom</li>
+<li>font-size</li>
+<li>float</li>
+<li>text-align</li>
+<li>overflow-y</li>
+<li>font-weight</li>
+<li>overflow</li>
+<li>font-family</li>
+<li>line-height</li>
+<li>vertical-align</li>
+<li>clear</li>
+<li>white-space</li>
+<li>min-height</li>
+</ul>
+<h3 id="正确使用-Display-的属性"><a href="#正确使用-Display-的属性" class="headerlink" title="正确使用 Display 的属性"></a>正确使用 Display 的属性</h3><p>Display 属性会影响页面的渲染，请合理使用。</p>
+<ul>
+<li><p>display: inline后不应该再使用 width、height、margin、padding 以及 float；</p>
+</li>
+<li><p>display: inline-block 后不应该再使用 float；</p>
+</li>
+<li><p>display: block 后不应该再使用 vertical-align；</p>
+</li>
+<li><p>display: table-* 后不应该再使用 margin 或者 float；</p>
+</li>
+</ul>
+<h3 id="不滥用-Float"><a href="#不滥用-Float" class="headerlink" title="不滥用 Float"></a>不滥用 Float</h3><p>Float在渲染时计算量比较大，尽量减少使用。</p>
+<h3 id="动画性能优化"><a href="#动画性能优化" class="headerlink" title="动画性能优化"></a>动画性能优化</h3><p>动画的实现原理，是利用了人眼的“视觉暂留”现象，在短时间内连续播放数幅静止的画面，使肉眼因视觉残象产生错觉，而误以为画面在“动”。</p>
+<p>动画的基本概念：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>帧</td>
+<td>在动画过程中，每一幅静止画面即为一“帧”;</td>
+</tr>
+<tr>
+<td>帧率</td>
+<td>即每秒钟播放的静止画面的数量，单位是fps(Frame per second);</td>
+</tr>
+<tr>
+<td>帧时长</td>
+<td>即每一幅静止画面的停留时间，单位一般是ms(毫秒);</td>
+</tr>
+<tr>
+<td>跳帧(掉帧/丢帧)</td>
+<td>在帧率固定的动画中，某一帧的时长远高于平均帧时长，导致其后续数帧被挤压而丢失的现象。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>一般浏览器的渲染刷新频率是 60 fps，所以在网页当中，帧率如果达到 50-60 fps 的动画将会相当流畅，让人感到舒适。</p>
+</blockquote>
+<ul>
+<li><p>如果使用基于 javaScript 的动画，尽量使用 requestAnimationFrame. 避免使用 setTimeout, setInterval.</p>
+</li>
+<li><p>避免通过类似 jQuery animate()-style 改变每帧的样式，使用 CSS 声明动画会得到更好的浏览器优化。</p>
+</li>
+<li><p>使用 translate 取代 absolute 定位就会得到更好的 fps，动画会更顺滑。<br><img src="https://img-blog.csdnimg.cn/c15691fa927542978fbdf945e5e00bc6.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="High Performance Animations"></p>
+</li>
+</ul>
+<h3 id="多利用硬件能力，如通过-3D-变形开启-GPU-加速"><a href="#多利用硬件能力，如通过-3D-变形开启-GPU-加速" class="headerlink" title="多利用硬件能力，如通过 3D 变形开启 GPU 加速"></a>多利用硬件能力，如通过 3D 变形开启 GPU 加速</h3><p>一般在 Chrome 中，3D或透视变换（perspective transform）CSS属性和对 opacity 进行 CSS 动画会创建新的图层，在硬件加速渲染通道的优化下，GPU 完成 3D 变形等操作后，将图层进行复合操作（Compesite Layers），从而避免触发浏览器大面积重绘和重排。</p>
+<blockquote>
+<p>注：3D 变形会消耗更多的内存和功耗。</p>
+</blockquote>
+<p>使用 translate3d 右移 500px 的动画流畅度要明显优于直接使用 left：</p>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.ball-1</span> </span><span class="token punctuation">{</span>
+      <span class="token property">transition</span><span class="token punctuation">:</span> -webkit-transform <span class="token number">.5</span>s ease<span class="token punctuation">;</span>
+      <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> translate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.ball-1.slidein</span></span><span class="token punctuation">{</span>
+      <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> translate<span class="token number">3</span><span class="token function">d</span><span class="token punctuation">(</span><span class="token number">500</span>px, <span class="token number">0</span>, <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.ball-2</span> </span><span class="token punctuation">{</span>
+      <span class="token property">transition</span><span class="token punctuation">:</span> left <span class="token number">.5</span>s ease<span class="token punctuation">;</span> left：<span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.ball-2.slidein</span> </span><span class="token punctuation">{</span>
+      left：<span class="token number">500</span>px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="提升-CSS-选择器性能"><a href="#提升-CSS-选择器性能" class="headerlink" title="提升 CSS 选择器性能"></a>提升 CSS 选择器性能</h3><p>CSS 选择器对性能的影响源于浏览器匹配选择器和文档元素时所消耗的时间，所以优化选择器的原则是应尽量避免使用消耗更多匹配时间的选择器。而在这之前我们需要了解 CSS 选择器匹配的机制， 如子选择器规则：</p>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token id">#header</span> > a </span><span class="token punctuation">{</span><span class="token property">font-weight</span><span class="token punctuation">:</span>blod<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>
+<p>我们中的大多数人都是从左到右的阅读习惯，会习惯性的设定浏览器也是从左到右的方式进行匹配规则，推测这条规则的开销并不高。</p>
+<p>我们会假设浏览器以这样的方式工作：寻找 id 为 header 的元素，然后将样式规则应用到直系子元素中的 a 元素上。我们知道文档中只有一个 id 为 header 的元素，并且它只有几个 a 元素的子节点，所以这个 CSS 选择器应该相当高效。</p>
+<p>事实上，却恰恰相反，CSS 选择器是从右到左进行规则匹配。了解这个机制后，例子中看似高效的选择器在实际中的匹配开销是很高的，浏览器必须遍历页面中所有的 a 元素并且确定其父元素的 id 是否为 header 。</p>
+<p>如果把例子的子选择器改为后代选择器则会开销更多，在遍历页面中所有 a 元素后还需向其上级遍历直到根节点。</p>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token id">#header</span>  a </span><span class="token punctuation">{</span><span class="token property">font-weight</span><span class="token punctuation">:</span>blod<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre>
+<p>理解了CSS选择器从右到左匹配的机制后，明白只要当前选择符的左边还有其他选择符，样式系统就会继续向左移动，直到找到和规则匹配的选择符，或者因为不匹配而退出。我们把最右边选择符称之为关键选择器。——更多详情</p>
+<h4 id="如何减少-CSS-选择器性能损耗？"><a href="#如何减少-CSS-选择器性能损耗？" class="headerlink" title="如何减少 CSS 选择器性能损耗？"></a>如何减少 CSS 选择器性能损耗？</h4><p>Google 资深web开发工程师 Steve Souders 对 CSS 选择器的执行效率从高到低做了一个排序：</p>
+<ol>
+<li>id选择器（#myid）</li>
+<li>类选择器（.myclassname）</li>
+<li>标签选择器（div,h1,p）</li>
+<li>相邻选择器（h1+p）</li>
+<li>子选择器（ul &lt; li）</li>
+<li>后代选择器（li a）</li>
+<li>通配符选择器（*）</li>
+<li>属性选择器（a[rel=”external”]）</li>
+<li>伪类选择器（a:hover, li:nth-child）</li>
+</ol>
+<p>根据以上「选择器匹配」与「选择器执行效率」原则，我们可以通过避免不恰当的使用，提升 CSS 选择器性能。</p>
+<h4 id="1、避免使用通用选择器"><a href="#1、避免使用通用选择器" class="headerlink" title="1、避免使用通用选择器"></a>1、避免使用通用选择器</h4><pre><code>/* Not recommended */
+.content * {color: red;}</code></pre><p>浏览器匹配文档中所有的元素后分别向上逐级匹配 class 为 content 的元素，直到文档的根节点。因此其匹配开销是非常大的，所以应避免使用关键选择器是通配选择器的情况。</p>
+<h4 id="2、避免使用标签或-class-选择器限制-id-选择器"><a href="#2、避免使用标签或-class-选择器限制-id-选择器" class="headerlink" title="2、避免使用标签或 class 选择器限制 id 选择器"></a>2、避免使用标签或 class 选择器限制 id 选择器</h4><pre><code>/* Not recommended */
+button#backButton {…}
+/* Recommended */
+#newMenuIcon {…}</code></pre><h4 id="3、避免使用标签限制-class-选择器"><a href="#3、避免使用标签限制-class-选择器" class="headerlink" title="3、避免使用标签限制 class 选择器"></a>3、避免使用标签限制 class 选择器</h4><pre><code>/* Not recommended */
+treecell.indented {…}
+/* Recommended */
+.treecell-indented {…}
+/* Much to recommended */
+.hierarchy-deep {…}</code></pre><h4 id="4、避免使用多层标签选择器。使用-class-选择器替换，减少css查找"><a href="#4、避免使用多层标签选择器。使用-class-选择器替换，减少css查找" class="headerlink" title="4、避免使用多层标签选择器。使用 class 选择器替换，减少css查找"></a>4、避免使用多层标签选择器。使用 class 选择器替换，减少css查找</h4><pre><code>/* Not recommended */
+treeitem[mailfolder=&quot;true&quot;] &gt; treerow &gt; treecell {…}
+/* Recommended */
+.treecell-mailfolder {…}</code></pre><h4 id="5、避免使用子选择器"><a href="#5、避免使用子选择器" class="headerlink" title="5、避免使用子选择器"></a>5、避免使用子选择器</h4><pre><code>/* Not recommended */
+treehead treerow treecell {…}
+/* Recommended */
+treehead &gt; treerow &gt; treecell {…}
+/* Much to recommended */
+.treecell-header {…}</code></pre><h4 id="6、使用继承"><a href="#6、使用继承" class="headerlink" title="6、使用继承"></a>6、使用继承</h4><pre><code>/* Not recommended */
+#bookmarkMenuItem &gt; .menu-left { list-style-image: url(blah) }
+/* Recommended */
+#bookmarkMenuItem { list-style-image: url(blah) }</code></pre><h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p>作为一名前端工程师，应该具有「提升 CSS 选择器性能」的意识，但实际应用中，是否需要完全贯彻这些原则呢？这是一个探索「追求高性能」与「可维护性」两者平衡的问题。</p>
+<p>对于「淘宝等电商类网站」，每个页面的 DOM 元素可能超过1000个以上的网站来说，通过优化 CSS 选择器，改善性能是具有实际意义的。但对于普通网站，应更倾向于在保证「语义化」和「可维护性」的前提下，提升 CSS 选择器性能。</p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p>「1」Efficiently Rendering CSS<br>「2」Writing efficient CSS<br>「3」Performance Impact of CSS Selectors<br>「4」CSS Test Creator<br>「5」高性能CSS<br>「6」如何撰寫有效率的CSS選擇器</p>
 
                 
             </div>
@@ -498,7 +657,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html">http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +694,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,13 +917,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="前端食用规范(七)css表现之性能优化">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(七)css表现之性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,17 +934,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,13 +967,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="前端食用规范(七)css表现之性能优化">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(七)css表现之性能优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,17 +984,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

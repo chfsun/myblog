@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,14 +430,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-07-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    373
                 </div>
                 
 
@@ -471,7 +471,16 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>第3次课vue——base<br> 一、组件<br>   1、组件声明<br>    Vue 的组件可以通过两种方式来声明：<br>        一种是通过 Vue.component，另外一种则是 Single File Components（SFC）； </p>
+<pre><code>Vue.component方式（见官网  组件基础/基本示例）
+SFC：在实际工作中，大部分都是用官方的脚手架 vue-cli 生成项目，用的也是 SFC 这种方式。 </code></pre><p>   2、通过 Prop 向子组件传递数据<br>      1、父传子：在调用的父组件中定义数据名称并同时声明要传的值，在子组件中通过props接收即可<br>               传递静态或动态的<br>         props可接收固定的字符串外还可接收其它类型，如对象，json数组等；<br>         父级 prop 的更新会向下流动到子组件中，但是反过来则不行。<br>         这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<pre><code>     1.1:Prop
+
+  2、子传父：$emit来传递,规则$emit()中的参数第一个为key，父级使用的时候使用事件传递，则方法触发名必须为子类的key，
+        然后通过方法的参数，得到子类的$emit()中的value值，实现传参。
+        如果需要获取时事数据则需要使用v-model，作为子类的$emit()中的value值
+        注意：子传父只能通过事件传
+同样的父传子也可以使用v-model来</code></pre><p>二、组件加载与keep-alive</p>
 
                 
             </div>
@@ -498,7 +507,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89).html">http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +763,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +780,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +801,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +818,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="前端食用规范(九)JavaScript行为之通用约定, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>前端食用规范(九)JavaScript行为之通用约定 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/8.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">前端食用规范(九)JavaScript行为之通用约定</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-05-03
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-07
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,7 +484,158 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <blockquote>
+<p>此处仅介绍jQuery规范，其它框架规范，待后续补全</p>
+</blockquote>
+<h2 id="一、jQuery-规范"><a href="#一、jQuery-规范" class="headerlink" title="一、jQuery 规范"></a>一、jQuery 规范</h2><h4 id="使用最新版本的-jQuery"><a href="#使用最新版本的-jQuery" class="headerlink" title="使用最新版本的 jQuery"></a>使用最新版本的 jQuery</h4><p>最新版本的 jQuery 会改进性能和增加新功能，若不是为了兼容旧浏览器，建议使用最新版本的 jQuery。以下是三条常见的 jQuery 语句，版本越新，性能越好：</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.elem'</span><span class="token punctuation">)</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">'.elem'</span><span class="token punctuation">,</span> context<span class="token punctuation">)</span>
+context<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'.elem'</span><span class="token punctuation">)</span></code></pre>
+<p>jQuery 规范 - 图1分别使用 1.4.2、1.4.4、1.6.2 三个版本测试浏览器在一秒内能够执行多少次，结果 1.6.2 版执行次数远超两个老版本。</p>
+<h4 id="jQuery-变量"><a href="#jQuery-变量" class="headerlink" title="jQuery 变量"></a>jQuery 变量</h4><ol>
+<li>存放 jQuery 对象的变量以 $ 开头；</li>
+<li>将 jQuery 选择器返回的对象缓存到本地变量中复用；</li>
+<li>使用驼峰命名变量；</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> $myDiv <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#myDiv"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+$myDiv<span class="token punctuation">.</span><span class="token function">click</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token operator">...</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h4><ol>
+<li>尽可能的使用 ID 选择器，因为它会调用浏览器原生方法 document.getElementById 查找元素。当然直接使用原生 document.getElementById 方法性能会更好；</li>
+<li>在父元素中选择子元素使用 .find() 方法性能会更好, 因为 ID 选择器没有使用到 Sizzle 选择器引擎来查找元素；</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// Not recommended</span>
+<span class="token keyword">var</span> $productIds <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#products .class"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Recommended</span>
+<span class="token keyword">var</span> $productIds <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#products"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">".class"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="DOM-操作"><a href="#DOM-操作" class="headerlink" title="DOM 操作"></a>DOM 操作</h4><ol>
+<li>当要操作 DOM 元素的时候，尽量将其分离节点，操作结束后，再插入节点；</li>
+<li>使用字符串连接或 array.join 要比 .append()性能更好；</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> $myList <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#list-container > ul"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">detach</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//...a lot of complicated things on $myList</span>
+$myList<span class="token punctuation">.</span><span class="token function">appendTo</span><span class="token punctuation">(</span><span class="token string">"#list-container"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Not recommended</span>
+<span class="token keyword">var</span> $myList <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#list"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    $myList<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token string">"&lt;li>"</span><span class="token operator">+</span>i<span class="token operator">+</span><span class="token string">"&lt;/li>"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// Recommended</span>
+<span class="token keyword">var</span> $myList <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#list"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> list <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    list <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">"&lt;li>"</span><span class="token operator">+</span>i<span class="token operator">+</span><span class="token string">"&lt;/li>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+$myList<span class="token punctuation">.</span><span class="token function">html</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Much to recommended</span>
+<span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10000</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    array<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token string">"&lt;li>"</span><span class="token operator">+</span>i<span class="token operator">+</span><span class="token string">"&lt;/li>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+$myList<span class="token punctuation">.</span><span class="token function">html</span><span class="token punctuation">(</span>array<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><ol>
+<li>建议对事件使用自定义的 namespace，这样容易解绑特定的事件，而不会影响到此 DOM 元素的其他事件监听；</li>
+<li>对 Ajax 加载的 DOM 元素绑定事件时尽量使用事件委托。事件委托允许在父元素绑定事件，子代元素可以响应事件，也包括 Ajax 加载后添加的子代元素；</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#myLink"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"click.mySpecialClick"</span><span class="token punctuation">,</span> myEventHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#myLink"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">unbind</span><span class="token punctuation">(</span><span class="token string">"click.mySpecialClick"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Not recommended</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#list a"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> myClickHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Recommended</span>
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#list"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> <span class="token string">"a"</span><span class="token punctuation">,</span> myClickHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="链式写法"><a href="#链式写法" class="headerlink" title="链式写法"></a>链式写法</h4><ol>
+<li>尽量使用链式写法而不是用变量缓存或者多次调用选择器方法；</li>
+<li>当链式写法超过三次或者因为事件绑定变得复杂后，使用换行和缩进保持代码可读性；</li>
+</ol>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#myDiv"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">addClass</span><span class="token punctuation">(</span><span class="token string">"error"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">$</span><span class="token punctuation">(</span><span class="token string">"#myLink"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">addClass</span><span class="token punctuation">(</span><span class="token string">"bold"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span> myClickHandler<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">"mouseover"</span><span class="token punctuation">,</span> myMouseOverHandler<span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><ol>
+<li>多个参数使用对象字面量存储；</li>
+<li>不要将 CSS 写在 jQuery 里面；</li>
+<li>正则表达式仅准用 .test() 和 .exec() 。不准用 “string”.match() ；</li>
+</ol>
+<h4 id="jQuery-插件模板"><a href="#jQuery-插件模板" class="headerlink" title="jQuery 插件模板"></a>jQuery 插件模板</h4><pre class=" language-javascript"><code class="language-javascript"><span class="token comment" spellcheck="true">// jQuery Plugin Boilerplate</span>
+<span class="token comment" spellcheck="true">// A boilerplate for jumpstarting jQuery plugins development</span>
+<span class="token comment" spellcheck="true">// version 1.1, May 14th, 2011</span>
+<span class="token comment" spellcheck="true">// by Stefan Gabos</span>
+<span class="token comment" spellcheck="true">// remember to change every instance of "pluginName" to the name of your plugin!</span>
+<span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>$<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// here we go!</span>
+    $<span class="token punctuation">.</span>pluginName <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>element<span class="token punctuation">,</span> options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// plugin's default options</span>
+        <span class="token comment" spellcheck="true">// this is private property and is  accessible only from inside the plugin</span>
+        <span class="token keyword">var</span> defaults <span class="token operator">=</span> <span class="token punctuation">{</span>
+            foo<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+            <span class="token comment" spellcheck="true">// if your plugin is event-driven, you may provide callback capabilities</span>
+            <span class="token comment" spellcheck="true">// for its events. execute these functions before or after events of your</span>
+            <span class="token comment" spellcheck="true">// plugin, so that users may customize those particular events without</span>
+            <span class="token comment" spellcheck="true">// changing the plugin's code</span>
+            onFoo<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// to avoid confusions, use "plugin" to reference the</span>
+        <span class="token comment" spellcheck="true">// current instance of the object</span>
+        <span class="token keyword">var</span> plugin <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// this will hold the merged default, and user-provided options</span>
+        <span class="token comment" spellcheck="true">// plugin's properties will be available through this object like:</span>
+        <span class="token comment" spellcheck="true">// plugin.settings.propertyName from inside the plugin or</span>
+        <span class="token comment" spellcheck="true">// element.data('pluginName').settings.propertyName from outside the plugin,</span>
+        <span class="token comment" spellcheck="true">// where "element" is the element the plugin is attached to;</span>
+        plugin<span class="token punctuation">.</span>settings <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+        <span class="token keyword">var</span> $element <span class="token operator">=</span> <span class="token function">$</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment" spellcheck="true">// reference to the jQuery version of DOM element</span>
+             element <span class="token operator">=</span> element<span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">// reference to the actual DOM element</span>
+        <span class="token comment" spellcheck="true">// the "constructor" method that gets called when the object is created</span>
+        plugin<span class="token punctuation">.</span>init <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// the plugin's final properties are the merged default and</span>
+            <span class="token comment" spellcheck="true">// user-provided options (if any)</span>
+            plugin<span class="token punctuation">.</span>settings <span class="token operator">=</span> $<span class="token punctuation">.</span><span class="token function">extend</span><span class="token punctuation">(</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> defaults<span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment" spellcheck="true">// code goes here</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// public methods</span>
+        <span class="token comment" spellcheck="true">// these methods can be called like:</span>
+        <span class="token comment" spellcheck="true">// plugin.methodName(arg1, arg2, ... argn) from inside the plugin or</span>
+        <span class="token comment" spellcheck="true">// element.data('pluginName').publicMethod(arg1, arg2, ... argn) from outside</span>
+        <span class="token comment" spellcheck="true">// the plugin, where "element" is the element the plugin is attached to;</span>
+        <span class="token comment" spellcheck="true">// a public method. for demonstration purposes only - remove it!</span>
+        plugin<span class="token punctuation">.</span>foo_public_method <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// code goes here</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// private methods</span>
+        <span class="token comment" spellcheck="true">// these methods can be called only from inside the plugin like:</span>
+        <span class="token comment" spellcheck="true">// methodName(arg1, arg2, ... argn)</span>
+        <span class="token comment" spellcheck="true">// a private method. for demonstration purposes only - remove it!</span>
+        <span class="token keyword">var</span> foo_private_method <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// code goes here</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">// fire up the plugin!</span>
+        <span class="token comment" spellcheck="true">// call the "constructor" method</span>
+        plugin<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// add the plugin to the jQuery.fn object</span>
+    $<span class="token punctuation">.</span>fn<span class="token punctuation">.</span>pluginName <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// iterate through the DOM elements we are attaching the plugin to</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// if plugin has not already been attached to the element</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>undefined <span class="token operator">==</span> <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token string">'pluginName'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// create a new instance of the plugin</span>
+                <span class="token comment" spellcheck="true">// pass the DOM element and the user-provided options as arguments</span>
+                <span class="token keyword">var</span> plugin <span class="token operator">=</span> <span class="token keyword">new</span> $<span class="token punctuation">.</span><span class="token function">pluginName</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token comment" spellcheck="true">// in the jQuery version of the element</span>
+                <span class="token comment" spellcheck="true">// store a reference to the plugin object</span>
+                <span class="token comment" spellcheck="true">// you can later access the plugin and its methods and properties like</span>
+                <span class="token comment" spellcheck="true">// element.data('pluginName').publicMethod(arg1, arg2, ... argn) or</span>
+                <span class="token comment" spellcheck="true">// element.data('pluginName').settings.propertyName</span>
+                <span class="token function">$</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token string">'pluginName'</span><span class="token punctuation">,</span> plugin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">(</span>jQuery<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>此 jQuery 插件模板出自：<a href="http://stefangabos.ro/jquery/jquery-plugin-boilerplate-revisited/" target="_blank" rel="noopener">jQuery Plugin Boilerplate, revisited</a></p>
 
                 
             </div>
@@ -498,7 +662,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6.html">http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +699,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,13 +922,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/8.jpg" class="responsive-img" alt="前端食用规范(九)JavaScript行为之通用约定">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(九)JavaScript行为之通用约定</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,17 +939,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-03
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,13 +972,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/8.jpg" class="responsive-img" alt="前端食用规范(九)JavaScript行为之通用约定">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(九)JavaScript行为之通用约定</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,17 +989,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-03
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

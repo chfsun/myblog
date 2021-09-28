@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-07-22
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    12 分
                 </div>
                 
 
@@ -471,8 +471,379 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>mongose   </p>
+<p>一、基本概念<br>       最常接触到的有三个概念Schema、Model、Entity。<br>        1、Schema是定义数据库的结构。类似创建表时的数据定义，但比创建数据库可以做更多的定义，只是没办法通过Schema对数据库进行更改。<br>        2、Model是将Schema定义的结构赋予表名。但可用此名对数据库进行增删查改。<br>        3、Entity是将Model与具体的数据绑定，可以对具体数据自身进行操作，例如保存数据。</p>
+<p>二、Schema<br>    Schema用来定义数据库文档结构，数据库有什么字段、字段是什么类型、默认值、主键之类的信息。<br>    除了定义结构外，还能定义文档的实例方法，静态模型方法，复合索引，中间件等。<br>    详情查看mongoose官方文档。</p>
+<pre><code>1、定义一个Schema
+  使用
+  var stuSchema = new mongoose.Schema({
+          studentNo:String,
+          studentName:String,
+          sex:{type:String,default:&#39;男&#39;},
+          age:{type:Number,default:18}
+          lx:{
+              phone:Number,
+              email:{type:String,default:&#39;&#39;}
+          }
+  })
 
+2.后续追加属性
+  stuSchema.add({ 
+              address: String, 
+              grade: Number
+  });
+
+Shema不仅定义了文档的结构和属性，还可以定义文档的插件、实例方法、静态方法、复合索引文档生命周期钩子，具体还需查看官方文档。
+
+3、Schema.Type
+
+    Schema.Type是Mongoose内部定义的数据类型。
+    基本类型有：String、Number、Date、Boolean、Array、Buffer、Mixed、ObjectId等
+
+    1、Mixed
+        混合数据类型，可以直接定义{}来使用，以下两种形式等价。
+        new Schema({mixed: {Schema.Types.Mixed} });
+        new Schema({mixed: {} });
+
+    2、ObjectId
+        储存在数据库中的每个数据都会有默认的主键_id，默认存储的是ObjectId。
+        ObjectId是一个12字节的BSON类型字符串。按照字节顺序依次代表：
+        4字节：UNIX时间戳
+        3字节：表示运行MongoDB的机器
+        2字节：表示生成此_id的进程
+        3字节：由一个随机数开始的计数器生成的值</code></pre><p>三、Model</p>
+<pre><code>var stuModel = mongoose.model(&#39;student&#39;, stuSchema);
+
+注意：将名为stuSchema的Schema与student名字绑定，即是存入数据库的名字，但存入数据库中的名字是students，会自动添加一个s的，意味着创建一个新的
+这里将Model命名为stuModel，需要对Blog表操作的话，都需要使用变量名stuModel</code></pre><p>四、Entity<br>    可以绑定具体数据对Model实例化</p>
+<pre><code>    var stuEntity = new stuModel({
+            studentNo:&#39;S1234100&#39;,
+              studentName:&#39;李磊&#39;,
+              sex:&#39;男&#39;,
+              age:20
+              lx:{
+                  phone:13337878898,
+                  email:&#39;lilei@qq.com&#39;
+              }
+    });
+
+这里将名为stuModel的Model实例化。之后我们可以用stuEntity名对数据进行保存并执行回调。
+    Entity#save([options], [options.safe], [options.validateBeforeSave], [fn])
+
+    stuEntity.save(function(err, docs){
+        if(err){
+            return throw new Error();
+        } 
+        console.log(&#39;保存成功：&#39; + docs);
+    })
+
+在平常使用SQL语句操作数据库时，取得数据后先组织成SQL语句，然后放入执行语句中执行。
+这里理解也是类似，取得数据先进行实例化，这一步类似于组织成SQL语句，然后再做具体操作例如上面的Save操作。
+但由于Node.js是异步操作，所以返回的数据利用回调函数来进行操作。
+
+注意：实体Entity的方法一般用于添加数据</code></pre><p>五、CRUD<br>    1、C create<br>        上述添加除了可以使用stuEntity的save外还可以使用model方式的create<br>        1、单条数据插入<br>            Model.create(doc(s), [callback])</p>
+<pre><code>        var doc = ({
+            studentNo:&#39;S1234100&#39;,
+              studentName:&#39;李磊&#39;,
+              sex:&#39;男&#39;,
+              age:20
+              lx:{
+                  phone:13337878898,
+                  email:&#39;lilei@qq.com&#39;
+              }
+        })
+
+        stuModel.create(doc,(err,docs)=&gt;{
+            if(err){
+                return throw new Error();
+            } 
+            console.log(&#39;保存成功：&#39; + docs);
+        })
+
+    2、批量数据插入    Model.insertMany(doc(s), [options], [callback])
+
+        var doc1 = ({
+            studentNo:&#39;S1234100&#39;,
+              studentName:&#39;李磊&#39;,
+              sex:&#39;男&#39;,
+              age:20
+              lx:{
+                  phone:13337878898,
+                  email:&#39;lilei@qq.com&#39;
+              }
+        })
+
+        var doc2 = ({
+            studentNo:&#39;S1234100&#39;,
+              studentName:&#39;张磊&#39;,
+              sex:&#39;男&#39;,
+              age:22
+              lx:{
+                  phone:13337878888,
+                  email:&#39;zhanglei@qq.com&#39;
+              }
+        })
+
+        stuModel.insertMany([
+                doc1, doc2
+            ], (err, docs)=&gt;{
+                if(err){
+                    throw new Error() 
+                    return;
+                } 
+                console.log(&#39;保存成功：&#39; + docs);
+        });
+
+
+2、R 查找
+    1、通用查询
+        Model.find(conditions, [projection], [options], [callback])
+        conditions：查询条件;  projection：控制返回的字段;   options：控制选项;  callback：回调函数;
+
+        stuModel.find({studentNo: &quot;S1234100&quot;, lx.phone: 13337878888}, {studentNo: 1, studentName: 1, email: 1}, function(err, docs){
+            if(err){
+                return throw new Error();
+            } 
+            console.log(&#39;查询结果：&#39; + docs);
+        })
+        说明：查询“studentNo”标题为“S1234100”，并且“lx”中“phone”字段值为“13337878888”的记录，返回仅返回“studentNo”、“studentName”、“email”三个字段的数据
+
+    2、单个查询
+        Model.findOne([conditions], [projection], [options], [callback])
+
+    3、根据id查询
+        Model.findById(id, [projection], [options], [callback])
+        id：指定_id的值；projection：控制返回的字段；options：控制选项；callback：回调函数
+
+    4、 统计总条数
+        stuModel.count({sex:&#39;男&#39;},(err,docs)=&gt;{
+            if(err){
+                return throw new Error();
+            }
+            console.log(docs);
+        })
+
+3、U 修改
+    1、通用更新
+
+        Model.update(conditions, doc, [options], [callback])    
+
+        conditions：查询条件；doc：需要修改的数据，不能修改主键（_id）；options：控制选项；callback：回调函数，返回的是受影响的行数。
+            options有以下选项：
+            　　safe (boolean)： 默认为true。安全模式。
+            　　upsert (boolean)： 默认为false。如果不存在则创建新记录。
+            　　multi (boolean)： 默认为false。是否更新多个查询记录。
+            　　runValidators： 如果值为true，执行Validation验证。
+            　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。
+            　　strict (boolean)： 以strict模式进行更新。
+            　　overwrite (boolean)： 默认为false。禁用update-only模式，允许覆盖记录。
+
+
+        stuModel.update({studentNo: &quot;S1234100&quot;}, {sex: &quot;女&quot;}, {multi: true}, function(err, docs){
+            if(err){
+                return throw new Error();
+            } 
+            console.log(&#39;更改成功：&#39; + docs);
+        })
+
+        以上代码先查询“studentNo”为“S1234100”的数据，然后将它的“sex”修改为“女”，“multi”为true允许更新多条查询记录
+
+
+    2、一次更新多条
+        Model.updateMany(conditions, doc, [options], [callback])
+
+
+    3、一次更新一条
+        Model.updateOne(conditions, doc, [options], [callback])
+
+    4、根据id更新
+
+        Model.findByIdAndUpdate(id, [update], [options], [callback])
+
+        id：指定_id的值；update：需要修改的数据；options控制选项；callback回调函数。
+        options有以下选项：
+        　　new： bool - 默认为false。返回修改后的数据。
+        　　upsert： bool - 默认为false。如果不存在则创建记录。
+        　　runValidators： 如果值为true，执行Validation验证。
+        　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。
+        　　sort： 如果有多个查询条件，按顺序进行查询更新。
+        　　select： 设置数据的返回。
+
+
+    5、单个更新    
+        Model.findOneAndUpdate([conditions], [update], [options], [callback])
+        conditions：查询条件；update：需要修改的数据；options控制选项；callback回调函数。
+
+        options有以下选项：
+        　　new： bool - 默认为false。返回修改后的数据。
+        　　upsert： bool - 默认为false。如果不存在则创建记录。
+        　　fields： {Object|String} - 选择字段。类似.select(fields).findOneAndUpdate()。
+        　　maxTimeMS： 查询用时上限。
+        　　sort： 如果有多个查询条件，按顺序进行查询更新。
+        　　runValidators： 如果值为true，执行Validation验证。
+        　　setDefaultsOnInsert： 如果upsert选项为true，在新建时插入文档定义的默认值。
+        　　passRawResult： 如果为真，将原始结果作为回调函数第三个参数。
+
+4、D 删除
+    1、通用删除
+        Model.remove(conditions, [callback])
+
+        stuModel.remove({studentNo: &quot;S1234100&quot;}, function(err, docs){
+            if(err){
+                return throw new Error();
+            } 
+            console.log(&#39;删除成功：&#39; + docs);
+        })
+
+
+    2、根据id删除
+        Model.findByIdAndRemove(id, [options], [callback])
+
+        id：指定_id的值；update：需要修改的数据；options控制选项；callback回调函数。
+        options有以下选项：
+        　　sort： 如果有多个查询条件，按顺序进行查询更新。
+        　　select： 设置数据的返回。
+
+    3、根据条件删除
+        Model.findOneAndRemove(conditions, [options], [callback])
+
+        conditions：查询条件；update：需要修改的数据；options控制选项；callback回调函数。
+        options有以下选项：
+        　　sort： 如果有多个查询条件，按顺序进行查询更新。
+        　　maxTimeMS： 查询用时上限。
+        　　select： 设置数据的返回。</code></pre><p>六、静态方法<br>    静态方法statics</p>
+<pre><code>studnetSchema.statics.removeData = function(option,callback){
+      db.model(&#39;student&#39;).remove(option,callback);  // db.model(&#39;student&#39;)指向Study数据库中student集合
+}
+
+// 注意位置必须位于声明静态方法之后和调用方法之前的中间位置
+var stuModel = db.model(&#39;student&#39;,studnetSchema);
+
+
+stuModel.removeData({_id:&#39;5d3128eaad02701ddc07e55c&#39;},(err,result)=&gt;{
+  if(err) throw err;
+  console.log(result);
+  db.close();
+})</code></pre><p>七、复杂条件查询</p>
+<pre><code>1、 .exec()
+链式语句时，可以在之后接.exec()执行查询，并指定回调函数
+    stuModel.find({title: &quot;Mongoose&quot;, meta.votes: 100}, {title: 1, author: 1, body: 1}).exec(function(err, docs){
+        if(err) throw err;
+        console.log(&#39;查询结果：&#39; + docs);
+    })
+
+2、 and 
+    执行逻辑AND的阵列上操作的一个或多个表达式（例如&lt;expression1&gt;， &lt;expression2&gt;等），
+    并且选择满足该文件 的所有阵列中的表达式。该$and运营商使用短路计算。
+    如果第一个表达式（例如&lt;expression1&gt;）的计算结果为false，MongoDB将不会评估剩余的表达式。
+
+    and: [ { &lt;expression1&gt; }, { &lt;expression2&gt; } , ... , { &lt;expressionN&gt; } ]
+
+        stuModel.and([
+            { title: { $regex: &quot;SS1234+&quot;}},// 以SS1234开头
+            { age: { $lt: 20}} //小于20
+        ).sort({ meta.votes: 1}
+        ).exec(function(err, docs){
+            if(err) console.log(err);
+            console.log(&#39;查询结果：&#39; + docs);
+        });
+
+3、比较查询运算符
+        $equals 等于 
+        $gt 大于 
+        $gte 大于等于 
+        $lt 小余 
+        $lte 小余等于 
+        $ne 不等于 
+        $in 在数组中 
+        $nin 不在数组中
+
+        stuModel.find({age: {$lt: 20}});
+
+        stuModel.find({studentName: {$in: [&#39;王&#39;, &#39;小王&#39;, &#39;大王&#39;]}});// 查询“studentName”为“王”或“小王”或“大王”其中之一的数据。
+
+4、逻辑查询运算符
+
+    $or 或 ／ $and 与 ／ $nor 非
+
+
+    // 查询“lx”中的“votes”字段值大于等于50到小于100的数据。
+    stuModel.find({ $and: [
+        {lx.votes: {$gte: 50}}, 
+        {lx.votes: {$lt: 100}}
+    ]});    
+
+    等同于以下代码：使用and
+    stuModel.and([
+        {lx.votes: {$gte: 50}}, 
+        {lx.votes: {$lt: 100}}
+    ]);
+
+
+    // 查询“lx”中的“votes”字段值不等于50和不等于100的数据。
+    stuModel.find({ $nor: [
+        {lx.votes: 50}, 
+        {lx.votes: 100}
+    ]});
+    等同于以下代码：
+    stuModel.nor([
+        {meta.votes: 50}, 
+        {meta.votes: 100}
+    ]);
+
+
+5、元素查询运算符     $exists 是否包含
+    stuModel.find({ title: {$exists: true}});  // 查询是否存在“title”字段的数据。
+    stuModel.where(&#39;title&#39;).exists(true);
+
+6、评估查询运算符
+
+    1、$mod　与数据进行取模运算筛选
+        stuModel.find({ lx.votes: {$mod: [4, 0]}});// 查找“lx”中的“votes”字段值与4取模后，值为0的数据。
+        stuModel.where(&#39;lx.votes&#39;).$mod(4, 0);// 查找“lx”中的“votes”字段值与4取模后，值为0的数据。
+
+    2、正则
+        1、$regex　使用正则表达式查询数据
+
+        stuModel.find({ studengNo: { $regex: &quot;S1234+&quot;,&quot;$options&quot;:&quot;i&quot;}}); // 搜索以“S1234”开头的“studengNo”字段，“options”中的“i”代表不区分大小写。
+
+        2、$where　支持js表达式查询
+        stuModel.find({ $where: &#39;this.studentNo.length === 10 || this.studentName.length === 5&#39; });
+        stuModel.$where(function() { return this.studentNo.length === 10 || this.studentName.length === 5; });
+
+7、数组查询运算符
+    1、查询数组的本身及超集
+
+        stuModel.find( address: [&#39;洛阳&#39;, &#39;河南&#39;]);
+
+        查询“address”的字段值同时包含有[&#39;洛阳&#39;, &#39;河南&#39;]的数据。只要值中包含此数组即返回数据，若是只包含数组中的一个则不返回此数据。
+
+    2、查询数组的交集
+
+        stuModel.find( $elemMatch: { address: &#39;洛阳&#39;, sex: &#39;男&#39;});// 查询“address”为“洛阳”或是“sex”为“男”的数据。
+
+8、其他常用的运算符
+
+    1、limit(val)　　限制查询返回的数量
+
+        stuModel.find( studentNo: &#39;S&#39;).limit(5);// 查询“studentNo”为“S”的数据，只返回前5个查询结果。
+
+    2、skip(val)　　跳过前N个查询结果
+        stuModel.find( studentNo: &#39;S&#39;).skip(10).limit(5);//查询“tags”为“mongoose”的数据，跳过前10个查询结果，返回从第11个开始的五个查询结果。
+                                                            //做分页时常用到这两个，但数据量过大时就会有性能问题。
+    3、sort(arg)　　对结果按某个指定字段进行排序
+
+        1、asc为升序，-1、desc为降序。可以对一个字段进行排序，也可以是多个
+
+        stuModel.find( sex: &#39;男&#39;).skip(10).limit(5).sort(&quot;{ _id: 1}&quot;);
+                // 查询“sex”为“男”的数据，跳过前10个查询结果，返回从第11个开始的五个查询结果。之后按“_id”进行升序排序。
+
+    4、select(arg)　　选择指定字段
+
+        在查询中可以选择指定的查询字段，或者排除指定的字段。+为包含，-为排除。
+
+        stuModel.select(&#39;title body&#39;);// 只包含“title”、“body”字段。
+        stuModel.select(&#39;+title -body&#39;); // 包含“title”、排除“body”字段。</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +869,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93.html">http://chfsun.gitee.io/myblog/myblog/data/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +1125,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +1142,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +1163,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +1180,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

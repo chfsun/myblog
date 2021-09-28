@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="前端食用规范(五)css表现模块组织, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>前端食用规范(五)css表现模块组织 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">前端食用规范(五)css表现模块组织</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-05-02
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-07
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    848
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,7 +484,123 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>任何超过 1000 行的 CSS 代码，你都曾经历过这样的体验：</p>
+<ol>
+<li>这个 class 到底是什么意思呢？</li>
+<li>这个 class 在哪里被使用呢？</li>
+<li>如果我创建一个 xxoo class，会造成冲突吗？</li>
+</ol>
+<blockquote>
+<p>Reasonable System for CSS Stylesheet Structure 的目标就是解决以上问题，它不是一个框架，而是通过规范，让你构建更健壮和可维护的 CSS 代码。<br>Components（组件）</p>
+</blockquote>
+<h3 id="Components（组件）"><a href="#Components（组件）" class="headerlink" title="Components（组件）"></a>Components（组件）</h3><p><img src="https://img-blog.csdnimg.cn/dd084988e066409891584a0cf7eecb5d.png#pic_center" alt="组件"></p>
+<p>从 Components 的角度思考，将网站的模块都作为一个独立的 Components。</p>
+<h3 id="Naming-components-（组件命名）"><a href="#Naming-components-（组件命名）" class="headerlink" title="Naming components （组件命名）"></a>Naming components （组件命名）</h3><p>Components 最少以两个单词命名，通过 - 分离，例如：</p>
+<ul>
+<li>点赞按钮 (.like-button)</li>
+<li>搜索框 (.search-form)</li>
+<li>文章卡片 (.article-card)</li>
+</ul>
+<h3 id="Elements-（元素）"><a href="#Elements-（元素）" class="headerlink" title="Elements （元素）"></a>Elements （元素）</h3><p><img src="https://img-blog.csdnimg.cn/b6c4d0522dfa4475890f64b491f3d77e.png#pic_center" alt="在这里插入图片描述"></p>
+<p>Elements</p>
+<p>Elements 是 Components 中的元素<br>Naming elements （元素命名）</p>
+<p>Elements 的类名应尽可能仅有一个单词。</p>
+<pre class=" language-css"><code class="language-css">     <span class="token selector"><span class="token class">.search-form</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> <span class="token class">.field</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.action</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="On-multiple-words-（多个单词）"><a href="#On-multiple-words-（多个单词）" class="headerlink" title="On multiple words （多个单词）"></a>On multiple words （多个单词）</h3><p>对于倘若需要两个或以上单词表达的 Elements 类名，不应使用中划线和下划线连接，应直接连接。</p>
+<pre class=" language-css"><code class="language-css">      <span class="token selector"><span class="token class">.profile-box</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> <span class="token class">.firstname</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.lastname</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.avatar</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Avoid-tag-selectors-（避免标签选择器）"><a href="#Avoid-tag-selectors-（避免标签选择器）" class="headerlink" title="Avoid tag selectors （避免标签选择器）"></a>Avoid tag selectors （避免标签选择器）</h3><p>任何时候尽可能使用 classnames。标签选择器在使用上没有问题，但是其性能上稍弱，并且表意不明确。</p>
+<pre class=" language-css"><code class="language-css">      <span class="token selector"><span class="token class">.article-card</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> h3    </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ✗ avoid */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.name</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ✓ better */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Variants-（变体）"><a href="#Variants-（变体）" class="headerlink" title="Variants （变体）"></a>Variants （变体）</h3><p><img src="https://img-blog.csdnimg.cn/b8174ec1efc9414daa0809cbd025dd04.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="Variants"><br>Components 和 Elements 可能都会拥有 Variants。<br>Naming variants （变体命名）</p>
+<p>Variants 的 classname 应带有前缀中划线 -</p>
+<pre class=" language-css"><code class="language-css">      <span class="token selector"><span class="token class">.like-button</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">&amp;<span class="token class">.-wide</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">&amp;<span class="token class">.-short</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">&amp;<span class="token class">.-disabled</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Element-variants-（元素变体）"><a href="#Element-variants-（元素变体）" class="headerlink" title="Element variants （元素变体）"></a>Element variants （元素变体）</h3><pre class=" language-css"><code class="language-css">      <span class="token selector"><span class="token class">.shopping-card</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> <span class="token class">.title</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.title.-small</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Dash-prefixes-（中划线前缀）"><a href="#Dash-prefixes-（中划线前缀）" class="headerlink" title="Dash prefixes （中划线前缀）"></a>Dash prefixes （中划线前缀）</h3><p>为什么使用中划线作为变体的前缀？</p>
+<ul>
+<li>它可以避免歧义与 Elements</li>
+<li>CSS class 仅能以单词和 _ 或 - 开头</li>
+<li>中划线比下划线更容易输出</li>
+</ul>
+<h3 id="Layout-（布局）"><a href="#Layout-（布局）" class="headerlink" title="Layout （布局）"></a>Layout （布局）</h3><p><img src="https://img-blog.csdnimg.cn/5a78597dc56441ba8f0e6fda52853f26.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="Layout"><br>Avoid positioning properties （避免定位属性）</p>
+<p>Components 应该在不同的上下文中都可以复用，所以应避免设置以下属性：</p>
+<ul>
+<li>Positioning (position, top, left, right, bottom)</li>
+<li>Floats (float, clear)</li>
+<li>Margins (margin)</li>
+<li>Dimensions (width, height) *</li>
+</ul>
+<h3 id="Fixed-dimensions-（固定尺寸）"><a href="#Fixed-dimensions-（固定尺寸）" class="headerlink" title="Fixed dimensions （固定尺寸）"></a>Fixed dimensions （固定尺寸）</h3><p>头像和 logos 这些元素应该设置固定尺寸（宽度，高度…）。</p>
+<h3 id="Define-positioning-in-parents-（在父元素中设置定位）"><a href="#Define-positioning-in-parents-（在父元素中设置定位）" class="headerlink" title="Define positioning in parents （在父元素中设置定位）"></a>Define positioning in parents （在父元素中设置定位）</h3><p>倘若你需要为组件设置定位，应将在组件的上下文（父元素）中进行处理，比如以下例子中，将 widths 和 floats 应用在 list component(.article-list) 当中，而不是 component(.article-card) 自身。</p>
+<pre class=" language-css"><code class="language-css">      <span class="token selector"><span class="token class">.article-list</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">&amp; </span><span class="token punctuation">{</span>
+          <span class="token atrule"><span class="token rule">@include</span> clearfix<span class="token punctuation">;</span></span>
+        <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.article-card</span> </span><span class="token punctuation">{</span>
+          <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">33.3%</span><span class="token punctuation">;</span>
+          <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token selector"><span class="token class">.article-card</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">&amp; </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.image</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.title</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.category</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Avoid-over-nesting-（避免过分嵌套）"><a href="#Avoid-over-nesting-（避免过分嵌套）" class="headerlink" title="Avoid over-nesting （避免过分嵌套）"></a>Avoid over-nesting （避免过分嵌套）</h3><p>当出现多个嵌套的时候容易失去控制，应保持不超过一个嵌套。</p>
+<pre class=" language-css"><code class="language-css">      <span class="token comment" spellcheck="true">/* ✗ Avoid: 3 levels of nesting */</span>
+      <span class="token selector"><span class="token class">.image-frame</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> <span class="token class">.description</span> </span><span class="token punctuation">{</span>
+          <span class="token comment" spellcheck="true">/* ... */</span>
+          <span class="token selector">> <span class="token class">.icon</span> </span><span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">/* ... */</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment" spellcheck="true">/* ✓ Better: 2 levels */</span>
+      <span class="token selector"><span class="token class">.image-frame</span> </span><span class="token punctuation">{</span>
+        <span class="token selector">> <span class="token class">.description</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+        <span class="token selector">> <span class="token class">.description</span> > <span class="token class">.icon</span> </span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">/* ... */</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span></code></pre>
+<h3 id="Apprehensions-（顾虑）"><a href="#Apprehensions-（顾虑）" class="headerlink" title="Apprehensions （顾虑）"></a>Apprehensions （顾虑）</h3><p><strong>中划线-是一坨糟糕的玩意</strong>：其实你可以选择性的使用，只要将 Components, Elements, Variants 记在心上即可。<br><strong>我有时候想不出两个单词唉</strong>：有些组件的确使用一个单词就能表意，比如 aleter 。但其实你可以使用后缀，使其意识更加明确。</p>
+<p>比如块级元素：</p>
+<ul>
+<li>.alert-box</li>
+<li>.alert-card</li>
+<li>.alert-block</li>
+</ul>
+<p>或行内级元素</p>
+<ul>
+<li>.link-button</li>
+<li>.link-span</li>
+</ul>
+<h3 id="Terminologies-（术语）"><a href="#Terminologies-（术语）" class="headerlink" title="Terminologies （术语）"></a>Terminologies （术语）</h3><blockquote>
+<p>RSCSS 与其他 CSS 模块组织系统相似的概念</p>
+</blockquote>
+<p>RSCSS     |BEM     SMACSS<br>—|—-|–<br>Component     |Block     |Module<br>Element     |Element     |?<br>Layout     |?     |Layout<br>Variant     |Modifier     |Theme &amp; State</p>
+<h3 id="Summary-（总结）"><a href="#Summary-（总结）" class="headerlink" title="Summary （总结）"></a>Summary （总结）</h3><ul>
+<li>以 Components 的角度思考，以两个单词命名（.screenshot-image）</li>
+<li>Components 中的 Elements，以一个单词命名（.blog-post .title）</li>
+<li>Variants，以中划线-作为前缀（.shop-banner.-with-icon）</li>
+<li>Components 可以互相嵌套</li>
+<li>记住，你可以通过继承让事情变得更简单</li>
+</ul>
+<p>译自:<a href="https://github.com/rstacruz/rscss#readme" target="_blank" rel="noopener">Reasonable System for CSS Stylesheet Structure</a></p>
 
                 
             </div>
@@ -498,7 +627,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87.html">http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +664,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,13 +887,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/17.jpg" class="responsive-img" alt="前端食用规范(五)css表现模块组织">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(五)css表现模块组织</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,17 +904,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,13 +937,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/17.jpg" class="responsive-img" alt="前端食用规范(五)css表现模块组织">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(五)css表现模块组织</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,17 +954,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

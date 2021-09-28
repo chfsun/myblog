@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-07-03
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    736
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -471,8 +471,33 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>第4次课 网络请求</p>
+<p>一、处理边界情况<br>    1、访问根实例<br>        关键字 $root  根实例可以通过 $root 属性进行访问;<br>        首先要明白什么是根节点？根节点在当前指的是#app，可以在其中定义数据、计算属性、方法等，其余组件获取都是通过this.$root.XX的方式<br>        注意点：都需要在要获取根节点的组件的计算属性中通过方法获取；</p>
+<pre><code>2、访问父级组件实例
+           关键字$parent  可以用来从一个子组件访问父组件的实例,提供了一种机会，可以在后期随时触达父级组件，
+           以替代将数据以 prop 的方式传入子组件的方式。
+           首先要明白哪一个组件是父组件，哪一个组件是子组件？父组件，可以在其中定义数据、计算属性、方法等，子组件获取都是通过this.$parent.XX的方式
+    注意点：都需要在要获取父组件的子组件中的计算属性中通过方法获取； 具体实现方式同访问根实例
 
+3、访问子组件实例或子元素
+       关键字$refs 可以让你使用原生js方式访问组件;一般在生命周期函数mounted中访问
+       使用方式this.$refs.xx，获取元素后进行原生方式操作
+
+
+
+4、依赖注入
+    关键字provide、inject
+    作用：父组件可以在provide函数中指定我们想要提供给后代组件的数据/方法，只有允许的数据/方法后代子组件才能访问
+    子组件可以通过inject接收允许的数据/方法；
+    实际上，你可以把依赖注入看作一部分“大范围有效的 prop”，除了：
+            祖先组件不需要知道哪些后代组件使用它提供的属性
+            后代组件不需要知道被注入的属性来自哪里
+
+注意：以上几种方式不推荐刻意使用，因为它破坏了设计初衷，组件之间会加强耦合性，属于‘黑魔法’，非必要场景尽量少用；</code></pre><p>二、插槽<br>     1、基本插槽<br>             什么是插槽？<br>             关键字：solt；<br>     2、编译作用域<br>         父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。<br>     3、具名插槽<br>                 注意点：父组件传给子组件的如果是template 则需要使用v-slot:xx声明；或者slot=”xx”；<br>     4、插槽默认内容<br>               如果父组件存在具名的内容，则默认的内容会被覆盖</p>
+<pre><code> 5、作用域插槽
+            实现一个子传父
+           子组件的内容传递给父组件：可以通过v-bind在插槽上绑定一个动态的属性，
+             父组件中&lt;template  v-slot:default=&quot;slotProps&quot;&gt;{{ slotProps.user.firstName }}&lt;/template&gt;</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +523,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B).html">http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +779,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +796,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +817,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +834,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

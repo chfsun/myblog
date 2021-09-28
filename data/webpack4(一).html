@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,14 +430,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-05-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    459
                 </div>
                 
 
@@ -471,7 +471,24 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>热更新</p>
+<p>默认情况下开启了服务器后，只要入口文件有更新那整个页面就会重新刷新。<br>如果页面里引入的模块非常多的情况下让整个页面刷新就会变得有些慢，这个问题可以交给热更新去解决。<br>热更新的意思就是只更新有改动的模块（像ajax一样局部刷新）<br>使用步骤</p>
+<p>1、引入webpack模块</p>
+<p>const webpack=require(‘webpack’);</p>
+<p>2、写入插件</p>
+<p>plugins:[<br>    new HtmlWebpackPlugin({<br>        title:’webpack4’,<br>        template:’./src/template.html’,<br>        filename:’index.html’,<br>    }),<br>    new webpack.HotModuleReplacementPlugin()    //引入热更新插件<br>]</p>
+<p>3、devServer里增加hot参数</p>
+<p>devServer:{<br>    host:’localhost’,   //服务器的ip地址<br>    port:1573,  //端口<br>    open:true,  //自动打开页面，<br>    hot:true,   //开启热更新<br>}</p>
+<p>mode</p>
+<p>mode是webpack4新增的一条属性，它的意思为当前开发的环境。<br>mode的到来减少了很多的配置，它内置了很多的功能。相较以前的版本提升了很多，减少了很多专门的配置</p>
+<pre><code>    提升了构建速度
+    默认为开发环境，不需要专门配置
+    提供压缩功能，不需要借助插件
+    提供SouceMap，不需要专门配置</code></pre><p>mode分为两种环境，一种是开发环境（development）,一种是生产环境（production）。<br>开发环境就是我们写代码的环境，生产环境就是代码放到线上的环境。<br>这两种环境的最直观区别就是，开发环境的代码不提供压缩，生产环境的代码提供压缩。<br>使用方式1：在命令后面添加</p>
+<pre><code>webpack --mode development
+webpack --mode production</code></pre><p>使用方式2：在package.json里添加</p>
+<p>“scripts”: {<br>    “build”: “webpack –mode production”,<br>    “dev”: “webpack-dev-server –mode development”<br>  },</p>
+<p>此时后成dist目录用的是生产环境，打开服务器用的是开发环境，然后通过命令执行npm run build或者npm run dev，</p>
 
                 
             </div>
@@ -498,7 +515,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%B8%80).html">http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%B8%80).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +771,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%B8%80).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +788,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +809,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%B8%80).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +826,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

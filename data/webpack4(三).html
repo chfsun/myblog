@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    6 分
                 </div>
                 
 
@@ -471,7 +471,106 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>处理less</p>
+<p>less的语法对于浏览器那是必需不认识的，<br>要处理成浏览器认识的需要借助两个模块，一个less和一个less-loader<br>安装<br>    npm i less less-loader -D</p>
+<p>less.less内容如下<br>@w:200px;<br>@border:1px solid #f00;</p>
+<p>#box{<br>    width: @w;<br>    border: @border;<br>    ul{<br>        margin: 0;<br>        padding: 0;<br>        list-style: none;</p>
+<pre><code>    li{
+        height: 30px;
+        background: #ccc;
+
+        a{
+          color: #f00;
+          &amp;:hover{  //&amp;为上一层选择器
+              color: blue;
+          }
+        }
+    }
+} </code></pre><p>}</p>
+<p>使用第三方库<br>1、在入口文件当中直接导入</p>
+<p>安装jQuery<br>    npm i jquery -S</p>
+<p> index.js内容如下：<br>import ‘../css/index.css’;<br>import $ from ‘jquery’; //引入jquery</p>
+<p>$(‘ul li:last-child’).css(‘background’,’green’);<br>运行后<br>打开index.js文件后会发现jquery的代码也被压缩了进来。<br>这是引入第三方库的一种方式，但这种方式会有一个问题，如果我仅仅只是引入而并没有使用，<br>在打包的时候依然会把第三方库打包进来。如果你的代码由第二位同学接手，他为了避免出错并不会直接把import删掉，<br>而会把使用这个库的代码删掉，假如这个库的代码只剩下了import，那打包后的文件体积依然很大，便是一种浪费。<br>修改index.js如下：</p>
+<p>import ‘../css/index.css’;<br>import $ from ‘jquery’; //引入jquery</p>
+<p>//$(‘ul li:last-child’).css(‘background’,’green’);</p>
+<p>npm run build后打开index.js，你会发现jquery的代码依然被打包了。</p>
+<p>2、webpack.ProvidePlugin</p>
+<pre><code>    自动加载模块，而不必用import或require
+    如果加载的模块没有使用，则不会被打包
+    加载的模块为全局模块，在全局都可以使用
+
+    new webpack.ProvidePlugin({ //它是一个插件，所以需要按插件的用法new一个
+        $:&#39;jquery&#39;, //接收名字:模块名
+    }),</code></pre><p>修改index.js内容如下：</p>
+<p>import ‘../css/index.css’;<br>$(‘ul li:last-child’).css(‘background’,’green’);</p>
+<p>npm run build后打开index.js可以看到jquery的内容并没有被打包进来。<br>这种方式比上一种方式就智能的很，会根据你是否使用库而决定是否打包。</p>
+<p>提取第三方库</p>
+<p>对于提取第三方库有两种形式，第一种是在一个页面里引入了多个库，最终所有的代码都会打包到一个文件里，<br>如果引入的库非常之多，那文件会非常大，不利于加载。第二种就是在多个页面里都引入了同一个库，<br>那会把这个库打包多次，造成资源浪费。所以就需要把第三方库单独提取出来，优化资源。<br>1、一个页面引入多个库</p>
+<p>接着上面的代码，再添加一个库，这个库的名字叫underscore，它里面封装了很多关于数组与对象的方法，<br>演示<br>    npm i underscore -S<br>修改webpack.config.js里的插件：</p>
+<p>new webpack.ProvidePlugin({ //它是一个插件，所以需要按插件的用法new一个<br>    $:’jquery’, //接收名字:模块名<br>    _:’underscore’  //引入underscore库<br>}),</p>
+<p>修改index.js如下</p>
+<p>import ‘../css/index.css’;</p>
+<p>$(‘ul li:last-child’).css(‘background’,’green’);<br>console.log(_([1,2,3]).map(v=&gt;v*3));    //使用underscore库里的map方法，此方法为循环数组里每一位数据，<br>并把每位数据都乘以3，返回新数组</p>
+<p>npm run build后打开index.html能看到控制台有输出了[3, 6, 9]，说明underscore库已经被打包到index.js里。<br>可以分别注释jquery与underscore的使用代码，npm run build后对比index.js的大小就能看出区别</p>
+<p>提取第三方库</p>
+<p>optimization 优化</p>
+<pre><code>    splitChunks 缓存组
+    能被提取的条件
+    1、模块被重复引用或者来自node_modules中的模块
+    2、模块压缩前至少有30kb
+    3、按需（异步）请求的数量小于5个
+    4、初始化加载时，并行请求数量小于等于3</code></pre><p>修改webpack.config.js里的moudle.exports</p>
+<p>optimization:{  //优化<br>        splitChunks:{<br>            cacheGroups:{//缓存组，一个对象。它的作用在于，可以对不同的文件做不同的处理<br>                commonjs:{<br>                    name:’vender’,      //输出的名字（提出来的第三方库）<br>                    test: /.js/,       //通过条件找到要提取的文件<br>                    chunks:’initial’    //只对入口文件进行处理<br>                }<br>            }<br>        }<br>    }</p>
+<p>2、多个页面同时引入一个库</p>
+<p>还有另一种形式，像jquery，它在多个页面里都被引入了，因为打包只能针对单页面进行打包，<br>那就会在每个页面里都打包一次jquery，造成资源浪费</p>
+<p>新建a.js与b.js，内容如下：<br>a.js</p>
+<p>import $ from ‘jquery’;</p>
+<p>console.log(‘这是a.js’);<br>console.log($(‘ul’));</p>
+<p>b.js</p>
+<p>import $ from ‘jquery’;</p>
+<p>console.log(‘这是b.js’);<br>console.log($(‘ul li’));</p>
+<p>可以看到两个js文件都引入了jquery文件</p>
+<p>修改webpack.config.js文件的module.exports</p>
+<pre><code>    new HtmlWebpackPlugin({
+        title:&#39;a页面&#39;,
+        template:&#39;./src/template.html&#39;,
+        filename:&#39;a.html&#39;,
+        chunks:[&#39;a&#39;],   //引入对应的js，需要用到chunks
+    }),
+    new HtmlWebpackPlugin({
+        title:&#39;b页面&#39;,
+        template:&#39;./src/template.html&#39;,
+        filename:&#39;b.html&#39;,
+        chunks:[&#39;b&#39;],
+    }),</code></pre><p>npm run build后结构如下图，在dist下的js目录里分别看一下a.js与b.js的大小，这两个文件里都包含了jquery。<br>再分别打开a.html与b.html页面正常运行，控制台里打印出了想要的内容。</p>
+<p>这样就是一种浪费了，我们完全可以把jquery单独提取出来，在两个页面里分别引入。<br>如果是多个页面都引入同一个库，那提取公共库就会是刚需。</p>
+<p>修改webpack.config.js的module.exports</p>
+<pre><code>    new HtmlWebpackPlugin({
+        title:&#39;a页面&#39;,
+        template:&#39;./src/template.html&#39;,
+        filename:&#39;a.html&#39;,
+        chunks:[&#39;a&#39;,&#39;vender&#39;],  //vender为提取出的公共部分，需要在页面里引入
+    }),
+    new HtmlWebpackPlugin({
+        title:&#39;b页面&#39;,
+        template:&#39;./src/template.html&#39;,
+        filename:&#39;b.html&#39;,
+        chunks:[&#39;b&#39;,&#39;vender&#39;],
+    }),
+
+
+    ....
+    optimization:{
+        splitChunks:{
+            cacheGroups:{
+                common:{
+                    name:&#39;vender&#39;,
+                    test: /\.js/,
+                    chunks:&#39;initial&#39;
+                }
+            }
+        }
+   }</code></pre><p> npm run build后结构目录如下图，再次看一下a.js与b.js的大小，相比前面是否小了很多？<br> 公共的jquery已经被提取出来了并放到了vender.js中。<br> 查看a.html与b.html页面源码发现vender.js已经被引入了。</p>
 
                 
             </div>
@@ -498,7 +597,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%B8%89).html">http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%B8%89).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +853,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%B8%89).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +870,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +891,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%B8%89).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +908,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

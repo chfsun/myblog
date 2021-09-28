@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="前端食用规范（三）css通用约定, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>前端食用规范（三）css通用约定 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">前端食用规范（三）css通用约定</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-05-02
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,7 +484,168 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <h3 id="代码组织"><a href="#代码组织" class="headerlink" title="代码组织"></a>代码组织</h3><ul>
+<li>以组件为单位组织代码段；</li>
+<li>制定一致的注释规范；</li>
+<li>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</li>
+<li>如果使用了多个 CSS 文件，将其按照组件而非页面的形式分拆，因为页面会被重组，而组件只会被移动；</li>
+</ul>
+<blockquote>
+<p>良好的注释是非常重要的。请留出时间来描述组件（component）的工作方式、局限性和构建它们的方法。不要让你的团队其它成员 来猜测一段不通用或不明显的代码的目的。</p>
+</blockquote>
+<p>提示：通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* ==========================================================================
+       组件块
+     ============================================================================ */</span>
+    <span class="token comment" spellcheck="true">/* 子组件块
+     ============================================================================ */</span>
+    <span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* 子组件块
+     ============================================================================ */</span>
+    <span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="Class-和-ID"><a href="#Class-和-ID" class="headerlink" title="Class 和 ID"></a>Class 和 ID</h3><ul>
+<li>使用语义化、通用的命名方式；</li>
+<li>使用连字符 - 作为 ID、Class 名称界定符，不要驼峰命名法和下划线；</li>
+<li>避免选择器嵌套层级过多，尽量少于 3 级；</li>
+<li>避免选择器和 Class、ID 叠加使用；</li>
+</ul>
+<blockquote>
+<p>出于性能考量，在没有必要的情况下避免元素选择器叠加 Class、ID 使用。</p>
+</blockquote>
+<blockquote>
+<p>元素选择器和 ID、Class 混合使用也违反关注分离原则。如果HTML标签修改了，就要再去修改 CSS 代码，不利于后期维护。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token selector"><span class="token class">.red</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box_green</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.page</span> <span class="token class">.header</span> <span class="token class">.login</span> <span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector">ul<span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token id">#nav</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box-video</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<h3 id="声明块格式"><a href="#声明块格式" class="headerlink" title="声明块格式"></a>声明块格式</h3><ul>
+<li>选择器分组时，保持独立的选择器占用一行；</li>
+<li>声明块的左括号 { 前添加一个空格；</li>
+<li>声明块的右括号 } 应单独成行；</li>
+<li>声明语句中的 : 后应添加一个空格；</li>
+<li>声明语句应以分号 ; 结尾；</li>
+<li>一般以逗号分隔的属性值，每个逗号后应添加一个空格；</li>
+<li>rgb()、rgba()、hsl()、hsla() 或 rect() 括号内的值，逗号分隔，但逗号后不添加一个空格；</li>
+<li>对于属性值或颜色参数，省略小于 1 的小数前面的 0 （例如，.5 代替 0.5；-.5px 代替 -0.5px）；</li>
+<li>十六进制值应该全部小写和尽量简写，例如，#fff 代替 #ffffff；</li>
+<li>避免为 0 值指定单位，例如，用 margin: 0; 代替 margin: 0px;；</li>
+</ul>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/*  Not recommended  */</span>
+    <span class="token selector"><span class="token class">.selector</span>, <span class="token class">.selector-secondary</span>, <span class="token class">.selector</span><span class="token attribute">[type=text]</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span><span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">0</span>px <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#CCC</span>,inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#FFFFFF</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token class">.selector</span>,
+    <span class="token class">.selector-secondary</span>,
+    <span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#ccc</span>, inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="声明顺序"><a href="#声明顺序" class="headerlink" title="声明顺序"></a>声明顺序</h3><p>相关属性应为一组，推荐的样式编写顺序</p>
+<ol>
+<li>Positioning</li>
+<li>Box model</li>
+<li>Typographic</li>
+<li>Visual</li>
+</ol>
+<blockquote>
+<p>由于定位（positioning）可以从正常的文档流中移除元素，并且还能覆盖盒模型（box model）相关的样式，因此排在首位。</p>
+</blockquote>
+<blockquote>
+<p>盒模型决定了组件的尺寸和位置，因此排在第二位。</p>
+</blockquote>
+<blockquote>
+<p>其他属性只是影响组件的内部（inside）或者是不影响前两组属性，因此排在后面。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.declaration-order</span> </span><span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">/* Positioning */</span>
+      <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+      <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">right</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">z-index</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Box model */</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+      <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+      <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+      <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#e5e5e5</span><span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">3</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+      <span class="token property">float</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+      <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Typographic */</span>
+      <span class="token property">font</span><span class="token punctuation">:</span> normal <span class="token number">13</span>px <span class="token string">"Helvetica Neue"</span>, sans-serif<span class="token punctuation">;</span>
+      <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">1.5</span><span class="token punctuation">;</span>
+      <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Visual */</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+      <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">.8</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Other */</span>
+      <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="引号使用"><a href="#引号使用" class="headerlink" title="引号使用"></a>引号使用</h3><p>url() 、属性选择符、属性值使用双引号。参考 <a href="https://stackoverflow.com/questions/2168855/is-quoting-the-value-of-url-really-necessary" target="_blank" rel="noopener">Is quoting the value of url() really necessary?</a></p>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url(//www.google.com/css/maia.css)</span><span class="token punctuation">;</span></span>
+    <span class="token selector">html </span><span class="token punctuation">{</span>
+      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'open sans'</span>, arial, sans-serif<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url("//www.google.com/css/maia.css")</span><span class="token punctuation">;</span></span>
+    <span class="token selector">html </span><span class="token punctuation">{</span>
+      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"open sans"</span>, arial, sans-serif<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="媒体查询（Media-query）的位置"><a href="#媒体查询（Media-query）的位置" class="headerlink" title="媒体查询（Media query）的位置"></a>媒体查询（Media query）的位置</h3><blockquote>
+<p>将媒体查询放在尽可能相关规则的附近。不要将他们打包放在一个单一样式文件中或者放在文档底部。如果你把他们分开了，将来只会被大家遗忘。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 768px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+      <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span><span class="token punctuation">}</span>
+      <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+      <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="不要使用-import"><a href="#不要使用-import" class="headerlink" title="不要使用 @import"></a>不要使用 @import</h3><blockquote>
+<p>与 <link> 相比，@import 要慢很多，不光增加额外的请求数，还会导致不可预料的问题。<br>一般情况下，在页面中只允许使用 <link> 标签来引用CSS文件;<br>替代办法：</p>
+</blockquote>
+<ul>
+<li>使用多个 元素；</li>
+<li>通过 Sass 或 Less 类似的 CSS 预处理器将多个 CSS 文件编译为一个文件；</li>
+<li>其他 CSS 文件合并工具；</li>
+</ul>
+<p>参考 <a href="https://www.stevesouders.com/blog/2009/04/09/dont-use-import/" target="_blank" rel="noopener">don’t use @import；</a></p>
+<p>链接的样式顺序：</p>
+<blockquote>
+<p>a:link -&gt; a:visited -&gt; a:hover -&gt; a:active（LoVeHAte）<br>无需添加浏览器厂商前缀</p>
+</blockquote>
+<p>使用 Autoprefixer 自动添加浏览器厂商前缀，编写 CSS 时不需要添加浏览器前缀，直接使用标准的 CSS 编写。</p>
+<p>Autoprefixer 通过 <a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a>，按兼容的要求，对相应的 CSS 代码添加浏览器厂商前缀。</p>
 
                 
             </div>
@@ -498,7 +672,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A.html">http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +709,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,13 +932,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/9.jpg" class="responsive-img" alt="前端食用规范（三）css通用约定">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范（三）css通用约定</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,17 +949,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,13 +982,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/9.jpg" class="responsive-img" alt="前端食用规范（三）css通用约定">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范（三）css通用约定</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,17 +999,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-02
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

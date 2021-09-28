@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-05-04
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
 
@@ -471,8 +471,65 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>在webpack中任何一个东西都称为模块，js就不用说了。一个css文件，一张图片、一个less文件都是一个模块，<br>都能用导入模块的语法（commonjs的require，ES6的import）导入进来。webpack自身只能读懂js类型的文件，<br>其它的都不认识。但是webpack却能编译打包其它类型的文件，<br>像ES6、JSX、less、typeScript等，甚至css、images也是Ok的，而想要编译打包这些文件就需要借助loader</p>
+<p>loader就像是一个翻译员，浏览器不是不认识这些东西么?那好交给loader来办，它能把这些东西都翻译成浏览器认识的语言。<br>loader描述了webpack如何处理非js模块，而这些模块想要打包loader必不可少，所以它在webpack里显得异常重要。<br>loader跟插件一样都是模块，想要用它需要先安装它，使用的时候把它放在module.rules参数里，rules翻译过来的意思就是规则，<br>所以也可以认为loader就是一个用来处理不同文件的规则.</p>
+<p>处理CSS<br>所需loader</p>
+<p>style-loader   //把处理完的css放到style标签里<br>css-loader     //处理css</p>
+<p>安装</p>
+<pre><code>npm i style-loader css-loader -D</code></pre><p>import ‘../css/index.css’;  //两个点是找上级目录</p>
+<p>webpack的入口文件是index.js，如果要处理其它类型的文件，就需要在入口文件里把其它类型的文件导入进来，<br>而在webpack中所有文件都是模块，所以可以使用require或者import导入其它文件.<br>…..<br>module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[‘style-loader’,’css-loader’]   //顺序不能搞错<br>            }<br>        ]<br>    },<br>…..</p>
+<pre><code>说明
 
+    rules里的数据类型为对象，每一个loader都是一个对象
+    test表示loader要处理什么类型的文件，这里用了一个正则去匹配文件类型
+    use表示要使用哪个loader，它的值是个数组，loader的使用顺序是从后往前
+    这个loader的意思为，在入口文件里找到.css类型的文件，先拿css-loader去处理成浏览器认识的css，
+    再拿style-loader把处理后的css放在页面的style标签里.</code></pre><p>单独提取CSS</p>
+<p>执行命令npm run build后，在dist目录里只有两个文件，一个index.bundle.js一个index.html文件，并没有css文件，<br>同时打开index.html源码后也没有发现有css的内容。这是因为style-loader的作用，它把css一同打包到了js文件里，<br>js文件在能过DOM动态创建style标签并添加到页面里。所以css的内容已经放到了index.bundle.js里。</p>
+<p>这种形式只有当文件内容不多的时候可以使用，如果CSS的内容以及JS的内容非常的多，把两块都打包到一个文件里就会增加<br>文件的体积，用户打开页面的时候下载速度会受影响，同减肥影响用户体验。<br>这就需要把CSS文件单独拎出来，那需要一个插件来配合loader才能完成.</p>
+<p>mini-css-extract-plugin</p>
+<p>webpack版本需要4.3以上，低版本请使用extract-text-webpack-plugin<br>使用步骤：<br>1、安装</p>
+<pre><code>npm i mini-css-extract-plugin -D</code></pre><p>2、在webpack.config.js里引入模块</p>
+<p>const MiniCssExtractPlugin=require(“mini-css-extract-plugin”);</p>
+<p>3、写入plugins</p>
+<p>plugins:[<br>    new HtmlWebpackPlugin({<br>        title:’陈学辉’,<br>        template:’./src/template.html’,<br>        filename:’index.html’,<br>    }),<br>    new MiniCssExtractPlugin({<br>        filename:’css/index.css’    //文件目录会放入output.path里<br>    }),<br>]</p>
+<p>4、写入loader</p>
+<p>module:{<br>    rules:[<br>        {<br>            test:/.css$/,<br>            use:[MiniCssExtractPlugin.loader,”css-loader”]  //代替style-loader<br>        }<br>    ]<br>}</p>
+<p>执行命令npm run build后可以看到dist目录里已经多了一个css文件夹，这个文件夹里放了一个index.css文件。<br>打开index.html源码看到css文件已经通过link标签引入，这些功能都是mini-css-extract-plugin所做的。</p>
+<p>处理图片<br>所需loader</p>
+<p>file-loader   //解析地址<br>url-loader    //把图片地址解析成base64</p>
+<p>安装<br>    npm i file-loader url-loader -D<br>    ……<br>             module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[<br>                    //这是一个loader，如果loader需要给参数，就写成对象的形式<br>                    {<br>                        loader:MiniCssExtractPlugin.loader, //loader是哪个<br>                        options:{   //所有的配置参数都要放在这个对象里面<br>                            publicPath:’../‘    //这个表示在css文件里但凡用到地址的地方在其前面加个目录’../‘，这个是为了能找到图片<br>                        }<br>                    },<br>                    ‘css-loader’    //这个loader没有其它选项就直接写<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,    //找到三种格式中的任意一种<br>                use:[‘file-loader’]<br>            }<br>        ]<br>    },<br>    ……</p>
+<p>index.js文件内容如下：</p>
+<p>import ‘../css/index.css’;  //两个点是找上级目录</p>
+<p>index.css文件内容如下：</p>
+<p>#box{<br>    width: 800px;<br>    height: 500px;<br>    border: 5px solid #999;<br>    color: #00f;<br>    /<em>background: green;</em>/</p>
+<pre><code>background: url(../images/img_01.jpg);  //背景改成了图片</code></pre><p>}</p>
+<pre><code>说明
+
+    loader既可以写成字符串的形式，也可以写成对象的形式。如果这个loader需要给一些配置，那就需要写成对象的形式，
+    所有的配置放到options里
+    这里一定要注意第一个loader的use属性，它里面放的是一个个loader，每个loader的值既可以是对象形式，
+    又可以是字符串形式。</code></pre><p>在HTML文件中使用图片</p>
+<p>index.js文件内容如下：</p>
+<p>import ‘../css/index.css’;</p>
+<p>import img1 from ‘../images/img_01.jpg’;<br>import img2 from ‘../images/img_02.jpg’;</p>
+<p>const loadImg=img=&gt;{<br>    const newImg=new Image();<br>    newImg.onload=()=&gt;document.body.appendChild(newImg);<br>    newImg.src=img;<br>};</p>
+<p>loadImg(img1);<br>loadImg(img2);</p>
+<p>module:{<br>        rules:[<br>            {<br>                test:/.css$/,<br>                use:[<br>                    {<br>                        loader:MiniCssExtractPlugin.loader,<br>                        options:{<br>                            publicPath:’../‘<br>                        }<br>                    },<br>                    “css-loader”<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,<br>                //use:[‘file-loader’]<br>                use:[<br>                    {<br>                        loader:’url-loader’,    //把图片转成base64<br>                        options:{<br>                            limit:50*1024,  //小于50k就会转成base64<br>                            outputPath: ‘images’<br>                        }<br>                    }<br>                ]</p>
+<pre><code>            //use:&#39;url-loader?limit=50000&amp;outputPath=images&#39; //loader的另一种写法，与get请求方式相同
+        }
+    ]
+},
+
+
+
+
+说明
+
+    url-loader的作用是把图片转成base64，它同样可以给配置参数
+    limit的作用是小于这个值就会转base64
+    只用了url-loader，并没有用file-loader，说明url-loader里已经包含了file-loader的功能
+    loader还可以写成地址的形式，与get的请求方式相同</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +555,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%BA%8C).html">http://chfsun.gitee.io/myblog/myblog/data/webpack4(%E4%BA%8C).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +811,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%BA%8C).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +828,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +849,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/webpack4(%E4%BA%8C).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +866,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

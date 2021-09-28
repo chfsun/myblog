@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="前端食用规范(一)基本原则, 梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>前端食用规范(一)基本原则 | 梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title">前端食用规范(一)基本原则</h1>
                 </div>
             </div>
         </div>
@@ -407,12 +407,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/myblog/">
+                                <span class="chip bg-color"></span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/myblog/" class="post-category">
+                                
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -421,7 +434,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2020-05-18
                 </div>
                 
 				
@@ -430,21 +443,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-08-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    999
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -457,8 +470,8 @@
 				
 				<div class="info-break-policy">
 				    
-				    <i class="fa fa-pencil"></i> 作者: chfsun
-				    
+				        <i class="fa fa-pencil"></i> 作者: chfsun
+				     
 				</div>
 				
             </div>
@@ -471,7 +484,126 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <blockquote>
+<p><strong>目标</strong>：<strong>代码一致性和最佳实践</strong>。通过代码风格的一致性，<strong>降低维护代码的成本以及改善多人协作的效率</strong>。同时遵守最佳实践，确保页面性能得到最佳优化和高效的代码。</p>
+</blockquote>
+<blockquote>
+<p>此手册是在开发中积累下来的经验和参考其它规范/指南制定的，它<strong>只是起指导作用</strong>，除个别条目强制之外，大多数为非强制约束，开发者可根据自己的实际情况自行决定是否要遵守该指南只是保证大方向一致性和最佳实践的阶段性总结，<strong>不是最后结论，它会随着时间而变化</strong>。</p>
+</blockquote>
+<h2 id="一、基本原则"><a href="#一、基本原则" class="headerlink" title="一、基本原则"></a>一、基本原则</h2><h4 id="结构、样式、行为分离"><a href="#结构、样式、行为分离" class="headerlink" title="结构、样式、行为分离"></a>结构、样式、行为分离</h4><p>尽量确保文档和模板只包含 HTML 结构，样式都放到样式表里，行为都放到脚本里。</p>
+<h4 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h4><p>统一两个空格缩进（总之缩进统一即可），不要使用 Tab 或者 Tab、空格混搭。</p>
+<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>使用不带 BOM 的 UTF-8 编码。</p>
+<ul>
+<li>在 HTML中指定编码 <meta charset="utf-8"> ；</li>
+<li>无需使用 @charset 指定样式表的编码，它默认为 UTF-8 （参考 @charset）；</li>
+</ul>
+<h4 id="一律使用小写字母"><a href="#一律使用小写字母" class="headerlink" title="一律使用小写字母"></a>一律使用小写字母</h4><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user.png<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span> <span class="token attr-name">HREF</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>A</span><span class="token punctuation">></span></span>
+
+    /* Recommended */
+    color: #e5e5e5;
+    /* Not recommended */
+    color: #E5E5E5;</code></pre>
+<h4 id="省略外链资源-URL-协议部分"><a href="#省略外链资源-URL-协议部分" class="headerlink" title="省略外链资源 URL 协议部分"></a>省略外链资源 URL 协议部分</h4><p>省略外链资源（图片及其它媒体资源）URL 中的 http / https 协议，<strong>使 URL 成为相对地址</strong>，避免 Mixed Content 问题，减小文件字节数。</p>
+<h5 id="其它协议（ftp-等）的-URL-不省略。"><a href="#其它协议（ftp-等）的-URL-不省略。" class="headerlink" title="其它协议（ftp 等）的 URL 不省略。"></a>其它协议（ftp 等）的 URL 不省略。</h5><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(//www.google.com/images/example)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(http://www.google.com/images/example)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h4 id="统一注释"><a href="#统一注释" class="headerlink" title="统一注释"></a>统一注释</h4><p>通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
+<h5 id="HTML-注释"><a href="#HTML-注释" class="headerlink" title="HTML 注释"></a>HTML 注释</h5><ul>
+<li>模块注释<pre class=" language-html"><code class="language-html">      <span class="token comment" spellcheck="true">&lt;!-- 文章列表列表模块 --></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>article-list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      ...
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li>区块注释<pre class=" language-html"><code class="language-html">  <span class="token comment" spellcheck="true">&lt;!--
+  @name: Drop Down Menu
+  @description: Style of top bar drop down menu.
+  @author: Ashu(Aaaaaashu@gmail.com)
+  --></span></code></pre>
+</li>
+<li>CSS 注释</li>
+</ul>
+<p>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/* ==========================================================================
+   组件块
+ ============================================================================ */</span>
+
+<span class="token comment" spellcheck="true">/* 子组件块
+ ============================================================================ */</span>
+<span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+
+<span class="token comment" spellcheck="true">/* 子组件块
+ ============================================================================ */</span>
+<span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="JavaScript-注释"><a href="#JavaScript-注释" class="headerlink" title="JavaScript 注释"></a>JavaScript 注释</h5><ul>
+<li>单行注释</li>
+</ul>
+<p>必须独占一行。// 后跟一个空格，缩进与下一行被注释说明的代码一致。</p>
+<ul>
+<li>多行注释</li>
+</ul>
+<p>避免使用 /<em>…</em>/ 这样的多行注释。有多行注释内容时，使用多个单行注释。</p>
+<ul>
+<li><p>函数/方法注释</p>
+<p>  函数/方法注释必须包含函数说明，有参数和返回值时必须使用注释标识；<br>  参数和返回值注释必须包含类型信息和说明；<br>  当函数是内部函数，外部不可访问时，可以使用 @inner 标识；</p>
+<pre class=" language-javaScript"><code class="language-javaScript">/**
+* 函数描述
+*
+* @param {string} p1 参数1的说明
+* @param {string} p2 参数2的说明，比较长
+*     那就换行了.
+* @param {number=} p3 参数3的说明（可选）
+* @return {Object} 返回值描述
+*/
+function foo(p1, p2, p3) {
+  var p3 = p3 || 10;
+  return {
+      p1: p1,
+      p2: p2,
+      p3: p3
+  };
+}</code></pre>
+</li>
+<li><p>文件注释</p>
+</li>
+</ul>
+<p>文件注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西。 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息。如下:</p>
+<pre class=" language-javaScript"><code class="language-javaScript">/**
+ * @fileoverview Description of file, its uses and information
+ * about its dependencies.
+ * @author user@meizu.com (Firstname Lastname)
+ * Copyright 2015 Meizu Inc. All Rights Reserved.
+ */</code></pre>
+<ul>
+<li><p>代码验证</p>
+<p>  使用 W3C HTML Validator 来验证你的HTML代码有效性；<br>  使用 W3C CSS Validator 来验证你的CSS代码有效性；</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>代码验证不是最终目的</strong>，真的目的在于让开发者在经过多次的这种验证过程后，能够深刻理解到怎样的语法或写法是非标准和不推荐的，即使在某些场景下被迫要使用非标准写法，也可以做到心中有数。</p>
+</blockquote>
 
                 
             </div>
@@ -498,7 +630,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99.html">http://chfsun.gitee.io/myblog/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99.html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -535,7 +667,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/myblog/">
+                                    <span class="chip bg-color"></span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -754,13 +890,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/21.jpg" class="responsive-img" alt="前端食用规范(一)基本原则">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(一)基本原则</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,17 +907,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-18
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -792,13 +940,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99.html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/21.jpg" class="responsive-img" alt="前端食用规范(一)基本原则">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title">前端食用规范(一)基本原则</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,17 +957,29 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-18
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chfsun
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/myblog/" class="post-category">
+                                    
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/myblog/">
+                        <span class="chip bg-color"></span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>

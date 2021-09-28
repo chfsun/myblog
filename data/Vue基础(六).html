@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-07-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    607
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    2 分
                 </div>
                 
 
@@ -471,8 +471,110 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>一、axios<br>    react —-&gt;使用fetch</p>
+<pre><code>vue ------&gt;使用axios
 
+    二者都是基于promise优化来的
+    最开始vue自身有一个基于vue的网络请求方式 vueResouce，后来就不再维护；
+
+1、Axios 是一个基于 promise 的 HTTP 库，可以用在浏览器和 node.js 中。
+
+    优点：    
+         从浏览器中创建 XMLHttpRequests
+        从 node.js 创建 http 请求
+        支持 Promise API
+        拦截请求和响应
+        转换请求数据和响应数据
+        取消请求
+        自动转换 JSON 数据
+        客户端支持防御 XSRF
+
+2、axios的安装及项目使用方式
+
+   安装：npm i axios -S 不建议安装全局；
+
+  使用：
+  方式1：每个需要的组件中都通过import方式引入即可
+
+ 方式2：
+      创建一个公用的引入：在根节点引入axios，再添加到vue的prototype中
+      import Axios from &#39;axios&#39;;
+      Vue.prototype.$axios = Axios;// 其中 $axios为自定义的名字，定义时应避免使用关键字和敏感字符
+
+      之后即可在任意组件中使用，不需要再每一个组件都引入：组件中通过this.$axios.xxx使用（xxx为请求方式如get、post等）
+3、标准模式：
+axios({
+      method: &#39;post&#39;,
+      url: &#39;/user/12345&#39;,
+      data: {
+        firstName: &#39;Fred&#39;,
+        lastName: &#39;Flintstone&#39;
+      }
+}).then()
+  .catch()
+
+3、get请求     
+   所有请求默认都是get请求
+   // get请求的参数可以放在url地址后面
+  axios.get(&#39;/user?ID=12345&#39;)   
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+ // 也可以使用params: {ID: 12345}的形式
+ axios.get(&#39;/user&#39;, {
+    params: {
+          ID: 12345
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+4、post请求
+ post的参数不能使用parms
+      如果参数类型不匹配或者需要转换则可以使用axios中的qs附带的stingify功能
+
+5、执行多个并发请求
+ axios.all([getUserAccount(), getUserPermissions()])
+  .then(axios.spread(function (acct, perms) {
+    // 两个请求现在都执行完成
+  }));
+
+6、全局配置默认值
+axios.defaults.baseURL = &#39;https://api.example.com&#39;;
+axios.defaults.headers.common[&#39;Authorization&#39;] = AUTH_TOKEN;
+axios.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-form-urlencoded&#39;;
+
+
+7、vue 拦截器
+   在请求或响应被 then 或 catch 处理前拦截它们。
+
+    // 添加请求拦截器
+    axios.interceptors.request.use(function (config) {
+        // 在发送请求之前做些什么
+        return config;
+      }, function (error) {
+        // 对请求错误做些什么
+        return Promise.reject(error);
+      });
+
+    // 添加响应拦截器
+    axios.interceptors.response.use(function (response) {
+        // 对响应数据做点什么
+        return response;
+      }, function (error) {
+        // 对响应错误做点什么
+        return Promise.reject(error);
+      });
+
+8、跨域请求问题</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +600,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD).html">http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +856,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +873,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +894,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +911,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             

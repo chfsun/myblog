@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="interview, 梦.星河">
+    <meta name="keywords" content="梦.星河">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>interview | 梦.星河</title>
+    <title>梦.星河</title>
     <link rel="icon" type="image/png" href="/myblog/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/myblog/libs/awesome/css/all.css">
@@ -288,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/myblog/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">interview</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -421,7 +421,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2021-09-28
                 </div>
                 
 				
@@ -430,21 +430,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-08-04
+                    2019-07-12
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    748
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -471,8 +471,100 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>历年来的面试题整理</p>
+                <p>一、路由<br>   1、安装  在SFC模式下<br>     npm i vue-router -S</p>
+<p>   2、引入<br>   import VueRouter from ‘vue-router’</p>
+<p>   3、路由安装<br>   Vue.use(VueRouter)</p>
+<p>   4、自定义路由<br>         1、手动创建一个路由<br>            const router = new VueRouter({<br>              routes: [<br>                {<br>                  path: ‘/xx’,<br>                  name: ‘xx’,<br>                  component: xxx<br>                }<br>              ]<br>            })</p>
+<pre><code>     2、以HelloWord为例：通过import方式引入组件
+      import HelloWorld from &#39;./components/HelloWorld&#39;
 
+     3、在App.vue中通过视图注入
+      &lt;router-view /&gt;
+
+     4、修改手动创建路由中的path、name、component
+         const router = new VueRouter({
+          routes: [
+            {
+              path: &#39;/hello&#39;,
+              name: &#39;HelloWorld&#39;,
+              component: HelloWorld
+            }
+          ]
+        })
+
+     5、将创建的路由添加到实例化的vue中
+     6、访问
+
+5、优化手动添加的路由,统一调配
+  创建router文件夹  添加js文件，将上述代码移至js中
+
+6、访问跳转
+  可以通过标签形式访问,关键字：router-link
+ 其中的to后面跟的就是路由中的name属性值
+
+ 可以配合Animate.css美化点击的菜单
+
+ router-link中的tag属性可以改变router-link标签的标签名称
+
+7、多个路由配置
+
+8、动态路径参数 参数传递
+    以冒号开头 { path: &#39;/user/:id&#39;, component: User }
+    /user/bar 设置值
+    显示参数：{{ this.$route.params.id }}
+
+9、路由嵌套
+    在需要嵌套的组件下使用children:[{},{}]
+    注意点：子组件中的path不需要添加/
+    理论上：可以无限嵌套下去
+
+10、编程式的导航
+    router 的实例方法，通过编写代码来实现：
+    router.push(location, onComplete?, onAbort?)  添加方式
+    router.replace(location, onComplete?, onAbort?)  替换方式
+    router.go(n) // 跳转到指定组件
+
+11、命名路由
+    通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候
+    &lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+    &lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;
+    &lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;
+
+    const router = new VueRouter({
+      routes: [
+        {
+          path: &#39;/&#39;,
+          components: {
+            default: Foo,
+            a: Bar,
+            b: Baz
+          }
+        }
+      ]
+    })
+
+12、重定向和别名
+  1、重定向
+   const router = new VueRouter({
+      routes: [
+        { path: &#39;/a&#39;, redirect: &#39;/b&#39; }
+      ]
+    })
+
+13、HTML5 History 模式
+  如果不想要很丑的 hash，我们可以用路由的 history 模式，这种模式充分利用 history.pushState API 来完成 URL 跳转而无须重新加载页面。
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，
+当用户在浏览器直接访问 http://oursite.com/user/id 就会返回 404，这就不好看了。
+
+14、路由选中样式设置
+       方式1、设置 .router-link-active的样式
+       方式2、全局配置 &lt;router-link&gt; 的默认“激活 class 类名” 修改方式1的样式命名  linkActiveClass:&#39;active&#39;,
+15、 linkExactActiveClass
+        精准匹配到样式
+        默认值: &quot;router-link-exact-active&quot;
+    全局配置 &lt;router-link&gt; 精确激活的默认的 class。
+
+             如果不觉得麻烦，还可以使用active-class，每个路由中去一个个配置</code></pre>
                 
             </div>
             <hr/>
@@ -498,7 +590,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://chfsun.gitee.io/myblog/myblog/interview/index.html">http://chfsun.gitee.io/myblog/myblog/interview/index.html</a>
+                    <a href="http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83).html">http://chfsun.gitee.io/myblog/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83).html</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -754,13 +846,13 @@
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -771,7 +863,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
@@ -792,13 +884,13 @@
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/myblog/interview/index.html">
+                <a href="/myblog/data/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83).html">
                     <div class="card-image">
                         
                         
-                        <img src="/myblog/medias/featureimages/1.jpg" class="responsive-img" alt="interview">
+                        <img src="/myblog/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">interview</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -809,7 +901,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-08-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-28
                             </span>
                         <span class="publish-author">
                             
