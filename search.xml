@@ -2,12 +2,37 @@
 <search>
   <entry>
     <title>React基础(一)</title>
-    <url>/s2/uncategorized/React%E5%9F%BA%E7%A1%80(%E4%B8%80)/</url>
+    <url>/myblog/uncategorized/React%E5%9F%BA%E7%A1%80(%E4%B8%80)/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>Gitee配置SSH公钥</title>
+    <url>/myblog/uncategorized/Gitee%E9%85%8D%E7%BD%AESSH%E5%85%AC%E9%92%A5/</url>
+    <content><![CDATA[<h2 id="Gitee配置SSH公钥"><a href="#Gitee配置SSH公钥" class="headerlink" title="Gitee配置SSH公钥"></a>Gitee配置SSH公钥</h2><h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
+<li>创建公钥</li>
+</ol>
+<p>在本地打开git命令窗口，输入如下命令</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/.ssh</code></pre>
+<blockquote>
+<p>如果没有.ssh目录则输入如下命令创建目录，然后输入上述命令进入.ssh目录</p>
+</blockquote>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> ~/.ssh</code></pre>
+<ol start="2">
+<li><p>输入如下命令生成密钥对</p>
+<pre><code>ssh-keygen -t rsa -C &quot;邮箱&quot;</code></pre></li>
+<li><p>一路Enter下去哈<del>别输入内容就行啦</del>别问为什么，因为你会被坑的~</p>
+</li>
+<li><p>输入如下命令查看公钥内容</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cat</span> id_rsa.pub</code></pre>
+</li>
+<li><p>将屏幕打印出来的内容复制到刚才的个人公钥里面去，就是下面图中红色部分</p>
+</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
     <title>CSS3动画特效</title>
-    <url>/s2/css/Css3%E5%8A%A8%E7%94%BB/</url>
+    <url>/myblog/css/Css3%E5%8A%A8%E7%94%BB/</url>
     <content><![CDATA[<h4 id="CSS3变形是一些效果的集合"><a href="#CSS3变形是一些效果的集合" class="headerlink" title="CSS3变形是一些效果的集合"></a>CSS3变形是一些效果的集合</h4><a id="more"></a>
 <ul>
 <li>如平移、旋转、缩放、倾斜效果</li>
@@ -118,7 +143,7 @@ transform:scale(0,2)  等价于 transform:scaleY(2)</code></pre><p>示例：</p>
   </entry>
   <entry>
     <title>Vue基础(一)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%80)/</url>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%80)/</url>
     <content><![CDATA[<p>一、VUE基础<br>1、什么是VUE？</p>
 <pre><code>VUE是渐进式的JavaScript框架；
 如果你已经有一个现成的服务端应用，你可以将VUE作为该应用的一部分嵌入其中；
@@ -148,8 +173,121 @@ VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、
      v-for:</code></pre>]]></content>
   </entry>
   <entry>
+    <title>Vue基础(三)</title>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89)/</url>
+    <content><![CDATA[<p>第3次课vue——base<br> 一、组件<br>   1、组件声明<br>    Vue 的组件可以通过两种方式来声明：<br>        一种是通过 Vue.component，另外一种则是 Single File Components（SFC）； </p>
+<pre><code>Vue.component方式（见官网  组件基础/基本示例）
+SFC：在实际工作中，大部分都是用官方的脚手架 vue-cli 生成项目，用的也是 SFC 这种方式。 </code></pre><p>   2、通过 Prop 向子组件传递数据<br>      1、父传子：在调用的父组件中定义数据名称并同时声明要传的值，在子组件中通过props接收即可<br>               传递静态或动态的<br>         props可接收固定的字符串外还可接收其它类型，如对象，json数组等；<br>         父级 prop 的更新会向下流动到子组件中，但是反过来则不行。<br>         这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
+<pre><code>     1.1:Prop
+
+  2、子传父：$emit来传递,规则$emit()中的参数第一个为key，父级使用的时候使用事件传递，则方法触发名必须为子类的key，
+        然后通过方法的参数，得到子类的$emit()中的value值，实现传参。
+        如果需要获取时事数据则需要使用v-model，作为子类的$emit()中的value值
+        注意：子传父只能通过事件传
+同样的父传子也可以使用v-model来</code></pre><p>二、组件加载与keep-alive</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Vue基础(七)</title>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83)/</url>
+    <content><![CDATA[<p>一、路由<br>   1、安装  在SFC模式下<br>     npm i vue-router -S</p>
+<p>   2、引入<br>   import VueRouter from ‘vue-router’</p>
+<p>   3、路由安装<br>   Vue.use(VueRouter)</p>
+<p>   4、自定义路由<br>         1、手动创建一个路由<br>            const router = new VueRouter({<br>              routes: [<br>                {<br>                  path: ‘/xx’,<br>                  name: ‘xx’,<br>                  component: xxx<br>                }<br>              ]<br>            })</p>
+<pre><code>     2、以HelloWord为例：通过import方式引入组件
+      import HelloWorld from &#39;./components/HelloWorld&#39;
+
+     3、在App.vue中通过视图注入
+      &lt;router-view /&gt;
+
+     4、修改手动创建路由中的path、name、component
+         const router = new VueRouter({
+          routes: [
+            {
+              path: &#39;/hello&#39;,
+              name: &#39;HelloWorld&#39;,
+              component: HelloWorld
+            }
+          ]
+        })
+
+     5、将创建的路由添加到实例化的vue中
+     6、访问
+
+5、优化手动添加的路由,统一调配
+  创建router文件夹  添加js文件，将上述代码移至js中
+
+6、访问跳转
+  可以通过标签形式访问,关键字：router-link
+ 其中的to后面跟的就是路由中的name属性值
+
+ 可以配合Animate.css美化点击的菜单
+
+ router-link中的tag属性可以改变router-link标签的标签名称
+
+7、多个路由配置
+
+8、动态路径参数 参数传递
+    以冒号开头 { path: &#39;/user/:id&#39;, component: User }
+    /user/bar 设置值
+    显示参数：{{ this.$route.params.id }}
+
+9、路由嵌套
+    在需要嵌套的组件下使用children:[{},{}]
+    注意点：子组件中的path不需要添加/
+    理论上：可以无限嵌套下去
+
+10、编程式的导航
+    router 的实例方法，通过编写代码来实现：
+    router.push(location, onComplete?, onAbort?)  添加方式
+    router.replace(location, onComplete?, onAbort?)  替换方式
+    router.go(n) // 跳转到指定组件
+
+11、命名路由
+    通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候
+    &lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+    &lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;
+    &lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;
+
+    const router = new VueRouter({
+      routes: [
+        {
+          path: &#39;/&#39;,
+          components: {
+            default: Foo,
+            a: Bar,
+            b: Baz
+          }
+        }
+      ]
+    })
+
+12、重定向和别名
+  1、重定向
+   const router = new VueRouter({
+      routes: [
+        { path: &#39;/a&#39;, redirect: &#39;/b&#39; }
+      ]
+    })
+
+13、HTML5 History 模式
+  如果不想要很丑的 hash，我们可以用路由的 history 模式，这种模式充分利用 history.pushState API 来完成 URL 跳转而无须重新加载页面。
+不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，
+当用户在浏览器直接访问 http://oursite.com/user/id 就会返回 404，这就不好看了。
+
+14、路由选中样式设置
+       方式1、设置 .router-link-active的样式
+       方式2、全局配置 &lt;router-link&gt; 的默认“激活 class 类名” 修改方式1的样式命名  linkActiveClass:&#39;active&#39;,
+15、 linkExactActiveClass
+        精准匹配到样式
+        默认值: &quot;router-link-exact-active&quot;
+    全局配置 &lt;router-link&gt; 精确激活的默认的 class。
+
+             如果不觉得麻烦，还可以使用active-class，每个路由中去一个个配置</code></pre>]]></content>
+  </entry>
+  <entry>
     <title>Vue入门及Vue-cli</title>
-    <url>/s2/Vue/Vue%E5%85%A5%E9%97%A8%E5%8F%8AVue-cli/</url>
+    <url>/myblog/Vue/Vue%E5%85%A5%E9%97%A8%E5%8F%8AVue-cli/</url>
     <content><![CDATA[<h3 id="一、环境准备"><a href="#一、环境准备" class="headerlink" title="一、环境准备"></a>一、环境准备</h3><p>本文是基于模块化方式使用vue的。<br>首先安装好node环境，建议10以上最好，安装后，在dos命令下输入<br>node -v和npm -v 如果能正常显示，则表示安装成功！</p>
 <p><img src="https://img-blog.csdnimg.cn/20201209171752215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTE0Mjk4Mjg=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <blockquote>
@@ -258,146 +396,8 @@ VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、
       </tags>
   </entry>
   <entry>
-    <title>Gitee配置SSH公钥</title>
-    <url>/s2/uncategorized/Gitee%E9%85%8D%E7%BD%AESSH%E5%85%AC%E9%92%A5/</url>
-    <content><![CDATA[<h2 id="Gitee配置SSH公钥"><a href="#Gitee配置SSH公钥" class="headerlink" title="Gitee配置SSH公钥"></a>Gitee配置SSH公钥</h2><h4 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h4><ol>
-<li>创建公钥</li>
-</ol>
-<p>在本地打开git命令窗口，输入如下命令</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">cd</span> ~/.ssh</code></pre>
-<blockquote>
-<p>如果没有.ssh目录则输入如下命令创建目录，然后输入上述命令进入.ssh目录</p>
-</blockquote>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">mkdir</span> ~/.ssh</code></pre>
-<ol start="2">
-<li><p>输入如下命令生成密钥对</p>
-<pre><code>ssh-keygen -t rsa -C &quot;邮箱&quot;</code></pre></li>
-<li><p>一路Enter下去哈<del>别输入内容就行啦</del>别问为什么，因为你会被坑的~</p>
-</li>
-<li><p>输入如下命令查看公钥内容</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token function">cat</span> id_rsa.pub</code></pre>
-</li>
-<li><p>将屏幕打印出来的内容复制到刚才的个人公钥里面去，就是下面图中红色部分</p>
-</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>Vue基础(三)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%89)/</url>
-    <content><![CDATA[<p>第3次课vue——base<br> 一、组件<br>   1、组件声明<br>    Vue 的组件可以通过两种方式来声明：<br>        一种是通过 Vue.component，另外一种则是 Single File Components（SFC）； </p>
-<pre><code>Vue.component方式（见官网  组件基础/基本示例）
-SFC：在实际工作中，大部分都是用官方的脚手架 vue-cli 生成项目，用的也是 SFC 这种方式。 </code></pre><p>   2、通过 Prop 向子组件传递数据<br>      1、父传子：在调用的父组件中定义数据名称并同时声明要传的值，在子组件中通过props接收即可<br>               传递静态或动态的<br>         props可接收固定的字符串外还可接收其它类型，如对象，json数组等；<br>         父级 prop 的更新会向下流动到子组件中，但是反过来则不行。<br>         这样会防止从子组件意外改变父级组件的状态，从而导致你的应用的数据流向难以理解。</p>
-<pre><code>     1.1:Prop
-
-  2、子传父：$emit来传递,规则$emit()中的参数第一个为key，父级使用的时候使用事件传递，则方法触发名必须为子类的key，
-        然后通过方法的参数，得到子类的$emit()中的value值，实现传参。
-        如果需要获取时事数据则需要使用v-model，作为子类的$emit()中的value值
-        注意：子传父只能通过事件传
-同样的父传子也可以使用v-model来</code></pre><p>二、组件加载与keep-alive</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Vue基础(七)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%B8%83)/</url>
-    <content><![CDATA[<p>一、路由<br>   1、安装  在SFC模式下<br>     npm i vue-router -S</p>
-<p>   2、引入<br>   import VueRouter from ‘vue-router’</p>
-<p>   3、路由安装<br>   Vue.use(VueRouter)</p>
-<p>   4、自定义路由<br>         1、手动创建一个路由<br>            const router = new VueRouter({<br>              routes: [<br>                {<br>                  path: ‘/xx’,<br>                  name: ‘xx’,<br>                  component: xxx<br>                }<br>              ]<br>            })</p>
-<pre><code>     2、以HelloWord为例：通过import方式引入组件
-      import HelloWorld from &#39;./components/HelloWorld&#39;
-
-     3、在App.vue中通过视图注入
-      &lt;router-view /&gt;
-
-     4、修改手动创建路由中的path、name、component
-         const router = new VueRouter({
-          routes: [
-            {
-              path: &#39;/hello&#39;,
-              name: &#39;HelloWorld&#39;,
-              component: HelloWorld
-            }
-          ]
-        })
-
-     5、将创建的路由添加到实例化的vue中
-     6、访问
-
-5、优化手动添加的路由,统一调配
-  创建router文件夹  添加js文件，将上述代码移至js中
-
-6、访问跳转
-  可以通过标签形式访问,关键字：router-link
- 其中的to后面跟的就是路由中的name属性值
-
- 可以配合Animate.css美化点击的菜单
-
- router-link中的tag属性可以改变router-link标签的标签名称
-
-7、多个路由配置
-
-8、动态路径参数 参数传递
-    以冒号开头 { path: &#39;/user/:id&#39;, component: User }
-    /user/bar 设置值
-    显示参数：{{ this.$route.params.id }}
-
-9、路由嵌套
-    在需要嵌套的组件下使用children:[{},{}]
-    注意点：子组件中的path不需要添加/
-    理论上：可以无限嵌套下去
-
-10、编程式的导航
-    router 的实例方法，通过编写代码来实现：
-    router.push(location, onComplete?, onAbort?)  添加方式
-    router.replace(location, onComplete?, onAbort?)  替换方式
-    router.go(n) // 跳转到指定组件
-
-11、命名路由
-    通过一个名称来标识一个路由显得更方便一些，特别是在链接一个路由，或者是执行一些跳转的时候
-    &lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
-    &lt;router-view class=&quot;view two&quot; name=&quot;a&quot;&gt;&lt;/router-view&gt;
-    &lt;router-view class=&quot;view three&quot; name=&quot;b&quot;&gt;&lt;/router-view&gt;
-
-    const router = new VueRouter({
-      routes: [
-        {
-          path: &#39;/&#39;,
-          components: {
-            default: Foo,
-            a: Bar,
-            b: Baz
-          }
-        }
-      ]
-    })
-
-12、重定向和别名
-  1、重定向
-   const router = new VueRouter({
-      routes: [
-        { path: &#39;/a&#39;, redirect: &#39;/b&#39; }
-      ]
-    })
-
-13、HTML5 History 模式
-  如果不想要很丑的 hash，我们可以用路由的 history 模式，这种模式充分利用 history.pushState API 来完成 URL 跳转而无须重新加载页面。
-不过这种模式要玩好，还需要后台配置支持。因为我们的应用是个单页客户端应用，如果后台没有正确的配置，
-当用户在浏览器直接访问 http://oursite.com/user/id 就会返回 404，这就不好看了。
-
-14、路由选中样式设置
-       方式1、设置 .router-link-active的样式
-       方式2、全局配置 &lt;router-link&gt; 的默认“激活 class 类名” 修改方式1的样式命名  linkActiveClass:&#39;active&#39;,
-15、 linkExactActiveClass
-        精准匹配到样式
-        默认值: &quot;router-link-exact-active&quot;
-    全局配置 &lt;router-link&gt; 精确激活的默认的 class。
-
-             如果不觉得麻烦，还可以使用active-class，每个路由中去一个个配置</code></pre>]]></content>
-  </entry>
-  <entry>
     <title>Vue基础(二)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%BA%8C)/</url>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%BA%8C)/</url>
     <content><![CDATA[<p>1、v-for 与 v-if 一同使用</p>
 <p>2、template 嵌套</p>
 <p>3、事件处理<br>   v-on:click<br>   简写方式   @click<br>  除了click外还有其它的方法也支持，事件写在methods:{}中</p>
@@ -422,7 +422,7 @@ SFC：在实际工作中，大部分都是用官方的脚手架 vue-cli 生成�
   </entry>
   <entry>
     <title>Vue基础(五)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%BA%94)/</url>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E4%BA%94)/</url>
     <content><![CDATA[<p>一、VUE生命周期<br>   主要为：beforeCreate、create、beforeMount、mounted、beforeUpdate、updated、beforeDestroy、destroyed<br>   注意点：不要在选项属性或回调上使用箭头函数，<br>         比如 created: () =&gt; console.log(this.a) 或 vm.$watch(‘a’, newValue =&gt; this.myMethod())。<br>         因为箭头函数并没有 this，this 会作为变量一直向上级词法作用域查找，直至找到为止，经常导致<br>              Uncaught TypeError: Cannot read property of undefined<br>                   或 Uncaught TypeError: this.myMethod is not a function 之类的错误。</p>
 <p>二、过渡&amp;动画<br>    1、Vue 提供了 transition 的封装组件，在下列情形中，可以给任何元素和组件添加进入/离开过渡<br>                条件渲染 (使用 v-if)<br>                条件展示 (使用 v-show)<br>                动态组件<br>                组件根节点<br>        <transition name="xx"></transition> name为自定义的名，有些还需要在当前组件style中定义样式；<br>        在进入/离开的过渡中，会有 6 个 class 切换。<br>            注意点：如果你使用一个没有名字的 <transition>，则 v- 是这些类名的默认前缀。<br>               如果你使用了 <transition name="my-transition">，那么 v-enter 会替换为 my-transition-enter。</transition></transition></p>
 <pre><code>    v-enter：定义进入过渡的开始状态。在元素被插入之前生效，在元素被插入之后的下一帧移除。
@@ -460,7 +460,7 @@ update：所在组件的 VNode 更新时调用，但是可能发生在其子 VNo
   </entry>
   <entry>
     <title>Vue基础(六)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD)/</url>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E5%85%AD)/</url>
     <content><![CDATA[<p>一、axios<br>    react —-&gt;使用fetch</p>
 <pre><code>vue ------&gt;使用axios
 
@@ -567,139 +567,8 @@ axios.defaults.headers.post[&#39;Content-Type&#39;] = &#39;application/x-www-for
 8、跨域请求问题</code></pre>]]></content>
   </entry>
   <entry>
-    <title>Vue进阶-Vuex</title>
-    <url>/s2/uncategorized/Vue%E8%BF%9B%E9%98%B6-Vuex/</url>
-    <content><![CDATA[<p>一、VUE基础<br>1、什么是VUE？</p>
-<pre><code>VUE是渐进式的JavaScript框架；
-如果你已经有一个现成的服务端应用，你可以将VUE作为该应用的一部分嵌入其中；
-VUE允许你将一个网页分割成可复用的组件；
-VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、vue-cli<br>  2.x版本的使用及环境搭建<br>    1、新版本的使用<br>    2、Vue CLI &gt;= 3 和旧版使用了相同的 vue 命令，所以 Vue CLI 2 (vue-cli) 被覆盖了。如果你仍然需要使用旧版本的 vue init 功能，你可以全局安装一个桥接工具：<br>      npm install -g @vue/cli-init<br>    3、创建项目<br>    4、创建的项目内容介绍<br>    5、分析工程目录<br>二、基本指令</p>
-<pre><code>1、模板语法
-      1、template  {{ }} 
-      特征：只能存在单行语句
-
-    2、v-once:只能渲染一次
-    3、v-html:原始html，作用解析html结构
-    4、v-bind:指令（绑定数据）,可以简写为 ： 冒号即可
-    5、v-if:指令（逻辑判断）只能接收一个布尔值
-    6、v-else：if  else 如果if为false则执行else
-    7、v-show:只是简单地切换元素的 CSS 属性 display。
-    面试题：v-if vs v-show的区别及使用场景
-
-        v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
-
-        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
-
-        相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
-
-        一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
-
-    8、列表渲染
-     v-for:</code></pre>]]></content>
-  </entry>
-  <entry>
-    <title>Vue进阶-router</title>
-    <url>/s2/uncategorized/Vue%E8%BF%9B%E9%98%B6-router/</url>
-    <content><![CDATA[<p>一、VUE基础<br>1、什么是VUE？</p>
-<pre><code>VUE是渐进式的JavaScript框架；
-如果你已经有一个现成的服务端应用，你可以将VUE作为该应用的一部分嵌入其中；
-VUE允许你将一个网页分割成可复用的组件；
-VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、vue-cli<br>  2.x版本的使用及环境搭建<br>    1、新版本的使用<br>    2、Vue CLI &gt;= 3 和旧版使用了相同的 vue 命令，所以 Vue CLI 2 (vue-cli) 被覆盖了。如果你仍然需要使用旧版本的 vue init 功能，你可以全局安装一个桥接工具：<br>      npm install -g @vue/cli-init<br>    3、创建项目<br>    4、创建的项目内容介绍<br>    5、分析工程目录<br>二、基本指令</p>
-<pre><code>1、模板语法
-      1、template  {{ }} 
-      特征：只能存在单行语句
-
-    2、v-once:只能渲染一次
-    3、v-html:原始html，作用解析html结构
-    4、v-bind:指令（绑定数据）,可以简写为 ： 冒号即可
-    5、v-if:指令（逻辑判断）只能接收一个布尔值
-    6、v-else：if  else 如果if为false则执行else
-    7、v-show:只是简单地切换元素的 CSS 属性 display。
-    面试题：v-if vs v-show的区别及使用场景
-
-        v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
-
-        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
-
-        相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
-
-        一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
-
-    8、列表渲染
-     v-for:</code></pre>]]></content>
-  </entry>
-  <entry>
-    <title>Flex box布局</title>
-    <url>/s2/html/flex/</url>
-    <content><![CDATA[<h4 id="一、容器属性"><a href="#一、容器属性" class="headerlink" title="一、容器属性"></a>一、容器属性</h4><h6 id="1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"><a href="#1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性" class="headerlink" title="1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"></a>1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性</h6><a id="more"></a>
-<pre><code>作用:
-1. 它能够更加高效方便的控制元素的对齐、排列
-2. 可以自动计算布局内元素的尺寸，无论这个元素的尺寸是固定的还是动态的
-3. 控制元素在页面的布局方向
-4. 按照不同于DOM所指定排序方式对屏幕上的元素重新排序</code></pre><h6 id="2-Flex基本概念"><a href="#2-Flex基本概念" class="headerlink" title="2.Flex基本概念"></a>2.Flex基本概念</h6><pre><code> 2.1 采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”
- 2.2 水平主轴（main axis）
- 2.3 垂直交叉轴（cross axis）
- 2.4 项目默认沿主轴排列</code></pre><h6 id="3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效"><a href="#3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效" class="headerlink" title="3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效"></a>3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效</h6><h6 id="4-flex-direction-决定主轴的方向（即项目的排列方向）"><a href="#4-flex-direction-决定主轴的方向（即项目的排列方向）" class="headerlink" title="4. flex-direction 决定主轴的方向（即项目的排列方向）"></a>4. flex-direction 决定主轴的方向（即项目的排列方向）</h6><pre><code> 4.1 row（默认）、row-reverse：主轴为水平方向，起点在左端、右端
- 4.2 column 、column-reverse：主轴为垂直方向，起点在上沿、下沿</code></pre><h6 id="5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"><a href="#5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行" class="headerlink" title="5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"></a>5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行</h6><pre><code> 5.1 nowrap（默认）：不换行
- 5.2 wrap：换行，第一行在上方
- 5.3 wrap-reverse：换行，第一行在下方</code></pre><h6 id="6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap"><a href="#6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap" class="headerlink" title="6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap"></a>6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap</h6><pre><code>  符合团队习惯，不能因为简便，而去损失了代码的可读性</code></pre><h6 id="7-justify-content-定义了项目在主轴上的对齐方式"><a href="#7-justify-content-定义了项目在主轴上的对齐方式" class="headerlink" title="7. justify-content 定义了项目在主轴上的对齐方式"></a>7. justify-content 定义了项目在主轴上的对齐方式</h6><pre><code> 7.1 flex-start（默认值）：左对齐
- 7.2 flex-end：右对齐
- 7.3 center： 居中
- 7.4 space-between：两端对齐，项目之间的间隔都相等
- 7.5 space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍</code></pre><h6 id="8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"><a href="#8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下" class="headerlink" title="8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"></a>8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下</h6><pre><code>8.1 flex-start：交叉轴的起点对齐
-8.2 flex-end：交叉轴的终点对齐
-8.3 center：交叉轴的中点对齐
-8.4 baseline: 项目的第一行文字的基线对齐
-8.5 stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度</code></pre><h4 id="二、项目属性"><a href="#二、项目属性" class="headerlink" title="二、项目属性"></a>二、项目属性</h4><h6 id="1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0"><a href="#1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0" class="headerlink" title="1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0"></a>1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0</h6><pre><code>1.1 必须为 0 或者 非负整数
-1.2 负数的话不起作用，会排列在首位，设置了order属性，会按照order属性的值大小排列</code></pre><h6 id="2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"><a href="#2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的" class="headerlink" title="2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"></a>2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的</h6><pre><code>2.1 flex-grow: &lt;number&gt;;
-2.2 不能为负数，虽然可以设置为正小数值，一般不这么用
-2.3 平均分配的含义是，去掉内容之后的空间进行均分，如果本身内容就多，虽然均分，但还是占比较大的空间</code></pre><h6 id="3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"><a href="#3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的" class="headerlink" title="3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"></a>3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的</h6><pre><code>3.1 flex-shrink: &lt;number&gt;;
-3.2 负值对该属性无效</code></pre><h6 id="4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"><a href="#4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小" class="headerlink" title="4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"></a>4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小</h6><pre><code>4.1 length: 我们平常用的一些属性值，如 px、%、 rem等 
-4.2 具体的空间算法：伸缩项目分配的空间=伸缩容器的空间 - basis设置的空间 - 其他项目内容的空间</code></pre><h6 id="5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto"><a href="#5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto" class="headerlink" title="5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto"></a>5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto</h6><pre><code>5.1 两个快捷值
-   flex：auto；代表 (1 1 auto)
-   flex：none；代表 (0 0 auto)</code></pre><h6 id="6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"><a href="#6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性" class="headerlink" title="6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"></a>6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性</h6><pre><code>6.1 默认值为auto，表示继承父元素的align-items属性
-6.2 可能取6个值，除了auto，其他都与align-items属性完全一致</code></pre>]]></content>
-      <categories>
-        <category>html</category>
-      </categories>
-      <tags>
-        <tag>html布局</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vue基础(四)</title>
-    <url>/s2/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B)/</url>
-    <content><![CDATA[<p>第4次课 网络请求</p>
-<p>一、处理边界情况<br>    1、访问根实例<br>        关键字 $root  根实例可以通过 $root 属性进行访问;<br>        首先要明白什么是根节点？根节点在当前指的是#app，可以在其中定义数据、计算属性、方法等，其余组件获取都是通过this.$root.XX的方式<br>        注意点：都需要在要获取根节点的组件的计算属性中通过方法获取；</p>
-<pre><code>2、访问父级组件实例
-           关键字$parent  可以用来从一个子组件访问父组件的实例,提供了一种机会，可以在后期随时触达父级组件，
-           以替代将数据以 prop 的方式传入子组件的方式。
-           首先要明白哪一个组件是父组件，哪一个组件是子组件？父组件，可以在其中定义数据、计算属性、方法等，子组件获取都是通过this.$parent.XX的方式
-    注意点：都需要在要获取父组件的子组件中的计算属性中通过方法获取； 具体实现方式同访问根实例
-
-3、访问子组件实例或子元素
-       关键字$refs 可以让你使用原生js方式访问组件;一般在生命周期函数mounted中访问
-       使用方式this.$refs.xx，获取元素后进行原生方式操作
-
-
-
-4、依赖注入
-    关键字provide、inject
-    作用：父组件可以在provide函数中指定我们想要提供给后代组件的数据/方法，只有允许的数据/方法后代子组件才能访问
-    子组件可以通过inject接收允许的数据/方法；
-    实际上，你可以把依赖注入看作一部分“大范围有效的 prop”，除了：
-            祖先组件不需要知道哪些后代组件使用它提供的属性
-            后代组件不需要知道被注入的属性来自哪里
-
-注意：以上几种方式不推荐刻意使用，因为它破坏了设计初衷，组件之间会加强耦合性，属于‘黑魔法’，非必要场景尽量少用；</code></pre><p>二、插槽<br>     1、基本插槽<br>             什么是插槽？<br>             关键字：solt；<br>     2、编译作用域<br>         父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。<br>     3、具名插槽<br>                 注意点：父组件传给子组件的如果是template 则需要使用v-slot:xx声明；或者slot=”xx”；<br>     4、插槽默认内容<br>               如果父组件存在具名的内容，则默认的内容会被覆盖</p>
-<pre><code> 5、作用域插槽
-            实现一个子传父
-           子组件的内容传递给父组件：可以通过v-bind在插槽上绑定一个动态的属性，
-             父组件中&lt;template  v-slot:default=&quot;slotProps&quot;&gt;{{ slotProps.user.firstName }}&lt;/template&gt;</code></pre>]]></content>
-  </entry>
-  <entry>
     <title>emmet使用简介</title>
-    <url>/s2/html/emmet/</url>
+    <url>/myblog/html/emmet/</url>
     <content><![CDATA[<h2 id="写HTML-CSS快到飞起"><a href="#写HTML-CSS快到飞起" class="headerlink" title="写HTML/CSS快到飞起"></a>写HTML/CSS快到飞起</h2><a id="more"></a>
 <h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><pre><code>div#box&gt;p.title+ul.list&gt;li.child$*3{我是第$个}^div#box2</code></pre><p>   写好上面这条语句，按下键盘Tab键即可看到一个完整的html基本文档结构。</p>
 <h3 id="1-html初始结构"><a href="#1-html初始结构" class="headerlink" title="1.html初始结构"></a>1.html初始结构</h3><pre><code>! 可以快速生成基础的结构，同时防止手写时忘记某个代码块，输入错误的代码</code></pre><h3 id="2-id指令-class指令"><a href="#2-id指令-class指令" class="headerlink" title="2.id指令:# ; class指令:."></a>2.id指令:# ; class指令:.</h3><pre><code>div#test</code></pre><pre class=" language-java"><code class="language-java">    <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"test"</span><span class="token operator">></span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">></span></code></pre>
@@ -800,8 +669,108 @@ option：用于 select 和 optgroup 中</code></pre><p><strong>关键部分</str
       </tags>
   </entry>
   <entry>
+    <title>Vue进阶-Vuex</title>
+    <url>/myblog/uncategorized/Vue%E8%BF%9B%E9%98%B6-Vuex/</url>
+    <content><![CDATA[<p>一、VUE基础<br>1、什么是VUE？</p>
+<pre><code>VUE是渐进式的JavaScript框架；
+如果你已经有一个现成的服务端应用，你可以将VUE作为该应用的一部分嵌入其中；
+VUE允许你将一个网页分割成可复用的组件；
+VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、vue-cli<br>  2.x版本的使用及环境搭建<br>    1、新版本的使用<br>    2、Vue CLI &gt;= 3 和旧版使用了相同的 vue 命令，所以 Vue CLI 2 (vue-cli) 被覆盖了。如果你仍然需要使用旧版本的 vue init 功能，你可以全局安装一个桥接工具：<br>      npm install -g @vue/cli-init<br>    3、创建项目<br>    4、创建的项目内容介绍<br>    5、分析工程目录<br>二、基本指令</p>
+<pre><code>1、模板语法
+      1、template  {{ }} 
+      特征：只能存在单行语句
+
+    2、v-once:只能渲染一次
+    3、v-html:原始html，作用解析html结构
+    4、v-bind:指令（绑定数据）,可以简写为 ： 冒号即可
+    5、v-if:指令（逻辑判断）只能接收一个布尔值
+    6、v-else：if  else 如果if为false则执行else
+    7、v-show:只是简单地切换元素的 CSS 属性 display。
+    面试题：v-if vs v-show的区别及使用场景
+
+        v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+
+        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+        相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+        一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
+
+    8、列表渲染
+     v-for:</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>Vue基础(四)</title>
+    <url>/myblog/uncategorized/Vue%E5%9F%BA%E7%A1%80(%E5%9B%9B)/</url>
+    <content><![CDATA[<p>第4次课 网络请求</p>
+<p>一、处理边界情况<br>    1、访问根实例<br>        关键字 $root  根实例可以通过 $root 属性进行访问;<br>        首先要明白什么是根节点？根节点在当前指的是#app，可以在其中定义数据、计算属性、方法等，其余组件获取都是通过this.$root.XX的方式<br>        注意点：都需要在要获取根节点的组件的计算属性中通过方法获取；</p>
+<pre><code>2、访问父级组件实例
+           关键字$parent  可以用来从一个子组件访问父组件的实例,提供了一种机会，可以在后期随时触达父级组件，
+           以替代将数据以 prop 的方式传入子组件的方式。
+           首先要明白哪一个组件是父组件，哪一个组件是子组件？父组件，可以在其中定义数据、计算属性、方法等，子组件获取都是通过this.$parent.XX的方式
+    注意点：都需要在要获取父组件的子组件中的计算属性中通过方法获取； 具体实现方式同访问根实例
+
+3、访问子组件实例或子元素
+       关键字$refs 可以让你使用原生js方式访问组件;一般在生命周期函数mounted中访问
+       使用方式this.$refs.xx，获取元素后进行原生方式操作
+
+
+
+4、依赖注入
+    关键字provide、inject
+    作用：父组件可以在provide函数中指定我们想要提供给后代组件的数据/方法，只有允许的数据/方法后代子组件才能访问
+    子组件可以通过inject接收允许的数据/方法；
+    实际上，你可以把依赖注入看作一部分“大范围有效的 prop”，除了：
+            祖先组件不需要知道哪些后代组件使用它提供的属性
+            后代组件不需要知道被注入的属性来自哪里
+
+注意：以上几种方式不推荐刻意使用，因为它破坏了设计初衷，组件之间会加强耦合性，属于‘黑魔法’，非必要场景尽量少用；</code></pre><p>二、插槽<br>     1、基本插槽<br>             什么是插槽？<br>             关键字：solt；<br>     2、编译作用域<br>         父级模板里的所有内容都是在父级作用域中编译的；子模板里的所有内容都是在子作用域中编译的。<br>     3、具名插槽<br>                 注意点：父组件传给子组件的如果是template 则需要使用v-slot:xx声明；或者slot=”xx”；<br>     4、插槽默认内容<br>               如果父组件存在具名的内容，则默认的内容会被覆盖</p>
+<pre><code> 5、作用域插槽
+            实现一个子传父
+           子组件的内容传递给父组件：可以通过v-bind在插槽上绑定一个动态的属性，
+             父组件中&lt;template  v-slot:default=&quot;slotProps&quot;&gt;{{ slotProps.user.firstName }}&lt;/template&gt;</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>Flex box布局</title>
+    <url>/myblog/html/flex/</url>
+    <content><![CDATA[<h4 id="一、容器属性"><a href="#一、容器属性" class="headerlink" title="一、容器属性"></a>一、容器属性</h4><h6 id="1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"><a href="#1-Flex是-Flexible-Box-的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性" class="headerlink" title="1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性"></a>1.Flex是 Flexible Box 的缩写，意为”弹性布局”，用来为盒状模型提供最大灵活性</h6><a id="more"></a>
+<pre><code>作用:
+1. 它能够更加高效方便的控制元素的对齐、排列
+2. 可以自动计算布局内元素的尺寸，无论这个元素的尺寸是固定的还是动态的
+3. 控制元素在页面的布局方向
+4. 按照不同于DOM所指定排序方式对屏幕上的元素重新排序</code></pre><h6 id="2-Flex基本概念"><a href="#2-Flex基本概念" class="headerlink" title="2.Flex基本概念"></a>2.Flex基本概念</h6><pre><code> 2.1 采用Flex布局的元素，称为Flex容器（flex container），简称”容器”。它的所有子元素自动成为容器成员，称为Flex项目（flex item），简称”项目”
+ 2.2 水平主轴（main axis）
+ 2.3 垂直交叉轴（cross axis）
+ 2.4 项目默认沿主轴排列</code></pre><h6 id="3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效"><a href="#3-设为-Flex-布局以后，flex-item的float、clear和vertical-align属性将失效" class="headerlink" title="3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效"></a>3.设为 Flex 布局以后，flex item的float、clear和vertical-align属性将失效</h6><h6 id="4-flex-direction-决定主轴的方向（即项目的排列方向）"><a href="#4-flex-direction-决定主轴的方向（即项目的排列方向）" class="headerlink" title="4. flex-direction 决定主轴的方向（即项目的排列方向）"></a>4. flex-direction 决定主轴的方向（即项目的排列方向）</h6><pre><code> 4.1 row（默认）、row-reverse：主轴为水平方向，起点在左端、右端
+ 4.2 column 、column-reverse：主轴为垂直方向，起点在上沿、下沿</code></pre><h6 id="5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"><a href="#5-flex-wrap-默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行" class="headerlink" title="5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行"></a>5.flex-wrap 默认情况下，项目都排在一条线（又称”轴线”）上。flex-wrap属性定义了如果一条轴线排不下，如何换行</h6><pre><code> 5.1 nowrap（默认）：不换行
+ 5.2 wrap：换行，第一行在上方
+ 5.3 wrap-reverse：换行，第一行在下方</code></pre><h6 id="6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap"><a href="#6-flex-flow-是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row-nowrap" class="headerlink" title="6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap"></a>6.flex-flow 是复合属性：是flex-direction和flex-wrap的简写形式，默认值为row nowrap</h6><pre><code>  符合团队习惯，不能因为简便，而去损失了代码的可读性</code></pre><h6 id="7-justify-content-定义了项目在主轴上的对齐方式"><a href="#7-justify-content-定义了项目在主轴上的对齐方式" class="headerlink" title="7. justify-content 定义了项目在主轴上的对齐方式"></a>7. justify-content 定义了项目在主轴上的对齐方式</h6><pre><code> 7.1 flex-start（默认值）：左对齐
+ 7.2 flex-end：右对齐
+ 7.3 center： 居中
+ 7.4 space-between：两端对齐，项目之间的间隔都相等
+ 7.5 space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍</code></pre><h6 id="8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"><a href="#8-align-items定义项目在交叉轴上对齐方式-属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下" class="headerlink" title="8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下"></a>8. align-items定义项目在交叉轴上对齐方式 属性值：具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下</h6><pre><code>8.1 flex-start：交叉轴的起点对齐
+8.2 flex-end：交叉轴的终点对齐
+8.3 center：交叉轴的中点对齐
+8.4 baseline: 项目的第一行文字的基线对齐
+8.5 stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度</code></pre><h4 id="二、项目属性"><a href="#二、项目属性" class="headerlink" title="二、项目属性"></a>二、项目属性</h4><h6 id="1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0"><a href="#1-order-定义项目的排列顺序。数值越小，排列越靠前，默认为0" class="headerlink" title="1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0"></a>1. order 定义项目的排列顺序。数值越小，排列越靠前，默认为0</h6><pre><code>1.1 必须为 0 或者 非负整数
+1.2 负数的话不起作用，会排列在首位，设置了order属性，会按照order属性的值大小排列</code></pre><h6 id="2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"><a href="#2-flex-grow-定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的" class="headerlink" title="2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的"></a>2. flex-grow 定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。主要作用是：分配剩余空间的</h6><pre><code>2.1 flex-grow: &lt;number&gt;;
+2.2 不能为负数，虽然可以设置为正小数值，一般不这么用
+2.3 平均分配的含义是，去掉内容之后的空间进行均分，如果本身内容就多，虽然均分，但还是占比较大的空间</code></pre><h6 id="3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"><a href="#3-flex-shrink-定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的" class="headerlink" title="3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的"></a>3. flex-shrink 定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。主要作用是做缩小空间用的</h6><pre><code>3.1 flex-shrink: &lt;number&gt;;
+3.2 负值对该属性无效</code></pre><h6 id="4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"><a href="#4-flex-basis在flex-grow-和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小" class="headerlink" title="4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小"></a>4. flex-basis在flex-grow  和flex-shinrk属性起作用以前，定义每一个flex项目的默认大小，它的默认值为auto，即项目的本来大小</h6><pre><code>4.1 length: 我们平常用的一些属性值，如 px、%、 rem等 
+4.2 具体的空间算法：伸缩项目分配的空间=伸缩容器的空间 - basis设置的空间 - 其他项目内容的空间</code></pre><h6 id="5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto"><a href="#5-flex-是一个复合属性，代表flex-grow-flex-shrink-和-flex-basis的简写，后两个属性可选，默认值为0-1-auto" class="headerlink" title="5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto"></a>5. flex 是一个复合属性，代表flex-grow, flex-shrink 和 flex-basis的简写，后两个属性可选，默认值为0 1 auto</h6><pre><code>5.1 两个快捷值
+   flex：auto；代表 (1 1 auto)
+   flex：none；代表 (0 0 auto)</code></pre><h6 id="6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"><a href="#6-align-self-交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性" class="headerlink" title="6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性"></a>6. align-self 交叉轴上的对齐方式，允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性</h6><pre><code>6.1 默认值为auto，表示继承父元素的align-items属性
+6.2 可能取6个值，除了auto，其他都与align-items属性完全一致</code></pre>]]></content>
+      <categories>
+        <category>html</category>
+      </categories>
+      <tags>
+        <tag>html布局</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git常用命令</title>
-    <url>/s2/tool/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <url>/myblog/tool/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="代码提交"><a href="#代码提交" class="headerlink" title="代码提交"></a>代码提交</h2><a id="more"></a>
 <p>1、初始化</p>
 <pre class=" language-java"><code class="language-java">    git init</code></pre>
@@ -836,8 +805,39 @@ option：用于 select 和 optgroup 中</code></pre><p><strong>关键部分</str
       </tags>
   </entry>
   <entry>
+    <title>Vue进阶-router</title>
+    <url>/myblog/uncategorized/Vue%E8%BF%9B%E9%98%B6-router/</url>
+    <content><![CDATA[<p>一、VUE基础<br>1、什么是VUE？</p>
+<pre><code>VUE是渐进式的JavaScript框架；
+如果你已经有一个现成的服务端应用，你可以将VUE作为该应用的一部分嵌入其中；
+VUE允许你将一个网页分割成可复用的组件；
+VUE是一个响应式的组件可影响其视图的更新；</code></pre><p>2、vue-cli<br>  2.x版本的使用及环境搭建<br>    1、新版本的使用<br>    2、Vue CLI &gt;= 3 和旧版使用了相同的 vue 命令，所以 Vue CLI 2 (vue-cli) 被覆盖了。如果你仍然需要使用旧版本的 vue init 功能，你可以全局安装一个桥接工具：<br>      npm install -g @vue/cli-init<br>    3、创建项目<br>    4、创建的项目内容介绍<br>    5、分析工程目录<br>二、基本指令</p>
+<pre><code>1、模板语法
+      1、template  {{ }} 
+      特征：只能存在单行语句
+
+    2、v-once:只能渲染一次
+    3、v-html:原始html，作用解析html结构
+    4、v-bind:指令（绑定数据）,可以简写为 ： 冒号即可
+    5、v-if:指令（逻辑判断）只能接收一个布尔值
+    6、v-else：if  else 如果if为false则执行else
+    7、v-show:只是简单地切换元素的 CSS 属性 display。
+    面试题：v-if vs v-show的区别及使用场景
+
+        v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+
+        v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+        相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+        一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。
+
+    8、列表渲染
+     v-for:</code></pre>]]></content>
+  </entry>
+  <entry>
     <title>html和css技能</title>
-    <url>/s2/html/htmlCss%E6%8A%80%E8%83%BD%E6%8B%93%E5%B1%95/</url>
+    <url>/myblog/html/htmlCss%E6%8A%80%E8%83%BD%E6%8B%93%E5%B1%95/</url>
     <content><![CDATA[<h3 id="1-设置边框带有立体感的沟槽"><a href="#1-设置边框带有立体感的沟槽" class="headerlink" title="1. 设置边框带有立体感的沟槽"></a>1. 设置边框带有立体感的沟槽</h3><a id="more"></a>
 <ul>
 <li>边框的宽度大小决定立体感的效果，值越大效果越明显<pre class=" language-css"><code class="language-css"><span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">20</span>px groove red<span class="token punctuation">;</span></code></pre>
@@ -897,7 +897,7 @@ option：用于 select 和 optgroup 中</code></pre><p><strong>关键部分</str
   </entry>
   <entry>
     <title>webpack4(一)</title>
-    <url>/s2/uncategorized/webpack4(%E4%B8%80)/</url>
+    <url>/myblog/uncategorized/webpack4(%E4%B8%80)/</url>
     <content><![CDATA[<p>热更新</p>
 <p>默认情况下开启了服务器后，只要入口文件有更新那整个页面就会重新刷新。<br>如果页面里引入的模块非常多的情况下让整个页面刷新就会变得有些慢，这个问题可以交给热更新去解决。<br>热更新的意思就是只更新有改动的模块（像ajax一样局部刷新）<br>使用步骤</p>
 <p>1、引入webpack模块</p>
@@ -920,7 +920,7 @@ webpack --mode production</code></pre><p>使用方式2：在package.json里添�
   </entry>
   <entry>
     <title>webpack4(三)</title>
-    <url>/s2/uncategorized/webpack4(%E4%B8%89)/</url>
+    <url>/myblog/uncategorized/webpack4(%E4%B8%89)/</url>
     <content><![CDATA[<p>处理less</p>
 <p>less的语法对于浏览器那是必需不认识的，<br>要处理成浏览器认识的需要借助两个模块，一个less和一个less-loader<br>安装<br>    npm i less less-loader -D</p>
 <p>less.less内容如下<br>@w:200px;<br>@border:1px solid #f00;</p>
@@ -1024,71 +1024,60 @@ webpack --mode production</code></pre><p>使用方式2：在package.json里添�
 ]]></content>
   </entry>
   <entry>
-    <title>webpack4(二)</title>
-    <url>/s2/uncategorized/webpack4(%E4%BA%8C)/</url>
-    <content><![CDATA[<p>在webpack中任何一个东西都称为模块，js就不用说了。一个css文件，一张图片、一个less文件都是一个模块，<br>都能用导入模块的语法（commonjs的require，ES6的import）导入进来。webpack自身只能读懂js类型的文件，<br>其它的都不认识。但是webpack却能编译打包其它类型的文件，<br>像ES6、JSX、less、typeScript等，甚至css、images也是Ok的，而想要编译打包这些文件就需要借助loader</p>
-<p>loader就像是一个翻译员，浏览器不是不认识这些东西么?那好交给loader来办，它能把这些东西都翻译成浏览器认识的语言。<br>loader描述了webpack如何处理非js模块，而这些模块想要打包loader必不可少，所以它在webpack里显得异常重要。<br>loader跟插件一样都是模块，想要用它需要先安装它，使用的时候把它放在module.rules参数里，rules翻译过来的意思就是规则，<br>所以也可以认为loader就是一个用来处理不同文件的规则.</p>
-<p>处理CSS<br>所需loader</p>
-<p>style-loader   //把处理完的css放到style标签里<br>css-loader     //处理css</p>
-<p>安装</p>
-<pre><code>npm i style-loader css-loader -D</code></pre><p>import ‘../css/index.css’;  //两个点是找上级目录</p>
-<p>webpack的入口文件是index.js，如果要处理其它类型的文件，就需要在入口文件里把其它类型的文件导入进来，<br>而在webpack中所有文件都是模块，所以可以使用require或者import导入其它文件.<br>…..<br>module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[‘style-loader’,’css-loader’]   //顺序不能搞错<br>            }<br>        ]<br>    },<br>…..</p>
-<pre><code>说明
-
-    rules里的数据类型为对象，每一个loader都是一个对象
-    test表示loader要处理什么类型的文件，这里用了一个正则去匹配文件类型
-    use表示要使用哪个loader，它的值是个数组，loader的使用顺序是从后往前
-    这个loader的意思为，在入口文件里找到.css类型的文件，先拿css-loader去处理成浏览器认识的css，
-    再拿style-loader把处理后的css放在页面的style标签里.</code></pre><p>单独提取CSS</p>
-<p>执行命令npm run build后，在dist目录里只有两个文件，一个index.bundle.js一个index.html文件，并没有css文件，<br>同时打开index.html源码后也没有发现有css的内容。这是因为style-loader的作用，它把css一同打包到了js文件里，<br>js文件在能过DOM动态创建style标签并添加到页面里。所以css的内容已经放到了index.bundle.js里。</p>
-<p>这种形式只有当文件内容不多的时候可以使用，如果CSS的内容以及JS的内容非常的多，把两块都打包到一个文件里就会增加<br>文件的体积，用户打开页面的时候下载速度会受影响，同减肥影响用户体验。<br>这就需要把CSS文件单独拎出来，那需要一个插件来配合loader才能完成.</p>
-<p>mini-css-extract-plugin</p>
-<p>webpack版本需要4.3以上，低版本请使用extract-text-webpack-plugin<br>使用步骤：<br>1、安装</p>
-<pre><code>npm i mini-css-extract-plugin -D</code></pre><p>2、在webpack.config.js里引入模块</p>
-<p>const MiniCssExtractPlugin=require(“mini-css-extract-plugin”);</p>
-<p>3、写入plugins</p>
-<p>plugins:[<br>    new HtmlWebpackPlugin({<br>        title:’陈学辉’,<br>        template:’./src/template.html’,<br>        filename:’index.html’,<br>    }),<br>    new MiniCssExtractPlugin({<br>        filename:’css/index.css’    //文件目录会放入output.path里<br>    }),<br>]</p>
-<p>4、写入loader</p>
-<p>module:{<br>    rules:[<br>        {<br>            test:/.css$/,<br>            use:[MiniCssExtractPlugin.loader,”css-loader”]  //代替style-loader<br>        }<br>    ]<br>}</p>
-<p>执行命令npm run build后可以看到dist目录里已经多了一个css文件夹，这个文件夹里放了一个index.css文件。<br>打开index.html源码看到css文件已经通过link标签引入，这些功能都是mini-css-extract-plugin所做的。</p>
-<p>处理图片<br>所需loader</p>
-<p>file-loader   //解析地址<br>url-loader    //把图片地址解析成base64</p>
-<p>安装<br>    npm i file-loader url-loader -D<br>    ……<br>             module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[<br>                    //这是一个loader，如果loader需要给参数，就写成对象的形式<br>                    {<br>                        loader:MiniCssExtractPlugin.loader, //loader是哪个<br>                        options:{   //所有的配置参数都要放在这个对象里面<br>                            publicPath:’../‘    //这个表示在css文件里但凡用到地址的地方在其前面加个目录’../‘，这个是为了能找到图片<br>                        }<br>                    },<br>                    ‘css-loader’    //这个loader没有其它选项就直接写<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,    //找到三种格式中的任意一种<br>                use:[‘file-loader’]<br>            }<br>        ]<br>    },<br>    ……</p>
-<p>index.js文件内容如下：</p>
-<p>import ‘../css/index.css’;  //两个点是找上级目录</p>
-<p>index.css文件内容如下：</p>
-<p>#box{<br>    width: 800px;<br>    height: 500px;<br>    border: 5px solid #999;<br>    color: #00f;<br>    /<em>background: green;</em>/</p>
-<pre><code>background: url(../images/img_01.jpg);  //背景改成了图片</code></pre><p>}</p>
-<pre><code>说明
-
-    loader既可以写成字符串的形式，也可以写成对象的形式。如果这个loader需要给一些配置，那就需要写成对象的形式，
-    所有的配置放到options里
-    这里一定要注意第一个loader的use属性，它里面放的是一个个loader，每个loader的值既可以是对象形式，
-    又可以是字符串形式。</code></pre><p>在HTML文件中使用图片</p>
-<p>index.js文件内容如下：</p>
-<p>import ‘../css/index.css’;</p>
-<p>import img1 from ‘../images/img_01.jpg’;<br>import img2 from ‘../images/img_02.jpg’;</p>
-<p>const loadImg=img=&gt;{<br>    const newImg=new Image();<br>    newImg.onload=()=&gt;document.body.appendChild(newImg);<br>    newImg.src=img;<br>};</p>
-<p>loadImg(img1);<br>loadImg(img2);</p>
-<p>module:{<br>        rules:[<br>            {<br>                test:/.css$/,<br>                use:[<br>                    {<br>                        loader:MiniCssExtractPlugin.loader,<br>                        options:{<br>                            publicPath:’../‘<br>                        }<br>                    },<br>                    “css-loader”<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,<br>                //use:[‘file-loader’]<br>                use:[<br>                    {<br>                        loader:’url-loader’,    //把图片转成base64<br>                        options:{<br>                            limit:50*1024,  //小于50k就会转成base64<br>                            outputPath: ‘images’<br>                        }<br>                    }<br>                ]</p>
-<pre><code>            //use:&#39;url-loader?limit=50000&amp;outputPath=images&#39; //loader的另一种写法，与get请求方式相同
-        }
-    ]
-},
-
-
-
-
-说明
-
-    url-loader的作用是把图片转成base64，它同样可以给配置参数
-    limit的作用是小于这个值就会转base64
-    只用了url-loader，并没有用file-loader，说明url-loader里已经包含了file-loader的功能
-    loader还可以写成地址的形式，与get的请求方式相同</code></pre>]]></content>
+    <title>前端食用规范(九)JavaScript行为之通用约定</title>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h3 id="一、避免不必要的-DOM-操作"><a href="#一、避免不必要的-DOM-操作" class="headerlink" title="一、避免不必要的 DOM 操作"></a>一、避免不必要的 DOM 操作</h3><p>浏览器遍历 DOM 元素的代价是昂贵的。最简单优化 DOM 树查询的方案是，当一个元素出现多次时，将它保存在一个变量中，就避免多次查询 DOM 树了。</p>
+<pre class=" language-javascript"><code class="language-javascript">   <span class="token comment" spellcheck="true">// Recommended</span>
+    <span class="token keyword">var</span> myList <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> myListHTML <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myList"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML<span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      myList <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">"&lt;span>"</span> <span class="token operator">+</span> i <span class="token operator">+</span> <span class="token string">"&lt;/span>"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    myListHTML <span class="token operator">=</span> myList<span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// Not recommended</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myList"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">"&lt;span>"</span> <span class="token operator">+</span> i <span class="token operator">+</span> <span class="token string">"&lt;/span>"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="二、缓存数组长度"><a href="#二、缓存数组长度" class="headerlink" title="二、缓存数组长度"></a>二、缓存数组长度</h3><p>循环无疑是和 JavaScript 性能非常相关的一部分。通过存储数组的长度，可以有效避免每次循环重新计算。</p>
+<p>注: 虽然现代浏览器引擎会自动优化这个过程，但是不要忘记还有旧的浏览器。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    len<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// Recommended - size is calculated only 1 time and then stored</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> len <span class="token operator">=</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// Not recommended - size needs to be recalculated 1000 times</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+<h3 id="三、异步加载第三方内容"><a href="#三、异步加载第三方内容" class="headerlink" title="三、异步加载第三方内容"></a>三、异步加载第三方内容</h3><p>当你无法保证嵌入第三方内容比如 Youtube 视频或者一个 like/tweet 按钮可以正常工作的时候，你需要考虑用异步加载这些代码，避免阻塞整个页面加载。</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> script<span class="token punctuation">,</span>
+        scripts <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">function</span> <span class="token function">load</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      script <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      script<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+      script<span class="token punctuation">.</span>src <span class="token operator">=</span> url<span class="token punctuation">;</span>
+      scripts<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>script<span class="token punctuation">,</span> scripts<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//apis.google.com/js/plusone.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//platform.twitter.com/widgets.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//s.widgetsite.com/widget.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="四、如非必要，则避免使用-jQuery-实现动画"><a href="#四、如非必要，则避免使用-jQuery-实现动画" class="headerlink" title="四、如非必要，则避免使用 jQuery 实现动画"></a>四、如非必要，则避免使用 jQuery 实现动画</h3><ol>
+<li>能使用css实现的尽量使用css，否则再考虑js</li>
+<li>如非必要，禁止使用 slideUp/Down() fadeIn/fadeOut() 等方法；</li>
+<li>如非必要尽量不使用 animate() 方法；</li>
+</ol>
+<h3 id="五、"><a href="#五、" class="headerlink" title="五、"></a>五、</h3>]]></content>
+      <categories>
+        <category>前端规范</category>
+      </categories>
+      <tags>
+        <tag>javaScript</tag>
+      </tags>
   </entry>
   <entry>
     <title>网页头部lang属性值设置</title>
-    <url>/s2/html/%E5%85%B3%E4%BA%8E%E7%BD%91%E9%A1%B5%E5%A4%B4%E9%83%A8lang%E5%B1%9E%E6%80%A7%E5%80%BC%E7%9A%84%E8%AE%BE%E7%BD%AE/</url>
+    <url>/myblog/html/%E5%85%B3%E4%BA%8E%E7%BD%91%E9%A1%B5%E5%A4%B4%E9%83%A8lang%E5%B1%9E%E6%80%A7%E5%80%BC%E7%9A%84%E8%AE%BE%E7%BD%AE/</url>
     <content><![CDATA[<blockquote>
 <p>此篇仅做参考，不是权威</p>
 </blockquote>
@@ -1228,7 +1217,7 @@ zh-TW 中文 <span class="token punctuation">(</span>繁体, 台湾<span class="
   </entry>
   <entry>
     <title>前端常用工具链接</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF/%E5%89%8D%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF/%E5%89%8D%E7%AB%AF%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E9%93%BE%E6%8E%A5/</url>
     <content><![CDATA[<p><a href="http://htmlelement.info/" target="_blank" rel="noopener">HTMLelement.info</a></p>
 <p><a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a></p>
 <p><a href="http://howtocenterincss.com/" target="_blank" rel="noopener">垂直居中</a></p>
@@ -1253,60 +1242,71 @@ zh-TW 中文 <span class="token punctuation">(</span>繁体, 台湾<span class="
       </tags>
   </entry>
   <entry>
-    <title>前端食用规范(九)JavaScript行为之通用约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
-    <content><![CDATA[<h3 id="一、避免不必要的-DOM-操作"><a href="#一、避免不必要的-DOM-操作" class="headerlink" title="一、避免不必要的 DOM 操作"></a>一、避免不必要的 DOM 操作</h3><p>浏览器遍历 DOM 元素的代价是昂贵的。最简单优化 DOM 树查询的方案是，当一个元素出现多次时，将它保存在一个变量中，就避免多次查询 DOM 树了。</p>
-<pre class=" language-javascript"><code class="language-javascript">   <span class="token comment" spellcheck="true">// Recommended</span>
-    <span class="token keyword">var</span> myList <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
-    <span class="token keyword">var</span> myListHTML <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myList"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML<span class="token punctuation">;</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      myList <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">"&lt;span>"</span> <span class="token operator">+</span> i <span class="token operator">+</span> <span class="token string">"&lt;/span>"</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    myListHTML <span class="token operator">=</span> myList<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">// Not recommended</span>
-    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"myList"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>innerHTML <span class="token operator">+</span><span class="token operator">=</span> <span class="token string">"&lt;span>"</span> <span class="token operator">+</span> i <span class="token operator">+</span> <span class="token string">"&lt;/span>"</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="二、缓存数组长度"><a href="#二、缓存数组长度" class="headerlink" title="二、缓存数组长度"></a>二、缓存数组长度</h3><p>循环无疑是和 JavaScript 性能非常相关的一部分。通过存储数组的长度，可以有效避免每次循环重新计算。</p>
-<p>注: 虽然现代浏览器引擎会自动优化这个过程，但是不要忘记还有旧的浏览器。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Array</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
-    len<span class="token punctuation">,</span> i<span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true">// Recommended - size is calculated only 1 time and then stored</span>
-<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> len <span class="token operator">=</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> len<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// Not recommended - size needs to be recalculated 1000 times</span>
-<span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> arr<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token punctuation">}</span></code></pre>
-<h3 id="三、异步加载第三方内容"><a href="#三、异步加载第三方内容" class="headerlink" title="三、异步加载第三方内容"></a>三、异步加载第三方内容</h3><p>当你无法保证嵌入第三方内容比如 Youtube 视频或者一个 like/tweet 按钮可以正常工作的时候，你需要考虑用异步加载这些代码，避免阻塞整个页面加载。</p>
-<pre class=" language-javascript"><code class="language-javascript"><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">var</span> script<span class="token punctuation">,</span>
-        scripts <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token keyword">function</span> <span class="token function">load</span><span class="token punctuation">(</span>url<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-      script <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">'script'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      script<span class="token punctuation">.</span><span class="token keyword">async</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
-      script<span class="token punctuation">.</span>src <span class="token operator">=</span> url<span class="token punctuation">;</span>
-      scripts<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">insertBefore</span><span class="token punctuation">(</span>script<span class="token punctuation">,</span> scripts<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//apis.google.com/js/plusone.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//platform.twitter.com/widgets.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'//s.widgetsite.com/widget.js'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h3 id="四、如非必要，则避免使用-jQuery-实现动画"><a href="#四、如非必要，则避免使用-jQuery-实现动画" class="headerlink" title="四、如非必要，则避免使用 jQuery 实现动画"></a>四、如非必要，则避免使用 jQuery 实现动画</h3><ol>
-<li>能使用css实现的尽量使用css，否则再考虑js</li>
-<li>如非必要，禁止使用 slideUp/Down() fadeIn/fadeOut() 等方法；</li>
-<li>如非必要尽量不使用 animate() 方法；</li>
-</ol>
-<h3 id="五、"><a href="#五、" class="headerlink" title="五、"></a>五、</h3>]]></content>
-      <categories>
-        <category>前端规范</category>
-      </categories>
-      <tags>
-        <tag>javaScript</tag>
-      </tags>
+    <title>webpack4(二)</title>
+    <url>/myblog/uncategorized/webpack4(%E4%BA%8C)/</url>
+    <content><![CDATA[<p>在webpack中任何一个东西都称为模块，js就不用说了。一个css文件，一张图片、一个less文件都是一个模块，<br>都能用导入模块的语法（commonjs的require，ES6的import）导入进来。webpack自身只能读懂js类型的文件，<br>其它的都不认识。但是webpack却能编译打包其它类型的文件，<br>像ES6、JSX、less、typeScript等，甚至css、images也是Ok的，而想要编译打包这些文件就需要借助loader</p>
+<p>loader就像是一个翻译员，浏览器不是不认识这些东西么?那好交给loader来办，它能把这些东西都翻译成浏览器认识的语言。<br>loader描述了webpack如何处理非js模块，而这些模块想要打包loader必不可少，所以它在webpack里显得异常重要。<br>loader跟插件一样都是模块，想要用它需要先安装它，使用的时候把它放在module.rules参数里，rules翻译过来的意思就是规则，<br>所以也可以认为loader就是一个用来处理不同文件的规则.</p>
+<p>处理CSS<br>所需loader</p>
+<p>style-loader   //把处理完的css放到style标签里<br>css-loader     //处理css</p>
+<p>安装</p>
+<pre><code>npm i style-loader css-loader -D</code></pre><p>import ‘../css/index.css’;  //两个点是找上级目录</p>
+<p>webpack的入口文件是index.js，如果要处理其它类型的文件，就需要在入口文件里把其它类型的文件导入进来，<br>而在webpack中所有文件都是模块，所以可以使用require或者import导入其它文件.<br>…..<br>module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[‘style-loader’,’css-loader’]   //顺序不能搞错<br>            }<br>        ]<br>    },<br>…..</p>
+<pre><code>说明
+
+    rules里的数据类型为对象，每一个loader都是一个对象
+    test表示loader要处理什么类型的文件，这里用了一个正则去匹配文件类型
+    use表示要使用哪个loader，它的值是个数组，loader的使用顺序是从后往前
+    这个loader的意思为，在入口文件里找到.css类型的文件，先拿css-loader去处理成浏览器认识的css，
+    再拿style-loader把处理后的css放在页面的style标签里.</code></pre><p>单独提取CSS</p>
+<p>执行命令npm run build后，在dist目录里只有两个文件，一个index.bundle.js一个index.html文件，并没有css文件，<br>同时打开index.html源码后也没有发现有css的内容。这是因为style-loader的作用，它把css一同打包到了js文件里，<br>js文件在能过DOM动态创建style标签并添加到页面里。所以css的内容已经放到了index.bundle.js里。</p>
+<p>这种形式只有当文件内容不多的时候可以使用，如果CSS的内容以及JS的内容非常的多，把两块都打包到一个文件里就会增加<br>文件的体积，用户打开页面的时候下载速度会受影响，同减肥影响用户体验。<br>这就需要把CSS文件单独拎出来，那需要一个插件来配合loader才能完成.</p>
+<p>mini-css-extract-plugin</p>
+<p>webpack版本需要4.3以上，低版本请使用extract-text-webpack-plugin<br>使用步骤：<br>1、安装</p>
+<pre><code>npm i mini-css-extract-plugin -D</code></pre><p>2、在webpack.config.js里引入模块</p>
+<p>const MiniCssExtractPlugin=require(“mini-css-extract-plugin”);</p>
+<p>3、写入plugins</p>
+<p>plugins:[<br>    new HtmlWebpackPlugin({<br>        title:’陈学辉’,<br>        template:’./src/template.html’,<br>        filename:’index.html’,<br>    }),<br>    new MiniCssExtractPlugin({<br>        filename:’css/index.css’    //文件目录会放入output.path里<br>    }),<br>]</p>
+<p>4、写入loader</p>
+<p>module:{<br>    rules:[<br>        {<br>            test:/.css$/,<br>            use:[MiniCssExtractPlugin.loader,”css-loader”]  //代替style-loader<br>        }<br>    ]<br>}</p>
+<p>执行命令npm run build后可以看到dist目录里已经多了一个css文件夹，这个文件夹里放了一个index.css文件。<br>打开index.html源码看到css文件已经通过link标签引入，这些功能都是mini-css-extract-plugin所做的。</p>
+<p>处理图片<br>所需loader</p>
+<p>file-loader   //解析地址<br>url-loader    //把图片地址解析成base64</p>
+<p>安装<br>    npm i file-loader url-loader -D<br>    ……<br>             module:{<br>        rules:[<br>            {<br>                test:/.css$/,  //以点开始css结尾的文件<br>                use:[<br>                    //这是一个loader，如果loader需要给参数，就写成对象的形式<br>                    {<br>                        loader:MiniCssExtractPlugin.loader, //loader是哪个<br>                        options:{   //所有的配置参数都要放在这个对象里面<br>                            publicPath:’../‘    //这个表示在css文件里但凡用到地址的地方在其前面加个目录’../‘，这个是为了能找到图片<br>                        }<br>                    },<br>                    ‘css-loader’    //这个loader没有其它选项就直接写<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,    //找到三种格式中的任意一种<br>                use:[‘file-loader’]<br>            }<br>        ]<br>    },<br>    ……</p>
+<p>index.js文件内容如下：</p>
+<p>import ‘../css/index.css’;  //两个点是找上级目录</p>
+<p>index.css文件内容如下：</p>
+<p>#box{<br>    width: 800px;<br>    height: 500px;<br>    border: 5px solid #999;<br>    color: #00f;<br>    /<em>background: green;</em>/</p>
+<pre><code>background: url(../images/img_01.jpg);  //背景改成了图片</code></pre><p>}</p>
+<pre><code>说明
+
+    loader既可以写成字符串的形式，也可以写成对象的形式。如果这个loader需要给一些配置，那就需要写成对象的形式，
+    所有的配置放到options里
+    这里一定要注意第一个loader的use属性，它里面放的是一个个loader，每个loader的值既可以是对象形式，
+    又可以是字符串形式。</code></pre><p>在HTML文件中使用图片</p>
+<p>index.js文件内容如下：</p>
+<p>import ‘../css/index.css’;</p>
+<p>import img1 from ‘../images/img_01.jpg’;<br>import img2 from ‘../images/img_02.jpg’;</p>
+<p>const loadImg=img=&gt;{<br>    const newImg=new Image();<br>    newImg.onload=()=&gt;document.body.appendChild(newImg);<br>    newImg.src=img;<br>};</p>
+<p>loadImg(img1);<br>loadImg(img2);</p>
+<p>module:{<br>        rules:[<br>            {<br>                test:/.css$/,<br>                use:[<br>                    {<br>                        loader:MiniCssExtractPlugin.loader,<br>                        options:{<br>                            publicPath:’../‘<br>                        }<br>                    },<br>                    “css-loader”<br>                ]<br>            },<br>            {<br>                test:/.(jpg|png|gif)$/,<br>                //use:[‘file-loader’]<br>                use:[<br>                    {<br>                        loader:’url-loader’,    //把图片转成base64<br>                        options:{<br>                            limit:50*1024,  //小于50k就会转成base64<br>                            outputPath: ‘images’<br>                        }<br>                    }<br>                ]</p>
+<pre><code>            //use:&#39;url-loader?limit=50000&amp;outputPath=images&#39; //loader的另一种写法，与get请求方式相同
+        }
+    ]
+},
+
+
+
+
+说明
+
+    url-loader的作用是把图片转成base64，它同样可以给配置参数
+    limit的作用是小于这个值就会转base64
+    只用了url-loader，并没有用file-loader，说明url-loader里已经包含了file-loader的功能
+    loader还可以写成地址的形式，与get的请求方式相同</code></pre>]]></content>
   </entry>
   <entry>
     <title>前端食用规范(九)JavaScript行为之通用约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E6%A1%86%E6%9E%B6/</url>
     <content><![CDATA[<blockquote>
 <p>此处仅介绍jQuery规范，其它框架规范，待后续补全</p>
 </blockquote>
@@ -1469,7 +1469,7 @@ $myList<span class="token punctuation">.</span><span class="token function">html
   </entry>
   <entry>
     <title>前端食用规范(八)JavaScript行为之通用约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------JavaScript%E8%A1%8C%E4%B8%BA%E4%B9%8B%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/</url>
     <content><![CDATA[<h2 id="一、注释"><a href="#一、注释" class="headerlink" title="一、注释"></a>一、注释</h2><h3 id="1-1原则"><a href="#1-1原则" class="headerlink" title="1.1原则"></a>1.1原则</h3><p>As short as possible（如无必要，勿增注释）：尽量提高代码本身的清晰性、可读性。</p>
 <p>As long as necessary（如有必要，尽量详尽）：合理的注释、空行排版等，可以让代码更易阅读、更具美感。</p>
 <h3 id="1-2单行注释"><a href="#1-2单行注释" class="headerlink" title="1.2单行注释"></a>1.2单行注释</h3><p>必须独占一行。// 后跟一个空格，缩进与下一行被注释说明的代码一致。</p>
@@ -1747,7 +1747,7 @@ a<span class="token punctuation">[</span><span class="token number">3</span><spa
   </entry>
   <entry>
     <title>前端食用规范(七)css表现之性能优化</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h3 id="慎重选择高消耗的样式"><a href="#慎重选择高消耗的样式" class="headerlink" title="慎重选择高消耗的样式"></a>慎重选择高消耗的样式</h3><p>高消耗属性在绘制前需要浏览器进行大量计算：</p>
 <ul>
 <li>box-shadows</li>
@@ -1905,7 +1905,7 @@ treehead &gt; treerow &gt; treecell {…}
   </entry>
   <entry>
     <title>前端食用规范(六)css表现之预处理语言</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E9%A2%84%E5%A4%84%E7%90%86%E8%AF%AD%E8%A8%80/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E4%B9%8B%E9%A2%84%E5%A4%84%E7%90%86%E8%AF%AD%E8%A8%80/</url>
     <content><![CDATA[<blockquote>
 <p>LESS/SASS</p>
 </blockquote>
@@ -1960,7 +1960,7 @@ treehead &gt; treerow &gt; treecell {…}
   </entry>
   <entry>
     <title>前端食用规范(五)css表现模块组织</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E6%A8%A1%E5%9D%97%E7%BB%84%E7%BB%87/</url>
     <content><![CDATA[<p>任何超过 1000 行的 CSS 代码，你都曾经历过这样的体验：</p>
 <ol>
 <li>这个 class 到底是什么意思呢？</li>
@@ -2087,8 +2087,181 @@ treehead &gt; treerow &gt; treecell {…}
       </tags>
   </entry>
   <entry>
+    <title>前端食用规范（三）css通用约定</title>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/</url>
+    <content><![CDATA[<h3 id="代码组织"><a href="#代码组织" class="headerlink" title="代码组织"></a>代码组织</h3><ul>
+<li>以组件为单位组织代码段；</li>
+<li>制定一致的注释规范；</li>
+<li>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</li>
+<li>如果使用了多个 CSS 文件，将其按照组件而非页面的形式分拆，因为页面会被重组，而组件只会被移动；</li>
+</ul>
+<blockquote>
+<p>良好的注释是非常重要的。请留出时间来描述组件（component）的工作方式、局限性和构建它们的方法。不要让你的团队其它成员 来猜测一段不通用或不明显的代码的目的。</p>
+</blockquote>
+<p>提示：通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* ==========================================================================
+       组件块
+     ============================================================================ */</span>
+    <span class="token comment" spellcheck="true">/* 子组件块
+     ============================================================================ */</span>
+    <span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* 子组件块
+     ============================================================================ */</span>
+    <span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="Class-和-ID"><a href="#Class-和-ID" class="headerlink" title="Class 和 ID"></a>Class 和 ID</h3><ul>
+<li>使用语义化、通用的命名方式；</li>
+<li>使用连字符 - 作为 ID、Class 名称界定符，不要驼峰命名法和下划线；</li>
+<li>避免选择器嵌套层级过多，尽量少于 3 级；</li>
+<li>避免选择器和 Class、ID 叠加使用；</li>
+</ul>
+<blockquote>
+<p>出于性能考量，在没有必要的情况下避免元素选择器叠加 Class、ID 使用。</p>
+</blockquote>
+<blockquote>
+<p>元素选择器和 ID、Class 混合使用也违反关注分离原则。如果HTML标签修改了，就要再去修改 CSS 代码，不利于后期维护。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token selector"><span class="token class">.red</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box_green</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.page</span> <span class="token class">.header</span> <span class="token class">.login</span> <span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector">ul<span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token id">#nav</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.box-video</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token selector"><span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<h3 id="声明块格式"><a href="#声明块格式" class="headerlink" title="声明块格式"></a>声明块格式</h3><ul>
+<li>选择器分组时，保持独立的选择器占用一行；</li>
+<li>声明块的左括号 { 前添加一个空格；</li>
+<li>声明块的右括号 } 应单独成行；</li>
+<li>声明语句中的 : 后应添加一个空格；</li>
+<li>声明语句应以分号 ; 结尾；</li>
+<li>一般以逗号分隔的属性值，每个逗号后应添加一个空格；</li>
+<li>rgb()、rgba()、hsl()、hsla() 或 rect() 括号内的值，逗号分隔，但逗号后不添加一个空格；</li>
+<li>对于属性值或颜色参数，省略小于 1 的小数前面的 0 （例如，.5 代替 0.5；-.5px 代替 -0.5px）；</li>
+<li>十六进制值应该全部小写和尽量简写，例如，#fff 代替 #ffffff；</li>
+<li>避免为 0 值指定单位，例如，用 margin: 0; 代替 margin: 0px;；</li>
+</ul>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/*  Not recommended  */</span>
+    <span class="token selector"><span class="token class">.selector</span>, <span class="token class">.selector-secondary</span>, <span class="token class">.selector</span><span class="token attribute">[type=text]</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span><span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">0</span>px <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#CCC</span>,inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#FFFFFF</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token class">.selector</span>,
+    <span class="token class">.selector-secondary</span>,
+    <span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token property">box-shadow</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#ccc</span>, inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="声明顺序"><a href="#声明顺序" class="headerlink" title="声明顺序"></a>声明顺序</h3><p>相关属性应为一组，推荐的样式编写顺序</p>
+<ol>
+<li>Positioning</li>
+<li>Box model</li>
+<li>Typographic</li>
+<li>Visual</li>
+</ol>
+<blockquote>
+<p>由于定位（positioning）可以从正常的文档流中移除元素，并且还能覆盖盒模型（box model）相关的样式，因此排在首位。</p>
+</blockquote>
+<blockquote>
+<p>盒模型决定了组件的尺寸和位置，因此排在第二位。</p>
+</blockquote>
+<blockquote>
+<p>其他属性只是影响组件的内部（inside）或者是不影响前两组属性，因此排在后面。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.declaration-order</span> </span><span class="token punctuation">{</span>
+      <span class="token comment" spellcheck="true">/* Positioning */</span>
+      <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+      <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">right</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token property">z-index</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Box model */</span>
+      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+      <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+      <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+      <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
+      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+      <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#e5e5e5</span><span class="token punctuation">;</span>
+      <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">3</span>px<span class="token punctuation">;</span>
+      <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
+      <span class="token property">float</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
+      <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Typographic */</span>
+      <span class="token property">font</span><span class="token punctuation">:</span> normal <span class="token number">13</span>px <span class="token string">"Helvetica Neue"</span>, sans-serif<span class="token punctuation">;</span>
+      <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">1.5</span><span class="token punctuation">;</span>
+      <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Visual */</span>
+      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
+      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
+      <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">.8</span><span class="token punctuation">;</span>
+      <span class="token comment" spellcheck="true">/* Other */</span>
+      <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="引号使用"><a href="#引号使用" class="headerlink" title="引号使用"></a>引号使用</h3><p>url() 、属性选择符、属性值使用双引号。参考 <a href="https://stackoverflow.com/questions/2168855/is-quoting-the-value-of-url-really-necessary" target="_blank" rel="noopener">Is quoting the value of url() really necessary?</a></p>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url(//www.google.com/css/maia.css)</span><span class="token punctuation">;</span></span>
+    <span class="token selector">html </span><span class="token punctuation">{</span>
+      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'open sans'</span>, arial, sans-serif<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url("//www.google.com/css/maia.css")</span><span class="token punctuation">;</span></span>
+    <span class="token selector">html </span><span class="token punctuation">{</span>
+      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"open sans"</span>, arial, sans-serif<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="媒体查询（Media-query）的位置"><a href="#媒体查询（Media-query）的位置" class="headerlink" title="媒体查询（Media query）的位置"></a>媒体查询（Media query）的位置</h3><blockquote>
+<p>将媒体查询放在尽可能相关规则的附近。不要将他们打包放在一个单一样式文件中或者放在文档底部。如果你把他们分开了，将来只会被大家遗忘。</p>
+</blockquote>
+<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 768px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
+      <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span><span class="token punctuation">}</span>
+      <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+      <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span></code></pre>
+<h3 id="不要使用-import"><a href="#不要使用-import" class="headerlink" title="不要使用 @import"></a>不要使用 @import</h3><blockquote>
+<p>与 <link> 相比，@import 要慢很多，不光增加额外的请求数，还会导致不可预料的问题。<br>一般情况下，在页面中只允许使用 <link> 标签来引用CSS文件;<br>替代办法：</p>
+</blockquote>
+<ul>
+<li>使用多个 元素；</li>
+<li>通过 Sass 或 Less 类似的 CSS 预处理器将多个 CSS 文件编译为一个文件；</li>
+<li>其他 CSS 文件合并工具；</li>
+</ul>
+<p>参考 <a href="https://www.stevesouders.com/blog/2009/04/09/dont-use-import/" target="_blank" rel="noopener">don’t use @import；</a></p>
+<p>链接的样式顺序：</p>
+<blockquote>
+<p>a:link -&gt; a:visited -&gt; a:hover -&gt; a:active（LoVeHAte）<br>无需添加浏览器厂商前缀</p>
+</blockquote>
+<p>使用 Autoprefixer 自动添加浏览器厂商前缀，编写 CSS 时不需要添加浏览器前缀，直接使用标准的 CSS 编写。</p>
+<p>Autoprefixer 通过 <a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a>，按兼容的要求，对相应的 CSS 代码添加浏览器厂商前缀。</p>
+]]></content>
+      <categories>
+        <category>前端规范</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>前端食用规范（四）css表现规范约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E8%A7%84%E8%8C%83%E7%BA%A6%E5%AE%9A/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E8%A7%84%E8%8C%83%E7%BA%A6%E5%AE%9A/</url>
     <content><![CDATA[<h2 id="一、命名-组成元素"><a href="#一、命名-组成元素" class="headerlink" title="一、命名-组成元素"></a>一、命名-组成元素</h2><ul>
 <li>命名必须由单词、中划线①或数字组成；</li>
 <li>不允许使用拼音（约定俗成的除外，如：youku, baidu），尤其是缩写的拼音、拼音与英文的混合。</li>
@@ -2402,7 +2575,7 @@ treehead &gt; treerow &gt; treecell {…}
   </entry>
   <entry>
     <title>前端食用规范（二）html</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------html%E7%BB%93%E6%9E%84/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------html%E7%BB%93%E6%9E%84/</url>
     <content><![CDATA[<blockquote>
 <p><strong>尽量遵循</strong> HTML 标准和语义，但是<strong>不要以牺牲实用性为代价</strong>。任何时候都要尽量使用最少的标签并保持最小的复杂度。</p>
 </blockquote>
@@ -2744,312 +2917,8 @@ treehead &gt; treerow &gt; treecell {…}
       </tags>
   </entry>
   <entry>
-    <title>前端食用规范（三）css通用约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------css%E8%A1%A8%E7%8E%B0%E9%80%9A%E7%94%A8%E7%BA%A6%E5%AE%9A/</url>
-    <content><![CDATA[<h3 id="代码组织"><a href="#代码组织" class="headerlink" title="代码组织"></a>代码组织</h3><ul>
-<li>以组件为单位组织代码段；</li>
-<li>制定一致的注释规范；</li>
-<li>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</li>
-<li>如果使用了多个 CSS 文件，将其按照组件而非页面的形式分拆，因为页面会被重组，而组件只会被移动；</li>
-</ul>
-<blockquote>
-<p>良好的注释是非常重要的。请留出时间来描述组件（component）的工作方式、局限性和构建它们的方法。不要让你的团队其它成员 来猜测一段不通用或不明显的代码的目的。</p>
-</blockquote>
-<p>提示：通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
-<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* ==========================================================================
-       组件块
-     ============================================================================ */</span>
-    <span class="token comment" spellcheck="true">/* 子组件块
-     ============================================================================ */</span>
-    <span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
-      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/* 子组件块
-     ============================================================================ */</span>
-    <span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
-      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
-      <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="Class-和-ID"><a href="#Class-和-ID" class="headerlink" title="Class 和 ID"></a>Class 和 ID</h3><ul>
-<li>使用语义化、通用的命名方式；</li>
-<li>使用连字符 - 作为 ID、Class 名称界定符，不要驼峰命名法和下划线；</li>
-<li>避免选择器嵌套层级过多，尽量少于 3 级；</li>
-<li>避免选择器和 Class、ID 叠加使用；</li>
-</ul>
-<blockquote>
-<p>出于性能考量，在没有必要的情况下避免元素选择器叠加 Class、ID 使用。</p>
-</blockquote>
-<blockquote>
-<p>元素选择器和 ID、Class 混合使用也违反关注分离原则。如果HTML标签修改了，就要再去修改 CSS 代码，不利于后期维护。</p>
-</blockquote>
-<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
-    <span class="token selector"><span class="token class">.red</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.box_green</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.page</span> <span class="token class">.header</span> <span class="token class">.login</span> <span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector">ul<span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/* Recommended */</span>
-    <span class="token selector"><span class="token id">#nav</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.box-video</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector"><span class="token id">#username</span> input </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
-    <span class="token selector"><span class="token id">#example</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
-<h3 id="声明块格式"><a href="#声明块格式" class="headerlink" title="声明块格式"></a>声明块格式</h3><ul>
-<li>选择器分组时，保持独立的选择器占用一行；</li>
-<li>声明块的左括号 { 前添加一个空格；</li>
-<li>声明块的右括号 } 应单独成行；</li>
-<li>声明语句中的 : 后应添加一个空格；</li>
-<li>声明语句应以分号 ; 结尾；</li>
-<li>一般以逗号分隔的属性值，每个逗号后应添加一个空格；</li>
-<li>rgb()、rgba()、hsl()、hsla() 或 rect() 括号内的值，逗号分隔，但逗号后不添加一个空格；</li>
-<li>对于属性值或颜色参数，省略小于 1 的小数前面的 0 （例如，.5 代替 0.5；-.5px 代替 -0.5px）；</li>
-<li>十六进制值应该全部小写和尽量简写，例如，#fff 代替 #ffffff；</li>
-<li>避免为 0 值指定单位，例如，用 margin: 0; 代替 margin: 0px;；</li>
-</ul>
-<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/*  Not recommended  */</span>
-    <span class="token selector"><span class="token class">.selector</span>, <span class="token class">.selector-secondary</span>, <span class="token class">.selector</span><span class="token attribute">[type=text]</span> </span><span class="token punctuation">{</span>
-      <span class="token property">padding</span><span class="token punctuation">:</span><span class="token number">15</span>px<span class="token punctuation">;</span>
-      <span class="token property">margin</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">0</span>px <span class="token number">15</span>px<span class="token punctuation">;</span>
-      <span class="token property">background-color</span><span class="token punctuation">:</span><span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0</span>, <span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token property">box-shadow</span><span class="token punctuation">:</span><span class="token number">0</span>px <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#CCC</span>,inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#FFFFFF</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/* Recommended */</span>
-    <span class="token selector"><span class="token class">.selector</span>,
-    <span class="token class">.selector-secondary</span>,
-    <span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
-      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-      <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span><span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">0</span>,<span class="token number">.5</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token property">box-shadow</span><span class="token punctuation">:</span> <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">2</span>px <span class="token hexcode">#ccc</span>, inset <span class="token number">0</span> <span class="token number">1</span>px <span class="token number">0</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="声明顺序"><a href="#声明顺序" class="headerlink" title="声明顺序"></a>声明顺序</h3><p>相关属性应为一组，推荐的样式编写顺序</p>
-<ol>
-<li>Positioning</li>
-<li>Box model</li>
-<li>Typographic</li>
-<li>Visual</li>
-</ol>
-<blockquote>
-<p>由于定位（positioning）可以从正常的文档流中移除元素，并且还能覆盖盒模型（box model）相关的样式，因此排在首位。</p>
-</blockquote>
-<blockquote>
-<p>盒模型决定了组件的尺寸和位置，因此排在第二位。</p>
-</blockquote>
-<blockquote>
-<p>其他属性只是影响组件的内部（inside）或者是不影响前两组属性，因此排在后面。</p>
-</blockquote>
-<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.declaration-order</span> </span><span class="token punctuation">{</span>
-      <span class="token comment" spellcheck="true">/* Positioning */</span>
-      <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
-      <span class="token property">top</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-      <span class="token property">right</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-      <span class="token property">bottom</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-      <span class="token property">left</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
-      <span class="token property">z-index</span><span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">;</span>
-      <span class="token comment" spellcheck="true">/* Box model */</span>
-      <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
-      <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
-      <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
-      <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>px<span class="token punctuation">;</span>
-      <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
-      <span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid <span class="token hexcode">#e5e5e5</span><span class="token punctuation">;</span>
-      <span class="token property">border-radius</span><span class="token punctuation">:</span> <span class="token number">3</span>px<span class="token punctuation">;</span>
-      <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">10</span>px<span class="token punctuation">;</span>
-      <span class="token property">float</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span>
-      <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
-      <span class="token comment" spellcheck="true">/* Typographic */</span>
-      <span class="token property">font</span><span class="token punctuation">:</span> normal <span class="token number">13</span>px <span class="token string">"Helvetica Neue"</span>, sans-serif<span class="token punctuation">;</span>
-      <span class="token property">line-height</span><span class="token punctuation">:</span> <span class="token number">1.5</span><span class="token punctuation">;</span>
-      <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
-      <span class="token comment" spellcheck="true">/* Visual */</span>
-      <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token hexcode">#f5f5f5</span><span class="token punctuation">;</span>
-      <span class="token property">color</span><span class="token punctuation">:</span> <span class="token hexcode">#fff</span><span class="token punctuation">;</span>
-      <span class="token property">opacity</span><span class="token punctuation">:</span> <span class="token number">.8</span><span class="token punctuation">;</span>
-      <span class="token comment" spellcheck="true">/* Other */</span>
-      <span class="token property">cursor</span><span class="token punctuation">:</span> pointer<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="引号使用"><a href="#引号使用" class="headerlink" title="引号使用"></a>引号使用</h3><p>url() 、属性选择符、属性值使用双引号。参考 <a href="https://stackoverflow.com/questions/2168855/is-quoting-the-value-of-url-really-necessary" target="_blank" rel="noopener">Is quoting the value of url() really necessary?</a></p>
-<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Not recommended */</span>
-    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url(//www.google.com/css/maia.css)</span><span class="token punctuation">;</span></span>
-    <span class="token selector">html </span><span class="token punctuation">{</span>
-      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">'open sans'</span>, arial, sans-serif<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/* Recommended */</span>
-    <span class="token atrule"><span class="token rule">@import</span> <span class="token url">url("//www.google.com/css/maia.css")</span><span class="token punctuation">;</span></span>
-    <span class="token selector">html </span><span class="token punctuation">{</span>
-      <span class="token property">font-family</span><span class="token punctuation">:</span> <span class="token string">"open sans"</span>, arial, sans-serif<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.selector</span><span class="token attribute">[type="text"]</span> </span><span class="token punctuation">{</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="媒体查询（Media-query）的位置"><a href="#媒体查询（Media-query）的位置" class="headerlink" title="媒体查询（Media query）的位置"></a>媒体查询（Media query）的位置</h3><blockquote>
-<p>将媒体查询放在尽可能相关规则的附近。不要将他们打包放在一个单一样式文件中或者放在文档底部。如果你把他们分开了，将来只会被大家遗忘。</p>
-</blockquote>
-<pre class=" language-css"><code class="language-css">    <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
-    <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
-    <span class="token atrule"><span class="token rule">@media</span> <span class="token punctuation">(</span><span class="token property">max-width</span><span class="token punctuation">:</span> 768px<span class="token punctuation">)</span></span> <span class="token punctuation">{</span>
-      <span class="token selector"><span class="token class">.element</span> </span><span class="token punctuation">{</span> <span class="token number">...</span><span class="token punctuation">}</span>
-      <span class="token selector"><span class="token class">.element-avatar</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
-      <span class="token selector"><span class="token class">.element-selected</span> </span><span class="token punctuation">{</span> <span class="token number">...</span> <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span></code></pre>
-<h3 id="不要使用-import"><a href="#不要使用-import" class="headerlink" title="不要使用 @import"></a>不要使用 @import</h3><blockquote>
-<p>与 <link> 相比，@import 要慢很多，不光增加额外的请求数，还会导致不可预料的问题。<br>一般情况下，在页面中只允许使用 <link> 标签来引用CSS文件;<br>替代办法：</p>
-</blockquote>
-<ul>
-<li>使用多个 元素；</li>
-<li>通过 Sass 或 Less 类似的 CSS 预处理器将多个 CSS 文件编译为一个文件；</li>
-<li>其他 CSS 文件合并工具；</li>
-</ul>
-<p>参考 <a href="https://www.stevesouders.com/blog/2009/04/09/dont-use-import/" target="_blank" rel="noopener">don’t use @import；</a></p>
-<p>链接的样式顺序：</p>
-<blockquote>
-<p>a:link -&gt; a:visited -&gt; a:hover -&gt; a:active（LoVeHAte）<br>无需添加浏览器厂商前缀</p>
-</blockquote>
-<p>使用 Autoprefixer 自动添加浏览器厂商前缀，编写 CSS 时不需要添加浏览器前缀，直接使用标准的 CSS 编写。</p>
-<p>Autoprefixer 通过 <a href="https://caniuse.com/" target="_blank" rel="noopener">Can I use</a>，按兼容的要求，对相应的 CSS 代码添加浏览器厂商前缀。</p>
-]]></content>
-      <categories>
-        <category>前端规范</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>前端食用规范(一)基本原则</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99/</url>
-    <content><![CDATA[<blockquote>
-<p><strong>目标</strong>：<strong>代码一致性和最佳实践</strong>。通过代码风格的一致性，<strong>降低维护代码的成本以及改善多人协作的效率</strong>。同时遵守最佳实践，确保页面性能得到最佳优化和高效的代码。</p>
-</blockquote>
-<blockquote>
-<p>此手册是在开发中积累下来的经验和参考其它规范/指南制定的，它<strong>只是起指导作用</strong>，除个别条目强制之外，大多数为非强制约束，开发者可根据自己的实际情况自行决定是否要遵守该指南只是保证大方向一致性和最佳实践的阶段性总结，<strong>不是最后结论，它会随着时间而变化</strong>。</p>
-</blockquote>
-<h2 id="一、基本原则"><a href="#一、基本原则" class="headerlink" title="一、基本原则"></a>一、基本原则</h2><h4 id="结构、样式、行为分离"><a href="#结构、样式、行为分离" class="headerlink" title="结构、样式、行为分离"></a>结构、样式、行为分离</h4><p>尽量确保文档和模板只包含 HTML 结构，样式都放到样式表里，行为都放到脚本里。</p>
-<h4 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h4><p>统一两个空格缩进（总之缩进统一即可），不要使用 Tab 或者 Tab、空格混搭。</p>
-<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>使用不带 BOM 的 UTF-8 编码。</p>
-<ul>
-<li>在 HTML中指定编码 <meta charset="utf-8"> ；</li>
-<li>无需使用 @charset 指定样式表的编码，它默认为 UTF-8 （参考 @charset）；</li>
-</ul>
-<h4 id="一律使用小写字母"><a href="#一律使用小写字母" class="headerlink" title="一律使用小写字母"></a>一律使用小写字母</h4><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user.png<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span> <span class="token attr-name">HREF</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>A</span><span class="token punctuation">></span></span>
-
-    /* Recommended */
-    color: #e5e5e5;
-    /* Not recommended */
-    color: #E5E5E5;</code></pre>
-<h4 id="省略外链资源-URL-协议部分"><a href="#省略外链资源-URL-协议部分" class="headerlink" title="省略外链资源 URL 协议部分"></a>省略外链资源 URL 协议部分</h4><p>省略外链资源（图片及其它媒体资源）URL 中的 http / https 协议，<strong>使 URL 成为相对地址</strong>，避免 Mixed Content 问题，减小文件字节数。</p>
-<h5 id="其它协议（ftp-等）的-URL-不省略。"><a href="#其它协议（ftp-等）的-URL-不省略。" class="headerlink" title="其它协议（ftp 等）的 URL 不省略。"></a>其它协议（ftp 等）的 URL 不省略。</h5><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
-    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
-<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Recommended */</span>
-    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
-      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(//www.google.com/images/example)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/* Not recommended */</span>
-    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
-      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(http://www.google.com/images/example)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span></code></pre>
-<h4 id="统一注释"><a href="#统一注释" class="headerlink" title="统一注释"></a>统一注释</h4><p>通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
-<h5 id="HTML-注释"><a href="#HTML-注释" class="headerlink" title="HTML 注释"></a>HTML 注释</h5><ul>
-<li>模块注释<pre class=" language-html"><code class="language-html">      <span class="token comment" spellcheck="true">&lt;!-- 文章列表列表模块 --></span>
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>article-list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-      ...
-      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
-</li>
-<li>区块注释<pre class=" language-html"><code class="language-html">  <span class="token comment" spellcheck="true">&lt;!--
-  @name: Drop Down Menu
-  @description: Style of top bar drop down menu.
-  @author: Ashu(Aaaaaashu@gmail.com)
-  --></span></code></pre>
-</li>
-<li>CSS 注释</li>
-</ul>
-<p>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</p>
-<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/* ==========================================================================
-   组件块
- ============================================================================ */</span>
-
-<span class="token comment" spellcheck="true">/* 子组件块
- ============================================================================ */</span>
-<span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
-  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-
-
-
-<span class="token comment" spellcheck="true">/* 子组件块
- ============================================================================ */</span>
-<span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
-  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
-<span class="token punctuation">}</span>
-
-<span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
-  <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="JavaScript-注释"><a href="#JavaScript-注释" class="headerlink" title="JavaScript 注释"></a>JavaScript 注释</h5><ul>
-<li>单行注释</li>
-</ul>
-<p>必须独占一行。// 后跟一个空格，缩进与下一行被注释说明的代码一致。</p>
-<ul>
-<li>多行注释</li>
-</ul>
-<p>避免使用 /<em>…</em>/ 这样的多行注释。有多行注释内容时，使用多个单行注释。</p>
-<ul>
-<li><p>函数/方法注释</p>
-<p>  函数/方法注释必须包含函数说明，有参数和返回值时必须使用注释标识；<br>  参数和返回值注释必须包含类型信息和说明；<br>  当函数是内部函数，外部不可访问时，可以使用 @inner 标识；</p>
-<pre class=" language-javaScript"><code class="language-javaScript">/**
-* 函数描述
-*
-* @param {string} p1 参数1的说明
-* @param {string} p2 参数2的说明，比较长
-*     那就换行了.
-* @param {number=} p3 参数3的说明（可选）
-* @return {Object} 返回值描述
-*/
-function foo(p1, p2, p3) {
-  var p3 = p3 || 10;
-  return {
-      p1: p1,
-      p2: p2,
-      p3: p3
-  };
-}</code></pre>
-</li>
-<li><p>文件注释</p>
-</li>
-</ul>
-<p>文件注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西。 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息。如下:</p>
-<pre class=" language-javaScript"><code class="language-javaScript">/**
- * @fileoverview Description of file, its uses and information
- * about its dependencies.
- * @author user@meizu.com (Firstname Lastname)
- * Copyright 2015 Meizu Inc. All Rights Reserved.
- */</code></pre>
-<ul>
-<li><p>代码验证</p>
-<p>  使用 W3C HTML Validator 来验证你的HTML代码有效性；<br>  使用 W3C CSS Validator 来验证你的CSS代码有效性；</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>代码验证不是最终目的</strong>，真的目的在于让开发者在经过多次的这种验证过程后，能够深刻理解到怎样的语法或写法是非标准和不推荐的，即使在某些场景下被迫要使用非标准写法，也可以做到心中有数。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>前端规范</category>
-      </categories>
-      <tags>
-        <tag>规范</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>高阶函数--回调</title>
-    <url>/s2/javaScript/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%EF%BC%88%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%EF%BC%89/</url>
+    <url>/myblog/javaScript/%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%EF%BC%88%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%EF%BC%89/</url>
     <content><![CDATA[<h3 id="回调函数（高阶函数）"><a href="#回调函数（高阶函数）" class="headerlink" title="回调函数（高阶函数）"></a>回调函数（高阶函数）</h3><a id="more"></a>
 <blockquote>
 <p>在Javascript中，函数是第一类对象，这意味着函数可以像对象一样按照第一类管理被使用。既然函数实际上是对象：它们能被“存储”在变量中，能作为函数参数被传递，能在函数中被创建，能从函数中返回。</p>
@@ -3328,8 +3197,139 @@ Hello<span class="token punctuation">,</span> Mr<span class="token punctuation">
       </tags>
   </entry>
   <entry>
+    <title>前端食用规范(一)基本原则</title>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E5%9F%BA%E6%9C%AC%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<blockquote>
+<p><strong>目标</strong>：<strong>代码一致性和最佳实践</strong>。通过代码风格的一致性，<strong>降低维护代码的成本以及改善多人协作的效率</strong>。同时遵守最佳实践，确保页面性能得到最佳优化和高效的代码。</p>
+</blockquote>
+<blockquote>
+<p>此手册是在开发中积累下来的经验和参考其它规范/指南制定的，它<strong>只是起指导作用</strong>，除个别条目强制之外，大多数为非强制约束，开发者可根据自己的实际情况自行决定是否要遵守该指南只是保证大方向一致性和最佳实践的阶段性总结，<strong>不是最后结论，它会随着时间而变化</strong>。</p>
+</blockquote>
+<h2 id="一、基本原则"><a href="#一、基本原则" class="headerlink" title="一、基本原则"></a>一、基本原则</h2><h4 id="结构、样式、行为分离"><a href="#结构、样式、行为分离" class="headerlink" title="结构、样式、行为分离"></a>结构、样式、行为分离</h4><p>尽量确保文档和模板只包含 HTML 结构，样式都放到样式表里，行为都放到脚本里。</p>
+<h4 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h4><p>统一两个空格缩进（总之缩进统一即可），不要使用 Tab 或者 Tab、空格混搭。</p>
+<h4 id="文件编码"><a href="#文件编码" class="headerlink" title="文件编码"></a>文件编码</h4><p>使用不带 BOM 的 UTF-8 编码。</p>
+<ul>
+<li>在 HTML中指定编码 <meta charset="utf-8"> ；</li>
+<li>无需使用 @charset 指定样式表的编码，它默认为 UTF-8 （参考 @charset）；</li>
+</ul>
+<h4 id="一律使用小写字母"><a href="#一律使用小写字母" class="headerlink" title="一律使用小写字母"></a>一律使用小写字母</h4><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user.png<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>user<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>A</span> <span class="token attr-name">HREF</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Home<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>A</span><span class="token punctuation">></span></span>
+
+    /* Recommended */
+    color: #e5e5e5;
+    /* Not recommended */
+    color: #E5E5E5;</code></pre>
+<h4 id="省略外链资源-URL-协议部分"><a href="#省略外链资源-URL-协议部分" class="headerlink" title="省略外链资源 URL 协议部分"></a>省略外链资源 URL 协议部分</h4><p>省略外链资源（图片及其它媒体资源）URL 中的 http / https 协议，<strong>使 URL 成为相对地址</strong>，避免 Mixed Content 问题，减小文件字节数。</p>
+<h5 id="其它协议（ftp-等）的-URL-不省略。"><a href="#其它协议（ftp-等）的-URL-不省略。" class="headerlink" title="其它协议（ftp 等）的 URL 不省略。"></a>其它协议（ftp 等）的 URL 不省略。</h5><pre class=" language-html"><code class="language-html">    <span class="token comment" spellcheck="true">&lt;!-- Recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>//www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!-- Not recommended --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://www.google.com/js/gweb/analytics/autotrack.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script language-javascript"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span></code></pre>
+<pre class=" language-css"><code class="language-css">    <span class="token comment" spellcheck="true">/* Recommended */</span>
+    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(//www.google.com/images/example)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">/* Not recommended */</span>
+    <span class="token selector"><span class="token class">.example</span> </span><span class="token punctuation">{</span>
+      <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url(http://www.google.com/images/example)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h4 id="统一注释"><a href="#统一注释" class="headerlink" title="统一注释"></a>统一注释</h4><p>通过配置编辑器，可以提供快捷键来输出一致认可的注释模式。</p>
+<h5 id="HTML-注释"><a href="#HTML-注释" class="headerlink" title="HTML 注释"></a>HTML 注释</h5><ul>
+<li>模块注释<pre class=" language-html"><code class="language-html">      <span class="token comment" spellcheck="true">&lt;!-- 文章列表列表模块 --></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>article-list<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+      ...
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span></code></pre>
+</li>
+<li>区块注释<pre class=" language-html"><code class="language-html">  <span class="token comment" spellcheck="true">&lt;!--
+  @name: Drop Down Menu
+  @description: Style of top bar drop down menu.
+  @author: Ashu(Aaaaaashu@gmail.com)
+  --></span></code></pre>
+</li>
+<li>CSS 注释</li>
+</ul>
+<p>组件块和子组件块以及声明块之间使用一空行分隔，子组件块之间三空行分隔；</p>
+<pre class=" language-css"><code class="language-css"><span class="token comment" spellcheck="true">/* ==========================================================================
+   组件块
+ ============================================================================ */</span>
+
+<span class="token comment" spellcheck="true">/* 子组件块
+ ============================================================================ */</span>
+<span class="token selector"><span class="token class">.selector</span> </span><span class="token punctuation">{</span>
+  <span class="token property">padding</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+  <span class="token property">margin-bottom</span><span class="token punctuation">:</span> <span class="token number">15</span>px<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+
+<span class="token comment" spellcheck="true">/* 子组件块
+ ============================================================================ */</span>
+<span class="token selector"><span class="token class">.selector-secondary</span> </span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">/* 注释*/</span>
+<span class="token punctuation">}</span>
+
+<span class="token selector"><span class="token class">.selector-three</span> </span><span class="token punctuation">{</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> span<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="JavaScript-注释"><a href="#JavaScript-注释" class="headerlink" title="JavaScript 注释"></a>JavaScript 注释</h5><ul>
+<li>单行注释</li>
+</ul>
+<p>必须独占一行。// 后跟一个空格，缩进与下一行被注释说明的代码一致。</p>
+<ul>
+<li>多行注释</li>
+</ul>
+<p>避免使用 /<em>…</em>/ 这样的多行注释。有多行注释内容时，使用多个单行注释。</p>
+<ul>
+<li><p>函数/方法注释</p>
+<p>  函数/方法注释必须包含函数说明，有参数和返回值时必须使用注释标识；<br>  参数和返回值注释必须包含类型信息和说明；<br>  当函数是内部函数，外部不可访问时，可以使用 @inner 标识；</p>
+<pre class=" language-javaScript"><code class="language-javaScript">/**
+* 函数描述
+*
+* @param {string} p1 参数1的说明
+* @param {string} p2 参数2的说明，比较长
+*     那就换行了.
+* @param {number=} p3 参数3的说明（可选）
+* @return {Object} 返回值描述
+*/
+function foo(p1, p2, p3) {
+  var p3 = p3 || 10;
+  return {
+      p1: p1,
+      p2: p2,
+      p3: p3
+  };
+}</code></pre>
+</li>
+<li><p>文件注释</p>
+</li>
+</ul>
+<p>文件注释用于告诉不熟悉这段代码的读者这个文件中包含哪些东西。 应该提供文件的大体内容, 它的作者, 依赖关系和兼容性信息。如下:</p>
+<pre class=" language-javaScript"><code class="language-javaScript">/**
+ * @fileoverview Description of file, its uses and information
+ * about its dependencies.
+ * @author user@meizu.com (Firstname Lastname)
+ * Copyright 2015 Meizu Inc. All Rights Reserved.
+ */</code></pre>
+<ul>
+<li><p>代码验证</p>
+<p>  使用 W3C HTML Validator 来验证你的HTML代码有效性；<br>  使用 W3C CSS Validator 来验证你的CSS代码有效性；</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>代码验证不是最终目的</strong>，真的目的在于让开发者在经过多次的这种验证过程后，能够深刻理解到怎样的语法或写法是非标准和不推荐的，即使在某些场景下被迫要使用非标准写法，也可以做到心中有数。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端规范</category>
+      </categories>
+      <tags>
+        <tag>规范</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>前端食用规范(九)JavaScript行为之通用约定</title>
-    <url>/s2/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%BC%98%E5%8C%96/</url>
+    <url>/myblog/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/%E5%89%8D%E7%AB%AF%E9%A3%9F%E7%94%A8%E8%A7%84%E8%8C%83------%E7%A7%BB%E5%8A%A8%E7%AB%AF%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h3 id="一、click-的-300ms-延迟响应"><a href="#一、click-的-300ms-延迟响应" class="headerlink" title="一、click 的 300ms 延迟响应"></a>一、click 的 300ms 延迟响应</h3><p>click 的 300ms 延迟是由双击缩放(double tap to zoom)所导致的，由于用户可以进行双击缩放或者双击滚动的操作，当用户一次点击屏幕之后，浏览器并不能立刻判断用户是确实要打开这个链接，还是想要进行双击操作。因此，移动端浏览器就等待 300 毫秒，以判断用户是否再次点击了屏幕。</p>
 <p>随着响应式网页逐渐增多，用户使用双击缩放机会减少，这 300ms 的延迟就更不可接受了。浏览器开发商也随之提供相应的解决方案。这些方案在5 Ways to Prevent the 300ms Click Delay on Mobile Devices 中，被提及的包括「禁用缩放」和「width=device-width」等方案，但这些方案并不完美，需要针对某些版本浏览器，又或仅在 Android 的浏览器上使用。</p>
 <p>所以这时候就需要一个更简单通用的解决方案，其中 FT Labs 专门为解决移动端浏览器 300 毫秒点击延迟问题所开发的一个轻量级的库 FastClick 就是很好的选择。FastClick 在检测到 touchend 事件的时候，会通过 DOM 自定义事件立即触发一个模拟 click 事件，并把浏览器在 300 毫秒之后真正触发的 click 事件阻止掉。</p>
@@ -3416,104 +3416,8 @@ textarea <span class="token punctuation">{</span>
       </tags>
   </entry>
   <entry>
-    <title>css定位</title>
-    <url>/s2/css/%E5%AE%9A%E4%BD%8D/</url>
-    <content><![CDATA[<h3 id="position属性"><a href="#position属性" class="headerlink" title="position属性"></a>position属性</h3><a id="more"></a>
-<blockquote>
-<p>static：默认值，没有定位</p>
-</blockquote>
-<blockquote>
-<p>relative：相对定位</p>
-</blockquote>
-<blockquote>
-<p>absolute：绝对定位</p>
-</blockquote>
-<blockquote>
-<p>fixed：固定定位</p>
-</blockquote>
-<h4 id="2-relative属性值"><a href="#2-relative属性值" class="headerlink" title="2 relative属性值"></a>2 relative属性值</h4><ul>
-<li>相对自身原来位置进行偏移<blockquote>
-<p>偏移设置：top、left、right、bottom</p>
-</blockquote>
-</li>
-</ul>
-<ol>
-<li>设置相对定位的盒子会相对它原来的位置，通过指定偏移，到达新的位置</li>
-<li>设置相对定位的盒子仍在标准文档流中，它对父级盒子和相邻的盒子都没有任何影响</li>
-<li>设置相对定位的盒子原来的位置会被保留下来</li>
-</ol>
-<h3 id="3-absolute属性值"><a href="#3-absolute属性值" class="headerlink" title="3 absolute属性值"></a>3 absolute属性值</h3><blockquote>
-<p>偏移设置： left、right、top、bottom </p>
-</blockquote>
-<ol>
-<li>使用了绝对定位的元素以它最近的一个“已经定位”的“祖先元素” 为基准进行偏移</li>
-<li>如果没有已经定位的祖先元素，会以浏览器窗口为基准进行定位</li>
-<li>绝对定位的元素从标准文档流中脱离，这意味着它们对其他元素的定位不会造成影响</li>
-<li>元素位置发生偏移后，它原来的位置不会被保留下来</li>
-</ol>
-<ul>
-<li>设置了绝对定位但没有设置偏移量的元素将保持在原来的位置。</li>
-<li>在网页制作中可以用于需要使某个元素脱离标准流，而仍然希望它保持在原来的位置的情况</li>
-</ul>
-<h3 id="fixed属性值"><a href="#fixed属性值" class="headerlink" title="fixed属性值"></a>fixed属性值</h3><ul>
-<li>偏移设置： left、right、top、bottom <blockquote>
-<p>类似绝对定位，不过区别在于定位的基准不是祖先元素，而是浏览器窗口</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
-<li>1相对定位的特性</li>
-</ul>
-<blockquote>
-<p>相对于自己的初始位置来定位<br>元素位置发生偏移后，它原来的位置会被保留下来<br>层级提高，可以把标准文档流中的元素及浮动元素盖在下边</p>
-</blockquote>
-<ul>
-<li><p>相对定位的使用场景</p>
-<blockquote>
-<p>相对定位一般情况下很少自己单独使用，都是配合绝对定位使用，为绝对定位创造定位父级而又不设置偏移量</p>
-</blockquote>
-</li>
-<li><p>2绝对定位的特性</p>
-<blockquote>
-<p>绝对定位是相对于它的定位父级的位置来定位，如果没有设置定位父级，则相对浏览器窗口来定位<br>元素位置发生偏移后，原来的位置不会被保留<br>层级提高，可以把标准文档流中的元素及浮动元素盖在下边<br>设置绝对定位的元素脱离文档流</p>
-</blockquote>
-</li>
-<li><p>绝对定位的使用场景</p>
-<blockquote>
-<p>一般情况下，绝对定位用在下拉菜单、焦点图轮播、弹出数字气泡、特别花边等场景</p>
-</blockquote>
-</li>
-<li><p>3固定定位的特性</p>
-<blockquote>
-<p>相对浏览器窗口来定位<br>偏移量不会随滚动条的移动而移动</p>
-</blockquote>
-</li>
-<li><p>固定定位的使用场景</p>
-<blockquote>
-<p>一般在网页中被用在窗口左右两边的固定广告、返回顶部图标、吸顶导航栏等</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="z-index属性"><a href="#z-index属性" class="headerlink" title="z-index属性"></a>z-index属性</h3><ul>
-<li>调整元素定位时重叠层的上下位置<blockquote>
-<p>z-index属性值：整数，默认值为0<br>设置了positon属性时，z-index属性可以设置各元素之间的重叠高低关系<br>z-index值大的层位于其值小的层上方</p>
-</blockquote>
-</li>
-</ul>
-<blockquote>
-<p>网页中的元素都含有两个堆叠层级<br>未设置绝对定位时所处的环境，z-index是0<br>设置绝对定位时所处的堆叠环境，此时层的位置由z-index的值确定<br>改变设置绝对定位和没有设置绝对定位的层的上下堆叠顺序，只需调整绝对定位层的z-index值即可</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>css</category>
-      </categories>
-      <tags>
-        <tag>表现</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>操作mongose数据库</title>
-    <url>/s2/uncategorized/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <url>/myblog/uncategorized/%E6%93%8D%E4%BD%9Cmongose%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
     <content><![CDATA[<p>mongose   </p>
 <p>一、基本概念<br>       最常接触到的有三个概念Schema、Model、Entity。<br>        1、Schema是定义数据库的结构。类似创建表时的数据定义，但比创建数据库可以做更多的定义，只是没办法通过Schema对数据库进行更改。<br>        2、Model是将Schema定义的结构赋予表名。但可用此名对数据库进行增删查改。<br>        3、Entity是将Model与具体的数据绑定，可以对具体数据自身进行操作，例如保存数据。</p>
 <p>二、Schema<br>    Schema用来定义数据库文档结构，数据库有什么字段、字段是什么类型、默认值、主键之类的信息。<br>    除了定义结构外，还能定义文档的实例方法，静态模型方法，复合索引，中间件等。<br>    详情查看mongoose官方文档。</p>
@@ -3887,5 +3791,101 @@ stuModel.removeData({_id:&#39;5d3128eaad02701ddc07e55c&#39;},(err,result)=&gt;{
 
         stuModel.select(&#39;title body&#39;);// 只包含“title”、“body”字段。
         stuModel.select(&#39;+title -body&#39;); // 包含“title”、排除“body”字段。</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>css定位</title>
+    <url>/myblog/css/%E5%AE%9A%E4%BD%8D/</url>
+    <content><![CDATA[<h3 id="position属性"><a href="#position属性" class="headerlink" title="position属性"></a>position属性</h3><a id="more"></a>
+<blockquote>
+<p>static：默认值，没有定位</p>
+</blockquote>
+<blockquote>
+<p>relative：相对定位</p>
+</blockquote>
+<blockquote>
+<p>absolute：绝对定位</p>
+</blockquote>
+<blockquote>
+<p>fixed：固定定位</p>
+</blockquote>
+<h4 id="2-relative属性值"><a href="#2-relative属性值" class="headerlink" title="2 relative属性值"></a>2 relative属性值</h4><ul>
+<li>相对自身原来位置进行偏移<blockquote>
+<p>偏移设置：top、left、right、bottom</p>
+</blockquote>
+</li>
+</ul>
+<ol>
+<li>设置相对定位的盒子会相对它原来的位置，通过指定偏移，到达新的位置</li>
+<li>设置相对定位的盒子仍在标准文档流中，它对父级盒子和相邻的盒子都没有任何影响</li>
+<li>设置相对定位的盒子原来的位置会被保留下来</li>
+</ol>
+<h3 id="3-absolute属性值"><a href="#3-absolute属性值" class="headerlink" title="3 absolute属性值"></a>3 absolute属性值</h3><blockquote>
+<p>偏移设置： left、right、top、bottom </p>
+</blockquote>
+<ol>
+<li>使用了绝对定位的元素以它最近的一个“已经定位”的“祖先元素” 为基准进行偏移</li>
+<li>如果没有已经定位的祖先元素，会以浏览器窗口为基准进行定位</li>
+<li>绝对定位的元素从标准文档流中脱离，这意味着它们对其他元素的定位不会造成影响</li>
+<li>元素位置发生偏移后，它原来的位置不会被保留下来</li>
+</ol>
+<ul>
+<li>设置了绝对定位但没有设置偏移量的元素将保持在原来的位置。</li>
+<li>在网页制作中可以用于需要使某个元素脱离标准流，而仍然希望它保持在原来的位置的情况</li>
+</ul>
+<h3 id="fixed属性值"><a href="#fixed属性值" class="headerlink" title="fixed属性值"></a>fixed属性值</h3><ul>
+<li>偏移设置： left、right、top、bottom <blockquote>
+<p>类似绝对定位，不过区别在于定位的基准不是祖先元素，而是浏览器窗口</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><ul>
+<li>1相对定位的特性</li>
+</ul>
+<blockquote>
+<p>相对于自己的初始位置来定位<br>元素位置发生偏移后，它原来的位置会被保留下来<br>层级提高，可以把标准文档流中的元素及浮动元素盖在下边</p>
+</blockquote>
+<ul>
+<li><p>相对定位的使用场景</p>
+<blockquote>
+<p>相对定位一般情况下很少自己单独使用，都是配合绝对定位使用，为绝对定位创造定位父级而又不设置偏移量</p>
+</blockquote>
+</li>
+<li><p>2绝对定位的特性</p>
+<blockquote>
+<p>绝对定位是相对于它的定位父级的位置来定位，如果没有设置定位父级，则相对浏览器窗口来定位<br>元素位置发生偏移后，原来的位置不会被保留<br>层级提高，可以把标准文档流中的元素及浮动元素盖在下边<br>设置绝对定位的元素脱离文档流</p>
+</blockquote>
+</li>
+<li><p>绝对定位的使用场景</p>
+<blockquote>
+<p>一般情况下，绝对定位用在下拉菜单、焦点图轮播、弹出数字气泡、特别花边等场景</p>
+</blockquote>
+</li>
+<li><p>3固定定位的特性</p>
+<blockquote>
+<p>相对浏览器窗口来定位<br>偏移量不会随滚动条的移动而移动</p>
+</blockquote>
+</li>
+<li><p>固定定位的使用场景</p>
+<blockquote>
+<p>一般在网页中被用在窗口左右两边的固定广告、返回顶部图标、吸顶导航栏等</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="z-index属性"><a href="#z-index属性" class="headerlink" title="z-index属性"></a>z-index属性</h3><ul>
+<li>调整元素定位时重叠层的上下位置<blockquote>
+<p>z-index属性值：整数，默认值为0<br>设置了positon属性时，z-index属性可以设置各元素之间的重叠高低关系<br>z-index值大的层位于其值小的层上方</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>网页中的元素都含有两个堆叠层级<br>未设置绝对定位时所处的环境，z-index是0<br>设置绝对定位时所处的堆叠环境，此时层的位置由z-index的值确定<br>改变设置绝对定位和没有设置绝对定位的层的上下堆叠顺序，只需调整绝对定位层的z-index值即可</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>表现</tag>
+      </tags>
   </entry>
 </search>
